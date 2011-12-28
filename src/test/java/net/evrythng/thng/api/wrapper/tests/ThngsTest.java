@@ -40,7 +40,7 @@ public class ThngsTest extends TestBase {
 	 */
 	@Test
 	public void testGetAllThngs() throws Exception {
-		JSONArray thngs = thngAPIWrapper.getAllThngs();
+		JSONArray thngs = wrapper.getAllThngs();
 		assertNotNull(thngs);
 
 		// Debug only:
@@ -63,7 +63,7 @@ public class ThngsTest extends TestBase {
 		assertNotNull(expected);
 
 		// Retrieve the thng:
-		JSONObject actual = thngAPIWrapper.getThng(identifier);
+		JSONObject actual = wrapper.getThng(identifier);
 		assertNotNull(actual);
 		assertTrue(expected.getString("identifier").equals(actual.getString("identifier")));
 	}
@@ -101,10 +101,10 @@ public class ThngsTest extends TestBase {
 		JSONObject thng = this.createRandomThng();
 		assertNotNull(thng);
 
-		JSONArray created = thngAPIWrapper.createThngProperties(thng.getString("identifier"), volume, pressure);
+		JSONArray created = wrapper.createThngProperties(thng.getString("identifier"), volume, pressure);
 		assertNotNull(created);
 
-		JSONArray properties = thngAPIWrapper.getThngProperties(thng.getString("identifier"));
+		JSONArray properties = wrapper.getThngProperties(thng.getString("identifier"));
 		assertNotNull(properties);
 		assertEquals(properties.length(), 2 + 1); // FIXME OMFG: 1 thng + 2 properties
 		
@@ -124,10 +124,10 @@ public class ThngsTest extends TestBase {
 		JSONObject thng = this.createRandomThng();
 		assertNotNull(thng);
 
-		JSONObject result = thngAPIWrapper.createThngProperty(thng.getString("identifier"), volume);
+		JSONObject result = wrapper.createThngProperty(thng.getString("identifier"), volume);
 		assertNotNull(result);
 
-		JSONObject actual = thngAPIWrapper.getThngProperty(thng.getString("identifier"), volume.getTitle());
+		JSONObject actual = wrapper.getThngProperty(thng.getString("identifier"), volume.getTitle());
 		assertNotNull(actual);
 		assertEquals(volume.getTitle(), actual.getString("title"));
 		assertEquals(volume.getText(), Integer.valueOf(actual.getString("text")));
@@ -145,7 +145,7 @@ public class ThngsTest extends TestBase {
 		JSONObject thng = this.createRandomThng();
 		assertNotNull(thng);
 
-		JSONObject result = thngAPIWrapper.createThngProperty(thng.getString("identifier"), volume);
+		JSONObject result = wrapper.createThngProperty(thng.getString("identifier"), volume);
 		assertNotNull(result);
 		assertTrue(volume.getTitle().equals(result.getString("title")));
 		assertTrue(volume.getText().equals(Integer.valueOf(result.getString("text"))));
@@ -164,7 +164,7 @@ public class ThngsTest extends TestBase {
 		assertNotNull(thng);
 
 		// Execute request:
-		JSONArray actual = thngAPIWrapper.createThngProperties(thng.getString("identifier"), volume, pressure);
+		JSONArray actual = wrapper.createThngProperties(thng.getString("identifier"), volume, pressure);
 		assertNotNull(actual);
 		assertTrue(actual.length() == 2);
 
@@ -190,14 +190,14 @@ public class ThngsTest extends TestBase {
 		assertNotNull(thng);
 
 		// Create some properties:
-		JSONArray result = thngAPIWrapper.createThngProperties(thng.getString("identifier"), volume, pressure);
+		JSONArray result = wrapper.createThngProperties(thng.getString("identifier"), volume, pressure);
 		assertNotNull(result);
 
 		// Delete 1 property only:
-		JSONObject deleted = thngAPIWrapper.deleteThngProperty(thng.getString("identifier"), volume.getTitle());
+		JSONObject deleted = wrapper.deleteThngProperty(thng.getString("identifier"), volume.getTitle());
 		assertNotNull(deleted);
 		
-		JSONArray actual = thngAPIWrapper.getThngProperties(thng.getString("identifier"));
+		JSONArray actual = wrapper.getThngProperties(thng.getString("identifier"));
 		assertNotNull(actual);
 		assertEquals(actual.length(), 1 + 1); // FIXME OMFG: 1 thng + 1 properties
 	}
@@ -238,7 +238,7 @@ public class ThngsTest extends TestBase {
 
 		for (int i = 0; i < BATCH_COUNT; i++) {
 			// Execute request:
-			JSONArray actual = thngAPIWrapper.createThngProperties(thng.getString("identifier"), volume, pressure);
+			JSONArray actual = wrapper.createThngProperties(thng.getString("identifier"), volume, pressure);
 			assertNotNull(actual);
 			assertTrue(actual.length() == 2);
 

@@ -27,7 +27,7 @@ public class CollectionsTest extends TestBase {
 	 */
 	@Test
 	public void testGetAllCollections() throws Exception {
-		JSONArray collections = thngAPIWrapper.getAllCollections();
+		JSONArray collections = wrapper.getAllCollections();
 		assertNotNull(collections);
 
 		// Debug only:
@@ -51,7 +51,7 @@ public class CollectionsTest extends TestBase {
 		assertNotNull(expected);
 
 		// Retrieve the collection using 'id':
-		JSONObject actual = thngAPIWrapper.getCollection(expected.getString("id"));
+		JSONObject actual = wrapper.getCollection(expected.getString("id"));
 		assertNotNull(actual);
 		assertTrue(expected.getString("name").equals(actual.getString("name")));
 	}
@@ -105,7 +105,7 @@ public class CollectionsTest extends TestBase {
 		//		assertTrue(edited.getDescription().equals(actual.getString("description")));
 		//		assertTrue(edited.getIsPublic().equals(actual.getString("is_public")));
 		
-		assertTrue(thngAPIWrapper.editCollection(created.getString("id"), edited));
+		assertTrue(wrapper.editCollection(created.getString("id"), edited));
 	}
 	
 	/**
@@ -129,7 +129,7 @@ public class CollectionsTest extends TestBase {
 		assertNotNull(created);
 		
 		// Delete the collection:
-		assertTrue(thngAPIWrapper.deleteCollection(created.getString("id")));
+		assertTrue(wrapper.deleteCollection(created.getString("id")));
 	}	
 	
 	/* ***** PRIVATE ***** */
@@ -167,6 +167,6 @@ public class CollectionsTest extends TestBase {
 	 * @throws ParseException 
 	 */
 	protected JSONObject createTestCollection(String name) throws ClientProtocolException, JSONException, IOException, ParseException, URISyntaxException {
-		return thngAPIWrapper.createCollection(name, "Random unit test created collection!", true);
+		return wrapper.createCollection(name, "Random unit test created collection!", true);
 	}
 }

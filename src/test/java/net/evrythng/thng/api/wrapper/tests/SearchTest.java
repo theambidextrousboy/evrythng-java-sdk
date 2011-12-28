@@ -17,7 +17,7 @@ public class SearchTest extends TestBase {
 	 */
 	@Test
 	public void testSearch() throws Exception {
-		JSONArray results = thngAPIWrapper.search();
+		JSONArray results = wrapper.search();
 		assertNotNull(results);
 		
 		// Debug only:
@@ -36,7 +36,7 @@ public class SearchTest extends TestBase {
 		JSONObject thng = this.createRandomThng();
 		assertNotNull(thng);
 		
-		JSONArray results = thngAPIWrapper.search(thng.getString("identifier"));
+		JSONArray results = wrapper.search(thng.getString("identifier"));
 		assertNotNull(results);
 		assertTrue(results.length() >= 1);
 		
@@ -56,7 +56,7 @@ public class SearchTest extends TestBase {
 		JSONObject thng = this.createRandomThng();
 		assertNotNull(thng);
 		
-		JSONArray results = thngAPIWrapper.search(SearchParameterEnum.GEOCODE, "-14.40,-71.33,5km");
+		JSONArray results = wrapper.search(SearchParameterEnum.GEOCODE, "-14.40,-71.33,5km");
 		assertNotNull(results);
 		assertTrue(results.length() >= 1);
 		
@@ -76,7 +76,7 @@ public class SearchTest extends TestBase {
 		JSONObject thng = this.createRandomThng();
 		assertNotNull(thng);
 		
-		JSONArray results = thngAPIWrapper.search(SearchParameterEnum.THNGSPACE, this.getNamespace());
+		JSONArray results = wrapper.search(SearchParameterEnum.THNGSPACE, this.getNamespace());
 		assertNotNull(results);
 		assertTrue(results.length() >= 1);
 		

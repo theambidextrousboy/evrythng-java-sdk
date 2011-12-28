@@ -13,7 +13,7 @@ public class GlobalTest extends TestBase {
 	 */
 	@Test
 	public void testConnection()  throws Exception {
-		assertTrue(thngAPIWrapper.ping());
+		assertTrue(wrapper.ping());
 	}
 	
 }
