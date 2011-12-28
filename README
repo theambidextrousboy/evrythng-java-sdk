@@ -1,0 +1,11 @@
+# Evrythng API wrapper
+
+This is a Java wrapper for the Evrythng API. Do not consider it as stable, that's just proof of concept.
+
+## Installation
+
+    mvn install
+
+## Usage
+
+    [TODO] externalize token
