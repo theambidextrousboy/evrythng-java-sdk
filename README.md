@@ -3,7 +3,13 @@
 This is a Java wrapper for the Evrythng API. It lets you use all the features provided by our API with pure Java constructs. You need an API token for authentication which you can get on <http://evrythng.net/settings/tokens>.
 
 
-## Setting your API token
+## Setup
+
+# Clone the repository
+
+	git clone git@github.com:evrythng/evrythng-java-wrapper.git
+
+# API Token
 
 You can set your API token on user level by adding the following profile to the your `settings.xml` file:
 
@@ -22,7 +28,7 @@ You can set your API token on user level by adding the following profile to the 
 		</properties>
 	</profile>
 
-## Install / compile the wrapper
+## Compile the wrapper
 
     mvn install
     
@@ -30,9 +36,15 @@ If you didn't provide an API token in `settings.xml` or just want to use another
     
     mvn install -Devrythng.api.token=[your token]
 
+If the tests fail (e.g., because you're offile or do not have a valid API key), run:
+
+		mvn install -DskipTests
+
+You should now find a '.jar' file in the 'target/' directory.
+
 ## Using the wrapper
 
-To use the wrapper, just import the generated
+To use the wrapper, just import the generated '.jar' file located in the 'target/' directory.
 
 
 ## Running unit tests
@@ -45,7 +57,7 @@ To use the wrapper, just import the generated
 
     mvn test -Devrythng.api.token=[your token]
     
-### Using Eclipse
+## Using Eclipse
 Alternatively, you can also launch unit tests directly from Eclipse IDE.
 
 #### Run with Maven (requires `m2eclipse` plugin, see <http://m2eclipse.sonatype.org/>):
@@ -70,3 +82,7 @@ If you didn't provide an API token in `settings.xml`, you can edit the launch co
 * Edit `src/test/resources/config.properties`:
   * evrythng.api.token=*[your token]*
 * [Right-click on any test class or test method] > Run as JUnit Test
+
+# Using Netbeans 6.8+
+
+Simply open the project by selecting its root folder. The Netbeans Maven plugin does the rest for you!
