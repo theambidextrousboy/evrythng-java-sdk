@@ -1,8 +1,7 @@
-# Evrythng API Java wrapper
+# Evrythng API Java Wrapper
 
-This is a Java wrapper for the Evrythng API. You will need an API token for authentication which you can obtain under <http://evrythng.net/settings/tokens>.
+This is a Java wrapper for the Evrythng API. It lets you use all the features provided by our API with pure Java constructs. You need an API token for authentication which you can get on <http://evrythng.net/settings/tokens>.
 
-> Do not consider it as stable, that's just proof of concept.
 
 ## Setting your API token
 
@@ -23,13 +22,18 @@ You can set your API token on user level by adding the following profile to the 
 		</properties>
 	</profile>
 
-## Installation
+## Install / compile the wrapper
 
     mvn install
     
 If you didn't provide an API token in `settings.xml` or just want to use another API key, launch the following command:
     
     mvn install -Devrythng.api.token=[your token]
+
+## Using the wrapper
+
+To use the wrapper, just import the generated
+
 
 ## Running unit tests
 
