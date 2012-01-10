@@ -60,6 +60,13 @@ If you didn't provide an API token in `settings.xml`, you can edit the launch co
      * evrythng.api.token=*[your token]*
 
 #### Run with JUnit
+* Go to *Window > Preferences > JAVA > Installed JREs*
+* Edit the JRE in use and add the following default VM argument:
+  * evrythng.api.token=*[your token]*
+* [Right-click on any test class or test method] > Run as JUnit Test
+
+*or*
+
 * Edit `src/test/resources/config.properties`:
   * evrythng.api.token=*[your token]*
 * [Right-click on any test class or test method] > Run as JUnit Test
