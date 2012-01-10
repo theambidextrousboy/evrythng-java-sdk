@@ -40,11 +40,11 @@ If the tests fail (e.g., because you're offile or do not have a valid API key), 
 
 		mvn install -DskipTests
 
-You should now find a '.jar' file in the 'target/' directory.
+You should now find a `.jar` file in the `target/` directory.
 
 ### Using the wrapper in your project
 
-To use the wrapper, just add the generated '.jar' file located in the 'target/' directory to your Java project.
+To use the wrapper, just add the generated `.jar` file located in the `target/` directory to your Java project.
 
 
 # Extending the wrapper with Netbeans 6.8+
