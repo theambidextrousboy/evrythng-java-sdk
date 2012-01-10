@@ -28,7 +28,7 @@ You can set your API token on user level by adding the following profile to the 
 		</properties>
 	</profile>
 
-### Comping the wrapper
+### Compiling the wrapper
 
     mvn install
     
@@ -47,28 +47,28 @@ You should now find a '.jar' file in the 'target/' directory.
 To use the wrapper, just add the generated '.jar' file located in the 'target/' directory to your Java project.
 
 
-# Extending the wrapper in Netbeans 6.8+
+# Extending the wrapper with Netbeans 6.8+
 
 Simply open the project by selecting its root folder. The Netbeans Maven plugin does the rest for you!
 
-# Extending the wrapper in Eclipse
+# Extending the wrapper with Eclipse
 
 Simply import the project as a new Maven project (requires `m2eclipse` plugin, see <http://m2eclipse.sonatype.org/>).
 
-## Running unit tests
+# Running unit tests
 
-### Using Maven
+## Using Maven
 
     mvn test
 
 *or*
 
     mvn test -Devrythng.api.token=[your token]
-    
-### Using Eclipse
+   
+## Using Eclipse
 Alternatively, you can also launch unit tests directly from Eclipse IDE.
 
-#### Run with Maven (requires `m2eclipse` plugin, see <http://m2eclipse.sonatype.org/>):
+### Run with Maven (requires `m2eclipse` plugin, see <http://m2eclipse.sonatype.org/>):
 * [Right-click on project] > Run As... > Maven test
 
 If you didn't provide an API token in `settings.xml`, you can edit the launch configuration to pass your token:
@@ -79,7 +79,7 @@ If you didn't provide an API token in `settings.xml`, you can edit the launch co
   * Parameters:
      * evrythng.api.token=*[your token]*
 
-#### Run with JUnit
+### Run with JUnit
 * Go to *Window > Preferences > JAVA > Installed JREs*
 * Edit the JRE in use and add the following default VM argument:
   * evrythng.api.token=*[your token]*
