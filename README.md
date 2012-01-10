@@ -5,11 +5,11 @@ This is a Java wrapper for the Evrythng API. It lets you use all the features pr
 
 ## Setup
 
-# Clone the repository
+### Cloning the repository
 
 	git clone git@github.com:evrythng/evrythng-java-wrapper.git
 
-# API Token
+### Setting the API Token
 
 You can set your API token on user level by adding the following profile to the your `settings.xml` file:
 
@@ -28,7 +28,7 @@ You can set your API token on user level by adding the following profile to the 
 		</properties>
 	</profile>
 
-## Compile the wrapper
+### Comping the wrapper
 
     mvn install
     
@@ -42,10 +42,18 @@ If the tests fail (e.g., because you're offile or do not have a valid API key), 
 
 You should now find a '.jar' file in the 'target/' directory.
 
-## Using the wrapper
+### Using the wrapper in your project
 
-To use the wrapper, just import the generated '.jar' file located in the 'target/' directory.
+To use the wrapper, just add the generated '.jar' file located in the 'target/' directory to your Java project.
 
+
+# Extending the wrapper in Netbeans 6.8+
+
+Simply open the project by selecting its root folder. The Netbeans Maven plugin does the rest for you!
+
+# Extending the wrapper in Eclipse
+
+Simply import the project as a new Maven project (requires `m2eclipse` plugin, see <http://m2eclipse.sonatype.org/>).
 
 ## Running unit tests
 
@@ -57,7 +65,7 @@ To use the wrapper, just import the generated '.jar' file located in the 'target
 
     mvn test -Devrythng.api.token=[your token]
     
-## Using Eclipse
+### Using Eclipse
 Alternatively, you can also launch unit tests directly from Eclipse IDE.
 
 #### Run with Maven (requires `m2eclipse` plugin, see <http://m2eclipse.sonatype.org/>):
@@ -83,6 +91,3 @@ If you didn't provide an API token in `settings.xml`, you can edit the launch co
   * evrythng.api.token=*[your token]*
 * [Right-click on any test class or test method] > Run as JUnit Test
 
-# Using Netbeans 6.8+
-
-Simply open the project by selecting its root folder. The Netbeans Maven plugin does the rest for you!
