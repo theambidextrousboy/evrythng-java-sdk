@@ -55,7 +55,7 @@ Simply open the project by selecting its root folder. The Netbeans Maven plugin 
 
 Simply import the project as a new Maven project (requires `m2eclipse` plugin, see <http://m2eclipse.sonatype.org/>).
 
-# Running unit tests
+# Running Unit tests
 
 ## Using Maven
 
