@@ -128,7 +128,7 @@ public class ThngAPIWrapper {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	private HttpResponse execute(HttpRequestBase request) throws IOException, ClientProtocolException {
+	private HttpResponse execute(HttpRequestBase request) throws ClientProtocolException, IOException {
 		logger.debug(">> Executing request: {}", request.getRequestLine());
 
 		// Debug only:
@@ -560,13 +560,11 @@ public class ThngAPIWrapper {
 	 * Gets all available collections.
 	 * 
 	 * @return
-	 * @throws ClientProtocolException
 	 * @throws IOException
-	 * @throws ParseException
-	 * @throws JSONException
 	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
 	 */
-	public Collection<ThngCollection> getCollections() throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
+	public Collection<ThngCollection> getCollections() throws ClientProtocolException, URISyntaxException, IOException {
 		// Perform the GET request:
 		HttpResponse response = this.get(Configuration.PATH_COLLECTIONS);
 
@@ -584,10 +582,8 @@ public class ThngAPIWrapper {
 	 * @throws IOException
 	 * @throws URISyntaxException
 	 * @throws ClientProtocolException
-	 * @throws IllegalAccessException
-	 * @throws InstantiationException
 	 */
-	public ThngCollection getCollection(String id) throws ClientProtocolException, URISyntaxException, IOException, InstantiationException, IllegalAccessException {
+	public ThngCollection getCollection(String id) throws ClientProtocolException, URISyntaxException, IOException {
 		// Perform the GET request:
 		HttpResponse response = this.get(String.format(Configuration.PATH_COLLECTION, id));
 
@@ -601,13 +597,11 @@ public class ThngAPIWrapper {
 	 * @param collection
 	 *            the {@link ThngCollection} to update
 	 * @return
-	 * @throws URISyntaxException
 	 * @throws IOException
+	 * @throws URISyntaxException
 	 * @throws ClientProtocolException
-	 * @throws IllegalAccessException
-	 * @throws InstantiationException
 	 */
-	public ThngCollection updateCollection(ThngCollection collection) throws URISyntaxException, ClientProtocolException, IOException, InstantiationException, IllegalAccessException {
+	public ThngCollection updateCollection(ThngCollection collection) throws ClientProtocolException, URISyntaxException, IOException {
 		// Perform the PUT request:
 		HttpResponse response = this.put(String.format(Configuration.PATH_COLLECTION, collection.getId()), collection.toJSONObject());
 
@@ -665,13 +659,13 @@ public class ThngAPIWrapper {
 	 * @see #search(SearchParameter, String)
 	 * @param query
 	 * @return
+	 * @throws URISyntaxException
 	 * @throws IOException
+	 * @throws ParseException
 	 * @throws ClientProtocolException
 	 * @throws JSONException
-	 * @throws ParseException
-	 * @throws URISyntaxException
 	 */
-	public Collection<Thng> search(String query) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
+	public Collection<Thng> search(String query) throws JSONException, ClientProtocolException, ParseException, IOException, URISyntaxException {
 		// Delegate:
 		return this.search(SearchParameter.QUERY, query);
 	}

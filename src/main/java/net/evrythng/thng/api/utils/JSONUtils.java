@@ -6,7 +6,6 @@ import net.evrythng.thng.api.model.Property;
 import net.evrythng.thng.api.model.Thng;
 import net.evrythng.thng.api.model.ThngCollection;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.processors.PropertyNameProcessor;
@@ -19,7 +18,7 @@ public class JSONUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(JSONUtils.class);
 
-	private static JsonConfig config;
+	private static JsonConfig jsonConfig;
 
 	public static class CamelCapsToUnderscores implements PropertyNameProcessor {
 
@@ -36,19 +35,23 @@ public class JSONUtils {
 		}
 	}
 
+	private JSONUtils() {
+		/* Hide default constructor */
+	}
+
 	public static JsonConfig getConfig() {
-		if (config == null) {
-			config = new JsonConfig();
+		if (jsonConfig == null) {
+			jsonConfig = new JsonConfig();
 
 			// TODO: find a better way to process JAVA property names:
-			config.registerJsonPropertyNameProcessor(Thng.class, new CamelCapsToUnderscores());
-			config.registerJsonPropertyNameProcessor(Property.class, new CamelCapsToUnderscores());
-			config.registerJsonPropertyNameProcessor(ThngCollection.class, new CamelCapsToUnderscores());
+			jsonConfig.registerJsonPropertyNameProcessor(Thng.class, new CamelCapsToUnderscores());
+			jsonConfig.registerJsonPropertyNameProcessor(Property.class, new CamelCapsToUnderscores());
+			jsonConfig.registerJsonPropertyNameProcessor(ThngCollection.class, new CamelCapsToUnderscores());
 
-			config.setJavaIdentifierTransformer(new BeanJavaIdentifierTransformer());
+			jsonConfig.setJavaIdentifierTransformer(new BeanJavaIdentifierTransformer());
 		}
 
-		return config;
+		return jsonConfig;
 	}
 
 	private static final class BeanJavaIdentifierTransformer extends JavaIdentifierTransformer {
@@ -103,7 +106,7 @@ public class JSONUtils {
 		return JSONArray.toCollection(jsonArray, config);
 	}
 
-	public static void debug(Collection<?> items) throws JSONException {
+	public static void debug(Collection<?> items) {
 		logger.debug("> {} items(s) found!", items.size());
 		int count = 1;
 		for (Object item : items) {

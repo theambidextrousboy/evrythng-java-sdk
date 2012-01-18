@@ -3,15 +3,19 @@ package net.evrythng.thng.api.result;
 import java.io.IOException;
 
 import net.evrythng.thng.api.utils.HttpComponentsUtils;
-import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
 
 public class ThngObjectResult extends ThngContentResult<JSONObject> {
 
-	public ThngObjectResult(HttpResponse httpResponse) throws ParseException, IOException, JSONException {
+	/**
+	 * Creates a new instance of {@link ThngObjectResult}.
+	 * 
+	 * @param httpResponse
+	 * @throws IOException
+	 */
+	public ThngObjectResult(HttpResponse httpResponse) throws IOException {
 		super(httpResponse, HttpComponentsUtils.toJSONObject(httpResponse));
 	}
 

@@ -5,7 +5,13 @@ import org.apache.http.HttpResponse;
 public abstract class ThngContentResult<K> extends ThngResult {
 
 	private K content;
-	
+
+	/**
+	 * Creates a new instance of {@link ThngContentResult}.
+	 * 
+	 * @param httpResponse
+	 * @param content
+	 */
 	public ThngContentResult(HttpResponse httpResponse, K content) {
 		super(httpResponse);
 		this.content = content;

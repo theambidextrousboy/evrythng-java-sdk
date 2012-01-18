@@ -3,7 +3,6 @@ package net.evrythng.thng.api.utils;
 import java.io.IOException;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +11,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +18,11 @@ import org.slf4j.LoggerFactory;
 public class HttpComponentsUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(HttpComponentsUtils.class);
-	
+
+	private HttpComponentsUtils() {
+		/* Hide default constructor */
+	}
+
 	/**
 	 * Prints all headers from the provided {@link HttpResponse}.
 	 * 
@@ -48,7 +50,7 @@ public class HttpComponentsUtils {
 			printHeader(header);
 		}
 	}
-	
+
 	/**
 	 * Prints name and value of the provided {@link Header}.
 	 * 
@@ -67,7 +69,7 @@ public class HttpComponentsUtils {
 	 */
 	public static void printResquestInfo(HttpRequest request) {
 		logger.info("Request: {}", request.getRequestLine());
-		
+
 	}
 
 	/**
@@ -81,7 +83,7 @@ public class HttpComponentsUtils {
 		logger.info("StatusLine: {}", response.getStatusLine());
 		printMessageInfo(response);
 	}
-	
+
 	/**
 	 * Prints important headers from the provided {@link HttpMessage}.
 	 * 
@@ -101,9 +103,7 @@ public class HttpComponentsUtils {
 	 * @see #getContent(HttpResponse)
 	 * @param response
 	 * @return
-	 * @throws ParseException
 	 * @throws IOException
-	 * @throws JSONException
 	 */
 	public static JSONArray toJSONArray(HttpResponse response) throws IOException {
 		logger.debug(">> Converting HttpResponse content to JSON array...");
@@ -118,9 +118,7 @@ public class HttpComponentsUtils {
 	 * @see #getContent(HttpResponse)
 	 * @param response
 	 * @return
-	 * @throws ParseException
 	 * @throws IOException
-	 * @throws JSONException
 	 */
 	public static JSONObject toJSONObject(HttpResponse response) throws IOException {
 		logger.debug(">> Converting HttpResponse content to JSON object...");

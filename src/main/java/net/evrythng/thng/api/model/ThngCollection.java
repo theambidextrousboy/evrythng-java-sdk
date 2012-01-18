@@ -4,16 +4,16 @@ package net.evrythng.thng.api.model;
  * 
  * 
  * @author almeidap
- *
+ * 
  */
 public class ThngCollection extends Model {
-	
+
 	private String id;
-	
+
 	private String name;
 	private String description;
 	private Boolean isPublic;
-	
+
 	/**
 	 * Creates a new empty instance of {@link ThngCollection}.
 	 * This also allows dynamic instantiation.
@@ -22,20 +22,15 @@ public class ThngCollection extends Model {
 	}
 
 	public ThngCollection(String name, String description) {
-		this.setName(name);
-		this.setDescription(description);
+		this.name = name;
+		this.description = description;
 	}
-	
+
 	public ThngCollection(String name, String description, Boolean isPublic) {
 		this(name, description);
-		this.setIsPublic(isPublic);
+		this.isPublic = isPublic;
 	}
-	
-	@Override
-	public String toString() {
-		return super.toString() + " [name=" + this.getName() + "]";
-	}
-	
+
 	/* *** GETTTERS / SETTERS *** */
 
 	public String getId() {

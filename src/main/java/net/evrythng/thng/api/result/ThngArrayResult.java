@@ -4,14 +4,18 @@ import java.io.IOException;
 
 import net.evrythng.thng.api.utils.HttpComponentsUtils;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONException;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
 
 public class ThngArrayResult extends ThngContentResult<JSONArray> {
 
-	public ThngArrayResult(HttpResponse response) throws ParseException, IOException, JSONException {
+	/**
+	 * Creates a new instance of {@link ThngArrayResult}.
+	 * 
+	 * @param response
+	 * @throws IOException
+	 */
+	public ThngArrayResult(HttpResponse response) throws IOException {
 		super(response, HttpComponentsUtils.toJSONArray(response));
 	}
 

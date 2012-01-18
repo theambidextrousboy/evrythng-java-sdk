@@ -4,7 +4,7 @@ public class Property<K> extends Model {
 
 	private String key;
 	private K value;
-	
+
 	/**
 	 * Creates a new empty instance of {@link Property}.
 	 * This also allows dynamic instantiation.
@@ -13,8 +13,8 @@ public class Property<K> extends Model {
 	}
 
 	public Property(String key, K value) {
-		this.setKey(key);
-		this.setValue(value);
+		this.key = key;
+		this.value = value;
 	}
 
 	public String getKey() {

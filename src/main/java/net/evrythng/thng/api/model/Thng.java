@@ -4,19 +4,19 @@ package net.evrythng.thng.api.model;
  * 
  * 
  * @author almeidap
- *
+ * 
  */
 public class Thng extends Model {
-	
+
 	private String id;
-	
+
 	private String name;
 	private String description;
 	private Boolean isPublic;
-	
+
 	private Double latitude = 0d;
 	private Double longitude = 0d;
-	
+
 	/**
 	 * Creates a new empty instance of {@link Thng}.
 	 * This also allows dynamic instantiation.
@@ -25,15 +25,15 @@ public class Thng extends Model {
 	}
 
 	public Thng(String name, String description) {
-		this.setName(name);
-		this.setDescription(description);
+		this.name = name;
+		this.description = description;
 	}
-	
+
 	public Thng(String name, String description, Boolean isPublic) {
 		this(name, description);
-		this.setIsPublic(isPublic);
+		this.isPublic = isPublic;
 	}
-	
+
 	/* *** GETTTERS / SETTERS *** */
 
 	public String getId() {

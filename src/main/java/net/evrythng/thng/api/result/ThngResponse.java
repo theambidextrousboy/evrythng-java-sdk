@@ -5,15 +5,21 @@ import org.apache.http.HttpResponse;
 public class ThngResponse {
 
 	private final HttpResponse httpResponse;
-	private int statusCode;
+	private final int statusCode;
 
+	/**
+	 * Creates a new instance of {@link ThngResponse} using the provided
+	 * {@link HttpResponse}.
+	 * 
+	 * @param httpResponse
+	 */
 	public ThngResponse(HttpResponse httpResponse) {
 		this.httpResponse = httpResponse;
 
 		// Extract important headers:
 		this.statusCode = httpResponse.getStatusLine().getStatusCode();
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + "[" + getHttpResponse().getStatusLine() + "]";

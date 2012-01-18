@@ -1,14 +1,13 @@
 package net.evrythng.thng.api.wrapper;
 
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
  * 
  * @author almeidap
- *
+ * 
  */
-public class Configuration {
+public final class Configuration {
 	/**
 	 * The filename of the configuration properties file.
 	 */
@@ -17,7 +16,7 @@ public class Configuration {
 
 	/* Global */
 	public static final String ENCODING = Configuration.getString("evrythng.api.configuration.encoding");
-	
+
 	/* Server */
 	public static final String SERVER_SCHEME = Configuration.getString("evrythng.api.configuration.server.scheme");
 	public static final String SERVER_HOST = Configuration.getString("evrythng.api.configuration.server.host");
@@ -26,7 +25,7 @@ public class Configuration {
 	/* HTTP Headers */
 	public static final String HTTP_CONTENT_TYPE = Configuration.getString("evrythng.api.configuration.http.content.type");
 	public static final String HTTP_ACCEPT = Configuration.getString("evrythng.api.configuration.http.accept");
-	
+
 	/* BASE PATHs */
 	public static final String PATH_BASE = "/";
 
@@ -42,17 +41,16 @@ public class Configuration {
 
 	/* Search PATHs */
 	public static final String PATH_SEARCH = "/search";
-	
 
-	/* Hide default constructor */
 	private Configuration() {
+		/* Hide default constructor */
 	}
 
-	protected static String getString(String key) throws MissingResourceException {
+	protected static String getString(String key) {
 		return RESOURCE_BUNDLE.getString(key);
 	}
 
-	protected static int getInt(String key) throws MissingResourceException {
+	protected static int getInt(String key) {
 		return Integer.valueOf(Configuration.getString(key));
 	}
 }

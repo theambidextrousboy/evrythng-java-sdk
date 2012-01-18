@@ -12,6 +12,11 @@
 		<url>http://evrythng.net</url>
 	</organization>
 	<url>https://github.com/evrythng/evrythng-java-wrapper</url>
+		<scm>
+		<url>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</url>
+		<connection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</connection>
+		<developerConnection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</developerConnection>
+	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -97,9 +102,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<scm>
-		<url>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</url>
-		<connection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</connection>
-		<developerConnection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</developerConnection>
-	</scm>
 </project>
