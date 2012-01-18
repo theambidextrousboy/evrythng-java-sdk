@@ -2,35 +2,101 @@ package net.evrythng.thng.api.wrapper.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.evrythng.thng.api.element.ThngObject;
-import net.evrythng.thng.api.element.ThngProperty;
+import net.evrythng.thng.api.model.Model;
+import net.evrythng.thng.api.model.Thng;
+import net.evrythng.thng.api.model.ThngCollection;
+import net.evrythng.thng.api.result.ThngArrayResult;
+import net.evrythng.thng.api.result.ThngResult;
+import net.evrythng.thng.api.utils.JSONUtils;
 import net.evrythng.thng.api.wrapper.ThngAPIWrapper;
 import net.evrythng.thng.api.wrapper.tests.core.TestBase;
+import net.sf.json.JSONArray;
 
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ThngsTest extends TestBase {
 
-	// Sample thng properties:
-	ThngProperty<Integer> volume = null;
-	ThngProperty<Double> pressure = null;
+	private static final Logger logger = LoggerFactory.getLogger(ThngsTest.class);
+
+	// Repository for created resources:
+	// TODO: remove this when a test sandbox environment is up and running!
+	List<Thng> repository = null;
 
 	@Before
-	public void init() throws JSONException {
-		// Initialize sample properties:
-		volume = new ThngProperty<Integer>("Volume", 20);
-		pressure = new ThngProperty<Double>("Pressure", 0.7);
+	public void before() {
+		// initialize repositories:
+		repository = new ArrayList<Thng>();
+	}
+
+	/**
+	 * Cleans created assets.
+	 * 
+	 * TODO: remove this when a test sandbox environment is up and running!
+	 * 
+	 * @throws ClientProtocolException
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 */
+	@After
+	public void after() throws ClientProtocolException, URISyntaxException, IOException {
+		// Clean created thngs:
+		for (Thng thng : repository) {
+			logger.debug("Deleting thng: {}", thng.getId());
+			wrapper.deleteThng(thng.getId());
+		}
+	}
+
+	/**
+	 * Tests POST /thngs
+	 * 
+	 * @see ThngAPIWrapper#createThng(Thng)
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateThng() throws Exception {
+		// Create random thng data:
+		Thng expected = buildRandomThng();
+
+		// Create the thng:
+		Thng actual = wrapper.createThng(expected);
+		repository.add(actual);
+		assertThng(expected, actual);
+	}
+
+	/**
+	 * Tests POST /thngs
+	 * Batch mode
+	 * 
+	 * @see ThngAPIWrapper#createThng(ThngObject)
+	 * @throws Exception
+	 */
+	@Test
+	public void testCreateThngs() throws Exception {
+
+		Model[] expected = new Model[BATCH_COUNT];
+
+		for (int i = 0; i < BATCH_COUNT; i++) {
+			expected[i] = buildRandomThng();
+		}
+
+		ThngArrayResult result = wrapper.createThngs(expected);
+		assertResult(result);
+
+		JSONArray json = result.getContent();
+		assertNotNull(json);
 	}
 
 	/**
@@ -39,220 +105,123 @@ public class ThngsTest extends TestBase {
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetAllThngs() throws Exception {
-		JSONArray thngs = wrapper.getAllThngs();
-		assertNotNull(thngs);
+	public void testGetThngs() throws Exception {
+		ThngArrayResult actual = wrapper.getThngs();
+		assertResult(actual);
 
 		// Debug only:
-		this.printItems(thngs);
+		JSONUtils.debug(actual.getContent());
 	}
 
 	/**
-	 * Tests GET /thngs/:identifier
+	 * Tests GET /thngs/{id}
+	 * 
+	 * @see ThngAPIWrapper#createThng(Thng)
+	 * @see ThngAPIWrapper#getThng(String)
 	 * 
 	 * @throws Exception
 	 */
 	@Test
 	public void testGetThng() throws Exception {
+		// Create random Thng data:
+		Thng data = buildRandomThng();
 
-		// Generate an unique identifier:
-		String identifier = generateUniqueID();
+		// Create the Thng:
+		Thng expected = wrapper.createThng(data);
+		assertThng(data, expected);
 
-		// Create the thng:
-		JSONObject expected = this.createTestThng(identifier);
-		assertNotNull(expected);
+		// Retrieve the Thng:
+		Thng actual = wrapper.getThng(expected.getId());
+		assertThng(expected, actual);
+	}
 
-		// Retrieve the thng:
-		JSONObject actual = wrapper.getThng(identifier);
+	/**
+	 * Tests PUT /thngs/{id}
+	 * 
+	 * @see ThngAPIWrapper#createThng(Thng)
+	 * @throws Exception
+	 */
+	@Test
+	public void testUpdateThng() throws Exception {
+		// Create random Thng data:
+		Thng data = buildRandomThng();
+
+		// Create the Thng:
+		Thng expected = wrapper.createThng(data);
+		assertThng(data, expected);
+
+		// Update the Thng:
+		expected.setName("[EDITED] " + expected.getName());
+		expected.setDescription("[EDITED] " + expected.getDescription());
+		expected.setIsPublic(!expected.getIsPublic());
+		wrapper.updateThng(expected);
+
+		// Retrieve the Thng:
+		Thng actual = wrapper.getThng(expected.getId());
+		assertThng(expected, actual);
+	}
+
+	/**
+	 * Tests DELETE /thngs/{id}
+	 * 
+	 * @see ThngAPIWrapper#deleteThng(String)
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testDeleteThng() throws Exception {
+		// Create random Thng data:
+		Thng data = buildRandomThng();
+
+		// Create the Thng:
+		Thng expected = wrapper.createThng(data);
+		assertThng(data, expected);
+
+		// Delete the Thng:
+		ThngResult result = wrapper.deleteThng(expected.getId());
+		assertResult(result);
+
+		// Check deleted Thng (TODO: use exceptions instead):
+		Thng deleted = wrapper.getThng(expected.getId());
+		assertNull(deleted.getId());
+	}
+
+	/**
+	 * Asserts <code>actual</code> {@link ThngCollection} given
+	 * <code>expected</code> {@link ThngCollection}.
+	 * 
+	 * @param expected
+	 * @param actual
+	 * @throws ParseException
+	 */
+	protected static void assertThng(Thng expected, Thng actual) throws ParseException {
+
 		assertNotNull(actual);
-		assertTrue(expected.getString("identifier").equals(actual.getString("identifier")));
-	}
 
-	/**
-	 * Tests POST /thngs
-	 * 
-	 * @throws IOException
-	 * @throws JSONException
-	 * @throws ClientProtocolException
-	 * 
-	 * @see ThngAPIWrapper#createThng(String, String, Boolean)
-	 * @see ThngAPIWrapper#createThng(ThngObject)
-	 */
-	@Test
-	public void testCreateThng() throws Exception {
+		// Check read-only fields:
+		assertNotBlank(actual.getId());
+		assertNotBlank(actual.getCreatedAt());
 
-		// Generate an unique identifier:
-		String identifier = generateUniqueID();
-
-		JSONObject thng = this.createTestThng(identifier);
-		assertNotNull(thng);
-		assertTrue(thng.getString("identifier").equals(identifier));
-	}
-
-	/**
-	 * Tests GET /thngs/:identifier/properties
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testGetProperties() throws Exception {
-
-		// Create a reference thng:
-		JSONObject thng = this.createRandomThng();
-		assertNotNull(thng);
-
-		JSONArray created = wrapper.createThngProperties(thng.getString("identifier"), volume, pressure);
-		assertNotNull(created);
-
-		JSONArray properties = wrapper.getThngProperties(thng.getString("identifier"));
-		assertNotNull(properties);
-		assertEquals(properties.length(), 2 + 1); // FIXME OMFG: 1 thng + 2 properties
-		
-		// Debug only:
-		this.printItems(properties);
-	}
-
-	/**
-	 * Tests GET /thngs/:identifier/properties/:title
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testGetProperty() throws Exception {
-
-		// Create a reference thng:
-		JSONObject thng = this.createRandomThng();
-		assertNotNull(thng);
-
-		JSONObject result = wrapper.createThngProperty(thng.getString("identifier"), volume);
-		assertNotNull(result);
-
-		JSONObject actual = wrapper.getThngProperty(thng.getString("identifier"), volume.getTitle());
-		assertNotNull(actual);
-		assertEquals(volume.getTitle(), actual.getString("title"));
-		assertEquals(volume.getText(), Integer.valueOf(actual.getString("text")));
-	}
-
-	/**
-	 * Tests POST /thngs/:identifier/properties
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testCreateProperty() throws Exception {
-
-		// Create a reference thng:
-		JSONObject thng = this.createRandomThng();
-		assertNotNull(thng);
-
-		JSONObject result = wrapper.createThngProperty(thng.getString("identifier"), volume);
-		assertNotNull(result);
-		assertTrue(volume.getTitle().equals(result.getString("title")));
-		assertTrue(volume.getText().equals(Integer.valueOf(result.getString("text"))));
-	}
-
-	/**
-	 * Tests POST /thngs/:identifier/properties
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testCreateProperties() throws Exception {
-
-		// Create a random thng:
-		JSONObject thng = this.createRandomThng();
-		assertNotNull(thng);
-
-		// Execute request:
-		JSONArray actual = wrapper.createThngProperties(thng.getString("identifier"), volume, pressure);
-		assertNotNull(actual);
-		assertTrue(actual.length() == 2);
-
-		JSONObject actualVolume = actual.getJSONObject(0);
-		assertTrue(actualVolume.getString("title").equals(volume.getTitle()));
-		assertTrue(volume.getText().equals(Integer.valueOf(actualVolume.getString("text"))));
-
-		JSONObject actualPressure = actual.getJSONObject(1);
-		assertTrue(actualPressure.getString("title").equals(pressure.getTitle()));
-		assertTrue(pressure.getText().equals(Double.valueOf(actualPressure.getString("text"))));
-	}
-	
-	/**
-	 * Tests DELETE /thngs/:identifier/properties/:title
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testDeleteProperty() throws Exception {
-
-		// Create a reference thng:
-		JSONObject thng = this.createRandomThng();
-		assertNotNull(thng);
-
-		// Create some properties:
-		JSONArray result = wrapper.createThngProperties(thng.getString("identifier"), volume, pressure);
-		assertNotNull(result);
-
-		// Delete 1 property only:
-		JSONObject deleted = wrapper.deleteThngProperty(thng.getString("identifier"), volume.getTitle());
-		assertNotNull(deleted);
-		
-		JSONArray actual = wrapper.getThngProperties(thng.getString("identifier"));
-		assertNotNull(actual);
-		assertEquals(actual.length(), 1 + 1); // FIXME OMFG: 1 thng + 1 properties
-	}
-
-	/* ***** BATCH TESTS ***** */
-
-	/**
-	 * Batch tests POST /thngs
-	 * 
-	 * @throws IOException
-	 * @throws JSONException
-	 * @throws ClientProtocolException
-	 * @throws URISyntaxException 
-	 * @throws ParseException 
-	 */
-	@Test
-	public void testBatchCreateThngs() throws ClientProtocolException, JSONException, IOException, ParseException, URISyntaxException {
-		for (int i = 0; i < BATCH_COUNT; i++) {
-			JSONObject thng = this.createRandomThng();
-			assertNotNull(thng);
+		// Check expected and actual values:
+		if (expected.getId() != null) {
+			assertEquals(expected.getId(), actual.getId());
 		}
+		assertEquals(expected.getName(), actual.getName());
+		assertEquals(expected.getDescription(), actual.getDescription());
+		assertEquals(expected.getIsPublic(), actual.getIsPublic());
 	}
 
 	/**
-	 * Batch tests POST /thngs/:identifier/properties
+	 * Builds a random {@link Thng} with an unique prefixed <code>name</code>.
 	 * 
-	 * @throws IOException 
-	 * @throws JSONException 
-	 * @throws ClientProtocolException 
-	 * @throws URISyntaxException 
+	 * @see TestBase#generateUniqueName()
+	 * @return
 	 */
-	@Test
-	public void testBatchCreateProperties() throws ClientProtocolException, JSONException, IOException, URISyntaxException {
-
-		// Create a random thng:
-		JSONObject thng = this.createRandomThng();
-		assertNotNull(thng);
-
-		for (int i = 0; i < BATCH_COUNT; i++) {
-			// Execute request:
-			JSONArray actual = wrapper.createThngProperties(thng.getString("identifier"), volume, pressure);
-			assertNotNull(actual);
-			assertTrue(actual.length() == 2);
-
-			JSONObject actualVolume = actual.getJSONObject(0);
-			assertTrue(actualVolume.getString("title").equals(volume.getTitle()));
-			assertTrue(volume.getText().equals(Integer.valueOf(actualVolume.getString("text"))));
-
-			JSONObject actualPressure = actual.getJSONObject(1);
-			assertTrue(actualPressure.getString("title").equals(pressure.getTitle()));
-			assertTrue(pressure.getText().equals(Double.valueOf(actualPressure.getString("text"))));
-			
-			// Update values of properties:
-			volume.setText(volume.getText() + random.nextInt(256));
-			pressure.setText(pressure.getText() + random.nextFloat());
-		}
+	protected static Thng buildRandomThng() {
+		Thng thng = new Thng(generateUniqueName(), "Random unit test created thng!", random.nextBoolean());
+		thng.setLatitude(nextRandom(-90, 90));
+		thng.setLongitude(nextRandom(-180, 180));
+		return thng;
 	}
+
 }

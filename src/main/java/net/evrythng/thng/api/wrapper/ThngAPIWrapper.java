@@ -5,12 +5,23 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import net.evrythng.thng.api.element.CollectionObject;
-import net.evrythng.thng.api.element.ThngObject;
-import net.evrythng.thng.api.element.ThngProperty;
-import net.evrythng.thng.api.wrapper.utils.ThngAPIWrapperUtils;
+import net.evrythng.thng.api.model.Model;
+import net.evrythng.thng.api.model.Property;
+import net.evrythng.thng.api.model.Thng;
+import net.evrythng.thng.api.model.ThngCollection;
+import net.evrythng.thng.api.result.ThngArrayResult;
+import net.evrythng.thng.api.result.ThngResult;
+import net.evrythng.thng.api.search.GeoCode;
+import net.evrythng.thng.api.search.SearchParameter;
+import net.evrythng.thng.api.search.SearchParameter.Type;
+import net.evrythng.thng.api.utils.HttpComponentsUtils;
+import net.evrythng.thng.api.utils.JSONUtils;
+import net.sf.json.JSON;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -28,9 +39,9 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Wrapper for the REST API of Evrythng.net.
@@ -39,45 +50,28 @@ import org.json.JSONObject;
  */
 public class ThngAPIWrapper {
 
-	public static final String ENCODING = "UTF-8";
-	public static final String CONTENT_TYPE = "application/json";
-	public static final String ACCEPT_JSON = "application/vnd.evrythng-v1+json";
-
-	private static final String SERVER_SCHEME = "https";
-	private static final String SERVER_HOST = "evrythng.net";
-	private static final int SERVER_PORT = -1; // -1 means no port is used
-
-	/* BASE PATHs */
-	private static final String PATH_BASE = "/";
-
-	/* Thngs PATHs */
-	private static final String PATH_THNGS = "/thngs";
-	private static final String PATH_THNG = PATH_THNGS + "/%s";
-	private static final String PATH_PROPERTIES = PATH_THNG + "/properties";
-	private static final String PATH_PROPERTY = PATH_PROPERTIES + "/%s";
-
-	/* Collections PATHs */
-	private static final String PATH_COLLECTIONS = "/collections";
-	private static final String PATH_COLLECTION = PATH_COLLECTIONS + "/%s";
-
-	/* Search PATHs */
-	private static final String PATH_SEARCH = "/search";
+	private static final Logger logger = LoggerFactory.getLogger(ThngAPIWrapper.class);
 
 	/**
 	 * API token for HTTP authentication.
 	 */
-	private String token;
+	private final String token;
 
 	/**
 	 * Client HTTP connection.
 	 */
-	private HttpClient httpClient = new DefaultHttpClient();
+	private final HttpClient httpClient = new DefaultHttpClient();
 
 	/**
 	 * Creates a new instance of {@link ThngAPIWrapper} using the provided
 	 * <code>token</code> for authentication.
 	 * 
+	 * {@link ThngAPIWrapper} uses values from the {@link Configuration} class
+	 * which is initialized with the <code>config.properties</code> file.
+	 * 
+	 * @see Configuration
 	 * @param token
+	 *            the API token for HTTP authentication
 	 */
 	public ThngAPIWrapper(String token) {
 		this.token = token;
@@ -90,8 +84,8 @@ public class ThngAPIWrapper {
 	 *            the request object to which headers will be added
 	 */
 	private void addHeaders(HttpRequestBase httpRequest) {
-		httpRequest.setHeader("Content-Type", CONTENT_TYPE);
-		httpRequest.setHeader("Accept", ACCEPT_JSON);
+		httpRequest.setHeader("Content-Type", Configuration.HTTP_CONTENT_TYPE);
+		httpRequest.setHeader("Accept", Configuration.HTTP_ACCEPT);
 		httpRequest.setHeader("X-Evrythng-Token", this.token);
 	}
 
@@ -119,8 +113,8 @@ public class ThngAPIWrapper {
 	 * @throws URISyntaxException
 	 */
 	private URI createURI(String path, List<NameValuePair> queryParams) throws URISyntaxException {
-		String query = queryParams != null ? URLEncodedUtils.format(queryParams, ENCODING) : null;
-		return URIUtils.createURI(SERVER_SCHEME, SERVER_HOST, SERVER_PORT, path, query, null);
+		String query = queryParams != null ? URLEncodedUtils.format(queryParams, Configuration.ENCODING) : null;
+		return URIUtils.createURI(Configuration.SERVER_SCHEME, Configuration.SERVER_HOST, Configuration.SERVER_PORT, path, query, null);
 	}
 
 	/**
@@ -135,27 +129,28 @@ public class ThngAPIWrapper {
 	 * @throws ClientProtocolException
 	 */
 	private HttpResponse execute(HttpRequestBase request) throws IOException, ClientProtocolException {
-		System.out.println(">> Executing request: " + request.getRequestLine());
+		logger.debug(">> Executing request: {}", request.getRequestLine());
 
 		// Debug only:
-		ThngAPIWrapperUtils.printResquestHeaders(request); // FIXME: useful?
+		HttpComponentsUtils.printResquestHeaders(request); // FIXME: useful?
 
 		// Add required headers:
 		addHeaders(request);
 
-		// Eecute request:
+		// Execute request:
 		HttpResponse response = httpClient.execute(request);
 
 		// Debug only:
-		//ThngAPIWrapperUtils.printResponseInfo(response);
-		ThngAPIWrapperUtils.printResponseHeaders(response);
+		// ThngAPIWrapperUtils.printResponseInfo(response);
+		HttpComponentsUtils.printResponseHeaders(response);
 
 		return response;
 	}
 
 	/**
-	 * Executes the given {@link HttpEntityEnclosingRequestBase} request after
-	 * encapsulating the provided <code>content</code>.
+	 * Executes the given {@link HttpEntityEnclosingRequestBase}
+	 * <code>request</code> after
+	 * encapsulating the provided {@link JSON} <code>content</code>.
 	 * 
 	 * @see #execute(HttpRequestBase)
 	 * @param request
@@ -164,12 +159,100 @@ public class ThngAPIWrapper {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	private HttpResponse execute(HttpEntityEnclosingRequestBase request, JSONObject content) throws IOException, ClientProtocolException {
-		System.out.println(">> Setting entity content: " + content.toString());
+	private HttpResponse execute(HttpEntityEnclosingRequestBase request, JSON content) throws ClientProtocolException, IOException {
+		logger.debug(">> Setting entity content: {}", content.toString());
 
 		// Set entity content:
 		request.setEntity(new StringEntity(content.toString()));
 
+		// Delegate:
+		return this.execute(request);
+	}
+
+	/**
+	 * Executes a {@link HttpGet} request to the given <code>path</code>.
+	 * 
+	 * @param path
+	 * @param content
+	 * @return
+	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	private HttpResponse get(String path) throws URISyntaxException, ClientProtocolException, IOException {
+		URI uri = this.createURI(path);
+		HttpGet request = new HttpGet(uri);
+		// Delegate:
+		return this.execute(request);
+	}
+
+	/**
+	 * Executes a {@link HttpGet} request to the given <code>path</code> with
+	 * the provided <code>parameters</code> list.
+	 * 
+	 * @param path
+	 * @param parameters
+	 * @return
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 * @throws ClientProtocolException
+	 */
+	private HttpResponse get(String path, List<NameValuePair> parameters) throws URISyntaxException, ClientProtocolException, IOException {
+		URI uri = this.createURI(path, parameters);
+		HttpGet request = new HttpGet(uri);
+		// Delegate:
+		return this.execute(request);
+	}
+
+	/**
+	 * Executes a {@link HttpPost} request to the given <code>path</code> using
+	 * the provided {@link JSON} content.
+	 * 
+	 * @param path
+	 * @param content
+	 * @return
+	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	private HttpResponse post(String path, JSON content) throws URISyntaxException, ClientProtocolException, IOException {
+		URI uri = this.createURI(path);
+		HttpPost request = new HttpPost(uri);
+		// Delegate:
+		return this.execute(request, content);
+	}
+
+	/**
+	 * Executes a {@link HttpPut} request to the given <code>path</code> using
+	 * the provided {@link JSON} content.
+	 * 
+	 * @param path
+	 * @param content
+	 * @return
+	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	private HttpResponse put(String path, JSON content) throws URISyntaxException, ClientProtocolException, IOException {
+		URI uri = this.createURI(path);
+		HttpPut request = new HttpPut(uri);
+		// Delegate:
+		return this.execute(request, content);
+	}
+
+	/**
+	 * Executes a {@link HttpDelete} request to the given <code>path</code>.
+	 * 
+	 * @param path
+	 * @param content
+	 * @return
+	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	private HttpResponse delete(String path) throws URISyntaxException, ClientProtocolException, IOException {
+		URI uri = this.createURI(path);
+		HttpDelete request = new HttpDelete(uri);
 		// Delegate:
 		return this.execute(request);
 	}
@@ -185,15 +268,12 @@ public class ThngAPIWrapper {
 	 * @throws JSONException
 	 * @throws URISyntaxException
 	 */
-	private JSONArray search(List<NameValuePair> parameters) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
+	private Collection<Thng> search(List<NameValuePair> parameters) throws URISyntaxException, ClientProtocolException, IOException {
+		// Perform the GET request:
+		HttpResponse response = this.get(Configuration.PATH_SEARCH, parameters);
 
-		// Create and execute request:
-		URI uri = this.createURI(PATH_SEARCH, parameters);
-		HttpGet request = new HttpGet(uri);
-		HttpResponse response = this.execute(request);
-
-		// Convert response content to JSON and return it:
-		return ThngAPIWrapperUtils.toJSONArray(response);
+		// Wrap response content into a collection of Thng:
+		return JSONUtils.toCollection(HttpComponentsUtils.toJSONArray(response), Thng.class);
 	}
 
 	/* ***** PUBLIC METHODS ***** */
@@ -212,11 +292,11 @@ public class ThngAPIWrapper {
 	 * 
 	 */
 	public boolean ping() throws ClientProtocolException, IOException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(PATH_BASE);
-		HttpGet httpGet = new HttpGet(uri);
-		HttpResponse response = this.execute(httpGet);
+		// Perform the GET request:
+		HttpResponse response = this.get(Configuration.PATH_BASE);
 
+		// Check returned status code:
+		// TODO: log some information (ping delay, time,etc...)
 		return response.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK;
 	}
 
@@ -225,238 +305,256 @@ public class ThngAPIWrapper {
 	/**
 	 * Gets the all accessible <code>thngs</code>.
 	 * 
-	 * @return The user <code>thng</code>'s collection as {@link JSONObject}.
+	 * @return The user <code>thng</code>'s collection as
+	 *         {@link ThngArrayResult}.
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 * @throws JSONException
 	 * @throws IllegalStateException
 	 * @throws URISyntaxException
 	 */
-	public JSONArray getAllThngs() throws ClientProtocolException, IOException, IllegalStateException, JSONException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(PATH_THNGS);
-		HttpGet httpGet = new HttpGet(uri);
-		HttpResponse response = this.execute(httpGet);
+	public ThngArrayResult getThngs() throws URISyntaxException, ClientProtocolException, IOException {
+		// Perform the GET request:
+		HttpResponse response = this.get(Configuration.PATH_THNGS);
 
-		// Convert response content to JSON and return it:
-		return ThngAPIWrapperUtils.toJSONArray(response);
+		// Convert HTTP response to an array result and return it:
+		return new ThngArrayResult(response);
 	}
 
 	/**
-	 * Creates a <code>thng</code> using the provided <code>id</code>,
-	 * <code>description</code> and <code>isPublic</code> parameter values.
-	 * 
-	 * @see #createThng(ThngObject)
-	 * @param id
-	 * @param description
-	 * @param isPublic
-	 * @return
-	 * @throws JSONException
-	 * @throws ClientProtocolException
-	 * @throws IOException
-	 * @throws URISyntaxException
-	 * @throws ParseException
-	 */
-	public JSONObject createThng(String id, String description, Boolean isPublic) throws JSONException, ClientProtocolException, IOException, ParseException, URISyntaxException {
-		// Prepare the 'thng' object:
-		ThngObject thng = new ThngObject(id, description, isPublic);
-
-		// Delegate:
-		return this.createThng(thng);
-	}
-
-	/**
-	 * Creates a <code>thng</code> using the provided {@link ThngObject}.
+	 * Creates a {@link Thng} using the provided <code>thng</code> instance.
 	 * 
 	 * @param thng
 	 * @return
-	 * @throws ClientProtocolException
-	 * @throws IOException
-	 * @throws ParseException
-	 * @throws JSONException
 	 * @throws URISyntaxException
+	 * @throws IOException
+	 * @throws ClientProtocolException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
-	public JSONObject createThng(ThngObject thng) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(PATH_THNGS);
-		HttpPost request = new HttpPost(uri);
-		HttpResponse response = this.execute(request, thng.toJSONObject());
+	public Thng createThng(Model thng) throws URISyntaxException, ClientProtocolException, IOException, InstantiationException, IllegalAccessException {
+		// Perform the POST request:
+		HttpResponse response = this.post(Configuration.PATH_THNGS, thng.toJSONObject());
 
-		// Convert response content to JSON and return it:
-		return ThngAPIWrapperUtils.toJSONObject(response);
+		// Wrap response into a Thng:
+		return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), Thng.class);
 	}
 
 	/**
-	 * Gets the <code>thng</code> referenced by the provided
-	 * <code>identifier</code>.
+	 * Creates multiple {@link Thng}s using the provided <code>thngs</code>
+	 * collection.
+	 * 
+	 * @param thng
+	 * @return
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 * @throws ClientProtocolException
+	 */
+	public ThngArrayResult createThngs(Model... thngs) throws URISyntaxException, ClientProtocolException, IOException {
+		// Perform the POST request:
+		HttpResponse response = this.post(Configuration.PATH_THNGS, JSONArray.fromObject(thngs, JSONUtils.getConfig()));
+
+		// Wrap response into a ThngResult:
+		return new ThngArrayResult(response);
+	}
+
+	/**
+	 * Gets the {@link Thng} referenced by the provided <code>id</code>.
 	 * 
 	 * @param id
 	 *            the identifier referencing the targeted <code>thng</code>
-	 * @return The thng as JSON.
+	 * @return the requested {@link Thng} object.
 	 * @throws IOException
 	 * @throws ClientProtocolException
-	 * @throws JSONException
-	 * @throws ParseException
 	 * @throws URISyntaxException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
-	public JSONObject getThng(String id) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(String.format(PATH_THNG, id));
-		HttpGet request = new HttpGet(uri);
-		HttpResponse response = this.execute(request);
+	public Thng getThng(String id) throws ClientProtocolException, URISyntaxException, IOException, InstantiationException, IllegalAccessException {
+		// Perform the GET request:
+		HttpResponse response = this.get(String.format(Configuration.PATH_THNG, id));
 
-		// Convert response content to JSON and return it:
-		return ThngAPIWrapperUtils.toJSONObject(response);
+		// Wrap response into a Thng:
+		return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), Thng.class);
 	}
 
 	/**
-	 * Creates a new property on the <code>thng</code> referenced by the
-	 * given <code>identifier</code> using the provided <code>title</code> and
-	 * <code>text</code>.
+	 * Updates the {@link Thng} referenced by the provided <code>id</code>.
 	 * 
-	 * @see #createThngProperty(String, ThngProperty)
-	 * @param id
-	 * @param title
-	 *            the title attribute of the property
-	 * @param text
-	 *            the text attribute of the property
+	 * @param thng
+	 *            the {@link Thng} to update
 	 * @return
-	 * @throws JSONException
-	 * @throws ClientProtocolException
-	 * @throws IOException
 	 * @throws URISyntaxException
+	 * @throws IOException
+	 * @throws ClientProtocolException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
-	public JSONObject createThngProperty(String id, String title, Object text) throws JSONException, ClientProtocolException, IOException, URISyntaxException {
-		// Delegate:
-		return this.createThngProperty(id, new ThngProperty<Object>(title, text));
+	public Thng updateThng(Thng thng) throws URISyntaxException, ClientProtocolException, IOException, InstantiationException, IllegalAccessException {
+		// Perform the PUT request:
+		HttpResponse response = this.put(String.format(Configuration.PATH_THNG, thng.getId()), thng.toJSONObject());
+
+		// Wrap response into a Thng:
+		return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), Thng.class);
 	}
 
 	/**
-	 * Creates a new property on the <code>thng</code> referenced by the
-	 * given <code>identifier</code> using the provided {@link ThngProperty}.
+	 * Deletes the {@link Thng} referenced by the provided <code>id</code>.
+	 * 
+	 * TODO: check return type: ThngResult or void?
 	 * 
 	 * @param id
-	 * @param property
 	 * @return
-	 * @throws JSONException
-	 * @throws ClientProtocolException
-	 * @throws IOException
 	 * @throws URISyntaxException
-	 */
-	public JSONObject createThngProperty(String id, ThngProperty<?> property) throws JSONException, ClientProtocolException, IOException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(String.format(PATH_PROPERTIES, id));
-		HttpPost request = new HttpPost(uri);
-		HttpResponse response = this.execute(request, property.toJSONObject());
-
-		// Convert response content to JSON and return it:
-		return ThngAPIWrapperUtils.toJSONObject(response);
-	}
-
-	/**
-	 * Deletes the <code>title</code> property on the <code>thng</code>
-	 * referenced by the
-	 * given <code>identifier</code>.
-	 * 
-	 * @param id
-	 * @param title
-	 * @return
-	 * @throws JSONException
-	 * @throws ClientProtocolException
 	 * @throws IOException
-	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
 	 */
-	public JSONObject deleteThngProperty(String id, String title) throws JSONException, ClientProtocolException, IOException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(String.format(PATH_PROPERTY, id, title));
-		HttpDelete request = new HttpDelete(uri);
-		HttpResponse response = this.execute(request);
+	public ThngResult deleteThng(String id) throws URISyntaxException, ClientProtocolException, IOException {
+		// Perform the DELETE request:
+		HttpResponse response = this.delete(String.format(Configuration.PATH_THNG, id));
 
-		// Convert response content to JSON and return it:
-		return ThngAPIWrapperUtils.toJSONObject(response);
+		// Consume entity content to avoid connection errors:
+		EntityUtils.consume(response.getEntity());
+
+		// Wrap response into a ThngResult:
+		return new ThngResult(response);
 	}
 
 	/* *** PROPERTIES *** */
 
 	/**
-	 * Creates new properties on the <code>thng</code> referenced by the
-	 * given <code>identifier</code> using the provided {@link ThngProperty}
-	 * collection.
+	 * Creates a new property on the {@link Thng} referenced by the given
+	 * <code>id</code> using the provided {@link Property}.
 	 * 
 	 * @param id
 	 * @param property
 	 * @return
-	 * @throws JSONException
-	 * @throws ClientProtocolException
 	 * @throws IOException
 	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
-	public JSONArray createThngProperties(String id, ThngProperty<?>... properties) throws JSONException, ClientProtocolException, IOException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(String.format(PATH_PROPERTIES, id));
-		HttpPost request = new HttpPost(uri);
+	public <K> Property<K> createProperty(String id, Property<K> property) throws ClientProtocolException, URISyntaxException, IOException, InstantiationException, IllegalAccessException {
+		// Perform the POST request:
+		HttpResponse response = this.post(String.format(Configuration.PATH_PROPERTIES, id), property.toJSONObject());
 
-		// Encapsulate properties:
-		JSONObject content = new JSONObject();
-		JSONArray array = new JSONArray();
-		content.put("properties", array);
-
-		for (ThngProperty<?> item : properties) {
-			array.put(item.toJSONObject());
-		}
-
-		HttpResponse response = this.execute(request, content);
-
-		// Convert response content to JSON and return it:
-		return ThngAPIWrapperUtils.toJSONArray(response);
+		// Wrap response into a Property:
+		return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), Property.class);
 	}
 
 	/**
-	 * Gets all properties on the <code>thng</code> referenced by the provided
+	 * Creates new properties on the {@link Thng} referenced by the given
+	 * <code>id</code> using the provided {@link Property} collection.
+	 * 
+	 * @param id
+	 * @param property
+	 * @return a {@link JSONArray} of {@link Property}'s
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
+	 */
+	public JSONArray createProperties(String id, Property<?>... properties) throws ClientProtocolException, URISyntaxException, IOException {
+		// Encapsulate properties:
+		JSONArray content = new JSONArray();
+		for (Property<?> item : properties) {
+			content.add(item.toJSONObject());
+		}
+
+		// Perform the POST request:
+		HttpResponse response = this.post(String.format(Configuration.PATH_PROPERTIES, id), content);
+
+		// Convert response content to JSON and return it:
+		return HttpComponentsUtils.toJSONArray(response);
+	}
+
+	/**
+	 * Gets all properties of the {@link Thng} referenced by the provided
 	 * <code>id</code>.
 	 * 
 	 * @param id
-	 *            the identifier referencing the targeted <code>thng</code>
-	 * @return The thng as JSON.
+	 *            the identifier referencing the targeted {@link Thng}
+	 * @return a {@link JSONArray} of {@link Property}
 	 * @throws IOException
-	 * @throws ClientProtocolException
-	 * @throws JSONException
-	 * @throws ParseException
 	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
 	 */
-	public JSONArray getThngProperties(String id) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(String.format(PATH_PROPERTIES, id));
-		HttpGet request = new HttpGet(uri);
-		HttpResponse response = this.execute(request);
+	public JSONArray getProperties(String id) throws ClientProtocolException, URISyntaxException, IOException {
+		// Perform the GET request:
+		HttpResponse response = this.get(String.format(Configuration.PATH_PROPERTIES, id));
 
 		// Convert response content to JSON and return it:
-		return ThngAPIWrapperUtils.toJSONArray(response);
+		return HttpComponentsUtils.toJSONArray(response);
 	}
 
 	/**
-	 * Gets the <code>title</code> property on the <code>thng</code> referenced
+	 * Gets the <code>key</code> property on the {@link Thng} referenced
 	 * by the provided <code>id</code>.
 	 * 
 	 * @param id
-	 * @param title
-	 * @return
-	 * @throws ParseException
-	 * @throws IOException
-	 * @throws JSONException
+	 * @param key
+	 * @return the last value of {@link Property} key
+	 * @throws ClientProtocolException
 	 * @throws URISyntaxException
+	 * @throws IOException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
-	public JSONObject getThngProperty(String id, String title) throws ParseException, IOException, JSONException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(String.format(PATH_PROPERTY, id, title));
-		HttpGet request = new HttpGet(uri);
-		HttpResponse response = this.execute(request);
+	public <K> Property<K> getProperty(String id, String key) throws ClientProtocolException, URISyntaxException, IOException, InstantiationException, IllegalAccessException {
+		// Perform the GET request:
+		HttpResponse response = this.get(String.format(Configuration.PATH_PROPERTY, id, key));
 
-		// Convert response content to JSON and return it:
-		return ThngAPIWrapperUtils.toJSONObject(response);
+		// Wrap response into a Property:
+		return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), Property.class); // FIXME: generic parameter is lost!
+	}
+
+	/**
+	 * Deletes the <code>key</code> property on the {@link Thng} referenced by
+	 * the given <code>id</code>.
+	 * 
+	 * @param id
+	 * @param key
+	 * @return
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
+	 */
+	public ThngResult deleteProperty(String id, String key) throws ClientProtocolException, URISyntaxException, IOException {
+		// Perform the GET request:
+		HttpResponse response = this.delete(String.format(Configuration.PATH_PROPERTY, id, key));
+
+		// Consume entity content to avoid connection errors:
+		EntityUtils.consume(response.getEntity());
+
+		// Wrap response into a ThngResult:
+		return new ThngResult(response);
 	}
 
 	/* *** COLLECTIONS *** */
+
+	/**
+	 * Creates a collection of <code>thngs</code> using the provided
+	 * {@link CollectionObject}.
+	 * 
+	 * @param collection
+	 * @return
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 */
+	public ThngCollection createCollection(ThngCollection collection) throws ClientProtocolException, URISyntaxException, IOException, InstantiationException, IllegalAccessException {
+		// Perform the POST request:
+		HttpResponse response = this.post(Configuration.PATH_COLLECTIONS, collection.toJSONObject());
+
+		// Wrap response into a ThngCollection:
+		// return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), ThngCollection.class); // TODO Uncomment this!
+
+		// FIXME: change API to return a simple JSON Object instead of Array and remove this!
+		JSONArray array = HttpComponentsUtils.toJSONArray(response);
+		return this.getCollection(array.getString(0));
+	}
 
 	/**
 	 * Gets all available collections.
@@ -468,135 +566,76 @@ public class ThngAPIWrapper {
 	 * @throws JSONException
 	 * @throws URISyntaxException
 	 */
-	public JSONArray getAllCollections() throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(PATH_COLLECTIONS);
-		HttpGet httpGet = new HttpGet(uri);
-		HttpResponse response = this.execute(httpGet);
+	public Collection<ThngCollection> getCollections() throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
+		// Perform the GET request:
+		HttpResponse response = this.get(Configuration.PATH_COLLECTIONS);
 
-		// Convert response content to JSON and return it:
-		return ThngAPIWrapperUtils.toJSONArray(response);
+		// Wrap response content into a collection of ThngCollection:
+		return JSONUtils.toCollection(HttpComponentsUtils.toJSONArray(response), ThngCollection.class);
 	}
 
 	/**
 	 * Gets the collection of <code>thngs</code> referenced by the provided
-	 * <code>identifier</code>.
-	 * 
-	 * @param id
-	 *            the identifier referencing the targeted collection of
-	 *            <code>thngs</code>
-	 * @return The thng as JSON.
-	 * @throws IOException
-	 * @throws ClientProtocolException
-	 * @throws JSONException
-	 * @throws ParseException
-	 * @throws URISyntaxException
-	 */
-	public JSONObject getCollection(String id) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(String.format(PATH_COLLECTION, id));
-		HttpGet request = new HttpGet(uri);
-		HttpResponse response = this.execute(request);
-
-		// Convert response content to JSON and return it:
-		return ThngAPIWrapperUtils.toJSONObject(response);
-	}
-
-	/**
-	 * Creates a collection of <code>thngs</code> using the provided
-	 * <code>id</code>, <code>description</code> and <code>isPublic</code>
-	 * parameter values.
-	 * 
-	 * @see #createCollection(CollectionObject)
-	 * @param id
-	 * @param description
-	 * @param isPublic
-	 * @return
-	 * @throws JSONException
-	 * @throws ClientProtocolException
-	 * @throws IOException
-	 * @throws URISyntaxException
-	 * @throws ParseException
-	 */
-	public JSONObject createCollection(String id, String description, Boolean isPublic) throws JSONException, ClientProtocolException, IOException, ParseException, URISyntaxException {
-
-		// Prepare the 'collection' object:
-		CollectionObject collection = new CollectionObject(id, description, isPublic);
-
-		// Delegate:
-		return this.createCollection(collection);
-	}
-
-	/**
-	 * Creates a collection of <code>thngs</code> using the provided
-	 * {@link CollectionObject}.
-	 * 
-	 * @param collection
-	 * @return
-	 * @throws ClientProtocolException
-	 * @throws IOException
-	 * @throws ParseException
-	 * @throws JSONException
-	 * @throws URISyntaxException
-	 */
-	public JSONObject createCollection(CollectionObject collection) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(PATH_COLLECTIONS);
-		HttpPost request = new HttpPost(uri);
-		HttpResponse response = this.execute(request, collection.toJSONObject());
-
-		// Convert response content to JSON and return it:
-		return ThngAPIWrapperUtils.toJSONObject(response);
-	}
-
-	/**
-	 * Edits the collection of <code>thngs</code> referenced by the provided
-	 * <code>id</code> with the new values from the {@link CollectionObject}
-	 * instance.
-	 * 
-	 * @param id
-	 * @param collection
-	 * @return
-	 * @throws ClientProtocolException
-	 * @throws IOException
-	 * @throws ParseException
-	 * @throws JSONException
-	 * @throws URISyntaxException
-	 */
-	public Boolean editCollection(String id, CollectionObject collection) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(String.format(PATH_COLLECTION, id));
-		HttpPut request = new HttpPut(uri);
-		HttpResponse response = this.execute(request, collection.toJSONObject());
-
-		// FIXME: should collection edition return something?
-		// Convert response content to JSON and return it:
-		// return ThngAPIWrapperUtils.toJSONObject(response);
-		return response.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK;
-	}
-
-	/**
-	 * Deletes the collection of <code>thngs</code> referenced by the provided
 	 * <code>id</code>.
 	 * 
 	 * @param id
-	 * @return
-	 * @throws ClientProtocolException
+	 *            the identifier referencing the targeted collection of
+	 * @return the required ThngCollection.
 	 * @throws IOException
-	 * @throws ParseException
-	 * @throws JSONException
 	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
-	public Boolean deleteCollection(String id) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(String.format(PATH_COLLECTION, id));
-		HttpDelete request = new HttpDelete(uri);
-		HttpResponse response = this.execute(request);
+	public ThngCollection getCollection(String id) throws ClientProtocolException, URISyntaxException, IOException, InstantiationException, IllegalAccessException {
+		// Perform the GET request:
+		HttpResponse response = this.get(String.format(Configuration.PATH_COLLECTION, id));
 
-		// FIXME: should collection delete return something?
-		// Convert response content to JSON and return it:
-		// return ThngAPIWrapperUtils.toJSONObject(response);
-		return response.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK;
+		// Wrap response content into a Property:
+		return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), ThngCollection.class);
+	}
+
+	/**
+	 * Updates the {@link Thng} referenced by the provided <code>id</code>.
+	 * 
+	 * @param collection
+	 *            the {@link ThngCollection} to update
+	 * @return
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 * @throws ClientProtocolException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 */
+	public ThngCollection updateCollection(ThngCollection collection) throws URISyntaxException, ClientProtocolException, IOException, InstantiationException, IllegalAccessException {
+		// Perform the PUT request:
+		HttpResponse response = this.put(String.format(Configuration.PATH_COLLECTION, collection.getId()), collection.toJSONObject());
+
+		// Wrap response into a Thng:
+		return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), ThngCollection.class);
+	}
+
+	/**
+	 * Deletes the {@link ThngCollection} referenced by the provided
+	 * <code>id</code>.
+	 * 
+	 * TODO: check return type: ThngResult or void?
+	 * 
+	 * @param id
+	 * @return
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 * @throws ClientProtocolException
+	 */
+	public ThngResult deleteCollection(String id) throws URISyntaxException, ClientProtocolException, IOException {
+		// Perform the DELETE request:
+		HttpResponse response = this.delete(String.format(Configuration.PATH_COLLECTION, id));
+
+		// Consume entity content to avoid connection errors:
+		EntityUtils.consume(response.getEntity());
+
+		// Wrap response into a ThngResult:
+		return new ThngResult(response);
 	}
 
 	/* *** SEARCH *** */
@@ -604,30 +643,26 @@ public class ThngAPIWrapper {
 	/**
 	 * Searches for all <code>thngs</code> within user space.
 	 * 
+	 * FIXME: unrestricted search should not be allowed!
+	 * 
 	 * @return
 	 * @throws IOException
-	 * @throws ClientProtocolException
-	 * @throws JSONException
-	 * @throws ParseException
 	 * @throws URISyntaxException
+	 * @throws ClientProtocolException
 	 */
-	public JSONArray search() throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
-		// Create and execute request:
-		URI uri = this.createURI(PATH_SEARCH);
-		HttpGet request = new HttpGet(uri);
-		HttpResponse response = this.execute(request);
-
-		// FIXME: should collection delete return something?
-		// Convert response content to JSON and return it:
-		return ThngAPIWrapperUtils.toJSONArray(response);
+	public Collection<Thng> search() throws ClientProtocolException, URISyntaxException, IOException {
+		// Delegate:
+		return this.search(new ArrayList<NameValuePair>());
 	}
 
 	/**
-	 * Searches <code>thngs</code> using provided <code>query</code> pattern.
+	 * Searches {@link Thng}s using provided <code>query</code> pattern.
+	 * The text of the query will be searched into to the name and description
+	 * fields (case-independant search) of all your thngs and all public thngs
 	 * 
 	 * <em>Note:</em> URL encoding will be performed on <code>query</code>.
 	 * 
-	 * @see #search(SearchParameterEnum, String)
+	 * @see #search(SearchParameter, String)
 	 * @param query
 	 * @return
 	 * @throws IOException
@@ -636,16 +671,49 @@ public class ThngAPIWrapper {
 	 * @throws ParseException
 	 * @throws URISyntaxException
 	 */
-	public JSONArray search(String query) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
+	public Collection<Thng> search(String query) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
 		// Delegate:
-		return this.search(SearchParameterEnum.QUERY, query);
+		return this.search(SearchParameter.QUERY, query);
 	}
 
 	/**
-	 * Searches <code>thngs</code> using provided {@link SearchParameterEnum}
+	 * Searches {@link Thng}s using provided {@link SearchParameter}
 	 * <code>parameter</code> and <code>value</code>.
 	 * 
-	 * <em>Note:</em> URL encoding will be performed on every parameter <code>value</code>.
+	 * <em>Note:</em> URL encoding will be performed on every parameter
+	 * <code>value</code>.
+	 * 
+	 * @see #search(List)
+	 * 
+	 * @param query
+	 * @param geoCode
+	 * @param type
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 * @throws ParseException
+	 * @throws JSONException
+	 * @throws URISyntaxException
+	 */
+	public Collection<Thng> search(String query, GeoCode geoCode, Type type) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
+		// Build query parameters:
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair(SearchParameter.QUERY.getName(), query));
+		parameters.add(new BasicNameValuePair(SearchParameter.GEOCODE.getName(), geoCode.toString()));
+		parameters.add(new BasicNameValuePair(SearchParameter.TYPE.getName(), type.toString()));
+
+		// Delegate:
+		return this.search(parameters);
+	}
+
+	/**
+	 * Searches {@link Thng}s using provided {@link SearchParameter}
+	 * <code>parameter</code> and <code>value</code>.
+	 * 
+	 * <em>Note:</em> URL encoding will be performed on provided parameter
+	 * <code>value</code>.
+	 * 
+	 * @see #search(List)
 	 * 
 	 * @param parameter
 	 * @param value
@@ -656,8 +724,7 @@ public class ThngAPIWrapper {
 	 * @throws JSONException
 	 * @throws URISyntaxException
 	 */
-	public JSONArray search(SearchParameterEnum parameter, String value) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
-
+	public Collection<Thng> search(SearchParameter parameter, String value) throws ClientProtocolException, IOException, ParseException, JSONException, URISyntaxException {
 		// Build query parameters:
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair(parameter.toString(), value));

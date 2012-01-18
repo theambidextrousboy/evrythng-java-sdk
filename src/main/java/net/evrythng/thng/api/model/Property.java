@@ -1,0 +1,36 @@
+package net.evrythng.thng.api.model;
+
+public class Property<K> extends Model {
+
+	private String key;
+	private K value;
+	
+	/**
+	 * Creates a new empty instance of {@link Property}.
+	 * This also allows dynamic instantiation.
+	 */
+	public Property() {
+	}
+
+	public Property(String key, K value) {
+		this.setKey(key);
+		this.setValue(value);
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public K getValue() {
+		return value;
+	}
+
+	public void setValue(K value) {
+		this.value = value;
+	}
+
+}

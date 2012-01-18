@@ -1,11 +1,19 @@
 package net.evrythng.thng.api.wrapper.tests;
 
-import static org.junit.Assert.*;
-import net.evrythng.thng.api.wrapper.SearchParameterEnum;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Collection;
+
+import net.evrythng.thng.api.model.Thng;
+import net.evrythng.thng.api.search.GeoCode;
+import net.evrythng.thng.api.search.GeoCode.MeasureUnit;
+import net.evrythng.thng.api.search.SearchParameter;
+import net.evrythng.thng.api.search.SearchParameter.Type;
+import net.evrythng.thng.api.utils.JSONUtils;
 import net.evrythng.thng.api.wrapper.tests.core.TestBase;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.Test;
 
 public class SearchTest extends TestBase {
@@ -17,71 +25,105 @@ public class SearchTest extends TestBase {
 	 */
 	@Test
 	public void testSearch() throws Exception {
-		JSONArray results = wrapper.search();
+		Collection<Thng> results = wrapper.search();
 		assertNotNull(results);
-		
+
 		// Debug only:
-		this.printItems(results);
+		JSONUtils.debug(results);
 	}
-	
+
 	/**
-	 * Tests GET /search
-	 * Parameter: <code>q</code>
+	 * Tests GET /search?q={pattern}
 	 * 
 	 * @throws Exception
 	 */
 	@Test
 	public void testSearchByQuery() throws Exception {
-		// Create a reference thng:
-		JSONObject thng = this.createRandomThng();
-		assertNotNull(thng);
-		
-		JSONArray results = wrapper.search(thng.getString("identifier"));
+		// Create random Thng data:
+		Thng data = ThngsTest.buildRandomThng();
+
+		// Create the Thng:
+		Thng expected = wrapper.createThng(data);
+
+		// Execute search using thng name:
+		Collection<Thng> results = wrapper.search(expected.getName());
 		assertNotNull(results);
-		assertTrue(results.length() >= 1);
-		
+		assertEquals(results.size(), 1);
+
+		// Execute search using thng 'namespace':
+		results = wrapper.search(getNamespace());
+		assertNotNull(results);
+		assertTrue(results.size() >= 1);
+
 		// Debug only:
-		this.printItems(results);
+		JSONUtils.debug(results);
 	}
-	
+
 	/**
-	 * Tests GET /search
-	 * Parameter: <code>geocode</code>
+	 * Tests GET /search?geocode={geocode}
 	 * 
 	 * @throws Exception
 	 */
 	@Test
 	public void testSearchByGeocode() throws Exception {
-		// Create a reference thng:
-		JSONObject thng = this.createRandomThng();
-		assertNotNull(thng);
-		
-		JSONArray results = wrapper.search(SearchParameterEnum.GEOCODE, "-14.40,-71.33,5km");
+		// Create random Thng data:
+		Thng data = ThngsTest.buildRandomThng();
+
+		// Create the Thng:
+		Thng expected = wrapper.createThng(data);
+
+		// Execute search:
+		GeoCode geoCode = new GeoCode(expected.getLatitude(), expected.getLongitude(), 0.9999d, MeasureUnit.KM);
+		Collection<Thng> results = wrapper.search(SearchParameter.GEOCODE, geoCode.toString());
 		assertNotNull(results);
-		assertTrue(results.length() >= 1);
-		
+		assertTrue(results.size() >= 1);
+
 		// Debug only:
-		this.printItems(results);
+		JSONUtils.debug(results);
 	}
 	
 	/**
-	 * Tests GET /search
-	 * Parameter: <code>thngspace</code>
+	 * Tests GET /search?type={mine|all}
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testSearchByThngspace() throws Exception {
-		// Create a reference thng:
-		JSONObject thng = this.createRandomThng();
-		assertNotNull(thng);
-		
-		JSONArray results = wrapper.search(SearchParameterEnum.THNGSPACE, this.getNamespace());
-		assertNotNull(results);
-		assertTrue(results.length() >= 1);
-		
-		// Debug only:
-		this.printItems(results);
-	}
+	public void testSearchByType() throws Exception {
+		// Create random Thng data:
+		Thng data = ThngsTest.buildRandomThng();
 
+		// Create the Thng:
+		Thng expected = wrapper.createThng(data);
+
+		// Execute search:
+		Collection<Thng> results = wrapper.search(SearchParameter.TYPE, Type.ALL.toString());
+		assertNotNull(results);
+		assertTrue(results.size() >= 1);
+
+		// Debug only:
+		JSONUtils.debug(results);
+	}
+	
+	/**
+	 * Tests GET /search?q={pattern}&geocode={geocode}&type={mine|all}
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testSearchFull() throws Exception {
+		// Create random Thng data:
+		Thng data = ThngsTest.buildRandomThng();
+
+		// Create the Thng:
+		Thng expected = wrapper.createThng(data);
+
+		// Execute search:
+		GeoCode geoCode = new GeoCode(expected.getLatitude(), expected.getLongitude(), 0.9999d, MeasureUnit.KM);
+		Collection<Thng> results = wrapper.search(expected.getName(), geoCode, Type.MINE);
+		assertNotNull(results);
+		assertTrue(results.size() >= 1);
+
+		// Debug only:
+		JSONUtils.debug(results);
+	}
 }
