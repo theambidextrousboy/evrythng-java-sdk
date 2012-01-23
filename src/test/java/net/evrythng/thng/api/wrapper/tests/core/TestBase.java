@@ -8,9 +8,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
+import net.evrythng.thng.api.model.Thng;
 
 import net.evrythng.thng.api.result.ThngResult;
 import net.evrythng.thng.api.wrapper.ThngAPIWrapper;
@@ -121,5 +123,18 @@ public abstract class TestBase {
 
 	protected static void assertNotBlank(String text) {
 		assertTrue(StringUtils.isNotBlank(text));
+	}
+        
+        
+        /**
+         * Checks if the list size is equals or bigger than 
+         * <code>numberOfThngs</code>.
+         * @param thngs A list of <code>Thngs</code>
+         * @param numberOfThngs The number of <code>Thngs</code> 
+         * that the list should contain
+         *              
+         */
+        protected static void assertThngs(List<Thng> thngs, int numberOfThngs) {
+		assertTrue(thngs.size() >= numberOfThngs);
 	}
 }

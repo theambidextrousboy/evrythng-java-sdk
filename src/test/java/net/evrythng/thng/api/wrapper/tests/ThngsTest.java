@@ -106,11 +106,13 @@ public class ThngsTest extends TestBase {
 	 */
 	@Test
 	public void testGetThngs() throws Exception {
-		ThngArrayResult actual = wrapper.getThngs();
-		assertResult(actual);
-
-		// Debug only:
-		JSONUtils.debug(actual.getContent());
+                wrapper.createThng(buildRandomThng());
+                wrapper.createThng(buildRandomThng());
+                
+             
+                wrapper.getThngs();
+            
+		
 	}
 
 	/**

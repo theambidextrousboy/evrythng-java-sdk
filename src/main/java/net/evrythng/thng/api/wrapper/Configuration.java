@@ -38,6 +38,8 @@ public final class Configuration {
 	/* Collections PATHs */
 	public static final String PATH_COLLECTIONS = "/collections";
 	public static final String PATH_COLLECTION = PATH_COLLECTIONS + "/%s";
+        public static final String PATH_COLLECTION_THNGS = PATH_COLLECTION + "/thngs";
+        public static final String PATH_COLLECTION_THNG = PATH_COLLECTION_THNGS + "/%s";
 
 	/* Search PATHs */
 	public static final String PATH_SEARCH = "/search";
