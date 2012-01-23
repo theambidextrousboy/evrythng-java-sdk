@@ -33,6 +33,13 @@ public class Thng extends Model {
 		this(name, description);
 		this.isPublic = isPublic;
 	}
+        
+        public Thng(String name, String description, Boolean isPublic, double latitude, double longitude) {
+		this(name, description);
+		this.isPublic = isPublic;
+                this.latitude = new Double(latitude);
+                this.longitude = new Double(longitude);
+	}
 
 	/* *** GETTTERS / SETTERS *** */
 
