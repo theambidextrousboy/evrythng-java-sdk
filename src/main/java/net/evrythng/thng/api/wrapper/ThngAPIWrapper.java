@@ -531,6 +531,21 @@ public class ThngAPIWrapper {
         // Convert response content to JSON and return it:
         return HttpComponentsUtils.toJSONArray(response);
     }
+    
+    /**
+     * Gets all properties of the {@link Thng}.
+     * 
+     * @param thng
+     * @return a {@link JSONArray} of {@link Property}
+     * @throws IOException
+     * @throws URISyntaxException
+     * @throws ClientProtocolException
+     */
+    public JSONArray getProperties(Thng thng) throws ClientProtocolException, URISyntaxException, IOException {
+        return getProperties(thng.getId());
+    }
+    
+    
 
     /**
      * Gets the <code>key</code> property on the {@link Thng} referenced
@@ -551,6 +566,52 @@ public class ThngAPIWrapper {
 
         // Wrap response into a Property:
         return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), Property.class); // FIXME: generic parameter is lost!
+    }
+    
+    /**
+     * Gets the <code>key</code> property of the {@link Thng}.
+     * 
+     * @param thng
+     * @param key
+     * @return the last value of {@link Property} key
+     * @throws ClientProtocolException
+     * @throws URISyntaxException
+     * @throws IOException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
+    public <K> Property<K> getProperty(Thng thng, String key) throws ClientProtocolException, URISyntaxException, IOException, InstantiationException, IllegalAccessException {
+        return getProperty(thng.getId(), key);
+    }
+    
+    /**
+     * This updates a {@link Property} of a {@link Thng}.
+     * @param <K>
+     * @param thng the {@link Thng} to be updated
+     * @param property
+     * @return
+     * @throws URISyntaxException
+     * @throws IOException 
+     */
+    public <K> Property<K> updateProperty(Thng thng, Property<K> property) throws URISyntaxException, IOException {
+        return updateProperty(thng.getId(), property);
+    }
+    
+    /**
+     * This updates a {@link Property} of a {@link Thng}.
+     * @param <K>
+     * @param thngId
+     * @param property
+     * @return
+     * @throws URISyntaxException
+     * @throws IOException 
+     */
+    public <K> Property<K> updateProperty(String thngId, Property<K> property) throws URISyntaxException, IOException {
+        // Perform the PUT request:
+        HttpResponse response = this.put(String.format(Configuration.PATH_PROPERTIES, thngId), property.toJSONObject());
+
+        // Wrap response into a Property:
+        return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), Property.class);
     }
 
     /**

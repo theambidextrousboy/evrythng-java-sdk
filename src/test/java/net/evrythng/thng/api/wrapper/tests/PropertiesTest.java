@@ -134,6 +134,33 @@ public class PropertiesTest extends TestBase {
 		assertNotNull(properties);
 		assertEquals(properties.size(), 1);
 	}
+        
+        /**
+	 * Tests PUT /thngs/{id}/property/{id}
+	 * 
+	 * @see ThngAPIWrapper#updateProperty(String, Property)
+	 * @throws Exception
+	 */
+	@Test
+	public void testUpdateProperty() throws Exception {
+		// Create a random thng:
+		Thng source = wrapper.createThng(ThngsTest.buildRandomThng());
+
+                // Create a property:
+                Property<Double> temp = new Property<Double>("Temp", 37.06);
+                
+		// Execute request:
+		Property actual = wrapper.createProperty(source.getId(), temp);
+		assertNotNull(actual);
+
+		// Update 1 property:
+                temp.setValue(temp.getValue()+1.0);
+		Property prop = wrapper.updateProperty(source.getId(), temp);
+		assertNotNull(prop);
+                
+		assertEquals(prop.getValue(), temp.getValue()+1.0);
+	}
+        
 
 	private void assertProperty(Property<?> expected, Property<?> actual) {
 		assertEquals(expected.getKey(), actual.getKey());
