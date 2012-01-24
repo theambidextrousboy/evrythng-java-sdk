@@ -13,7 +13,7 @@ import net.evrythng.thng.api.model.Model;
 import net.evrythng.thng.api.model.Thng;
 import net.evrythng.thng.api.model.ThngCollection;
 import net.evrythng.thng.api.result.ThngArrayResult;
-import net.evrythng.thng.api.result.ThngResult;
+import net.evrythng.thng.api.result.EvrythngResult;
 import net.evrythng.thng.api.utils.JSONUtils;
 import net.evrythng.thng.api.wrapper.ThngAPIWrapper;
 import net.evrythng.thng.api.wrapper.tests.core.TestBase;
@@ -180,7 +180,7 @@ public class ThngsTest extends TestBase {
 		assertThng(data, expected);
 
 		// Delete the Thng:
-		ThngResult result = wrapper.deleteThng(expected.getId());
+		EvrythngResult result = wrapper.deleteThng(expected.getId());
 		assertResult(result);
 
 		// Check deleted Thng (TODO: use exceptions instead):

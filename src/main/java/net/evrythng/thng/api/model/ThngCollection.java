@@ -8,61 +8,67 @@ package net.evrythng.thng.api.model;
  */
 public class ThngCollection extends Model {
 
-	private String id;
+    private String id;
+    private String name;
+    private String description;
+    private Boolean isPublic;
+    private int numberOfThngs;
 
-	private String name;
-	private String description;
-	private Boolean isPublic;
+    /**
+     * Creates a new empty instance of {@link ThngCollection}.
+     * This also allows dynamic instantiation.
+     */
+    public ThngCollection() {
+    }
 
-	/**
-	 * Creates a new empty instance of {@link ThngCollection}.
-	 * This also allows dynamic instantiation.
-	 */
-	public ThngCollection() {
-	}
+    public ThngCollection(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 
-	public ThngCollection(String name, String description) {
-		this.name = name;
-		this.description = description;
-	}
+    public ThngCollection(String name, String description, Boolean isPublic) {
+        this(name, description);
+        this.isPublic = isPublic;
+    }
 
-	public ThngCollection(String name, String description, Boolean isPublic) {
-		this(name, description);
-		this.isPublic = isPublic;
-	}
+    /* *** GETTTERS / SETTERS *** */
+    public String getId() {
+        return id;
+    }
 
-	/* *** GETTTERS / SETTERS *** */
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public Boolean getIsPublic() {
+        return isPublic;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setIsPublic(Boolean isPublic) {
+        this.isPublic = isPublic;
+    }
 
-	public Boolean getIsPublic() {
-		return isPublic;
-	}
+    public int getNumberOfThngs() {
+        return numberOfThngs;
+    }
 
-	public void setIsPublic(Boolean isPublic) {
-		this.isPublic = isPublic;
-	}
-
+    public void setNumberOfThngs(int numberOfThngs) {
+        this.numberOfThngs = numberOfThngs;
+    }
 }

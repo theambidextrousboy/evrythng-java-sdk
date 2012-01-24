@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import net.evrythng.thng.api.model.Property;
 import net.evrythng.thng.api.model.Thng;
-import net.evrythng.thng.api.result.ThngResult;
+import net.evrythng.thng.api.result.EvrythngResult;
 import net.evrythng.thng.api.utils.JSONUtils;
 import net.evrythng.thng.api.wrapper.ThngAPIWrapper;
 import net.evrythng.thng.api.wrapper.tests.core.TestBase;
@@ -127,7 +127,7 @@ public class PropertiesTest extends TestBase {
 		assertEquals(actual.size(), 2);
 
 		// Delete 1 property only:
-		ThngResult deleted = wrapper.deleteProperty(source.getId(), volume.getKey());
+		EvrythngResult deleted = wrapper.deleteProperty(source.getId(), volume.getKey());
 		assertNotNull(deleted);
 
 		JSONArray properties = wrapper.getProperties(source.getId());

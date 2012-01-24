@@ -2,7 +2,7 @@ package net.evrythng.thng.api.result;
 
 import org.apache.http.HttpResponse;
 
-public abstract class ThngContentResult<K> extends ThngResult {
+public abstract class ThngContentResult<K> extends EvrythngResult {
 
 	private K content;
 

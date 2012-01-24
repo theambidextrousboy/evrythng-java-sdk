@@ -10,7 +10,7 @@ import java.util.Collection;
 import net.evrythng.thng.api.model.Thng;
 import net.evrythng.thng.api.model.ThngCollection;
 import net.evrythng.thng.api.result.ThngArrayResult;
-import net.evrythng.thng.api.result.ThngResult;
+import net.evrythng.thng.api.result.EvrythngResult;
 import net.evrythng.thng.api.utils.JSONUtils;
 import net.evrythng.thng.api.wrapper.ThngAPIWrapper;
 import net.evrythng.thng.api.wrapper.tests.core.TestBase;
@@ -118,7 +118,7 @@ public class CollectionsTest extends TestBase {
         assertCollection(data, expected);
 
         // Delete the ThngCollection:
-        ThngResult result = wrapper.deleteCollection(expected.getId());
+        EvrythngResult result = wrapper.deleteCollection(expected.getId());
         assertResult(result);
 
         // Check deleted ThngCollection (TODO: use exceptions instead):
@@ -143,6 +143,7 @@ public class CollectionsTest extends TestBase {
 
         // Add a Thng to the collection:
         Thng thng = ThngsTest.buildRandomThng();
+        thng = wrapper.createThng(thng);
         ThngArrayResult added = wrapper.addThngsToCollection(collec, thng);
 
         assertCollectionSize(added, 1);
@@ -165,25 +166,28 @@ public class CollectionsTest extends TestBase {
 
         // Add a Thng to the collection:
         Thng thng = ThngsTest.buildRandomThng();
-        ThngArrayResult added = wrapper.addThngsToCollection(collec, thng);
-        
+        thng = wrapper.createThng(thng);
+        wrapper.addThngsToCollection(collec, thng);
+
+        // And remove all thngs:
         wrapper.removeAllThngsFromCollection(collec);
+
         ThngArrayResult collecReturned = wrapper.getThngsInCollection(collec);
         assertCollectionSize(collecReturned, 0);
-        
-      
+
+
     }
-    
+
     @Test
     public void testRemoveThng() throws Exception {
         ThngCollection data = buildRandomCollection();
         ThngCollection collec = wrapper.createCollection(data);
-        Thng thng = ThngsTest.buildRandomThng();
-        wrapper.addThngsToCollection(collec, thng, ThngsTest.buildRandomThng());
-        
+        Thng thng = wrapper.createThng(ThngsTest.buildRandomThng());
+        wrapper.addThngsToCollection(collec, thng);
+
         // Remove from collection
         wrapper.removeThngFromCollection(collec, thng);
-        assertCollectionSize(wrapper.getThngsInCollection(collec), 1);
+        assertCollectionSize(wrapper.getThngsInCollection(collec), 0);
     }
 
     /**
@@ -211,8 +215,7 @@ public class CollectionsTest extends TestBase {
         assertEquals(expected.getDescription(), actual.getDescription());
         assertEquals(expected.getIsPublic(), actual.getIsPublic());
     }
-    
-    
+
     /**
      * Tests whether a {@link ThngCollection} has a given size (i.e.,
      * contains a given number of {@link Thngs}.
@@ -220,7 +223,7 @@ public class CollectionsTest extends TestBase {
      * @param i 
      */
     protected static void assertCollectionSize(ThngArrayResult thngsArray, int size) {
-        assertTrue(thngsArray.getContent().getJSONArray(0).size() == size);
+            assertTrue(thngsArray.getContent().size() == size);
     }
 
     /**
@@ -233,8 +236,6 @@ public class CollectionsTest extends TestBase {
     protected ThngCollection buildRandomCollection() {
         return new ThngCollection(generateUniqueName(), "Random unit test created collection!", random.nextBoolean());
     }
-
-    
     //	/**
     //	 * Tests PUT /collections/:id
     //	 * 

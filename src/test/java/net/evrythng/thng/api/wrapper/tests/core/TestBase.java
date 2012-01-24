@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.UUID;
 import net.evrythng.thng.api.model.Thng;
 
-import net.evrythng.thng.api.result.ThngResult;
+import net.evrythng.thng.api.result.EvrythngResult;
 import net.evrythng.thng.api.wrapper.ThngAPIWrapper;
 
 import org.apache.commons.lang3.StringUtils;
@@ -110,12 +110,12 @@ public abstract class TestBase {
 		return min + (Math.random() * (max - min));
 	}
 
-	protected static void assertResult(ThngResult result) {
+	protected static void assertResult(EvrythngResult result) {
 		// Delegate:
 		assertResult(result, HttpURLConnection.HTTP_OK);
 	}
 
-	protected static void assertResult(ThngResult result, int statusCode) {
+	protected static void assertResult(EvrythngResult result, int statusCode) {
 		assertNotNull(result);
 		assertNotNull(result.getResponse());
 		assertEquals(result.getResponse().getStatusCode(), statusCode);

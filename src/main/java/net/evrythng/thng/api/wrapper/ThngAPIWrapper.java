@@ -13,7 +13,7 @@ import net.evrythng.thng.api.model.Property;
 import net.evrythng.thng.api.model.Thng;
 import net.evrythng.thng.api.model.ThngCollection;
 import net.evrythng.thng.api.result.ThngArrayResult;
-import net.evrythng.thng.api.result.ThngResult;
+import net.evrythng.thng.api.result.EvrythngResult;
 import net.evrythng.thng.api.search.GeoCode;
 import net.evrythng.thng.api.search.SearchParameter;
 import net.evrythng.thng.api.search.SearchParameter.Type;
@@ -397,7 +397,7 @@ public class ThngAPIWrapper {
     /**
      * Deletes the {@link Thng} referenced by the provided <code>id</code>.
      * 
-     * TODO: check return type: ThngResult or void?
+     * TODO: check return type: EvrythngResult or void?
      * 
      * @param id
      * @return
@@ -405,21 +405,21 @@ public class ThngAPIWrapper {
      * @throws IOException
      * @throws ClientProtocolException
      */
-    public ThngResult deleteThng(String id) throws URISyntaxException, ClientProtocolException, IOException {
+    public EvrythngResult deleteThng(String id) throws URISyntaxException, ClientProtocolException, IOException {
         // Perform the DELETE request:
         HttpResponse response = this.delete(String.format(Configuration.PATH_THNG, id));
 
         // Consume entity content to avoid connection errors:
         EntityUtils.consume(response.getEntity());
 
-        // Wrap response into a ThngResult:
-        return new ThngResult(response);
+        // Wrap response into a EvrythngResult:
+        return new EvrythngResult(response);
     }
     
         /**
      * Deletes the {@link Thng}.
      * 
-     * TODO: check return type: ThngResult or void?
+     * TODO: check return type: EvrythngResult or void?
      * 
      * @param thng the {@link Thng} to be deleted.
      * @return
@@ -427,7 +427,7 @@ public class ThngAPIWrapper {
      * @throws IOException
      * @throws ClientProtocolException
      */
-    public ThngResult deleteThng(Thng thng) throws URISyntaxException, ClientProtocolException, IOException {
+    public EvrythngResult deleteThng(Thng thng) throws URISyntaxException, ClientProtocolException, IOException {
         return deleteThng(thng.getId());
     }
 
@@ -625,15 +625,15 @@ public class ThngAPIWrapper {
      * @throws URISyntaxException
      * @throws ClientProtocolException
      */
-    public ThngResult deleteProperty(String id, String key) throws ClientProtocolException, URISyntaxException, IOException {
+    public EvrythngResult deleteProperty(String id, String key) throws ClientProtocolException, URISyntaxException, IOException {
         // Perform the GET request:
         HttpResponse response = this.delete(String.format(Configuration.PATH_PROPERTY, id, key));
 
         // Consume entity content to avoid connection errors:
         EntityUtils.consume(response.getEntity());
 
-        // Wrap response into a ThngResult:
-        return new ThngResult(response);
+        // Wrap response into a EvrythngResult:
+        return new EvrythngResult(response);
     }
 
     /* *** COLLECTIONS *** */
@@ -768,11 +768,14 @@ public class ThngAPIWrapper {
      * @throws IOException
      * @throws URISyntaxException 
      */
-    public ThngResult removeAllThngsFromCollection(ThngCollection collection) throws IOException, URISyntaxException {
+    public EvrythngResult removeAllThngsFromCollection(ThngCollection collection) throws IOException, URISyntaxException {
         // Perform the DELETE request:
-        HttpResponse response = this.delete(String.format(Configuration.PATH_COLLECTION_THNGS));  
+        HttpResponse response = this.delete(String.format(Configuration.PATH_COLLECTION_THNGS, collection.getId()));  
         
-        return new ThngArrayResult(response);
+        // Consume entity content to avoid connection errors:
+        EntityUtils.consume(response.getEntity());
+        
+        return new EvrythngResult(response);
     }
     
     /**
@@ -783,10 +786,14 @@ public class ThngAPIWrapper {
      * @throws IOException
      * @throws URISyntaxException 
      */
-    public ThngResult removeThngFromCollection(ThngCollection collection, Thng thng) throws IOException, URISyntaxException {
+    public EvrythngResult removeThngFromCollection(ThngCollection collection, Thng thng) throws IOException, URISyntaxException {
         // Perform the DELETE request:
-        HttpResponse response = this.delete(String.format(Configuration.PATH_COLLECTION_THNG, thng.getId()));  
-        return new ThngArrayResult(response);
+        HttpResponse response = this.delete(String.format(Configuration.PATH_COLLECTION_THNG, collection.getId(), thng.getId())); 
+        
+        // Consume entity content to avoid connection errors:
+        EntityUtils.consume(response.getEntity());
+        
+        return new EvrythngResult(response);
     }
     
 
@@ -794,7 +801,7 @@ public class ThngAPIWrapper {
      * Deletes the {@link ThngCollection} referenced by the provided
      * <code>id</code>.
      * 
-     * TODO: check return type: ThngResult or void?
+     * TODO: check return type: EvrythngResult or void?
      * 
      * @param id
      * @return
@@ -802,21 +809,21 @@ public class ThngAPIWrapper {
      * @throws IOException
      * @throws ClientProtocolException
      */
-    public ThngResult deleteCollection(String id) throws URISyntaxException, ClientProtocolException, IOException {
+    public EvrythngResult deleteCollection(String id) throws URISyntaxException, ClientProtocolException, IOException {
         // Perform the DELETE request:
         HttpResponse response = this.delete(String.format(Configuration.PATH_COLLECTION, id));
 
         // Consume entity content to avoid connection errors:
         EntityUtils.consume(response.getEntity());
 
-        // Wrap response into a ThngResult:
-        return new ThngResult(response);
+        // Wrap response into a EvrythngResult:
+        return new EvrythngResult(response);
     }
     
     /**
      * Deletes the {@link ThngCollection}.
      * 
-     * TODO: check return type: ThngResult or void?
+     * TODO: check return type: EvrythngResult or void?
      * 
      * @param collection a {@link ThngCollection} to be deleted.
      * @return
@@ -824,7 +831,7 @@ public class ThngAPIWrapper {
      * @throws IOException
      * @throws ClientProtocolException
      */
-    public ThngResult deleteCollection(ThngCollection collection) throws URISyntaxException, ClientProtocolException, IOException {
+    public EvrythngResult deleteCollection(ThngCollection collection) throws URISyntaxException, ClientProtocolException, IOException {
         return deleteCollection(collection.getId());
     }
 
