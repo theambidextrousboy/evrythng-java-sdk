@@ -1,3 +1,8 @@
+/*
+ * (c) Copyright 2012 Evrythng Ltd London / Zurich
+ * www.evrythng.net
+ * 
+ */
 package net.evrythng.thng.api.wrapper.tests;
 
 import static org.junit.Assert.assertEquals;
@@ -84,7 +89,7 @@ public class PropertiesTest extends TestBase {
 
 		JSONArray actual = wrapper.getProperties(source.getId());
 		assertNotNull(actual);
-		assertEquals(actual.size(), 2);
+		assertEquals(5, actual.size());
 	}
 
 	/**
@@ -132,7 +137,7 @@ public class PropertiesTest extends TestBase {
 
 		JSONArray properties = wrapper.getProperties(source.getId());
 		assertNotNull(properties);
-		assertEquals(properties.size(), 1);
+		assertEquals(4, properties.size());
 	}
         
         /**

@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.evrythng</groupId>
     <artifactId>evrythng-java-wrapper</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
     <name>evrythng-java-wrapper</name>
     <description>Java wrapper for the Evrythng API.</description>
     <inceptionYear>2011</inceptionYear>
@@ -20,6 +20,7 @@
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
     <dependencies>
         <dependency>

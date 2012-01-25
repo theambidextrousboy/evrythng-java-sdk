@@ -1,3 +1,8 @@
+/*
+ * (c) Copyright 2012 Evrythng Ltd London / Zurich
+ * www.evrythng.net
+ * 
+ */
 package net.evrythng.thng.api.wrapper.tests;
 
 import static org.junit.Assert.assertEquals;
@@ -48,7 +53,7 @@ public class SearchTest extends TestBase {
 		// Execute search using thng name:
 		Collection<Thng> results = wrapper.search(expected.getName());
 		assertNotNull(results);
-		assertEquals(results.size(), 1);
+		assertEquals(1, results.size());
 
 		// Execute search using thng 'namespace':
 		results = wrapper.search(getNamespace());
@@ -75,6 +80,7 @@ public class SearchTest extends TestBase {
 		// Execute search:
 		GeoCode geoCode = new GeoCode(expected.getLatitude(), expected.getLongitude(), 0.9999d, MeasureUnit.KM);
 		Collection<Thng> results = wrapper.search(SearchParameter.GEOCODE, geoCode.toString());
+                
 		assertNotNull(results);
 		assertTrue(results.size() >= 1);
 

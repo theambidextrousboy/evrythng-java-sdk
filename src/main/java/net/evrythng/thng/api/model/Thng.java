@@ -1,11 +1,10 @@
-package net.evrythng.thng.api.model;
-
-/**
- * 
- * 
- * @author almeidap
+/*
+ * (c) Copyright 2012 Evrythng Ltd London / Zurich
+ * www.evrythng.net
  * 
  */
+package net.evrythng.thng.api.model;
+
 public class Thng extends Model {
 
 	private String id;

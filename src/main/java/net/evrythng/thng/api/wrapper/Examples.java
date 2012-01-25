@@ -1,24 +1,28 @@
 /*
- * (c) Dominique Guinard (www.guinard.org)
+ * (c) Copyright 2012 Evrythng Ltd London / Zurich
+ * www.evrythng.net
  * 
  */
-package net.evrythng.thng.api.wrapper.tests;
+package net.evrythng.thng.api.wrapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.evrythng.thng.api.model.Thng;
 import net.evrythng.thng.api.model.Property;
-import net.evrythng.thng.api.wrapper.ThngAPIWrapper;
+import net.evrythng.thng.api.model.ThngCollection;
+import net.evrythng.thng.api.search.GeoCode;
+import net.evrythng.thng.api.search.SearchParameter.Type;
 import org.apache.http.client.ClientProtocolException;
 
 /**
  * This exemplifies how the wrapper/API can be used.
- * @author domguinard
+ * @author <href="http://www.guinard.org>domguinard</a>
  */
-public class WrapperTest {
+public class Examples {
 
     // OLD KEY: private static String TOKEN = "305ff6dbc030ca8a323c112ca22d816a9831fe0c";
     private static String TOKEN = "641bcd86e1a0ac1e0da5e625cedb33af12d94002edf84968e9a0d6f01d20e4e7";
@@ -54,32 +58,32 @@ public class WrapperTest {
             
             wrapper.getProperties(myThng); 
             
-//            // ... update them...
-//            kwh.setValue("65");
-//            wrapper.updateProperty(myThng, kwh);
-//            
-//            // ... or get them!
-//            kwh = wrapper.getProperty(myThng, kwh.getKey()); 
-//            System.out.println(kwh.getKey() + ":" + kwh.getValue());
-//            
-//            // Add the thng to a collection
-//            ThngCollection homeCollection = wrapper.createCollection(new ThngCollection("Home" + Calendar.getInstance().getTimeInMillis(), "The things in my home."));
-//            wrapper.addThngsToCollection(homeCollection, myThng);
-//            
-//            // Search for our thngs
-//            Collection<Thng> results = wrapper.search("tv", new GeoCode(10, 49, 5), Type.MINE);
-//            System.out.println(results.toArray()[1].toString());
+            // ... update them...
+            kwh.setValue("65");
+            wrapper.updateProperty(myThng, kwh);
+            
+            // ... or get them!
+            kwh = wrapper.getProperty(myThng, kwh.getKey()); 
+            System.out.println(kwh.getKey() + ":" + kwh.getValue());
+            
+            // Add the thng to a collection
+            ThngCollection homeCollection = wrapper.createCollection(new ThngCollection("Home" + Calendar.getInstance().getTimeInMillis(), "The things in my home."));
+            wrapper.addThngsToCollection(homeCollection, myThng);
+            
+            // Search for our thngs
+            Collection<Thng> results = wrapper.search("tv");
+            System.out.println(results.toArray()[1].toString());
 
         } catch (InstantiationException ex) {
-            Logger.getLogger(WrapperTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Examples.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(WrapperTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Examples.class.getName()).log(Level.SEVERE, null, ex);
         } catch (URISyntaxException ex) {
-            Logger.getLogger(WrapperTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Examples.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClientProtocolException ex) {
-            Logger.getLogger(WrapperTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Examples.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(WrapperTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Examples.class.getName()).log(Level.SEVERE, null, ex);
         } 
 
 
