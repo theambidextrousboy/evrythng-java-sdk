@@ -150,7 +150,6 @@ public class ThngsTest extends TestBase {
 
 		// Create the Thng:
 		Thng expected = wrapper.createThng(data);
-		assertThng(data, expected);
 
 		// Update the Thng:
 		expected.setName("[EDITED] " + expected.getName());
@@ -177,7 +176,6 @@ public class ThngsTest extends TestBase {
 
 		// Create the Thng:
 		Thng expected = wrapper.createThng(data);
-		assertThng(data, expected);
 
 		// Delete the Thng:
 		EvrythngResult result = wrapper.deleteThng(expected.getId());

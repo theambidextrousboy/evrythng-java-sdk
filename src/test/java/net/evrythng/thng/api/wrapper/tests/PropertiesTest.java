@@ -158,7 +158,7 @@ public class PropertiesTest extends TestBase {
 		Property prop = wrapper.updateProperty(source.getId(), temp);
 		assertNotNull(prop);
                 
-		assertEquals(prop.getValue(), temp.getValue()+1.0);
+		assertEquals(prop.getValue(), temp.getValue());
 	}
         
 
