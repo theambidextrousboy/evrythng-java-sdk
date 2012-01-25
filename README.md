@@ -1,12 +1,25 @@
 # Evrythng API Java Wrapper
 
-This is a Java wrapper for the Evrythng API. It lets you use all the features provided by our API with pure Java constructs. You need an API token for authentication which you can get on <http://evrythng.net/settings/tokens>.
+This is a Java wrapper for the [Evrythng API](http://dev.evrythng.net). It lets you use all the features provided by our API with pure Java constructs. 
+You need an API token for authentication which you can get on <http://evrythng.net/settings/tokens>.
 
 ## Working with the wrapper
 
-The easiest way is to get the latest `.jar` from the download section (see <download/>)
+The easiest way is to get the latest `.jar` from the `Downloads` section and adding it to your Java project.
+Then, you can directly get started with something like:
 
-## Setup
+    // Intialize the wrapper (and provinding the API key)
+    ThngAPIWrapper wrapper = new ThngAPIWrapper(YOUR_EVRYTHNG_TOKEN_HERE);
+            
+
+    // Create a Thng
+    Thng myThng = wrapper.createThng(new Thng("My-TV", "This is my TV.", true, 10.88, 50.56));
+    
+    [...]
+
+See [the example file](blob/master/src/main/java/net/evrythng/thng/api/wrapper/Examples.java) for a complete overview.
+
+## Extending the wrapper
 
 ### Cloning the repository
 
@@ -18,7 +31,7 @@ You can set your API token on user level by adding the following profile to the 
 
 	<profile>
 		<!-- 
-			This development profile only activates when the -Dprod parameter is NOT present in command line.
+		This development profile only activates when the -Dprod parameter is NOT present in command line.
 		-->
 		<id>evrythng-dev</id>
 		<activation>
@@ -39,10 +52,6 @@ If you didn't provide an API token in `settings.xml` or just want to use another
     
     mvn install -Devrythng.api.token=[your token]
 
-If the tests fail (e.g., because you're offile or do not have a valid API key), run:
-
-		mvn install -DskipTests
-
 You should now find a `.jar` file in the `target/` directory.
 
 To build the `.jar` with all dependencies run:
@@ -51,7 +60,6 @@ To build the `.jar` with all dependencies run:
 ### Using the wrapper in your project
 
 To use the wrapper, just add the generated `.jar` file located in the `target/` directory to your Java project.
-
 
 # Extending the wrapper with Netbeans 6.8+
 
@@ -71,8 +79,10 @@ Simply import the project as a new Maven project (requires `m2eclipse` plugin, s
 
     mvn test -Devrythng.api.token=[your token]
    
-## Using Eclipse
-Alternatively, you can also launch unit tests directly from Eclipse IDE.
+Alternatively, you can also launch unit tests directly from Eclipse, Netbeans or whatever IDE you feel like (with VIM it
+might be trickier, but who knows ;-))
+
+## Testing in Eclipse
 
 ### Run with Maven (requires `m2eclipse` plugin, see <http://m2eclipse.sonatype.org/>):
 * [Right-click on project] > Run As... > Maven test
