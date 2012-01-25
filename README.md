@@ -3,20 +3,6 @@
 This is a Java wrapper for the [Evrythng API](http://dev.evrythng.net). It lets you use all the features provided by our API with pure Java constructs. 
 You need an API token for authentication which you can get on <http://evrythng.net/settings/tokens>.
 
- Copyright 2012 Evrythng Ltd London / Zurich
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
 ## Working with the wrapper
 
 The easiest way is to get the latest `.jar` from the [Downloads](evrythng-java-wrapper/downloads) section and adding it to your Java project.
@@ -117,4 +103,19 @@ If you didn't provide an API token in `settings.xml`, you can edit the launch co
 * Edit `src/test/resources/config.properties`:
   * evrythng.api.token=*[your token]*
 * [Right-click on any test class or test method] > Run as JUnit Test
+* 
+
+# License
+
+ Copyright 2012 Evrythng Ltd London / Zurich
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
 
