@@ -109,7 +109,7 @@ If you didn't provide an API token in `settings.xml`, you can edit the launch co
 
  Copyright 2012 Evrythng Ltd London / Zurich
 
-   Licensed under the Apache License, Version 2.0 (the "License");
+   The Evrythng API wrapper is licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
 
