@@ -25,32 +25,10 @@ See [the example file](blob/master/src/main/java/net/evrythng/thng/api/wrapper/E
 
 	git clone git@github.com:evrythng/evrythng-java-wrapper.git
 
-### Setting the API Token
-
-You can set your API token on user level by adding the following profile to the your `settings.xml` file:
-
-	<profile>
-		<!-- 
-		This development profile only activates when the -Dprod parameter is NOT present in command line.
-		-->
-		<id>evrythng-dev</id>
-		<activation>
-			<property>
-				<name>!prod</name>
-			</property>
-		</activation>
-		<properties>
-			<evrythng.api.token>[your token]</evrythng.api.token>
-		</properties>
-	</profile>
 
 ### Compiling the wrapper
 
     mvn install
-    
-If you didn't provide an API token in `settings.xml` or just want to use another API key, launch the following command:
-    
-    mvn install -Devrythng.api.token=[your token]
 
 You should now find a `.jar` file in the `target/` directory.
 
@@ -70,6 +48,25 @@ Simply open the project by selecting its root folder. The Netbeans Maven plugin 
 Simply import the project as a new Maven project (requires `m2eclipse` plugin, see <http://m2eclipse.sonatype.org/>).
 
 # Running Unit tests
+
+## Setting the API Token
+
+You can set your API token on user level by adding the following profile to your `settings.xml` file:
+
+	<profile>
+		<!-- 
+		This development profile only activates when the -Dprod parameter is NOT present in command line.
+		-->
+		<id>evrythng-dev</id>
+		<activation>
+			<property>
+				<name>!prod</name>
+			</property>
+		</activation>
+		<properties>
+			<evrythng.api.token>[your token]</evrythng.api.token>
+		</properties>
+	</profile>
 
 ## Using Maven
 
