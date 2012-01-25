@@ -333,7 +333,8 @@ public class ThngAPIWrapper {
         HttpResponse response = this.post(Configuration.PATH_THNGS, thng.toJSONObject());
 
         // Wrap response into a Thng:
-        return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), Thng.class);
+        Thng result = JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), Thng.class);
+        return result;
     }
 
     /**
@@ -608,7 +609,7 @@ public class ThngAPIWrapper {
      */
     public <K> Property<K> updateProperty(String thngId, Property<K> property) throws URISyntaxException, IOException {
         // Perform the PUT request:
-        HttpResponse response = this.put(String.format(Configuration.PATH_PROPERTIES, thngId), property.toJSONObject());
+        HttpResponse response = this.put(String.format(Configuration.PATH_PROPERTY, thngId, property.getKey()), property.toJSONObject());
 
         // Wrap response into a Property:
         return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), Property.class);

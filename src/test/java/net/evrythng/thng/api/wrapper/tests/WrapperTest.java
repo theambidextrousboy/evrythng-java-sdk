@@ -6,27 +6,22 @@ package net.evrythng.thng.api.wrapper.tests;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.evrythng.thng.api.model.Thng;
 import net.evrythng.thng.api.model.Property;
-import net.evrythng.thng.api.model.ThngCollection;
-import net.evrythng.thng.api.search.GeoCode;
-import net.evrythng.thng.api.search.SearchParameter.Type;
 import net.evrythng.thng.api.wrapper.ThngAPIWrapper;
 import org.apache.http.client.ClientProtocolException;
 
 /**
- *
+ * This exemplifies how the wrapper/API can be used.
  * @author domguinard
  */
 public class WrapperTest {
 
-    private static String TOKEN = "305ff6dbc030ca8a323c112ca22d816a9831fe0c";
+    // OLD KEY: private static String TOKEN = "305ff6dbc030ca8a323c112ca22d816a9831fe0c";
+    private static String TOKEN = "641bcd86e1a0ac1e0da5e625cedb33af12d94002edf84968e9a0d6f01d20e4e7";
 
     /**
      * @param args the command line arguments
@@ -35,6 +30,7 @@ public class WrapperTest {
         try {
             // Intialize the wrapper (and provinding the API key)
             ThngAPIWrapper wrapper = new ThngAPIWrapper(TOKEN);
+            
 
             // Create a Thng
             Thng myThng = wrapper.createThng(new Thng("My-TV." + 
@@ -56,33 +52,35 @@ public class WrapperTest {
                     new Property<String>("Address", "Gasometerstrasse 9"),
                     kwh);
             
-            // ... update them...
-            kwh.setValue("65");
-            wrapper.updateProperty(myThng, kwh);
+            wrapper.getProperties(myThng); 
             
-            // ... or get them!
-            kwh = wrapper.getProperty(myThng, kwh.getKey()); 
-            System.out.println(kwh.getKey() + ":" + kwh.getValue());
-            
-            // Add the thng to a collection
-            ThngCollection homeCollection = wrapper.createCollection(new ThngCollection("Home" + Calendar.getInstance().getTimeInMillis(), "The things in my home."));
-            wrapper.addThngsToCollection(homeCollection, myThng);
-            
-            // Search for our thngs
-            Collection<Thng> results = wrapper.search("tv", new GeoCode(10, 49, 5), Type.MINE);
-            System.out.println(results.toArray()[1].toString());
+//            // ... update them...
+//            kwh.setValue("65");
+//            wrapper.updateProperty(myThng, kwh);
+//            
+//            // ... or get them!
+//            kwh = wrapper.getProperty(myThng, kwh.getKey()); 
+//            System.out.println(kwh.getKey() + ":" + kwh.getValue());
+//            
+//            // Add the thng to a collection
+//            ThngCollection homeCollection = wrapper.createCollection(new ThngCollection("Home" + Calendar.getInstance().getTimeInMillis(), "The things in my home."));
+//            wrapper.addThngsToCollection(homeCollection, myThng);
+//            
+//            // Search for our thngs
+//            Collection<Thng> results = wrapper.search("tv", new GeoCode(10, 49, 5), Type.MINE);
+//            System.out.println(results.toArray()[1].toString());
 
+        } catch (InstantiationException ex) {
+            Logger.getLogger(WrapperTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(WrapperTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (URISyntaxException ex) {
             Logger.getLogger(WrapperTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClientProtocolException ex) {
             Logger.getLogger(WrapperTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(WrapperTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(WrapperTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(WrapperTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
 
 
     }
