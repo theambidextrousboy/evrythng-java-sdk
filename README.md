@@ -5,7 +5,7 @@ You need an API token for authentication which you can get on <http://evrythng.n
 
 ## Working with the wrapper
 
-The easiest way is to get the latest `.jar` from the `Downloads` section and adding it to your Java project.
+The easiest way is to get the latest `.jar` from the [Downloads](downloads) section and adding it to your Java project.
 Then, you can directly get started with something like:
 
     // Intialize the wrapper (and provinding the API key)
