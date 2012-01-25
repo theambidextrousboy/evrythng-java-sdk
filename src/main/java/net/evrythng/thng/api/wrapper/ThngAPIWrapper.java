@@ -655,12 +655,7 @@ public class ThngAPIWrapper {
         HttpResponse response = this.post(Configuration.PATH_COLLECTIONS, collection.toJSONObject());
 
         // Wrap response into a ThngCollection:
-        // return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), ThngCollection.class); // TODO Uncomment this!
-
-        // FIXME: change API to return a simple JSON Object instead of Array and remove this!
-        JSONArray array = HttpComponentsUtils.toJSONArray(response);
-        ThngCollection collec =  this.getCollection(array.getString(0));
-        return collec;
+        return JSONUtils.toBean(HttpComponentsUtils.toJSONObject(response), ThngCollection.class);
     }
 
     /**
