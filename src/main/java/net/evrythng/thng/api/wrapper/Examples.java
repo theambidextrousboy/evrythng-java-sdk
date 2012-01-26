@@ -24,8 +24,7 @@ import org.apache.http.client.ClientProtocolException;
  */
 public class Examples {
 
-    // OLD KEY: private static String TOKEN = "305ff6dbc030ca8a323c112ca22d816a9831fe0c";
-    private static String TOKEN = "641bcd86e1a0ac1e0da5e625cedb33af12d94002edf84968e9a0d6f01d20e4e7";
+    private static String TOKEN = "";
 
     /**
      * @param args the command line arguments

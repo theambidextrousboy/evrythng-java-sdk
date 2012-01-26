@@ -49,7 +49,9 @@ public class SearchTest extends TestBase {
 
 		// Create the Thng:
 		Thng expected = wrapper.createThng(data);
-
+                // Let some time for indexing ;-)
+                Thread.sleep(1000);
+                
 		// Execute search using thng name:
 		Collection<Thng> results = wrapper.search(expected.getName());
 		assertNotNull(results);
@@ -76,6 +78,8 @@ public class SearchTest extends TestBase {
 
 		// Create the Thng:
 		Thng expected = wrapper.createThng(data);
+                // Let some time for indexing ;-)
+                Thread.sleep(1000);
 
 		// Execute search:
 		GeoCode geoCode = new GeoCode(expected.getLatitude(), expected.getLongitude(), 0.9999d, MeasureUnit.KM);
@@ -100,6 +104,8 @@ public class SearchTest extends TestBase {
 
 		// Create the Thng:
 		Thng expected = wrapper.createThng(data);
+                // Let some time for indexing ;-)
+                Thread.sleep(1000);
 
 		// Execute search:
 		Collection<Thng> results = wrapper.search(SearchParameter.TYPE, Type.ALL.toString());
@@ -122,6 +128,8 @@ public class SearchTest extends TestBase {
 
 		// Create the Thng:
 		Thng expected = wrapper.createThng(data);
+                // Let some time for indexing ;-)
+                Thread.sleep(1000);
 
 		// Execute search:
 		GeoCode geoCode = new GeoCode(expected.getLatitude(), expected.getLongitude(), 0.9999d, MeasureUnit.KM);

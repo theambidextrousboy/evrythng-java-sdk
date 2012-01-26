@@ -55,7 +55,7 @@ public abstract class TestBase {
 		// Check state:
 		if (StringUtils.isBlank(TOKEN)) {
 			throw new IllegalStateException(
-					"An authetication token should be provided! Please set the 'evrythng.api.token' property in the 'test-config.properties' file or use VM arguments (i.e. -Devrythng.api.token=<your token>).");
+					"An authentication token should be provided! Please set the 'evrythng.api.token' property in the 'test-config.properties' file or use VM arguments (i.e. -Devrythng.api.token=<your token>).");
 		}
 
 		// Load API wrapper:
