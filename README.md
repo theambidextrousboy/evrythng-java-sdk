@@ -33,7 +33,8 @@ See [the example file](blob/master/src/main/java/net/evrythng/thng/api/wrapper/E
 You should now find a `.jar` file in the `target/` directory.
 
 To build the `.jar` with all dependencies run:
-		mvn assembly:single
+
+    mvn assembly:single
 
 ### Using the wrapper in your project
 
