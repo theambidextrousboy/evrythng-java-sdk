@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 import net.evrythng.thng.api.model.Thng;
 import net.evrythng.thng.api.model.Property;
 import net.evrythng.thng.api.model.ThngCollection;
-import net.evrythng.thng.api.search.GeoCode;
-import net.evrythng.thng.api.search.SearchParameter.Type;
 import net.evrythng.thng.api.wrapper.ThngAPIWrapper;
 import org.apache.http.client.ClientProtocolException;
 
