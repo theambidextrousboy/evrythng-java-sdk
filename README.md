@@ -17,7 +17,7 @@ Then, you can directly get started with something like:
     
     [...]
 
-See [the example file](blob/master/src/main/java/net/evrythng/thng/api/examples/Examples.java) for a complete overview.
+See [the example file](src/main/java/net/evrythng/thng/api/examples/Examples.java) for a complete overview.
 
 ## Extending the wrapper
 
