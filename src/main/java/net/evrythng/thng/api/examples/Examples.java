@@ -3,7 +3,7 @@
  * www.evrythng.net
  * 
  */
-package net.evrythng.thng.api.wrapper;
+package net.evrythng.thng.api.examples;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -16,6 +16,7 @@ import net.evrythng.thng.api.model.Property;
 import net.evrythng.thng.api.model.ThngCollection;
 import net.evrythng.thng.api.search.GeoCode;
 import net.evrythng.thng.api.search.SearchParameter.Type;
+import net.evrythng.thng.api.wrapper.ThngAPIWrapper;
 import org.apache.http.client.ClientProtocolException;
 
 /**
