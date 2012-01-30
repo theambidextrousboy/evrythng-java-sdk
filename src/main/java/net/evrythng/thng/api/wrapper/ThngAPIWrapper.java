@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2012 Evrythng Ltd London / Zurich
+ * (c) Copyright 2012 EVRYTHNG Ltd London / Zurich
  * www.evrythng.net
  * 
  */
@@ -49,7 +49,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Wrapper for the REST API of Evrythng.net.
+ * Wrapper for the REST API of EVRYTHNG.net.
  * 
  * @author <a href="mailto:pedro@evrythng.net">Pedro De Almeida</a>
  */
@@ -89,11 +89,11 @@ public class ThngAPIWrapper {
     private void addHeaders(HttpRequestBase httpRequest) {
         httpRequest.setHeader("Content-Type", Configuration.HTTP_CONTENT_TYPE);
         httpRequest.setHeader("Accept", Configuration.HTTP_ACCEPT);
-        httpRequest.setHeader("X-Evrythng-Token", this.token);
+        httpRequest.setHeader("X-EVRYTHNG-Token", this.token);
     }
 
     /**
-     * Creates an URI for accessing a specific <code>path</code> from Evrythng's
+     * Creates an URI for accessing a specific <code>path</code> from EVRYTHNG's
      * API.
      * 
      * @see #createURI(String, List)
@@ -108,7 +108,7 @@ public class ThngAPIWrapper {
 
     /**
      * Creates an URI using the provided query <code>parameters</code> for
-     * accessing a specific <code>path</code> from Evrythng's API.
+     * accessing a specific <code>path</code> from EVRYTHNG's API.
      * 
      * @param path
      * @param queryParams
@@ -123,7 +123,7 @@ public class ThngAPIWrapper {
     /**
      * Executes the given {@link HttpRequestBase} request. This method also adds
      * the required headers for accessing the <a
-     * href="http://evrythng.net">Evrythng.net</a> API.
+     * href="http://evrythng.net">EVRYTHNG.net</a> API.
      * 
      * @see #addHeaders(HttpRequestBase)
      * @param request
@@ -283,7 +283,7 @@ public class ThngAPIWrapper {
 
     /* *** GLOBAL *** */
     /**
-     * Checks connectivity to the Evrythng.net API.
+     * Checks connectivity to the EVRYTHNG.net API.
      * 
      * @return <code>true</code> if connection succeeds (i.e. returns HTTP code
      *         200), <code>false</code> otherwise

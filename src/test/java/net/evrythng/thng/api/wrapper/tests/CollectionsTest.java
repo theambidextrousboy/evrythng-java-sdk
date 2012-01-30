@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2012 Evrythng Ltd London / Zurich
+ * (c) Copyright 2012 EVRYTHNG Ltd London / Zurich
  * www.evrythng.net
  * 
  */
