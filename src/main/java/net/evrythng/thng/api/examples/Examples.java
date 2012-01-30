@@ -22,9 +22,11 @@ import org.apache.http.client.ClientProtocolException;
  * @author <href="http://www.guinard.org>domguinard</a>
  */
 public class Examples {
+     private static String TOKEN = "";
 
-    private static String TOKEN = "";
-
+     private Examples() {
+     }
+     
     /**
      * @param args the command line arguments
      */
