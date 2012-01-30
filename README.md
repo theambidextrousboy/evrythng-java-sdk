@@ -1,6 +1,6 @@
-# Evrythng API Java Wrapper
+# EVRYTHNG API Java Wrapper
 
-This is a Java wrapper for the [Evrythng API](http://dev.evrythng.net) v2.x. It lets you use all the features provided by our API with pure Java constructs. 
+This is a Java wrapper for the [EVRYTHNG API](http://dev.evrythng.net) v2.x. It lets you use all the features provided by our API with pure Java constructs. 
 You need an API token for authentication which you can get on <http://evrythng.net/settings/tokens>.
 
 ## Working with the wrapper
@@ -17,7 +17,7 @@ Then, you can directly get started with something like:
     
     [...]
 
-See [the example file](blob/master/src/main/java/net/evrythng/thng/api/wrapper/Examples.java) for a complete overview.
+See [the example file](src/main/java/net/evrythng/thng/api/examples/Examples.java) for a complete overview.
 
 ## Extending the wrapper
 
@@ -51,7 +51,7 @@ Simply import the project as a new Maven project (requires `m2eclipse` plugin, s
 
 # License
 
- Copyright 2012 Evrythng Ltd London / Zurich
+ Copyright 2012 EVRYTHNG Ltd London / Zurich
 
    The Evrythng API wrapper is licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
