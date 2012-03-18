@@ -10,7 +10,7 @@ More the Ruby kind of developer? Well look [here!](https://github.com/evrythng/e
 The easiest way is to get the latest `.jar` from the [Downloads](evrythng-java-wrapper/downloads) section and adding it to your Java project.
 Then, you can directly get started with something like:
 
-    // Intialize the wrapper (and provinding the API key)
+    // Intialize the wrapper (and providing the API key)
     ThngAPIWrapper wrapper = new ThngAPIWrapper(YOUR_EVRYTHNG_TOKEN_HERE);
             
 
