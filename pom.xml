@@ -21,6 +21,12 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.test.skip>true</maven.test.skip>
+        
+        <!-- Wrapper properties  -->
+        <evrythng.api.configuration.server.scheme>https</evrythng.api.configuration.server.scheme>
+        <evrythng.api.configuration.server.host>qa.evrythng.net</evrythng.api.configuration.server.host>
+        <evrythng.api.configuration.server.port>-1</evrythng.api.configuration.server.port>
+        
     </properties>
     <dependencies>
         <dependency>
@@ -83,14 +89,26 @@
         </profile>
     </profiles>
     <build>
+    	<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
             <plugin>
