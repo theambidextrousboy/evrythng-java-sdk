@@ -23,7 +23,7 @@
         <maven.test.skip>true</maven.test.skip>
         
         <!-- Wrapper properties  -->
-        <evrythng.api.configuration.server.scheme>http</evrythng.api.configuration.server.scheme>
+        <evrythng.api.configuration.server.scheme>https</evrythng.api.configuration.server.scheme>
         <evrythng.api.configuration.server.host>evrythng.net</evrythng.api.configuration.server.host>
         <evrythng.api.configuration.server.port>-1</evrythng.api.configuration.server.port>
         
