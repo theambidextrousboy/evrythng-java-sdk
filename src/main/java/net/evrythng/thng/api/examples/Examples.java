@@ -22,7 +22,9 @@ import org.apache.http.client.ClientProtocolException;
  * @author <href="http://www.guinard.org>domguinard</a>
  */
 public class Examples {
-     private static String TOKEN = "";
+     private static String TOKEN = "YOUR-KEY-HERE!";
+     
+
 
      private Examples() {
      }
@@ -72,7 +74,7 @@ public class Examples {
             
             // Search for our thngs
             Collection<Thng> results = wrapper.search("tv");
-            System.out.println(results.toArray()[1].toString());
+            System.out.println(results.toArray()[0].toString());
 
         } catch (InstantiationException ex) {
             Logger.getLogger(Examples.class.getName()).log(Level.SEVERE, null, ex);
