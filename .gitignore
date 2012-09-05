@@ -1,4 +1,9 @@
+/target
+/servers
+/.classpath
 /.project
 /.settings
-/.classpath
-/target
+/.idea
+nb-configuration.xml
+nbactions.xml
+.DS_Store
