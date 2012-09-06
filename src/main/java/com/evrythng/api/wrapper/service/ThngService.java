@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author tpham
  */
-public interface IThngService {
+public interface ThngService {
     
 // /thngs
 public int getAllThngsSize(); // +

@@ -1,8 +1,9 @@
-package com.evrythng.api.wrapper.test;
-import com.evrythng.api.wrapper.service.ICollectionService;
+package com.evrythng.api.wrapper.test.service;
 import com.evrythng.thng.resource.model.store.Collection;
 import com.evrythng.thng.resource.model.store.Thng;
 import java.util.List;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -10,30 +11,31 @@ import org.junit.Test;
  *
  * @author tpham
  */
-public class CollectionServiceTests implements ICollectionService{
+@Ignore
+public class CollectionServiceTest {
 
     @Test
-    public int getCollectionsSize() {
+    public void getCollectionsSize() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Test
-    public List<Collection> getAllColletions() {
+    public void getAllColletions() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Test
-    public List<Collection> getAllCollections(int page) {
+    public void getAllCollections(int page) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Test
-    public List<Collection> getAllCollections(int page, int size) {
+    public void getAllCollections(int page, int size) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Test
-    public Collection createCollection(Collection collection) {
+    public void createCollection(Collection collection) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -43,12 +45,12 @@ public class CollectionServiceTests implements ICollectionService{
     }
 
     @Test
-    public Collection getCollectionById(String collectionId) {
+    public void getCollectionById(String collectionId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Test
-    public Collection updateCollectionById(String collectionId, Collection collection) {
+    public void updateCollectionById(String collectionId, Collection collection) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -58,12 +60,12 @@ public class CollectionServiceTests implements ICollectionService{
     }
 
     @Test
-    public List<Thng> getThngsOfCollectionId(String collectionId) {
+    public void getThngsOfCollectionId(String collectionId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Test
-    public Collection updateThngsOfCollectionId(String collectionId, List<String> thngIds) {
+    public void updateThngsOfCollectionId(String collectionId, List<String> thngIds) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

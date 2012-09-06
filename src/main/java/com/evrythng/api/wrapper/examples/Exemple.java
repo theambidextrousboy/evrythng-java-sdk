@@ -7,9 +7,9 @@ package com.evrythng.api.wrapper.examples;
 
 import com.evrythng.api.wrapper.ApiManager;
 import com.evrythng.api.wrapper.Configuration;
-import com.evrythng.api.wrapper.service.ICollectionService;
-import com.evrythng.api.wrapper.service.IProductService;
-import com.evrythng.api.wrapper.service.IThngService;
+import com.evrythng.api.wrapper.service.CollectionService;
+import com.evrythng.api.wrapper.service.ProductService;
+import com.evrythng.api.wrapper.service.ThngService;
 import com.evrythng.thng.resource.model.store.Collection;
 import com.evrythng.thng.resource.model.store.PropertyValue;
 import com.evrythng.thng.resource.model.store.Thng;
@@ -35,15 +35,16 @@ public class Exemple {
      */
     public static void main(String[] args) {
         
+    	// Configuration settings
+    	Configuration config = new Configuration();
+    	config.setApiKey("");
+
         // Instantiate the API Manager 
-        ApiManager apiManager = new ApiManager(new Configuration());
-        apiManager.setConnectionTimeout(30);
-        apiManager.setReadTimeout(20);
-        apiManager.setApiKey(API_KEY);
+        ApiManager apiManager = new ApiManager(config);
         
-        IThngService thngService = apiManager.thngService();
-        ICollectionService collectionService = apiManager.collectionService();
-        IProductService productService = apiManager.productService();
+        ThngService thngService = apiManager.thngService();
+        CollectionService collectionService = apiManager.collectionService();
+        ProductService productService = apiManager.productService();
         
         // Create a new Thng
         Thng aThng = new Thng();

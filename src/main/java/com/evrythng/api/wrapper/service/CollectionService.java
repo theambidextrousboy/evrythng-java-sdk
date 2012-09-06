@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author tpham
  */
-public interface ICollectionService {
+public interface CollectionService {
 
     // /collections
     public int getCollectionsSize(); // +

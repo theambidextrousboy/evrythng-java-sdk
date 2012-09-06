@@ -1,27 +1,22 @@
 package com.evrythng.api.wrapper.service;
 
+
 import com.evrythng.api.wrapper.Configuration;
-import com.evrythng.api.wrapper.util.LoggerConfigurator;
-import com.evrythng.thng.resource.model.core.ResourceModel;
+import com.evrythng.api.wrapper.util.JSONUtils;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.Version;
+
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.net.URISyntaxException;
+import java.util.Map;
+
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -30,26 +25,24 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * API service which facilitates provides helper
  * methods for performing remote method calls as well as deserializing the
  * corresponding JSON responses.
  *
- * @author
+ * @author tpham
  */
-public abstract class EvrythngApiService<T extends ResourceModel> {
+public abstract class EvrythngApiService {
 
     private Configuration config; 
-    private final Logger log = Logger.getLogger(LoggerConfigurator.class);
+    private static final Logger logger = LoggerFactory.getLogger(EvrythngApiService.class);
     
-    /**
-     * ObjectMapper singleton.
-     */
-    private static ObjectMapper MAPPER = null;
 
     public EvrythngApiService(Configuration config) {
         this.config = config;
@@ -64,26 +57,36 @@ public abstract class EvrythngApiService<T extends ResourceModel> {
      * @param cl     Class of the POSTed resource
      *
      * @return The response mapper to the given type
+     * @throws URISyntaxException 
      */
-    protected <T> T post(String path, T object, Class<T> cl) {
+    protected <T> T post(String path, Map<String,String> queryparams, T object, TypeReference<T> typeToken) throws URISyntaxException {
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost request = new HttpPost(Configuration.BASE_DOMAIN_URL + path);
-        request.addHeader("Content-Type", Configuration.CONTENT_TYPE);
+        
+        URIBuilder uriBuilder = new URIBuilder(Configuration.BASE_DOMAIN_URL + path);
+        for (String key : queryparams.keySet()){
+        	uriBuilder.addParameter(key, queryparams.get(key));
+        }
+        
+        HttpPost request = new HttpPost(uriBuilder.toString());
         request.addHeader("Accept", Configuration.ACCEPT_TYPE);
-        addKey(request);
+        request.addHeader("Content-Type", Configuration.CONTENT_TYPE);
+        addCredentials(request);
 
         try {
             logRequest(request.getMethod(), request.getURI());
-
-            request.setEntity(new StringEntity(MAPPER.writeValueAsString(object)));
+            request.setEntity(new StringEntity(JSONUtils.getObjectMapper().writeValueAsString(object)));
             HttpResponse response = httpclient.execute(request);
             HttpEntity entity = response.getEntity();
-            return MAPPER.readValue(entity.getContent(), cl);
-
+            return JSONUtils.getObjectMapper().readValue(entity.getContent(), typeToken);
         } catch (IllegalStateException e) {
-            log.error("Error while POSTting a resource", e);
+        	logger.error("Error while POSTting a resource", e);
         } catch (IOException e) {
-            log.error("Error while POSTting a resource", e);
+        	logger.error("Error while POSTting a resource", e);
+        } finally {
+            // When HttpClient instance is no longer needed,
+            // shut down the connection manager to ensure
+            // immediate deallocation of all system resources
+            httpclient.getConnectionManager().shutdown();
         }
         return null;
     }
@@ -99,29 +102,37 @@ public abstract class EvrythngApiService<T extends ResourceModel> {
      *
      * @return The response mapper to the given type
      */
-    protected <T> T put(String path, T object, Class<T> cl) {
+    protected <T> T put(String path, Map<String,String> queryparams, T object, TypeReference<T> typeToken) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPut request = new HttpPut(Configuration.BASE_DOMAIN_URL + path);
-        request.addHeader("Content-Type", Configuration.CONTENT_TYPE);
         request.addHeader("Accept", Configuration.ACCEPT_TYPE);
-        addKey(request);
+        request.addHeader("Content-Type", Configuration.CONTENT_TYPE);    
+        addCredentials(request);
 
         try {
             logRequest(request.getMethod(), request.getURI());
 
-            request.setEntity(new StringEntity(MAPPER.writeValueAsString(object)));
+            request.setEntity(new StringEntity(JSONUtils.getObjectMapper().writeValueAsString(object)));
             HttpResponse response = httpclient.execute(request);
             HttpEntity entity = response.getEntity();
-            return MAPPER.readValue(entity.getContent(), cl);
+            return JSONUtils.getObjectMapper().readValue(entity.getContent(), typeToken);
 
         } catch (IllegalStateException e) {
-            log.error("Error while PUTting a resource", e);
+        	logger.error("Error while PUTting a resource", e);
         } catch (IOException e) {
-            log.error("Error while PUTting a resource", e);
+        	logger.error("Error while PUTting a resource", e);
+        } finally {
+            // When HttpClient instance is no longer needed,
+            // shut down the connection manager to ensure
+            // immediate deallocation of all system resources
+            httpclient.getConnectionManager().shutdown();
         }
         return null;
     }
 
+    
+    
+    
     /**
      * This method calls GET on a resource, i.e., it retrieves a resource.
      *
@@ -132,23 +143,27 @@ public abstract class EvrythngApiService<T extends ResourceModel> {
      *
      * @return The response mapper to the given type
      */
-    protected <T> T get(String path, Class<T> cl) {
+    protected <T> T get(String path, Map<String,String> queryparams, TypeReference<T> typeToken) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpGet request = new HttpGet(Configuration.BASE_DOMAIN_URL + path);
         request.addHeader("Accept", Configuration.ACCEPT_TYPE);
-        addKey(request);
+        addCredentials(request);
 
         try {
             logRequest(request.getMethod(), request.getURI());
-
             HttpResponse response = httpclient.execute(request);
             HttpEntity entity = response.getEntity();
-            return MAPPER.readValue(entity.getContent(), cl);
+            return unmarshall(entity.getContent() , typeToken);
 
         } catch (IllegalStateException e) {
-            log.error("Error while GETting a resource", e);
+        	logger.error("Error while GETting a resource", e);
         } catch (IOException e) {
-            log.error("Error while GETting a resource", e);
+        	logger.error("Error while GETting a resource", e);
+        } finally {
+            // When HttpClient instance is no longer needed,
+            // shut down the connection manager to ensure
+            // immediate deallocation of all system resources
+            httpclient.getConnectionManager().shutdown();
         }
         return null;
     }
@@ -162,20 +177,49 @@ public abstract class EvrythngApiService<T extends ResourceModel> {
      *
      * @return The HttpResponse
      */
-    protected HttpResponse delete(String path) {
-        HttpClient httpclient = new DefaultHttpClient();
+    protected HttpResponse delete(String path, Map<String,String> queryparams) {
+        HttpClient httpclient = new DefaultHttpClient();        
         HttpDelete request = new HttpDelete(Configuration.BASE_DOMAIN_URL + path);
         request.addHeader("Accept", Configuration.ACCEPT_TYPE);
-        addKey(request);
+        addCredentials(request);
 
         try {
-            logRequest(request.getMethod(), request.getURI());
+            logRequest(request.getMethod(), request.getURI()); 
             return httpclient.execute(request);
 
         } catch (IllegalStateException e) {
-            log.error("Error while DELETting a resource", e);
+        	logger.error("Error while DELETting a resource", e);
         } catch (IOException e) {
-            log.error("Error while DELETting a resource", e);
+        	logger.error("Error while DELETting a resource", e);
+        } finally {
+            // When HttpClient instance is no longer needed,
+            // shut down the connection manager to ensure
+            // immediate deallocation of all system resources
+            httpclient.getConnectionManager().shutdown();
+        }
+        return null;
+    }
+    
+    protected Header getHeader(String path, Map<String,String> queryparams, String headerName) {
+    	HttpClient httpclient = new DefaultHttpClient();
+        HttpGet request = new HttpGet(Configuration.BASE_DOMAIN_URL + path);
+        request.addHeader("Accept", Configuration.ACCEPT_TYPE);
+        addCredentials(request);
+
+        try {
+            logRequest(request.getMethod(), request.getURI());
+
+            HttpResponse response = httpclient.execute(request);
+            return response.getFirstHeader(headerName);
+        } catch (IllegalStateException e) {
+        	logger.error("Error while GETting a resource", e);
+        } catch (IOException e) {
+        	logger.error("Error while GETting a resource", e);
+        } finally {
+            // When HttpClient instance is no longer needed,
+            // shut down the connection manager to ensure
+            // immediate deallocation of all system resources
+            httpclient.getConnectionManager().shutdown();
         }
         return null;
     }
@@ -188,9 +232,10 @@ public abstract class EvrythngApiService<T extends ResourceModel> {
      *
      * @return
      */
-    protected HttpRequest addKey(HttpRequest request) {
+    protected HttpRequest addCredentials(HttpRequest request) {
         if (config.getApiKey() != null) {
-            request.addHeader("X-Evrythng-Token", config.getApiKey());
+            request.addHeader("Authorization", config.getApiKey());
+            //setParams(request.getParams().setParameter("access_token", config.getApiKey()));
         }
         return request;
     }
@@ -205,14 +250,13 @@ public abstract class EvrythngApiService<T extends ResourceModel> {
             }
             in.close();
         } catch (IOException e) {
-            log.error("Error while printing response", e);
+        	logger.error("Error while printing response", e);
         }
     }
 
     private void logRequest(String method, URI url) {
-        log.debug("Calling" + method + " on: " + url.toASCIIString());
+    	logger.debug("Calling " + method + " on: " + url.toASCIIString());
     }
-
 
     /**
      * Use Jackson to deserialize a JSON object to a native class
@@ -220,7 +264,7 @@ public abstract class EvrythngApiService<T extends ResourceModel> {
      *
      * @param <T>       Native class type.
      * @param typeToken Native class type wrapper.
-     * @param response  Serialized JSON object.
+     * @param entity  Serialized JSON object.
      *
      * @return Deserialized native instance.
      *
@@ -229,8 +273,8 @@ public abstract class EvrythngApiService<T extends ResourceModel> {
      * @throws JsonParseException
      */
     @SuppressWarnings("unchecked")
-    protected <T> T unmarshall(InputStream response, TypeReference<T> typeToken) throws JsonParseException, JsonMappingException, IOException {
-        return (T) EvrythngApiService.getObjectMapper().readValue(response, typeToken);
+    protected <T> T unmarshall(InputStream entity, TypeReference<T> typeToken) throws JsonParseException, JsonMappingException, IOException {
+        return (T) JSONUtils.getObjectMapper().readValue(entity, typeToken);
     }
 
     /**
@@ -239,7 +283,7 @@ public abstract class EvrythngApiService<T extends ResourceModel> {
      *
      * @param <T>       Native class type.
      * @param typeToken Native class type wrapper.
-     * @param reponse   Serialized JSON string.
+     * @param entity   Serialized JSON string.
      *
      * @return Deserialized native instance.
      *
@@ -248,44 +292,11 @@ public abstract class EvrythngApiService<T extends ResourceModel> {
      * @throws JsonParseException
      */
     @SuppressWarnings("unchecked")
-    protected <T> T unmarshall(String response, Class<?> type) throws JsonParseException, JsonMappingException, IOException {
-        return (T) EvrythngApiService.getObjectMapper().readValue(response, type);
+    protected <T> T unmarshall(String entity, Class<?> type) throws JsonParseException, JsonMappingException, IOException {
+        return (T) JSONUtils.getObjectMapper().readValue(entity, type);
     }
 
-    /**
-     * Create am {@link ObjectMapper} and register all of the custom types
-     * needed
-     * in order to properly deserialize complex evrythng-specific types.
-     *
-     * @return Assembled Jackson mapper instance.
-     */
-    private static ObjectMapper getObjectMapper() {
-        if (MAPPER == null) {
-            MAPPER = createObjectMapper();
-        }
-        return MAPPER;
-    }
+    
 
-    private static ObjectMapper createObjectMapper() {
-
-        ObjectMapper mapper = new ObjectMapper();
-        SimpleModule evrythngModule = new SimpleModule("evrythng", new Version(3, 0, 0, "SNAPSHOT"));
-
-        final DateFormat dateFormat = new SimpleDateFormat("SSSSSS"); // milliseconds
-        evrythngModule.addDeserializer(Calendar.class, new JsonDeserializer<Calendar>() {
-            @Override
-            public Calendar deserialize(JsonParser arg0, DeserializationContext arg1) throws IOException, JsonProcessingException {
-                try {
-                    Calendar c = Calendar.getInstance();
-                    c.setTime(dateFormat.parse(arg0.getText()));
-                    return c;
-                } catch (ParseException e) {
-                    return null;
-                }
-            }
-        });
-
-        mapper.registerModule(evrythngModule);
-        return mapper;
-    }
+    
 }

@@ -5,27 +5,31 @@ import com.evrythng.thng.resource.model.store.Location;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.PropertyValue;
 import com.evrythng.thng.resource.model.store.Thng;
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.http.Header;
+import org.apache.http.params.HttpParams;
 
 /**
  *
  * @author tpham
  */
-public class ThngServiceImpl extends EvrythngApiService implements IThngService {
+public class ThngServiceImpl extends EvrythngApiService implements ThngService {
     
     public ThngServiceImpl(Configuration config){
         super(config);
     }
 
-    public int getAllThngsSize() { 
-        throw new UnsupportedOperationException("Not supported yet.");
+    public int getAllThngsSize() {
+    	Header xResultCountHeader  = this.getHeader("/thngs", null, "x-result-count");
+    	return Integer.valueOf(xResultCountHeader.getValue()).intValue();
     }
 
     public List<Thng> getAllThngs() {
-        
-        this.get("path", ArrayList.class);
-        throw new UnsupportedOperationException("Not supported yet.");
+         return this.get("/thngs", null, new TypeReference<List<Thng>>() { });       
     }
 
     public List<Thng> getAllThngs(int page) {

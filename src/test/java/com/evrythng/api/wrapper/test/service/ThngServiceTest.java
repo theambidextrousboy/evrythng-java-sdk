@@ -1,277 +1,299 @@
-package com.evrythng.api.wrapper.test;
+package com.evrythng.api.wrapper.test.service;
 
 import com.evrythng.api.wrapper.ApiManager;
 import com.evrythng.api.wrapper.Configuration;
-import com.evrythng.api.wrapper.service.IThngService;
+import com.evrythng.api.wrapper.service.ThngService;
+import com.evrythng.api.wrapper.util.JSONUtils;
+
 import com.evrythng.thng.resource.model.store.Location;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.PropertyValue;
 import com.evrythng.thng.resource.model.store.Thng;
 import java.util.List;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author tpham
  */
-public class ThngServiceTests implements IThngService {
+public class ThngServiceTest {
     
     private ApiManager apiManager;
+    private ThngService thngService;
+     
+    private static final Logger logger = LoggerFactory.getLogger(ThngServiceTest.class);
 
     @Before
     public void init() {
-        apiManager = new ApiManager(new Configuration());
-        apiManager.setConnectionTimeout(30);
-        apiManager.setReadTimeout(20);
-        apiManager.setApiKey("");
-        
+    	Configuration config = new Configuration();
+    	config.setApiKey("");
+        apiManager = new ApiManager(config);
+        thngService = apiManager.thngService();        
+    }
+
+    @Test
+    public void getAllThngsSize() {
+        int size =thngService.getAllThngsSize();
+        Assert.assertTrue(size == 31);
+    }
+    
+    @Test
+    public void getAllThngs() {
+    	List<Thng> things = thngService.getAllThngs();
+    	
+    	debug("List of thngs", things.get(0).getName());
     }
 
     @Ignore
     @Test
-    public int getAllThngsSize() {
+    public void getAllThngsWithPage() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<Thng> getAllThngs() {
+    public void getAllThngsWithPageAndSize() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<Thng> getAllThngs(int page) {
+    public void createThng() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<Thng> getAllThngs(int page, int size) {
+    public void getThngById() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public Thng createThng(Thng thng) {
+    public void updateThngById() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public Thng getThngById(String thngId) {
+    public void deleteThngById() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public Thng updateThngById(String thngId, Thng thng) {
+    public void getThngPropertiesSize() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public void deleteThngById(String thngId) {
+    public void getThngPropertyKeys() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public int getThngPropertiesSize(String thngId) {
+    public void getThngProperties() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<String> getThngPropertyKeys(String thngId) {
+    public void getThngPropertiesWithPage() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<Property> getThngProperties(String thngId) {
+    public void getThngPropertiesWithPageAndSize() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<Property> getThngProperties(String thngId, int page) {
+    public void pushThngProperty() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<Property> getThngProperties(String thngId, int page, int size) {
+    public void pushThngProperties() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public Property pushThngProperty(String thngId, Property prop) {
+    public void deleteThngProperties() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<Property> pushThngProperties(String thngId, List<Property> properties) {
+    public void getThngPropertyValuesSize() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public void deleteThngProperties(String thngId) {
+    public void getLatestThngPropertyValue() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public int getThngPropertyValuesSize(String thngId, String key) {
+    public void getThngPropertyValues() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public PropertyValue getLatestThngPropertyValue(String thngId, String key) {
+    public void getThngPropertyValuesWithPage() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<PropertyValue> getThngPropertyValues(String thngId, String key) {
+    public void getThngPropertyValuesWithPageAndSize() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<PropertyValue> getThngPropertyValues(String thngId, String key, int page) {
+    public void getThngPropertyValuesFrom() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<PropertyValue> getThngPropertyValues(String thngId, String key, int page, int size) {
+    public void getThngPropertyValuesBetween() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<PropertyValue> getThngPropertyValuesFrom(String thngId, String key, int page, int size, long from) {
+    public void getThngPropertyValuesTo() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<PropertyValue> getThngPropertyValuesBetween(String thngId, String key, int page, int size, long from, long to) {
+    public void pushThngPropertyValueByKey() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<PropertyValue> getThngPropertyValuesTo(String thngId, String key, int page, int size, long to) {
+    public void pushThngPropertyValueByKeyAt() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public PropertyValue pushThngPropertyValueByKey(String thngId, String key, String value) {
+    public void pushThngPropertyValuesByKey() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public PropertyValue pushThngPropertyValueByKeyAt(String thngId, String key, String value, long timestamp) {
+    public void deleteAllThngPropertyValuesByKey() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<PropertyValue> pushThngPropertyValuesByKey(String thngId, String key, List<String> values) {
+    public void deleteThngPropertyValuesByKeyTo() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public void deleteAllThngPropertyValuesByKey(String thngId, String key) {
+    public void getThngLocationSize() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public void deleteThngPropertyValuesByKeyTo(String thngId, String key, long to) {
+    public void getLatestThngLocation() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public int getThngLocationSize(String thngId) {
+    public void getThngLocations() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public Location getLatestThngLocation(String thngId) {
+    public void getThngLocationsWithPage() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<Location> getThngLocations(String thngId) {
+    public void getThngLocationsWithPageAndSize() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<Location> getThngLocations(String thngId, int page) {
+    public void getThngLocationsFrom() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<Location> getThngLocations(String thngId, int page, int size) {
+    public void getThngLocationsBetween() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<Location> getThngLocationsFrom(String thngId, int page, int size, long from) {
+    public void getThngLocationsTo() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<Location> getThngLocationsBetween(String thngId, int page, int size, long from, long to) {
+    public void pushThngLocation() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public List<Location> getThngLocationsTo(String thngId, int page, int size, long to) {
+    public void pushThngLocationAt() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public Location pushThngLocation(String thngId, long longitude, long latitude) {
+    public void deleteAllThngLocation() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Ignore
     @Test
-    public Location pushThngLocationAt(String thngId, long longitude, long latitude, long timestamp) {
+    public void deleteThngLocationTo() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-    @Ignore
-    @Test
-    public void deleteAllThngLocation(String thngId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Ignore
-    @Test
-    public void deleteThngLocationTo(String thngId, long to) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    
+    
+    /**
+	 * Outputs a debugging message to the current {@link #logger} using the
+	 * provided {@code label} and {@code object} (as a JSON readable
+	 * content).
+	 * 
+	 * @param label
+	 * @param object
+	 */
+	protected void debug(String label, Object object) {
+		logger.debug("{}: {}", label, JSONUtils.toString(object));
+	}
 }

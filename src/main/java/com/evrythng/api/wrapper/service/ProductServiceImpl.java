@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author tpham
  */
-public class ProductServiceImpl extends EvrythngApiService implements IProductService  {
+public class ProductServiceImpl extends EvrythngApiService implements ProductService  {
     
     public ProductServiceImpl(Configuration config){
         super(config);

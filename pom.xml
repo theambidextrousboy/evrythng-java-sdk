@@ -7,21 +7,20 @@
 	<artifactId>evrythng-java-wrapper</artifactId>
 	<version>0.0.3-SNAPSHOT</version>
 
-	<name>EVRYTHNG Java wrapper</name>
+	<name>EVRYTHNG Java Wrapper</name>
 
 	<properties>
 		<apache.httpclient.version>4.2.1</apache.httpclient.version>
 		<jackson.databind.version>2.0.5</jackson.databind.version>
 
 		<!-- Wrapper settings -->
-		<evrythng.api.key>YOUR_API_KEY</evrythng.api.key>
-		<evrythng.api.baseDomainUrl>http://localhost:8080/thng-store/v1</evrythng.api.baseDomainUrl>
+		<evrythng.api.access_token>8y3ib4Yx4eEr2gpN1EztFfs8pASq7f9cRsDoAAjZeDORcOKQUtVvEaABsyY64QZY0WICzKpdBBPLQWEu</evrythng.api.access_token>
+		<evrythng.api.baseDomainUrl>http://localhost:8005</evrythng.api.baseDomainUrl>
 
 
 		<!-- internal settings -->
 		<java.version>1.6</java.version>
 	</properties>
-
 
 	<dependencies>
 		<dependency>
@@ -44,12 +43,6 @@
 			</exclusions>
 		</dependency>
 
-		<!-- <dependency> -->
-		<!-- <groupId>com.jakewharton</groupId> -->
-		<!-- <artifactId>apibuilder</artifactId> -->
-		<!-- <version>1.1.1</version> -->
-		<!-- </dependency> -->
-
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -62,16 +55,21 @@
 			<version>${jackson.databind.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>de.mindpipe.android</groupId>
-			<artifactId>android-logging-log4j</artifactId>
-			<version>1.0.2</version>
+			<groupId>com.github.tony19</groupId>
+			<artifactId>logback-android-core</artifactId>
+			<version>1.0.7-1</version>
 		</dependency>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
-			<type>jar</type>
+			<groupId>com.github.tony19</groupId>
+			<artifactId>logback-android-classic</artifactId>
+			<version>1.0.7-1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>1.6.5</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

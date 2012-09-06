@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author tpham
  */
-public interface IProductService {
+public interface ProductService {
 
     
     // products

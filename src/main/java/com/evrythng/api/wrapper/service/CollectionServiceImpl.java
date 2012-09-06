@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author tpham
  */
-public class CollectionServiceImpl extends EvrythngApiService implements ICollectionService {
+public class CollectionServiceImpl extends EvrythngApiService implements CollectionService {
     
     public CollectionServiceImpl(Configuration config){
         super(config);

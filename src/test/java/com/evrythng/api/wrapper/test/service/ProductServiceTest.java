@@ -1,7 +1,8 @@
-package com.evrythng.api.wrapper.test;
-import com.evrythng.api.wrapper.service.IProductService;
+package com.evrythng.api.wrapper.test.service;
 import com.evrythng.thng.resource.model.store.Product;
 import java.util.List;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -9,40 +10,41 @@ import org.junit.Test;
  *
  * @author tpham
  */
-public class ProductServiceTests implements IProductService{
+@Ignore
+public class ProductServiceTest {
 
     @Test
-    public List<Product> getAllProductsSize() {
+    public void getAllProductsSize() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Test
-    public List<Product> getAllProducts() {
+    public void getAllProducts() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Test
-    public List<Product> getAllProducts(int page) {
+    public void getAllProducts(int page) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Test
-    public List<Product> getAllProducts(int page, int size) {
+    public void getAllProducts(int page, int size) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Test
-    public Product createProduct(Product product) {
+    public void createProduct(Product product) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Test
-    public Product getProductById(String productId) {
+    public void getProductById(String productId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Test
-    public Product updateProductById(String productId, Product product) {
+    public void updateProductById(String productId, Product product) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
