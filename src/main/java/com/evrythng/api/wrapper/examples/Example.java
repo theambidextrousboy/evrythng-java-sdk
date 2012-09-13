@@ -23,11 +23,11 @@ import java.util.List;
  * @author Dominique Guinard (domguinard)
  *
  */
-public class Exemple {
+public class Example {
     //private static String EVRYTHNG_ROOT_URL = "URL_HERE";
 
 
-    private static final String API_KEY = "API_KEY";
+    private static final String ACCESS_TOKEN = "XXX";
     
 
     /**
@@ -35,12 +35,8 @@ public class Exemple {
      */
     public static void main(String[] args) {
         
-    	// Configuration settings
-    	Configuration config = new Configuration();
-    	config.setApiKey("");
-
         // Instantiate the API Manager 
-        ApiManager apiManager = new ApiManager(config);
+        ApiManager apiManager = new ApiManager(ACCESS_TOKEN);
         
         ThngService thngService = apiManager.thngService();
         CollectionService collectionService = apiManager.collectionService();
@@ -70,8 +66,8 @@ public class Exemple {
         // Add thng to collection
         List<String> thngIds = new ArrayList<String>();
         thngIds.add("4fdf251c0b1cdc017400009d");
-        Collection updatedCollection = collectionService.updateThngsOfCollectionId("4fdf2efe0b1cdc01700001e7", thngIds);
-        System.out.println(updatedCollection.getThngs());
+        List<String> updatedThngIdsOfCollection = collectionService.updateThngIdsOfCollectionId("4fdf2efe0b1cdc01700001e7", thngIds);
+        System.out.println(updatedThngIdsOfCollection.toArray());
 
         // Update time of a property value
         productName = thngService.pushThngPropertyValueByKeyAt(aThng.getId(), "KEY" ,"VALUE" , Calendar.getInstance().getTimeInMillis());

@@ -10,13 +10,13 @@
 	<name>EVRYTHNG Java Wrapper</name>
 
 	<properties>
-		<apache.httpclient.version>4.2.1</apache.httpclient.version>
+		<apache.httpclient.version>4.0.1</apache.httpclient.version>
 		<jackson.databind.version>2.0.5</jackson.databind.version>
 
 		<!-- Wrapper settings -->
-		<evrythng.api.access_token>8y3ib4Yx4eEr2gpN1EztFfs8pASq7f9cRsDoAAjZeDORcOKQUtVvEaABsyY64QZY0WICzKpdBBPLQWEu</evrythng.api.access_token>
-		<evrythng.api.baseDomainUrl>http://localhost:8005</evrythng.api.baseDomainUrl>
-
+		<evrythng.api.access_token></evrythng.api.access_token>
+		<evrythng.api.baseDomainUrl>http://api.evrythng.com</evrythng.api.baseDomainUrl>
+		<evrythng.engine.thng-store.contextPath></evrythng.engine.thng-store.contextPath>
 
 		<!-- internal settings -->
 		<java.version>1.6</java.version>
@@ -48,6 +48,11 @@
 			<artifactId>httpclient</artifactId>
 			<version>${apache.httpclient.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.android</groupId>
+			<artifactId>spring-android-core</artifactId>
+			<version>1.0.0.RELEASE</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -55,14 +60,14 @@
 			<version>${jackson.databind.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.tony19</groupId>
-			<artifactId>logback-android-core</artifactId>
-			<version>1.0.7-1</version>
+		<groupId>com.github.tony19</groupId>
+		<artifactId>logback-android-core</artifactId>
+		<version>1.0.7-1</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.tony19</groupId>
-			<artifactId>logback-android-classic</artifactId>
-			<version>1.0.7-1</version>
+		<groupId>com.github.tony19</groupId>
+		<artifactId>logback-android-classic</artifactId>
+		<version>1.0.7-1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -99,7 +104,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>fully.qualified.MainClass</mainClass>
+							<mainClass>com.evrythng.api.wrapper.exemples.Example</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -160,6 +165,16 @@
 				<version>0.4.1</version>
 			</extension>
 		</extensions>
+
 	</build>
+
+	<repositories>
+		<repository>
+			<id>springsource-repo</id>
+			<name>SpringSource Repository</name>
+			<url>http://repo.springsource.org/release</url>
+		</repository>
+	</repositories>
+
 
 </project>

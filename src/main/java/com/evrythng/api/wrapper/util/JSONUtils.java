@@ -97,7 +97,7 @@ public final class JSONUtils {
 	}
 	
 	/**
-     * Create am {@link ObjectMapper} and register all of the custom types
+     * Create an {@link ObjectMapper} and register all of the custom types
      * needed
      * in order to properly deserialize complex evrythng-specific types.
      *

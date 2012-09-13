@@ -32,7 +32,9 @@ public class ThngServiceTest {
     @Before
     public void init() {
     	Configuration config = new Configuration();
-    	config.setApiKey("");
+    	config.setAccessToken("MaEDwlYA2Xxp2oSzt9uxbenTTyiYdZgnnVQlGnmnDCiLgfUO2pKzpbhzAeotwpc0KV9J8M2QssIdxOOt");
+    	config.setBaseDomainUrl("http://api.staging.evrythng.net");
+    	
         apiManager = new ApiManager(config);
         thngService = apiManager.thngService();        
     }
@@ -40,14 +42,14 @@ public class ThngServiceTest {
     @Test
     public void getAllThngsSize() {
         int size =thngService.getAllThngsSize();
-        Assert.assertTrue(size == 31);
+        Assert.assertTrue(size == 355);
     }
     
     @Test
     public void getAllThngs() {
     	List<Thng> things = thngService.getAllThngs();
     	
-    	debug("List of thngs", things.get(0).getName());
+    	debug("List of thngs", things.get(0).getProperties().size());
     }
 
     @Ignore
