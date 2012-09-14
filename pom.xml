@@ -1,95 +1,84 @@
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>net.evrythng</groupId>
-    <artifactId>evrythng-java-wrapper</artifactId>
-    <version>2.0.0</version>
-    <name>evrythng-java-wrapper</name>
-    <description>Java wrapper for the Evrythng API.</description>
-    <inceptionYear>2011</inceptionYear>
-    <organization>
-        <name>Evrythng</name>
-        <url>http://evrythng.net</url>
-    </organization>
-    <url>https://github.com/evrythng/evrythng-java-wrapper</url>
-    <scm>
-        <url>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</url>
-        <connection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</connection>
-        <developerConnection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</developerConnection>
-    </scm>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.test.skip>true</maven.test.skip>
-        
-        <!-- Wrapper properties  -->
-        <evrythng.api.configuration.server.scheme>https</evrythng.api.configuration.server.scheme>
-        <evrythng.api.configuration.server.host>evrythng.net</evrythng.api.configuration.server.host>
-        <evrythng.api.configuration.server.port>-1</evrythng.api.configuration.server.port>
-        
-    </properties>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.10</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.json-lib</groupId>
-            <artifactId>json-lib</artifactId>
-            <version>2.3</version>
-            <classifier>jdk15</classifier>
-        </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-    </dependencies>
-    <profiles>
-        <profile>
-            <id>evrythng-show-properties</id>
-            <activation>
-                <property>
-                    <name>showProperties</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.geronimo.genesis.plugins</groupId>
-                        <artifactId>tools-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>evrythng-show-properties-validate</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>show-properties</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-    <build>
-    	<resources>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.evrythng</groupId>
+	<artifactId>evrythng-java-wrapper</artifactId>
+	<version>0.0.3-SNAPSHOT</version>
+
+	<name>EVRYTHNG Java Wrapper</name>
+
+	<properties>
+		<apache.httpclient.version>4.0.1</apache.httpclient.version>
+		<jackson.databind.version>2.0.5</jackson.databind.version>
+		<!-- internal settings -->
+		<java.version>1.6</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.evrythng</groupId>
+			<artifactId>thng-resource-model</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jackson-core-asl</artifactId>
+					<groupId>org.codehaus.jackson</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-mapper-asl</artifactId>
+					<groupId>org.codehaus.jackson</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jboss-logging</artifactId>
+					<groupId>org.jboss.logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${apache.httpclient.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.android</groupId>
+			<artifactId>spring-android-core</artifactId>
+			<version>1.0.0.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.databind.version}</version>
+		</dependency>
+		<dependency>
+		<groupId>com.github.tony19</groupId>
+		<artifactId>logback-android-core</artifactId>
+		<version>1.0.7-1</version>
+		</dependency>
+		<dependency>
+		<groupId>com.github.tony19</groupId>
+		<artifactId>logback-android-classic</artifactId>
+		<version>1.0.7-1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>1.6.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+			<type>jar</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
@@ -101,39 +90,84 @@
 				<filtering>true</filtering>
 			</testResource>
 		</testResources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.11</version>
-                <configuration>
-                    <systemPropertyVariables>
-                        <evrythng.api.token>${evrythng.api.token}</evrythng.api.token>
-                    </systemPropertyVariables>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>fully.qualified.MainClass</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.evrythng.api.wrapper.exemples.Example</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<!-- compile for Java 1.6 -->
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>UTF-8</encoding>
+					<debug>true</debug>
+					<debuglevel>lines,vars,source</debuglevel>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.8.1</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.doxia</groupId>
+						<artifactId>doxia-module-markdown</artifactId>
+						<version>1.3</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>attach-descriptor</id>
+						<goals>
+							<goal>attach-descriptor</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+		<extensions>
+			<extension>
+				<groupId>com.github.stephenc.wagon</groupId>
+				<artifactId>wagon-gitsite</artifactId>
+				<version>0.4.1</version>
+			</extension>
+		</extensions>
+
+	</build>
+
+	<repositories>
+		<repository>
+			<id>springsource-repo</id>
+			<name>SpringSource Repository</name>
+			<url>http://repo.springsource.org/release</url>
+		</repository>
+	</repositories>
+
+
 </project>

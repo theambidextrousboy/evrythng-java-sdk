@@ -1,9 +1,9 @@
 # EVRYTHNG API Java Wrapper
 
-This is a Java wrapper for the [EVRYTHNG API](http://dev.evrythng.net) v2.x. It lets you use all the features provided by our API with pure Java constructs. 
-You need an API token for authentication which you can get on <http://evrythng.net/settings/tokens>.
+This is a Java wrapper for the [EVRYTHNG API](http://api.evrythng.com) v3.x (codename Jenna). It lets you use all the features provided by our API with pure Java constructs. 
+You need an API token for authentication which you can get on <http://dev.evrythng.com/...>.
 
-More the Ruby kind of developer? Well look [here!](https://github.com/evrythng/evrythng-ruby-wrapper)
+
 
 ## Working with the wrapper
 
@@ -11,15 +11,16 @@ The easiest way is to get the latest `.jar` from the [Downloads](evrythng-java-w
 Then, you can directly get started with something like:
 
     // Intialize the wrapper (and providing the API key)
-    ThngAPIWrapper wrapper = new ThngAPIWrapper(YOUR_EVRYTHNG_TOKEN_HERE);
+    
             
 
     // Create a Thng
-    Thng myThng = wrapper.createThng(new Thng("My-TV", "This is my TV.", true, 10.88, 50.56));
+    
     
     [...]
 
-See [the example file](src/main/java/net/evrythng/thng/api/examples/Examples.java) for a complete overview.
+See [the example file](src/main/java/com/evrythng/wrapper/examples/Example.java) for a complete overview.
+
 
 ## Extending the wrapper
 
