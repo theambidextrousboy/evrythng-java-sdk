@@ -20,7 +20,7 @@ public class ThngService extends AbstractApiService {
 
 	public ThngService(Configuration config) {
 		super(config);
-		if (config.getThngServiceContextPath() != null && !config.getThngServiceContextPath().isEmpty()) {
+		if (config.isWrapperBehindAccessController()) {
 			this.contextPath = config.getThngServiceContextPath();
 		}
 	}
@@ -33,8 +33,7 @@ public class ThngService extends AbstractApiService {
 
 	public List<Thng> getAllThngs() {
 		URI uri = this.buildUri("/thngs");
-		return this.restTemplate.get(uri, new TypeReference<List<Thng>>() {
-		});
+		return this.restTemplate.get(uri, new TypeReference<List<Thng>>() {});
 	}
 
 	public List<Thng> getAllThngs(int page) {

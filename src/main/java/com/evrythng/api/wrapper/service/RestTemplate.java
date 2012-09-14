@@ -7,6 +7,7 @@ package com.evrythng.api.wrapper.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -24,7 +25,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.evrythng.api.wrapper.Configuration;
+import com.evrythng.api.wrapper.exception.EvrythngException;
+import com.evrythng.api.wrapper.exception.InternalErrorException;
+import com.evrythng.api.wrapper.exception.NotFoundException;
 import com.evrythng.api.wrapper.util.JSONUtils;
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -44,7 +49,6 @@ public class RestTemplate {
 	
 	public RestTemplate(Configuration config){
 		this.config = config;
-		
 	}
 	
 	/**
@@ -73,19 +77,21 @@ public class RestTemplate {
 			logRequest(request.getMethod(), request.getURI());
 			HttpResponse response = httpclient.execute(request);
 			HttpEntity entity = response.getEntity();
+			int statusCode = response.getStatusLine().getStatusCode();
+//			if (statusCode != 200)
+//				createException(statusCode, unmarshall(entity.getContent(), new TypeReference<ErrorMessage>() {}));
+			
 			return unmarshall(entity.getContent(), typeToken);
 
-		} catch (RuntimeException e) {
-			logger.error("Error while GETting a resource", e);
-		} catch (IOException e) {
-			logger.error("Error while GETting a resource", e);
+		} catch (Exception e) {
+			logger.error("Error while Geting a resource", e);
+			throw new RuntimeException("Error while Geting a resource", e);
 		} finally {
 			// When HttpClient instance is no longer needed,
 			// shut down the connection manager to ensure
 			// immediate deallocation of all system resources
 			httpclient.getConnectionManager().shutdown();
 		}
-		return null;
 	}
 
 	/**
@@ -119,17 +125,15 @@ public class RestTemplate {
 			HttpEntity entity = response.getEntity();
 			return unmarshall(entity.getContent(), typeToken);
 
-		} catch (RuntimeException e) {
-			logger.error("Error while PUTting a resource", e);
-		} catch (IOException e) {
-			logger.error("Error while PUTting a resource", e);
-		} finally {
+		} catch (Exception e) {
+			logger.error("Error while Updating a resource", e);
+			throw new RuntimeException("Error while Updating a resource", e);
+		}  finally {
 			// When HttpClient instance is no longer needed,
 			// shut down the connection manager to ensure
 			// immediate deallocation of all system resources
 			httpclient.getConnectionManager().shutdown();
 		}
-		return null;
 	}
 	
 	
@@ -163,17 +167,15 @@ public class RestTemplate {
 			HttpResponse response = httpclient.execute(request);
 			HttpEntity entity = response.getEntity();
 			return unmarshall(entity.getContent(), typeToken);
-		} catch (RuntimeException e) {
-			logger.error("Error while POSTting a resource", e);
-		} catch (IOException e) {
-			logger.error("Error while POSTting a resource", e);
+		} catch (Exception e) {
+			logger.error("Error while Creating a resource", e);
+			throw new RuntimeException("Request failed.", e);
 		} finally {
 			// When HttpClient instance is no longer needed,
 			// shut down the connection manager to ensure
 			// immediate deallocation of all system resources
 			httpclient.getConnectionManager().shutdown();
 		}
-		return null;
 	}
 
 	/**
@@ -198,17 +200,15 @@ public class RestTemplate {
 			logRequest(request.getMethod(), request.getURI());
 			return httpclient.execute(request);
 
-		} catch (RuntimeException e) {
-			logger.error("Error while DELETting a resource", e);
-		} catch (IOException e) {
-			logger.error("Error while DELETting a resource", e);
+		} catch (Exception e) {
+			logger.error("Error while Deleting a resource", e);
+			throw new RuntimeException("Error while Deleting a resource", e);
 		} finally {
 			// When HttpClient instance is no longer needed,
 			// shut down the connection manager to ensure
 			// immediate deallocation of all system resources
 			httpclient.getConnectionManager().shutdown();
 		}
-		return null;
 	}
 
 	protected Header getHttpHeader(URI uri, String headerName) {
@@ -223,17 +223,15 @@ public class RestTemplate {
 			logRequest(request.getMethod(), request.getURI());
 			HttpResponse response = httpclient.execute(request);
 			return response.getFirstHeader(headerName);
-		} catch (RuntimeException e) {
-			logger.error("Error while GETting a resource", e);
-		} catch (IOException e) {
-			logger.error("Error while GETting a resource", e);
+		} catch (Exception e) {
+			logger.error("Error while Getting header of a resource", e);
+			throw new RuntimeException("Error while Getting header of a resource", e);
 		} finally {
 			// When HttpClient instance is no longer needed,
 			// shut down the connection manager to ensure
 			// immediate deallocation of all system resources
 			httpclient.getConnectionManager().shutdown();
 		}
-		return null;
 	}
 
 	/**
@@ -299,4 +297,15 @@ public class RestTemplate {
 	private void logRequest(String method, URI url) {
     	logger.debug("Calling " + method + " on: " + url.toASCIIString());
     }
+	
+	private static EvrythngException createException(int code, String message) {	
+		switch (code){
+			 case 400: 
+				    return new NotFoundException(message);
+			 case 500: 
+				    return new InternalErrorException(message);
+				    		    
+		}
+		return new EvrythngException(message);
+	}
 }

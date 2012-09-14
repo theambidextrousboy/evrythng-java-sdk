@@ -6,9 +6,7 @@
 package com.evrythng.api.wrapper.examples;
 
 import com.evrythng.api.wrapper.ApiManager;
-import com.evrythng.api.wrapper.Configuration;
 import com.evrythng.api.wrapper.service.CollectionService;
-import com.evrythng.api.wrapper.service.ProductService;
 import com.evrythng.api.wrapper.service.ThngService;
 import com.evrythng.thng.resource.model.store.Collection;
 import com.evrythng.thng.resource.model.store.PropertyValue;
@@ -40,7 +38,6 @@ public class Example {
         
         ThngService thngService = apiManager.thngService();
         CollectionService collectionService = apiManager.collectionService();
-        ProductService productService = apiManager.productService();
         
         // Create a new Thng
         Thng aThng = new Thng();

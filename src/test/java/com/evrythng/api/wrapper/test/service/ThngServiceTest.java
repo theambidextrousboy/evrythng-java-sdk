@@ -31,8 +31,7 @@ public class ThngServiceTest {
 
     @Before
     public void init() {
-    	Configuration config = new Configuration();
-    	config.setAccessToken("MaEDwlYA2Xxp2oSzt9uxbenTTyiYdZgnnVQlGnmnDCiLgfUO2pKzpbhzAeotwpc0KV9J8M2QssIdxOOt");
+    	Configuration config = new Configuration("MaEDwlYA2Xxp2oSzt9uxbenTTyiYdZgnnVQlGnmnDCiLgfUO2pKzpbhzAeotwpc0KV9J8M2QssIdxOOt");
     	config.setBaseDomainUrl("http://api.staging.evrythng.net");
     	
         apiManager = new ApiManager(config);

@@ -18,7 +18,7 @@ public class CollectionService extends AbstractApiService {
     
     public CollectionService(Configuration config){
         super(config);
-		if (config.getCollectionServiceContextPath() != null && !config.getCollectionServiceContextPath().isEmpty()) {
+		if (config.isWrapperBehindAccessController()) {
 			this.contextPath = config.getCollectionServiceContextPath();
 		}
     }

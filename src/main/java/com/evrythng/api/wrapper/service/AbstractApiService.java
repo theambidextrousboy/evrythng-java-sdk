@@ -26,6 +26,7 @@ public abstract class AbstractApiService {
     private static final LinkedMultiValueMap<String, String> EMPTY_PARAMETERS = new LinkedMultiValueMap<String, String>();
     protected RestTemplate restTemplate;
     protected String contextPath;
+
     
     public AbstractApiService(Configuration config) {
         this.config = config;
