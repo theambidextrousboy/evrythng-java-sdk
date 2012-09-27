@@ -56,11 +56,9 @@ public class RestTemplate {
 	 * 
 	 * @param <T>
 	 *            Type to be mapped for response
-	 * @param path
+	 * @param uri
 	 *            path to the resource
-	 * @param object
-	 *            resource to be POSTed
-	 * @param cl
+	 * @param typeToken
 	 *            Class of the POSTed resource
 	 * 
 	 * @return The response mapper to the given type
@@ -100,11 +98,11 @@ public class RestTemplate {
 	 * 
 	 * @param <T>
 	 *            Type to be mapped for response
-	 * @param path
-	 *            path to the resource
+	 * @param uri
+	 *            uri of the resource
 	 * @param object
 	 *            resource to be PUT
-	 * @param cl
+	 * @param typeToken
 	 *            Class of the PUT resource
 	 * 
 	 * @return The response mapper to the given type
@@ -142,11 +140,11 @@ public class RestTemplate {
 	 * 
 	 * @param <T>
 	 *            Type to be mapped for response
-	 * @param path
-	 *            path to the resource
+	 * @param uri
+	 *            URI of the resource
 	 * @param object
 	 *            resource to be POSTed
-	 * @param cl
+	 * @param typeToken
 	 *            Class of the POSTed resource
 	 * 
 	 * @return The response mapper to the given type
@@ -183,8 +181,8 @@ public class RestTemplate {
 	 * /**
 	 * This method calls DELETE on a resource, i.e., it removes a resource.
 	 * 
-	 * @param path
-	 *            path to the resource
+	 * @param uri
+	 *            uri of the resource
 	 * 
 	 * @return The HttpResponse
 	 */
