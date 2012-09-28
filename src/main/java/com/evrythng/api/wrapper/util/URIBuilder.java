@@ -17,33 +17,32 @@ import java.util.Set;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-
-/** 
+/**
  * 
  * TODO Comment this class
  * 
- * @author     Username (tpham)
- * @copyright  2012 Evrythng Ltd London / Zurich
+ * @author Username (tpham)
+ * @copyright 2012 Evrythng Ltd London / Zurich
  **/
 
 public class URIBuilder {
 
-private final String baseUri;
-	
+	private final String baseUri;
+
 	private MultiValueMap<String, String> parameters;
 
 	private URIBuilder(String baseUri) {
 		this.baseUri = baseUri;
 		parameters = new LinkedMultiValueMap<String, String>();
 	}
-	
+
 	/**
 	 * Creates a URIBuilder with a base URI string as the starting point
 	 */
 	public static URIBuilder fromUri(String baseUri) {
 		return new URIBuilder(baseUri);
 	}
-	
+
 	/**
 	 * Adds a query parameter to the URI
 	 */
@@ -71,23 +70,23 @@ private final String baseUri;
 				Entry<String, List<String>> entry = entryIt.next();
 				String name = entry.getKey();
 				List<String> values = entry.getValue();
-				for(Iterator<String> valueIt = values.iterator(); valueIt.hasNext();) {
+				for (Iterator<String> valueIt = values.iterator(); valueIt.hasNext();) {
 					String value = valueIt.next();
 					builder.append(formEncode(name)).append("=");
-					if(value != null) {
+					if (value != null) {
 						builder.append(formEncode(value));
 					}
-					if(valueIt.hasNext()) {
+					if (valueIt.hasNext()) {
 						builder.append("&");
 					}
 				}
-				if(entryIt.hasNext()) {
+				if (entryIt.hasNext()) {
 					builder.append("&");
 				}
 			}
-			
+
 			String queryDelimiter = "?";
-			if(URI.create(baseUri).getQuery() != null) {
+			if (URI.create(baseUri).getQuery() != null) {
 				queryDelimiter = "&";
 			}
 			return new URI(baseUri + (builder.length() > 0 ? queryDelimiter + builder.toString() : ""));
@@ -95,12 +94,11 @@ private final String baseUri;
 			throw new URIBuilderException("Unable to build URI: Bad URI syntax", e);
 		}
 	}
-	
+
 	private String formEncode(String data) {
 		try {
 			return URLEncoder.encode(data, "UTF-8");
-		}
-		catch (UnsupportedEncodingException wontHappen) {
+		} catch (UnsupportedEncodingException wontHappen) {
 			throw new IllegalStateException(wontHappen);
 		}
 	}

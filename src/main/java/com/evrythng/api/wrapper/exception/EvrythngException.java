@@ -5,18 +5,23 @@
  */
 package com.evrythng.api.wrapper.exception;
 
-/** 
+/**
  * 
  * TODO Comment this class
  * 
- * @author     Username (tpham)
- * @copyright  2012 Evrythng Ltd London / Zurich
+ * @author Thomas Pham (tpham)
+ * @author Pedro De Almeida (almeidap)
  **/
 
-public class EvrythngException extends Exception {
-	
-	public EvrythngException(String message){
+public class EvrythngException extends RuntimeException {
+
+	private static final long serialVersionUID = 1L;
+
+	public EvrythngException(String message) {
 		super(message);
 	}
 
+	public EvrythngException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

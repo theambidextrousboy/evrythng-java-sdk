@@ -15,13 +15,13 @@ public class ApiManager {
 	/**
 	 * Create a new manager instance.
 	 */
-	public ApiManager(Configuration config) {
+	public ApiManager(ApiConfiguration config) {
 		thngService = new ThngService(config);
 		collectionService = new CollectionService(config);
 	}
 
 	public ApiManager(String accessToken) {
-		this(new Configuration(accessToken));
+		this(new ApiConfiguration(accessToken));
 	}
 
 	public ThngService thngService() {

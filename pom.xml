@@ -6,13 +6,15 @@
 	<artifactId>evrythng-java-wrapper</artifactId>
 	<version>0.0.3-SNAPSHOT</version>
 
-	<name>EVRYTHNG Java Wrapper</name>
+	<name>evrythng-java-wrapper</name>
+	<description>Java wrapper for the EVRYTHNG API.</description>
+	<url>https://github.com/evrythng/evrythng-java-wrapper</url>
 
 	<properties>
+		<!-- Versions -->
+		<java.version>1.6</java.version>
 		<apache.httpclient.version>4.0.1</apache.httpclient.version>
 		<jackson.databind.version>2.0.5</jackson.databind.version>
-		<!-- internal settings -->
-		<java.version>1.6</java.version>
 	</properties>
 
 	<dependencies>
@@ -73,7 +75,6 @@
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
 			<scope>test</scope>
-			<type>jar</type>
 		</dependency>
 	</dependencies>
 
@@ -168,6 +169,4 @@
 			<url>http://repo.springsource.org/release</url>
 		</repository>
 	</repositories>
-
-
 </project>

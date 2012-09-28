@@ -14,6 +14,9 @@ package com.evrythng.api.wrapper.util;
  **/
 
 public class URIBuilderException extends RuntimeException {
+
+	private static final long serialVersionUID = 1L;
+
 	public URIBuilderException(String message) {
 		super(message);
 	}
