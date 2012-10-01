@@ -14,7 +14,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 
-import com.evrythng.api.wrapper.exception.EvrythngException;
+import com.evrythng.api.wrapper.exception.EvrythngClientException;
 import com.evrythng.api.wrapper.util.JSONUtils;
 
 /**
@@ -25,16 +25,17 @@ import com.evrythng.api.wrapper.util.JSONUtils;
 public class HttpMethodBuilder {
 
 	public interface MethodBuilder<T extends HttpRequestBase> {
-		T build(URI uri);
+		T build(URI uri) throws EvrythngClientException;
 	}
 
 	public static abstract class EntityMethodBuilder<E extends HttpEntityEnclosingRequestBase> implements MethodBuilder<E> {
 
-		protected void entity(E request, final Object data) {
+		protected void entity(E request, final Object data) throws EvrythngClientException {
 			try {
 				request.setEntity(new StringEntity(JSONUtils.write(data)));
 			} catch (Exception e) {
-				throw new EvrythngException("Unable to define request entity: [data={}]", e);
+				// Convert to custom exception:
+				throw new EvrythngClientException("Unable to define request entity: [data={}]", e);
 			}
 		}
 	}
@@ -42,7 +43,7 @@ public class HttpMethodBuilder {
 	public static MethodBuilder<HttpPost> httpPost(final Object data) {
 		return new EntityMethodBuilder<HttpPost>() {
 			@Override
-			public HttpPost build(URI uri) {
+			public HttpPost build(URI uri) throws EvrythngClientException {
 				HttpPost request = new HttpPost(uri);
 				entity(request, data);
 				return request;
@@ -62,7 +63,7 @@ public class HttpMethodBuilder {
 	public static MethodBuilder<HttpPut> httpPut(final Object data) {
 		return new EntityMethodBuilder<HttpPut>() {
 			@Override
-			public HttpPut build(URI uri) {
+			public HttpPut build(URI uri) throws EvrythngClientException {
 				HttpPut request = new HttpPut(uri);
 				entity(request, data);
 				return request;

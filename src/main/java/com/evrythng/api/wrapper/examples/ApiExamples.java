@@ -6,6 +6,7 @@
 package com.evrythng.api.wrapper.examples;
 
 import com.evrythng.api.wrapper.ApiConfiguration;
+import com.evrythng.api.wrapper.exception.EvrythngException;
 
 /**
  * Base definition for running examples using the EVRYTHNG API wrapper.
@@ -16,8 +17,9 @@ public class ApiExamples {
 
 	/**
 	 * @param args
+	 * @throws EvrythngException
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
 			usage();
@@ -28,6 +30,9 @@ public class ApiExamples {
 
 		// Run examples:
 		new ThngApiExample(config).run();
+		new ThngLocationApiExample(config).run();
+		new ThngPropertyApiExample(config).run();
+		new ExceptionHandlingExample(config).run();
 
 		System.exit(0);
 	}

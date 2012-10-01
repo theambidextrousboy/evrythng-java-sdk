@@ -5,6 +5,7 @@
 package com.evrythng.api.wrapper.examples;
 
 import com.evrythng.api.wrapper.ApiConfiguration;
+import com.evrythng.api.wrapper.exception.EvrythngException;
 
 /**
  * TODO: comment this class
@@ -22,5 +23,15 @@ public abstract class ExampleRunner {
 		this.config = config;
 	}
 
-	abstract public void run();
+	public void run() throws EvrythngException {
+		try {
+			// Delegate:
+			doRun();
+		} catch (EvrythngException e) {
+			System.out.println("[EvrythngException] " + e.getMessage());
+			throw e;
+		}
+	}
+
+	abstract public void doRun() throws EvrythngException;
 }

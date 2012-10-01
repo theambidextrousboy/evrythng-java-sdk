@@ -6,14 +6,12 @@
 package com.evrythng.api.wrapper.exception;
 
 /**
- * 
  * TODO Comment this class
  * 
  * @author Thomas Pham (tpham)
  * @author Pedro De Almeida (almeidap)
  **/
-
-public class EvrythngException extends RuntimeException {
+public abstract class EvrythngException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 

@@ -10,7 +10,10 @@ import java.util.List;
 import com.evrythng.api.wrapper.ApiConfiguration;
 import com.evrythng.api.wrapper.ApiManager;
 import com.evrythng.api.wrapper.core.ApiBuilder.Builder;
+import com.evrythng.api.wrapper.exception.BadRequestException;
 import com.evrythng.api.wrapper.exception.EvrythngException;
+import com.evrythng.api.wrapper.exception.ForbiddenException;
+import com.evrythng.api.wrapper.exception.NotFoundException;
 import com.evrythng.api.wrapper.service.ThngService;
 import com.evrythng.api.wrapper.util.JSONUtils;
 import com.evrythng.thng.resource.model.store.Thng;
@@ -21,12 +24,12 @@ import com.evrythng.thng.resource.model.store.Thng;
  * @author Dominique Guinard (domguinard)
  * 
  */
-public class ThngApiExample extends ExampleRunner {
+public class ExceptionHandlingExample extends ExampleRunner {
 
 	/**
 	 * @param config
 	 */
-	public ThngApiExample(ApiConfiguration config) {
+	public ExceptionHandlingExample(ApiConfiguration config) {
 		super(config);
 	}
 
@@ -44,12 +47,13 @@ public class ThngApiExample extends ExampleRunner {
 		ApiConfiguration config = ApiExamples.extractConfig(args);
 
 		// Run example:
-		new ThngApiExample(config).run();
+		new ExceptionHandlingExample(config).run();
 
 		System.exit(0);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see com.evrythng.api.wrapper.examples.ExampleRunner#doRun()
 	 */
 	@Override
@@ -67,46 +71,36 @@ public class ThngApiExample extends ExampleRunner {
 		System.out.println("GET /thngs: " + JSONUtils.write(results));
 		System.out.println("GET /thngs > count: " + thngsReader.count());
 
-		results = thngsReader.page(2).execute();
-		System.out.println("GET /thngs?page=2: " + JSONUtils.write(results));
+		Thng thng = new Thng();
+		Builder<Thng> thngCreator = thngService.thngCreator(thng);
 
-		results = thngsReader.page(2).perPage(2).execute();
-		System.out.println("GET /thngs?page=2&perPage=2: " + JSONUtils.write(results));
-
-		results = thngsReader.perPage(1).execute();
-		System.out.println("GET /thngs?perPage=1: " + JSONUtils.write(results));
-
-		// Command builder: GET /thngs/{id}:
-		Thng retrieved = thngService.thngReader(results.get(0).getId()).execute();
-		System.out.println("GET /thngs/{id}: " + JSONUtils.write(retrieved));
-
-		// Command builder: POST /thngs:
-		retrieved.setId(null);
-		Builder<Thng> thngCreator = thngService.thngCreator(retrieved);
-
-		Thng created = thngCreator.execute();
-		System.out.println("POST /thngs: " + JSONUtils.write(created));
-		System.out.println("GET /thngs > count: " + thngsReader.count());
-
-		// Command builder: POST /thngs/bulk:
-		for (Thng thng : results) {
-			thng.setId(null);
+		try {
+			thngCreator.execute();
+		} catch (BadRequestException e) {
+			System.out.println("POST /thngs: [BadRequestException]");
 		}
-		/*
-		List<String> refs = thngService.thngsCreator(results).execute();
-		System.out.println("POST /thngs/bulk: " + JSONUtils.write(refs));
-		*/
 
-		// Command builder: PUT /thngs:
-		created.setName("[Updated] " + created.getName());
-		Thng updated = thngService.thngUpdater(created.getId(), created).execute();
-		System.out.println("PUT /thngs/{id}: " + JSONUtils.write(updated));
-		System.out.println("GET /thngs > count: " + thngsReader.count());
+		thng.setName("foo");
+		Thng created = thngService.thngCreator(thng).execute();
 
 		// Command builder: DELETE /thngs/{id}:
-		created = thngCreator.execute();
 		boolean deleted = thngService.thngDeleter(created.getId()).execute();
 		System.out.println("DELETE /thngs/{id}: " + deleted);
+		System.out.println("GET /thngs > count: " + thngsReader.count());
+
+		Builder<Thng> thngReader = thngService.thngReader(created.getId());
+		try {
+			thngReader.execute();
+		} catch (NotFoundException e) {
+			System.out.println("GET /thngs/{id}: [NotFoundException]");
+		}
+
+		try {
+			thngReader.authorization("invalid").execute();
+		} catch (ForbiddenException e) {
+			System.out.println("GET /thngs/{id}: [ForbiddenException]");
+		}
+
 		System.out.println("GET /thngs > count: " + thngsReader.count());
 	}
 }

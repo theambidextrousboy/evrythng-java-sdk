@@ -4,6 +4,7 @@ import java.net.URI;
 
 import com.evrythng.api.wrapper.ApiConfiguration;
 import com.evrythng.api.wrapper.core.ApiBuilder.Builder;
+import com.evrythng.api.wrapper.exception.EvrythngClientException;
 import com.evrythng.api.wrapper.util.URIBuilder;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -20,23 +21,23 @@ public abstract class AbstractApiService {
 		this.config = config;
 	}
 
-	protected <T> Builder<T> post(String relativePath, Object data, TypeReference<T> type) {
-		return ApiBuilder.post(config.getKey(), absoluteUri(relativePath), data, type);
+	protected <T> Builder<T> post(String relativePath, Object data, TypeReference<T> type) throws EvrythngClientException {
+		return ApiBuilder.post(config.getKey(), absoluteUri(relativePath), data, Status.CREATED, type);
 	}
 
-	protected <T> Builder<T> get(String relativePath, TypeReference<T> type) {
-		return ApiBuilder.get(config.getKey(), absoluteUri(relativePath), type);
+	protected <T> Builder<T> get(String relativePath, TypeReference<T> type) throws EvrythngClientException {
+		return ApiBuilder.get(config.getKey(), absoluteUri(relativePath), Status.OK, type);
 	}
 
-	protected <T> Builder<T> put(String relativePath, Object data, TypeReference<T> type) {
-		return ApiBuilder.put(config.getKey(), absoluteUri(relativePath), data, type);
+	protected <T> Builder<T> put(String relativePath, Object data, TypeReference<T> type) throws EvrythngClientException {
+		return ApiBuilder.put(config.getKey(), absoluteUri(relativePath), data, Status.OK, type);
 	}
 
-	protected Builder<Boolean> delete(String relativePath) {
-		return ApiBuilder.delete(config.getKey(), absoluteUri(relativePath));
+	protected Builder<Boolean> delete(String relativePath) throws EvrythngClientException {
+		return ApiBuilder.delete(config.getKey(), absoluteUri(relativePath), Status.OK);
 	}
 
-	protected URI absoluteUri(String relativePath) {
+	protected URI absoluteUri(String relativePath) throws EvrythngClientException {
 		if (!relativePath.startsWith("/")) {
 			relativePath = String.format("/%s", relativePath);
 		}

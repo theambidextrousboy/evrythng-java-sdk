@@ -32,6 +32,8 @@ public class ApiConfiguration {
 	public static final String QUERY_PARAM_FROM = "from";
 	public static final String QUERY_PARAM_TO = "to";
 
+	public static final String QUERY_KEYWORD_LATEST = "latest";
+
 	/*
 	 * Default values
 	 */

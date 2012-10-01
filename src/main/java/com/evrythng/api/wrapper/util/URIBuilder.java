@@ -17,11 +17,13 @@ import java.util.Set;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import com.evrythng.api.wrapper.exception.EvrythngClientException;
+
 /**
  * 
  * TODO Comment this class
  * 
- * @author Username (tpham)
+ * @author Thomas Pham (tpham)
  * @copyright 2012 Evrythng Ltd London / Zurich
  **/
 
@@ -61,8 +63,10 @@ public class URIBuilder {
 
 	/**
 	 * Builds the URI
+	 * 
+	 * @throws EvrythngClientException
 	 */
-	public URI build() {
+	public URI build() throws EvrythngClientException {
 		try {
 			StringBuilder builder = new StringBuilder();
 			Set<Entry<String, List<String>>> entrySet = parameters.entrySet();
@@ -91,7 +95,8 @@ public class URIBuilder {
 			}
 			return new URI(baseUri + (builder.length() > 0 ? queryDelimiter + builder.toString() : ""));
 		} catch (URISyntaxException e) {
-			throw new URIBuilderException("Unable to build URI: Bad URI syntax", e);
+			// Convert to custom exception:
+			throw new EvrythngClientException("Unable to build URI: Bad URI syntax", e);
 		}
 	}
 

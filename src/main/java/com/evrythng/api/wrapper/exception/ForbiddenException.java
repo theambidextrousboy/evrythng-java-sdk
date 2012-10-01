@@ -10,16 +10,15 @@ import com.evrythng.thng.resource.model.exception.ErrorMessage;
 /**
  * TODO Comment this class
  * 
- * @author Thomas Pham (tpham)
  * @author Pedro De Almeida (almeidap)
  **/
-public class NotFoundException extends EvrythngErrorException {
+public class ForbiddenException extends EvrythngErrorException {
 
-	public NotFoundException(ErrorMessage message) {
+	public ForbiddenException(ErrorMessage message) {
 		super(message);
 	}
 
-	public NotFoundException(ErrorMessage message, Throwable cause) {
+	public ForbiddenException(ErrorMessage message, Throwable cause) {
 		super(message, cause);
 	}
 }

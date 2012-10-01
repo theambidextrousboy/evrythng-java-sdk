@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>com.evrythng</groupId>
 			<artifactId>thng-resource-model</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
+			<version>1.1.2-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jackson-core-asl</artifactId>

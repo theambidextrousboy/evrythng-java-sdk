@@ -55,6 +55,11 @@ public enum Status {
 	 */
 	NOT_ACCEPTABLE(406, "Not Acceptable"),
 	/**
+	 * 409 Conflict, see
+	 * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.10">HTTP/1.1 documentation</a>}.
+	 */
+	CONFLICT(409, "Conflict"),
+	/**
 	 * 500 Internal Server Error, see
 	 * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.5.1">HTTP/1.1 documentation</a>}.
 	 */
@@ -76,8 +81,6 @@ public enum Status {
 	public enum Family {
 		INFORMATIONAL, SUCCESSFUL, REDIRECTION, CLIENT_ERROR, SERVER_ERROR, OTHER
 	}
-
-	;
 
 	Status(final int statusCode, final String reasonPhrase) {
 		this.code = statusCode;

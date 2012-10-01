@@ -6,12 +6,19 @@ package com.evrythng.api.wrapper.core;
 
 import java.net.URI;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.evrythng.api.wrapper.ApiConfiguration;
 import com.evrythng.api.wrapper.core.HttpMethodBuilder.MethodBuilder;
+import com.evrythng.api.wrapper.exception.BadRequestException;
+import com.evrythng.api.wrapper.exception.ConflictException;
+import com.evrythng.api.wrapper.exception.EvrythngClientException;
+import com.evrythng.api.wrapper.exception.EvrythngUnexpectedException;
+import com.evrythng.api.wrapper.exception.ForbiddenException;
+import com.evrythng.api.wrapper.exception.InternalErrorException;
+import com.evrythng.api.wrapper.exception.NotFoundException;
+import com.evrythng.api.wrapper.exception.UnauthorizedException;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
@@ -22,32 +29,30 @@ import com.fasterxml.jackson.core.type.TypeReference;
  */
 public class ApiBuilder {
 
-	public static <T> Builder<T> post(String apiKey, URI uri, Object data, TypeReference<T> returnType) {
-		return new Builder<T>(apiKey, HttpMethodBuilder.httpPost(data), uri, returnType);
+	public static <T> Builder<T> post(String apiKey, URI uri, Object data, Status responseStatus, TypeReference<T> responseType) {
+		return new Builder<T>(apiKey, HttpMethodBuilder.httpPost(data), uri, responseStatus, responseType);
 	}
 
-	public static <T> Builder<T> get(String apiKey, URI uri, TypeReference<T> returnType) {
-		return new Builder<T>(apiKey, HttpMethodBuilder.httpGet(), uri, returnType);
+	public static <T> Builder<T> get(String apiKey, URI uri, Status responseStatus, TypeReference<T> returnType) {
+		return new Builder<T>(apiKey, HttpMethodBuilder.httpGet(), uri, responseStatus, returnType);
 	}
 
-	public static <T> Builder<T> put(String apiKey, URI uri, Object data, TypeReference<T> returnType) {
-		return new Builder<T>(apiKey, HttpMethodBuilder.httpPut(data), uri, returnType);
+	public static <T> Builder<T> put(String apiKey, URI uri, Object data, Status responseStatus, TypeReference<T> returnType) {
+		return new Builder<T>(apiKey, HttpMethodBuilder.httpPut(data), uri, responseStatus, returnType);
 	}
 
-	public static Builder<Boolean> delete(String apiKey, URI uri) {
+	public static Builder<Boolean> delete(String apiKey, URI uri, Status responseStatus) {
 		// TODO: refactor this?
-		return new Builder<Boolean>(apiKey, HttpMethodBuilder.httpDelete(), uri, new TypeReference<Boolean>() {
+		return new Builder<Boolean>(apiKey, HttpMethodBuilder.httpDelete(), uri, responseStatus, new TypeReference<Boolean>() {
 		}) {
 			@Override
-			public Boolean execute() {
+			public Boolean execute() throws EvrythngClientException, BadRequestException, UnauthorizedException, ForbiddenException, NotFoundException, ConflictException, EvrythngUnexpectedException,
+					InternalErrorException {
 				// Create a new client:
 				HttpClient client = new DefaultHttpClient();
 				try {
-					// Execute request:
-					HttpResponse response = command.execute(client);
-
-					// Check status code:
-					return Boolean.valueOf(response.getStatusLine().getStatusCode() == Status.OK.getStatusCode());
+					// Execute request (response status code will be automatically checked):
+					return command.execute(client) != null;
 				} finally {
 					command.shutdown(client);
 				}
@@ -57,9 +62,9 @@ public class ApiBuilder {
 
 	public static class Builder<T> extends CommandBuilder<T, Builder<T>> {
 
-		/* Hide default constructor */
-		private Builder(String apiKey, MethodBuilder<?> methodBuilder, URI uri, TypeReference<T> typeReference) {
-			super(apiKey, methodBuilder, uri, typeReference);
+		/* Hide constructor */
+		private Builder(String apiKey, MethodBuilder<?> methodBuilder, URI uri, Status responseStatus, TypeReference<T> responseType) {
+			super(apiKey, methodBuilder, uri, responseStatus, responseType);
 		}
 
 		public Builder<T> page(int page) {

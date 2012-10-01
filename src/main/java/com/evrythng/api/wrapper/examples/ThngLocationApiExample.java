@@ -11,6 +11,7 @@ import java.util.List;
 import com.evrythng.api.wrapper.ApiConfiguration;
 import com.evrythng.api.wrapper.ApiManager;
 import com.evrythng.api.wrapper.core.ApiBuilder.Builder;
+import com.evrythng.api.wrapper.exception.EvrythngException;
 import com.evrythng.api.wrapper.service.ThngService;
 import com.evrythng.api.wrapper.util.JSONUtils;
 import com.evrythng.thng.resource.model.store.Property;
@@ -34,8 +35,9 @@ public class ThngLocationApiExample extends ExampleRunner {
 
 	/**
 	 * @param args
+	 * @throws EvrythngException
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
 			ApiExamples.usage();
@@ -51,10 +53,10 @@ public class ThngLocationApiExample extends ExampleRunner {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.evrythng.api.wrapper.examples.ExampleRunner#run()
+	 * @see com.evrythng.api.wrapper.examples.ExampleRunner#doRun()
 	 */
 	@Override
-	public void run() {
+	public void doRun() throws EvrythngException {
 		// Initialize the API Manager:
 		ApiManager apiManager = new ApiManager(config);
 
@@ -62,13 +64,13 @@ public class ThngLocationApiExample extends ExampleRunner {
 		ThngService thngService = apiManager.thngService();
 
 		// Command builder: GET /thngs:
-		Builder<List<Thng>> thngsReader = thngService.thngsGetter();
+		Builder<List<Thng>> thngsReader = thngService.thngsReader();
 
 		Thng thng = thngsReader.execute().get(0);
 		System.out.println("GET /thngs/[first]: " + JSONUtils.write(thng));
 
 		// Command builder: GET /thngs/{id}/properties:
-		Builder<List<Property>> thngPropertiesReader = thngService.propertiesGetter(thng.getId());
+		Builder<List<Property>> thngPropertiesReader = thngService.propertiesReader(thng.getId());
 
 		List<Property> results = thngPropertiesReader.execute();
 		System.out.println("GET /thngs/{id}/properties: " + JSONUtils.write(results));
@@ -81,7 +83,7 @@ public class ThngLocationApiExample extends ExampleRunner {
 		System.out.println("PUT /thngs/{id}/properties: " + JSONUtils.write(results));
 
 		// Command builder: GET /thngs/{id}/properties/temperature:
-		Builder<List<PropertyValue>> temperatureGetter = thngService.propertyGetter(thng.getId(), "temperature");
+		Builder<List<PropertyValue>> temperatureGetter = thngService.propertyReader(thng.getId(), "temperature");
 		List<PropertyValue> values = temperatureGetter.execute();
 		System.out.println("GET /thngs/{id}/properties/temperature: " + JSONUtils.write(values));
 
@@ -94,7 +96,7 @@ public class ThngLocationApiExample extends ExampleRunner {
 		System.out.println("GET /thngs/{id}/properties/temperature: " + JSONUtils.write(values));
 
 		// Command builder: GET /thngs/{id}/properties/speed:
-		Builder<List<PropertyValue>> speedGetter = thngService.propertyGetter(thng.getId(), "speed");
+		Builder<List<PropertyValue>> speedGetter = thngService.propertyReader(thng.getId(), "speed");
 
 		values = speedGetter.from(System.currentTimeMillis() - (1000 * 60 * 5)).execute();
 		System.out.println("GET /thngs/{id}/properties/speed?from: " + JSONUtils.write(values));
