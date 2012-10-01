@@ -7,8 +7,6 @@ package com.evrythng.api.wrapper.examples;
 
 import java.util.List;
 
-import org.apache.http.HttpResponse;
-
 import com.evrythng.api.wrapper.ApiConfiguration;
 import com.evrythng.api.wrapper.ApiManager;
 import com.evrythng.api.wrapper.core.ApiBuilder.Builder;
@@ -61,7 +59,7 @@ public class ThngApiExample extends ExampleRunner {
 		ThngService thngService = apiManager.thngService();
 
 		// Command builder: GET /thngs:
-		Builder<List<Thng>> thngsReader = thngService.getThngs();
+		Builder<List<Thng>> thngsReader = thngService.thngsGetter();
 
 		List<Thng> results = thngsReader.execute();
 		System.out.println("GET /thngs: " + JSONUtils.write(results));
@@ -77,12 +75,12 @@ public class ThngApiExample extends ExampleRunner {
 		System.out.println("GET /thngs?perPage=1: " + JSONUtils.write(results));
 
 		// Command builder: GET /thngs/{id}:
-		Thng retrieved = thngService.getThng(results.get(0).getId()).execute();
+		Thng retrieved = thngService.thngGetter(results.get(0).getId()).execute();
 		System.out.println("GET /thngs/{id}: " + JSONUtils.write(retrieved));
 
 		// Command builder: POST /thngs:
 		retrieved.setId(null);
-		Builder<Thng> thngCreator = thngService.createThng(retrieved);
+		Builder<Thng> thngCreator = thngService.thngCreator(retrieved);
 
 		Thng created = thngCreator.execute();
 		System.out.println("POST /thngs: " + JSONUtils.write(created));
@@ -92,20 +90,21 @@ public class ThngApiExample extends ExampleRunner {
 		for (Thng thng : results) {
 			thng.setId(null);
 		}
-
-		List<String> refs = thngService.createThngs(results).execute();
+		/*
+		List<String> refs = thngService.thngsCreator(results).execute();
 		System.out.println("POST /thngs/bulk: " + JSONUtils.write(refs));
+		*/
 
 		// Command builder: PUT /thngs:
 		created.setName("[Updated] " + created.getName());
-		Thng updated = thngService.updateThng(created.getId(), created).execute();
+		Thng updated = thngService.thngUpdater(created.getId(), created).execute();
 		System.out.println("PUT /thngs/{id}: " + JSONUtils.write(updated));
 		System.out.println("GET /thngs > count: " + thngsReader.count());
 
 		// Command builder: DELETE /thngs/{id}:
 		created = thngCreator.execute();
-		HttpResponse response = thngService.deleteThng(created.getId()).execute();
-		System.out.println("DELETE /thngs/{id}: " + response.getStatusLine().toString());
+		boolean deleted = thngService.thngDeleter(created.getId()).execute();
+		System.out.println("DELETE /thngs/{id}: " + deleted);
 		System.out.println("GET /thngs > count: " + thngsReader.count());
 	}
 }

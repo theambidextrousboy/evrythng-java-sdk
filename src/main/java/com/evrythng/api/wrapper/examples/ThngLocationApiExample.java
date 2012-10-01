@@ -23,12 +23,12 @@ import com.evrythng.thng.resource.model.store.Thng;
  * @author Dominique Guinard (domguinard)
  * 
  */
-public class ThngPropertyApiExample extends ExampleRunner {
+public class ThngLocationApiExample extends ExampleRunner {
 
 	/**
 	 * @param config
 	 */
-	public ThngPropertyApiExample(ApiConfiguration config) {
+	public ThngLocationApiExample(ApiConfiguration config) {
 		super(config);
 	}
 
@@ -45,7 +45,7 @@ public class ThngPropertyApiExample extends ExampleRunner {
 		ApiConfiguration config = ApiExamples.extractConfig(args);
 
 		// Run example:
-		new ThngPropertyApiExample(config).run();
+		new ThngLocationApiExample(config).run();
 
 		System.exit(0);
 	}

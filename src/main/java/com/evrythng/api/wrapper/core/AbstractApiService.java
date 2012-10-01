@@ -2,29 +2,38 @@ package com.evrythng.api.wrapper.core;
 
 import java.net.URI;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.LinkedMultiValueMap;
-
 import com.evrythng.api.wrapper.ApiConfiguration;
+import com.evrythng.api.wrapper.core.ApiBuilder.Builder;
 import com.evrythng.api.wrapper.util.URIBuilder;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
- * API service which facilitates provides helper
- * methods for performing remote method calls as well as deserializing the
- * corresponding JSON responses.
+ * TODO: comment this class
  * 
- * @author tpham
- */
+ * @author Pedro De Almeida (almeidap)
+ **/
 public abstract class AbstractApiService {
-
-	private static final Logger logger = LoggerFactory.getLogger(AbstractApiService.class);
-	private static final LinkedMultiValueMap<String, String> EMPTY_PARAMETERS = new LinkedMultiValueMap<String, String>();
 
 	protected ApiConfiguration config;
 
 	public AbstractApiService(ApiConfiguration config) {
 		this.config = config;
+	}
+
+	protected <T> Builder<T> post(String relativePath, Object data, TypeReference<T> type) {
+		return ApiBuilder.post(config.getKey(), absoluteUri(relativePath), data, type);
+	}
+
+	protected <T> Builder<T> get(String relativePath, TypeReference<T> type) {
+		return ApiBuilder.get(config.getKey(), absoluteUri(relativePath), type);
+	}
+
+	protected <T> Builder<T> put(String relativePath, Object data, TypeReference<T> type) {
+		return ApiBuilder.put(config.getKey(), absoluteUri(relativePath), data, type);
+	}
+
+	protected Builder<Boolean> delete(String relativePath) {
+		return ApiBuilder.delete(config.getKey(), absoluteUri(relativePath));
 	}
 
 	protected URI absoluteUri(String relativePath) {

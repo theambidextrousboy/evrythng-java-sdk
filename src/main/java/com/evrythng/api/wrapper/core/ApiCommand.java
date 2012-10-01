@@ -26,7 +26,7 @@ import com.evrythng.api.wrapper.util.JSONUtils;
 import com.evrythng.api.wrapper.util.URIBuilder;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-public class ApiCommand<M extends HttpRequestBase, T> {
+public class ApiCommand<T> {
 
 	private static final Logger logger = LoggerFactory.getLogger(ApiCommand.class);
 
@@ -34,21 +34,23 @@ public class ApiCommand<M extends HttpRequestBase, T> {
 	protected Map<String, String> headers = new LinkedHashMap<String, String>();
 
 	protected String apiKey;
-	protected MethodBuilder<M> methodBuilder;
+	protected MethodBuilder<?> methodBuilder;
 	protected URI uri;
-	protected TypeReference<T> type;
+	protected TypeReference<T> returnType;
 
-	public ApiCommand(String apiKey, MethodBuilder<M> methodBuilder, URI uri, TypeReference<T> type) {
+	public ApiCommand(String apiKey, MethodBuilder<?> methodBuilder, URI uri, TypeReference<T> returnType) {
 		this.apiKey = apiKey;
 		this.methodBuilder = methodBuilder;
 		this.uri = uri;
-		this.type = type;
+		this.returnType = returnType;
 	}
 
 	/**
-	 * Execute remote API method and unmarshall the result to its native type.
+	 * Executes the current command and maps the {@link HttpResponse} entity to {@code T} specified by
+	 * {@link ApiCommand#returnType}.
 	 * 
-	 * @return Instance of result type.
+	 * @see #execute(HttpClient, HttpRequestBase)
+	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	public T execute() {
@@ -57,21 +59,18 @@ public class ApiCommand<M extends HttpRequestBase, T> {
 		T result = null;
 
 		try {
-			// Build request method:
-			M request = methodBuilder.build(buildUri());
-
 			// Execute request:
-			HttpResponse response = this.execute(client, request);
+			HttpResponse response = this.execute(client);
 
-			if (type.getType().equals(HttpResponse.class)) {
+			if (returnType.getType().equals(HttpResponse.class)) {
 				// We already have a HttpResponse, let's return it:
 				result = (T) response;
 			} else {
 				try {
 					HttpEntity entity = response.getEntity();
-					result = JSONUtils.read(entity.getContent(), type);
+					result = JSONUtils.read(entity.getContent(), returnType);
 				} catch (Exception e) {
-					throw new EvrythngException(String.format("Error while mapping response entity! [type=%s]", type.getType()), e);
+					throw new EvrythngException(String.format("Error while mapping response entity! [type=%s]", returnType.getType()), e);
 				}
 			}
 		} finally {
@@ -93,15 +92,6 @@ public class ApiCommand<M extends HttpRequestBase, T> {
 		} finally {
 			shutdown(client);
 		}
-	}
-
-	/**
-	 * Shuts down the connection manager to ensure immediate deallocation of all system resources.
-	 * 
-	 * @param client
-	 */
-	private void shutdown(HttpClient client) {
-		client.getConnectionManager().shutdown();
 	}
 
 	public void setHeader(String key, String value) {
@@ -158,7 +148,15 @@ public class ApiCommand<M extends HttpRequestBase, T> {
 		return new EvrythngException(message);
 	}
 
-	private HttpResponse execute(HttpClient client, HttpRequestBase request) {
+	protected HttpResponse execute(HttpClient client) {
+		// Build request method:
+		HttpRequestBase request = methodBuilder.build(buildUri());
+
+		// Delegate:
+		return execute(client, request);
+	}
+
+	protected HttpResponse execute(HttpClient client, HttpRequestBase request) {
 		logger.debug("Executing request: [method={}, url={}]", request.getMethod(), request.getURI().toString());
 
 		try {
@@ -174,5 +172,14 @@ public class ApiCommand<M extends HttpRequestBase, T> {
 		} catch (Exception e) {
 			throw new EvrythngException("Unable to execute request!", e);
 		}
+	}
+
+	/**
+	 * Shuts down the connection manager to ensure immediate deallocation of all system resources.
+	 * 
+	 * @param client
+	 */
+	protected void shutdown(HttpClient client) {
+		client.getConnectionManager().shutdown();
 	}
 }

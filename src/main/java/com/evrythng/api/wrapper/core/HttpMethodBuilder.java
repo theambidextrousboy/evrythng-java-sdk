@@ -30,14 +30,12 @@ public class HttpMethodBuilder {
 
 	public static abstract class EntityMethodBuilder<E extends HttpEntityEnclosingRequestBase> implements MethodBuilder<E> {
 
-		protected E entity(E request, final Object data) {
-			// Set request entity:
+		protected void entity(E request, final Object data) {
 			try {
 				request.setEntity(new StringEntity(JSONUtils.write(data)));
 			} catch (Exception e) {
 				throw new EvrythngException("Unable to define request entity: [data={}]", e);
 			}
-			return request;
 		}
 	}
 

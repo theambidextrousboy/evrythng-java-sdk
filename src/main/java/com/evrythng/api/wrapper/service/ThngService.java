@@ -1,13 +1,12 @@
 package com.evrythng.api.wrapper.service;
 
+import java.util.Arrays;
 import java.util.List;
-
-import org.apache.http.HttpResponse;
 
 import com.evrythng.api.wrapper.ApiConfiguration;
 import com.evrythng.api.wrapper.core.AbstractApiService;
-import com.evrythng.api.wrapper.core.ApiBuilder;
 import com.evrythng.api.wrapper.core.ApiBuilder.Builder;
+import com.evrythng.thng.resource.model.store.Location;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.PropertyValue;
 import com.evrythng.thng.resource.model.store.Thng;
@@ -30,51 +29,88 @@ public class ThngService extends AbstractApiService {
 		super(config);
 	}
 
-	public Builder<Thng> createThng(Thng thng) {
-		return ApiBuilder.post(config.getKey(), absoluteUri(PATH_THNGS), thng, new TypeReference<Thng>() {
+	/* ***** Thng ***** */
+
+	public Builder<Thng> thngCreator(Thng thng) {
+		return post(PATH_THNGS, thng, new TypeReference<Thng>() {
 		});
 	}
 
-	public Builder<List<String>> createThngs(List<Thng> thngs) {
-		return ApiBuilder.put(config.getKey(), absoluteUri(PATH_THNGS_BULK), thngs, new TypeReference<List<String>>() {
+	public Builder<List<String>> thngsCreator(List<Thng> thngs) {
+		return put(PATH_THNGS_BULK, thngs, new TypeReference<List<String>>() {
 		});
 	}
 
-	public Builder<List<Thng>> getThngs() {
-		return ApiBuilder.get(config.getKey(), absoluteUri(PATH_THNGS), new TypeReference<List<Thng>>() {
+	public Builder<List<Thng>> thngsGetter() {
+		return get(PATH_THNGS, new TypeReference<List<Thng>>() {
 		});
 	}
 
-	public Builder<Thng> getThng(String thngId) {
-		return ApiBuilder.get(config.getKey(), absoluteUri(String.format(PATH_THNG, thngId)), new TypeReference<Thng>() {
+	public Builder<Thng> thngGetter(String thngId) {
+		return get(String.format(PATH_THNG, thngId), new TypeReference<Thng>() {
 		});
 	}
 
-	public Builder<Thng> updateThng(String thngId, Thng thng) {
-		return ApiBuilder.put(config.getKey(), absoluteUri(String.format(PATH_THNG, thngId)), thng, new TypeReference<Thng>() {
+	public Builder<Thng> thngUpdater(String thngId, Thng thng) {
+		return put(String.format(PATH_THNG, thngId), thng, new TypeReference<Thng>() {
 		});
 	}
 
-	public Builder<HttpResponse> deleteThng(String thngId) {
-		return ApiBuilder.delete(config.getKey(), absoluteUri(String.format(PATH_THNG, thngId)));
+	public Builder<Boolean> thngDeleter(String thngId) {
+		return delete(String.format(PATH_THNG, thngId));
 	}
 
-	public Builder<List<Property>> getThngProperties(String thngId) {
-		return ApiBuilder.get(config.getKey(), absoluteUri(String.format(PATH_THNG_PROPERTIES, thngId)), new TypeReference<List<Property>>() {
+	/* ***** Thng > Properties ***** */
+
+	public Builder<List<Property>> propertiesCreator(String thngId, Property property) {
+		return propertiesCreator(thngId, Arrays.asList(property));
+	}
+
+	public Builder<List<Property>> propertiesCreator(String thngId, List<Property> properties) {
+		return put(String.format(PATH_THNG_PROPERTIES, thngId), properties, new TypeReference<List<Property>>() {
 		});
 	}
 
-	public Builder<List<PropertyValue>> getThngProperty(String thngId, String key) {
-		return ApiBuilder.get(config.getKey(), absoluteUri(String.format(PATH_THNG_PROPERTY, thngId, key)), new TypeReference<List<PropertyValue>>() {
+	public Builder<List<Property>> propertiesGetter(String thngId) {
+		return get(String.format(PATH_THNG_PROPERTIES, thngId), new TypeReference<List<Property>>() {
 		});
 	}
 
-	public Builder<List<Property>> createThngProperties(String thngId, List<Property> properties) {
-		return ApiBuilder.put(config.getKey(), absoluteUri(String.format(PATH_THNG_PROPERTIES, thngId)), properties, new TypeReference<List<Property>>() {
+	public Builder<List<PropertyValue>> propertyGetter(String thngId, String key) {
+		return get(String.format(PATH_THNG_PROPERTY, thngId, key), new TypeReference<List<PropertyValue>>() {
 		});
 	}
 
-	public Builder<HttpResponse> deleteThngProperty(String thngId, String key) {
-		return ApiBuilder.delete(config.getKey(), absoluteUri(String.format(PATH_THNG_PROPERTY, thngId, key)));
+	public Builder<List<PropertyValue>> propertyUpdater(String thngId, String key, String value) {
+		return propertyUpdater(thngId, key, new PropertyValue(value));
+	}
+
+	public Builder<List<PropertyValue>> propertyUpdater(String thngId, String key, PropertyValue value) {
+		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Arrays.asList(value), new TypeReference<List<PropertyValue>>() {
+		});
+	}
+
+	public Builder<Boolean> propertyDeleter(String thngId, String key) {
+		return delete(String.format(PATH_THNG_PROPERTY, thngId, key));
+	}
+
+	/* ***** Thng > Location ***** */
+
+	public Builder<List<Location>> locationGetter(String thngId) {
+		return get(String.format(PATH_THNG_LOCATION, thngId), new TypeReference<List<Location>>() {
+		});
+	}
+
+	public Builder<List<Location>> locationUpdater(String thngId, Location location) {
+		return locationUpdater(thngId, Arrays.asList(location));
+	}
+
+	public Builder<List<Location>> locationUpdater(String thngId, List<Location> locations) {
+		return put(String.format(PATH_THNG_LOCATION, thngId), locations, new TypeReference<List<Location>>() {
+		});
+	}
+
+	public Builder<Boolean> locationDeleter(String thngId, String key) {
+		return delete(String.format(PATH_THNG_LOCATION, thngId));
 	}
 }
