@@ -9,6 +9,8 @@ import com.evrythng.api.wrapper.service.ThngService;
  */
 public class ApiManager {
 
+	private final ApiConfiguration config;
+
 	private ThngService thngService;
 	private CollectionService collectionService;
 
@@ -16,6 +18,7 @@ public class ApiManager {
 	 * Create a new manager instance.
 	 */
 	public ApiManager(ApiConfiguration config) {
+		this.config = config;
 		thngService = new ThngService(config);
 		collectionService = new CollectionService(config);
 	}
@@ -32,4 +35,7 @@ public class ApiManager {
 		return this.collectionService;
 	}
 
+	public ApiConfiguration getConfig() {
+		return config;
+	}
 }
