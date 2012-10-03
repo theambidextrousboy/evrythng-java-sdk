@@ -9,6 +9,26 @@
 	<name>evrythng-java-wrapper</name>
 	<description>Java wrapper for the EVRYTHNG API.</description>
 	<url>https://github.com/evrythng/evrythng-java-wrapper</url>
+	
+	<issueManagement>
+		<system>JIRA</system>
+		<url>http://internal.evrythng.net/jira</url>
+	</issueManagement>
+
+	<scm>
+		<connection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</connection>
+		<developerConnection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</developerConnection>
+		<url>https://github.com/evrythng/evrythng-java-wrapper.git</url>
+	</scm>
+	
+	<distributionManagement>
+		<snapshotRepository>
+			<id>evrythng-repository</id>
+			<name>Evrythng Snapshots Repository</name>
+			<url>https://internal.evrythng.net/nexus/content/repositories/snapshots</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<properties>
 		<!-- Versions -->
