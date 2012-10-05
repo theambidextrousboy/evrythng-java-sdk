@@ -10,15 +10,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.evrythng.api.wrapper.ApiConfiguration;
+import com.evrythng.api.wrapper.ApiConfiguration.QueryKeyword;
 import com.evrythng.api.wrapper.core.HttpMethodBuilder.MethodBuilder;
-import com.evrythng.api.wrapper.exception.BadRequestException;
-import com.evrythng.api.wrapper.exception.ConflictException;
-import com.evrythng.api.wrapper.exception.EvrythngClientException;
-import com.evrythng.api.wrapper.exception.EvrythngUnexpectedException;
-import com.evrythng.api.wrapper.exception.ForbiddenException;
-import com.evrythng.api.wrapper.exception.InternalErrorException;
-import com.evrythng.api.wrapper.exception.NotFoundException;
-import com.evrythng.api.wrapper.exception.UnauthorizedException;
+import com.evrythng.api.wrapper.exception.EvrythngException;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
@@ -46,8 +40,7 @@ public class ApiBuilder {
 		return new Builder<Boolean>(apiKey, HttpMethodBuilder.httpDelete(), uri, responseStatus, new TypeReference<Boolean>() {
 		}) {
 			@Override
-			public Boolean execute() throws EvrythngClientException, BadRequestException, UnauthorizedException, ForbiddenException, NotFoundException, ConflictException, EvrythngUnexpectedException,
-					InternalErrorException {
+			public Boolean execute() throws EvrythngException {
 				// Create a new client:
 				HttpClient client = new DefaultHttpClient();
 				try {
@@ -67,6 +60,10 @@ public class ApiBuilder {
 			super(apiKey, methodBuilder, uri, responseStatus, responseType);
 		}
 
+		public Builder<T> apiKey(String apiKey) {
+			return header(ApiConfiguration.HTTP_HEADER_AUTHORIZATION, apiKey);
+		}
+
 		public Builder<T> page(int page) {
 			return queryParam(ApiConfiguration.QUERY_PARAM_PAGE, String.valueOf(page));
 		}
@@ -79,8 +76,16 @@ public class ApiBuilder {
 			return queryParam(ApiConfiguration.QUERY_PARAM_FROM, String.valueOf(from));
 		}
 
+		public Builder<T> from(QueryKeyword queryKeyword) {
+			return queryParam(ApiConfiguration.QUERY_PARAM_FROM, queryKeyword.toString());
+		}
+
 		public Builder<T> to(long to) {
 			return queryParam(ApiConfiguration.QUERY_PARAM_TO, String.valueOf(to));
+		}
+
+		public Builder<T> to(QueryKeyword queryKeyword) {
+			return queryParam(ApiConfiguration.QUERY_PARAM_TO, queryKeyword.toString());
 		}
 	}
 }

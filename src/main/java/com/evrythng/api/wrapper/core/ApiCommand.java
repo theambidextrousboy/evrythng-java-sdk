@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -22,6 +23,7 @@ import com.evrythng.api.wrapper.core.HttpMethodBuilder.MethodBuilder;
 import com.evrythng.api.wrapper.exception.BadRequestException;
 import com.evrythng.api.wrapper.exception.ConflictException;
 import com.evrythng.api.wrapper.exception.EvrythngClientException;
+import com.evrythng.api.wrapper.exception.EvrythngException;
 import com.evrythng.api.wrapper.exception.EvrythngUnexpectedException;
 import com.evrythng.api.wrapper.exception.ForbiddenException;
 import com.evrythng.api.wrapper.exception.InternalErrorException;
@@ -57,52 +59,32 @@ public class ApiCommand<T> {
 	 * Executes the current command and maps the {@link HttpResponse} entity to {@code T} specified by
 	 * {@link ApiCommand#responseType}.
 	 * 
-	 * @see #execute(HttpClient, HttpRequestBase)
+	 * @see #execute(TypeReference)
 	 * @return
-	 * @throws EvrythngClientException
-	 * @throws InternalErrorException
-	 * @throws EvrythngUnexpectedException
-	 * @throws ConflictException
-	 * @throws NotFoundException
-	 * @throws ForbiddenException
-	 * @throws UnauthorizedException
-	 * @throws BadRequestException
+	 * @throws EvrythngException
 	 */
-	@SuppressWarnings("unchecked")
-	public T execute() throws EvrythngClientException, BadRequestException, UnauthorizedException, ForbiddenException, NotFoundException, ConflictException, EvrythngUnexpectedException,
-			InternalErrorException {
-		// Create a new client:
-		HttpClient client = new DefaultHttpClient();
-		T result = null;
+	public T execute() throws EvrythngException {
+		return execute(responseType);
+	}
 
-		try {
-			// Execute request:
-			HttpResponse response = this.execute(client);
-
-			if (responseType.getType().equals(HttpResponse.class)) {
-				// We already have a HttpResponse, let's return it:
-				result = (T) response;
-			} else {
-				try {
-					HttpEntity entity = response.getEntity();
-					result = JSONUtils.read(entity.getContent(), responseType);
-				} catch (Exception e) {
-					// Convert to custom exception:
-					throw new EvrythngClientException(String.format("Error while mapping response entity! [type=%s]", responseType.getType()), e);
-				}
-			}
-		} finally {
-			shutdown(client);
-		}
-
-		return result;
+	/**
+	 * Executes the current command and wraps the {@link HttpResponse} entity into a JSONP callback.
+	 * 
+	 * @param callback The name of the callback function
+	 * @throws EvrythngException
+	 * @return
+	 */
+	public String jsonp(String callback) throws EvrythngException {
+		String data = execute(new TypeReference<String>() {
+		});
+		String jsonp = String.format("%s(%s);", callback, data);
+		return jsonp;
 	}
 
 	/*
 	 * FIXME: check usefulness & validity of this!
 	 */
-	public int count() throws EvrythngClientException, BadRequestException, UnauthorizedException, ForbiddenException, NotFoundException, ConflictException, EvrythngUnexpectedException,
-			InternalErrorException {
+	public int count() throws EvrythngException {
 		HttpClient client = new DefaultHttpClient();
 		try {
 			HttpResponse response = execute(client, new HttpGet(buildUri()), Status.OK);
@@ -123,6 +105,7 @@ public class ApiCommand<T> {
 	 * @param value
 	 */
 	public void setQueryParam(String key, String value) {
+		logger.debug("Setting query parameter: [key={}, value={}]", key, value);
 		queryParams.set(key, value);
 	}
 
@@ -154,19 +137,40 @@ public class ApiCommand<T> {
 
 	/**
 	 * 
+	 * @param type
+	 * @return
+	 * @throws EvrythngException
+	 */
+	@SuppressWarnings("unchecked")
+	protected <K> K execute(TypeReference<K> type) throws EvrythngException {
+		// Create a new client:
+		HttpClient client = new DefaultHttpClient();
+		K result = null;
+
+		try {
+			// Execute request:
+			HttpResponse response = this.execute(client);
+
+			if (type.equals(HttpResponse.class)) {
+				// We already have a HttpResponse, let's return it:
+				result = (K) response;
+			} else {
+				result = readEntity(response, type);
+			}
+		} finally {
+			shutdown(client);
+		}
+
+		return result;
+	}
+
+	/**
+	 * 
 	 * @param client
 	 * @return
-	 * @throws EvrythngClientException
-	 * @throws BadRequestException
-	 * @throws UnauthorizedException
-	 * @throws ForbiddenException
-	 * @throws NotFoundException
-	 * @throws ConflictException
-	 * @throws EvrythngUnexpectedException
-	 * @throws InternalErrorException
+	 * @throws EvrythngException
 	 */
-	protected HttpResponse execute(HttpClient client) throws EvrythngClientException, BadRequestException, UnauthorizedException, ForbiddenException, NotFoundException, ConflictException,
-			EvrythngUnexpectedException, InternalErrorException {
+	protected HttpResponse execute(HttpClient client) throws EvrythngException {
 		// Build request method:
 		HttpRequestBase request = methodBuilder.build(buildUri());
 
@@ -180,18 +184,10 @@ public class ApiCommand<T> {
 	 * @param request
 	 * @param expectedStatus
 	 * @return
-	 * @throws EvrythngClientException
-	 * @throws BadRequestException
-	 * @throws UnauthorizedException
-	 * @throws ForbiddenException
-	 * @throws NotFoundException
-	 * @throws ConflictException
-	 * @throws EvrythngUnexpectedException
-	 * @throws InternalErrorException
+	 * @throws EvrythngException
 	 */
-	protected HttpResponse execute(HttpClient client, HttpRequestBase request, Status expectedStatus) throws EvrythngClientException, BadRequestException, UnauthorizedException, ForbiddenException,
-			NotFoundException, ConflictException, EvrythngUnexpectedException, InternalErrorException {
-		logger.debug("Executing request: [method={}, url={}]", request.getMethod(), request.getURI().toString());
+	private HttpResponse execute(HttpClient client, HttpRequestBase request, Status expectedStatus) throws EvrythngException {
+		logger.debug(">> Executing request: [method={}, url={}]", request.getMethod(), request.getURI().toString());
 
 		HttpResponse response = null;
 		try {
@@ -202,10 +198,12 @@ public class ApiCommand<T> {
 		}
 
 		Status responseStatus = Status.fromStatusCode(response.getStatusLine().getStatusCode());
+		logger.debug("<< Response received: [code={}]", responseStatus.getStatusCode());
+
 		if (!responseStatus.equals(expectedStatus)) {
 			ErrorMessage message = null;
 			try {
-				message = JSONUtils.read(response.getEntity().getContent(), new TypeReference<ErrorMessage>() {
+				message = readEntity(response, new TypeReference<ErrorMessage>() {
 				});
 			} catch (Exception e) {
 				throw new EvrythngClientException("Unable to retrieve ErrorMessage from response!", e);
@@ -235,6 +233,38 @@ public class ApiCommand<T> {
 			}
 		}
 		return response;
+	}
+
+	/**
+	 * Reads entity content from the provided {@link HttpResponse} into the specified {@link TypeReference}.
+	 * 
+	 * @param response
+	 * @param type
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	@SuppressWarnings("unchecked")
+	private <K> K readEntity(HttpResponse response, TypeReference<K> type) throws EvrythngClientException {
+		HttpEntity entity = response.getEntity();
+		logger.debug("Reading response entity: [length={}, type={}]", entity.getContentLength(), type.getType());
+
+		K result = null;
+		if (type.getType().equals(String.class)) {
+			try {
+				result = (K) IOUtils.toString(entity.getContent());
+			} catch (Exception e) {
+				// Convert to custom exception:
+				throw new EvrythngClientException(String.format("Error while reading response entity! [type=%s]", String.class), e);
+			}
+		} else {
+			try {
+				result = JSONUtils.read(entity.getContent(), type);
+			} catch (Exception e) {
+				// Convert to custom exception:
+				throw new EvrythngClientException(String.format("Error while mapping response entity! [type=%s]", type), e);
+			}
+		}
+		return result;
 	}
 
 	/**

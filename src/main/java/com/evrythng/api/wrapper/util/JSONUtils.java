@@ -50,7 +50,12 @@ public final class JSONUtils {
 	 * @throws JsonParseException
 	 */
 	public static <T> T read(String json, Class<T> type) throws JsonParseException, JsonMappingException, IOException {
-		return getObjectMapper().readValue(json, type);
+		try {
+			return getObjectMapper().readValue(json, type);
+		} catch (Exception e) {
+			// Convert to unchecked exception:
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -59,12 +64,14 @@ public final class JSONUtils {
 	 * @param json
 	 * @param type
 	 * @return Deserialized native instance
-	 * @throws IOException
-	 * @throws JsonMappingException
-	 * @throws JsonParseException
 	 */
-	public static <T> T read(String json, TypeReference<T> typeToken) throws JsonParseException, JsonMappingException, IOException {
-		return getObjectMapper().readValue(json, typeToken);
+	public static <T> T read(String json, TypeReference<T> typeToken) {
+		try {
+			return getObjectMapper().readValue(json, typeToken);
+		} catch (Exception e) {
+			// Convert to unchecked exception:
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -73,13 +80,26 @@ public final class JSONUtils {
 	 * @param inputStream
 	 * @param type
 	 * @return Deserialized native instance
-	 * @throws IOException
-	 * @throws JsonMappingException
-	 * @throws JsonParseException
 	 */
 	public static <T> T read(InputStream inputStream, TypeReference<T> type) throws JsonParseException, JsonMappingException, IOException {
 		try {
 			return getObjectMapper().readValue(inputStream, type);
+		} catch (Exception e) {
+			// Convert to unchecked exception:
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * Deserializes the provided {@link InputStream} to a native {@code valueType} representation.
+	 * 
+	 * @param inputStream
+	 * @param type
+	 * @return Deserialized native instance
+	 */
+	public static <T> T read(InputStream inputStream, Class<T> valueType) {
+		try {
+			return getObjectMapper().readValue(inputStream, valueType);
 		} catch (Exception e) {
 			// Convert to unchecked exception:
 			throw new RuntimeException(e);

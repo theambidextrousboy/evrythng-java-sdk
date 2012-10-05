@@ -6,19 +6,14 @@ package com.evrythng.api.wrapper.core;
 
 import java.net.URI;
 
+import org.apache.http.HttpResponse;
+
 import com.evrythng.api.wrapper.core.HttpMethodBuilder.MethodBuilder;
-import com.evrythng.api.wrapper.exception.BadRequestException;
-import com.evrythng.api.wrapper.exception.ConflictException;
-import com.evrythng.api.wrapper.exception.EvrythngClientException;
-import com.evrythng.api.wrapper.exception.EvrythngUnexpectedException;
-import com.evrythng.api.wrapper.exception.ForbiddenException;
-import com.evrythng.api.wrapper.exception.InternalErrorException;
-import com.evrythng.api.wrapper.exception.NotFoundException;
-import com.evrythng.api.wrapper.exception.UnauthorizedException;
+import com.evrythng.api.wrapper.exception.EvrythngException;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
- * TODO: comment this class
+ * Generic API command builder.
  * 
  * @author Pedro De Almeida (almeidap)
  **/
@@ -29,10 +24,6 @@ public class CommandBuilder<T, B extends CommandBuilder> {
 
 	public CommandBuilder(String apiKey, MethodBuilder<?> methodBuilder, URI uri, Status responseStatus, TypeReference<T> responseType) {
 		this.command = new ApiCommand<T>(apiKey, methodBuilder, uri, responseStatus, responseType);
-	}
-
-	public B authorization(String apiKey) {
-		return header("Authorization", apiKey);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -48,34 +39,33 @@ public class CommandBuilder<T, B extends CommandBuilder> {
 	}
 
 	/**
+	 * @see ApiCommand#execute()
 	 * @return
-	 * @throws EvrythngClientException
-	 * @throws InternalErrorException
-	 * @throws EvrythngUnexpectedException
-	 * @throws ConflictException
-	 * @throws NotFoundException
-	 * @throws ForbiddenException
-	 * @throws UnauthorizedException
-	 * @throws BadRequestException
+	 * @throws EvrythngException
 	 */
-	public T execute() throws EvrythngClientException, BadRequestException, UnauthorizedException, ForbiddenException, NotFoundException, ConflictException, EvrythngUnexpectedException,
-			InternalErrorException {
+	public T execute() throws EvrythngException {
 		return command.execute();
 	}
 
 	/**
+	 * Executes the current command and wraps the {@link HttpResponse} entity into a JSONP callback.
+	 * 
+	 * @param callback The name of the callback function
+	 * @see ApiCommand#jsonp(String)
 	 * @return
-	 * @throws EvrythngClientException
-	 * @throws InternalErrorException
-	 * @throws EvrythngUnexpectedException
-	 * @throws ConflictException
-	 * @throws NotFoundException
-	 * @throws ForbiddenException
-	 * @throws UnauthorizedException
-	 * @throws BadRequestException
+	 * @throws EvrythngException
 	 */
-	public int count() throws EvrythngClientException, BadRequestException, UnauthorizedException, ForbiddenException, NotFoundException, ConflictException, EvrythngUnexpectedException,
-			InternalErrorException {
+	public String jsonp(String callback) throws EvrythngException {
+		return command.jsonp(callback);
+	}
+
+	/**
+	 * Counts the <strong>total</strong> number of elements if the current command was executed as a GET request.
+	 * 
+	 * @return
+	 * @throws EvrythngException
+	 */
+	public int count() throws EvrythngException {
 		return command.count();
 	}
 }

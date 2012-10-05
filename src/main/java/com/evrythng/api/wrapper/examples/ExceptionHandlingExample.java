@@ -96,7 +96,7 @@ public class ExceptionHandlingExample extends ExampleRunner {
 		}
 
 		try {
-			thngReader.authorization("invalid").execute();
+			thngReader.apiKey("invalid").execute();
 		} catch (ForbiddenException e) {
 			System.out.println("GET /thngs/{id}: [ForbiddenException]");
 		}

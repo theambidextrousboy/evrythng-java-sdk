@@ -5,7 +5,7 @@
 package com.evrythng.api.wrapper;
 
 /**
- * Configuration parameters and values for the EVRYTHNG Java Wrapper.
+ * Parameters and values for the EVRYTHNG API configuration.
  * 
  * @author Pedro De Almeida (almeidap)
  */
@@ -23,6 +23,7 @@ public class ApiConfiguration {
 	public static final String HTTP_ACCEPT_TYPE = "application/json";
 	public static final String HTTP_CONTENT_TYPE = "application/json";
 	public static final String HTTP_HEADER_RESULT_COUNT = "x-result-count";
+	public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
 
 	/*
 	 * Query Parameters
@@ -32,7 +33,23 @@ public class ApiConfiguration {
 	public static final String QUERY_PARAM_FROM = "from";
 	public static final String QUERY_PARAM_TO = "to";
 
-	public static final String QUERY_KEYWORD_LATEST = "latest";
+	public enum QueryKeyword {
+		LATEST("latest");
+
+		private String keyword;
+
+		QueryKeyword(String keyword) {
+			this.keyword = keyword;
+		}
+
+		/* {@inheritDoc}
+		 * @see java.lang.Enum#toString()
+		 */
+		@Override
+		public String toString() {
+			return keyword;
+		}
+	}
 
 	/*
 	 * Default values
