@@ -54,8 +54,8 @@ public class ApiCommand<T> {
 	}
 
 	/**
-	 * Executes the current command and maps the {@link HttpResponse} entity to {@code T} specified by
-	 * {@link ApiCommand#responseType}.
+	 * Executes the current command and maps the {@link HttpResponse} entity to
+	 * {@code T} specified by {@link ApiCommand#responseType}.
 	 * 
 	 * @see #execute(HttpClient, HttpRequestBase)
 	 * @return
@@ -202,6 +202,11 @@ public class ApiCommand<T> {
 		}
 
 		Status responseStatus = Status.fromStatusCode(response.getStatusLine().getStatusCode());
+
+		if (responseStatus == null) {
+			throw new EvrythngUnexpectedException(new ErrorMessage(Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Unknown status code " + response.getStatusLine().getStatusCode()));
+		}
+
 		if (!responseStatus.equals(expectedStatus)) {
 			ErrorMessage message = null;
 			try {
@@ -238,7 +243,8 @@ public class ApiCommand<T> {
 	}
 
 	/**
-	 * Shuts down the connection manager to ensure immediate deallocation of all system resources.
+	 * Shuts down the connection manager to ensure immediate deallocation of all
+	 * system resources.
 	 * 
 	 * @param client
 	 */
