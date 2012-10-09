@@ -68,4 +68,9 @@ public class CommandBuilder<T, B extends CommandBuilder> {
 	public int count() throws EvrythngException {
 		return command.count();
 	}
+
+	public String jsonp(String callback) throws EvrythngClientException, BadRequestException, UnauthorizedException, ForbiddenException, NotFoundException, ConflictException, EvrythngUnexpectedException,
+			InternalErrorException {
+		throw new IllegalStateException("Not implemented");
+	}
 }

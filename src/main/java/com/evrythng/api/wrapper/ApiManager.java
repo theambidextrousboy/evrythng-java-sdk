@@ -3,6 +3,7 @@ package com.evrythng.api.wrapper;
 import org.apache.commons.lang3.StringUtils;
 
 import com.evrythng.api.wrapper.service.CollectionService;
+import com.evrythng.api.wrapper.service.SearchService;
 import com.evrythng.api.wrapper.service.ThngService;
 
 /**
@@ -17,14 +18,16 @@ public class ApiManager {
 
 	private ThngService thngService;
 	private CollectionService collectionService;
+	private SearchService searchService;
 
 	/**
 	 * Create a new manager instance.
 	 */
-	public ApiManager(ApiConfiguration apiConfig) {
-		this.config = checkConfiguration(apiConfig);
+	public ApiManager(ApiConfiguration config) {
+		this.config = checkConfiguration(config);
 		thngService = new ThngService(this.config);
 		collectionService = new CollectionService(this.config);
+		searchService = new SearchService(this.config);
 	}
 
 	public ApiManager(String apiKey) {
@@ -57,7 +60,12 @@ public class ApiManager {
 		return this.collectionService;
 	}
 
+	public SearchService searchService() {
+		return this.searchService;
+	}
+
 	public ApiConfiguration getConfig() {
 		return config;
 	}
+
 }

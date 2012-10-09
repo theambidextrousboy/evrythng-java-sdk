@@ -76,12 +76,20 @@ public class ApiBuilder {
 			return queryParam(ApiConfiguration.QUERY_PARAM_FROM, String.valueOf(from));
 		}
 
+		public Builder<T> from(String from) {
+			return queryParam(ApiConfiguration.QUERY_PARAM_FROM, from);
+		}
+
 		public Builder<T> from(QueryKeyword queryKeyword) {
 			return queryParam(ApiConfiguration.QUERY_PARAM_FROM, queryKeyword.toString());
 		}
 
 		public Builder<T> to(long to) {
 			return queryParam(ApiConfiguration.QUERY_PARAM_TO, String.valueOf(to));
+		}
+
+		public Builder<T> to(String to) {
+			return queryParam(ApiConfiguration.QUERY_PARAM_TO, to);
 		}
 
 		public Builder<T> to(QueryKeyword queryKeyword) {
