@@ -52,7 +52,6 @@ public class CommandBuilder<T, B extends CommandBuilder> {
 	 * 
 	 * @param callback The name of the callback function
 	 * @see ApiCommand#jsonp(String)
-	 * @return
 	 * @throws EvrythngException
 	 */
 	public String jsonp(String callback) throws EvrythngException {
@@ -67,10 +66,5 @@ public class CommandBuilder<T, B extends CommandBuilder> {
 	 */
 	public int count() throws EvrythngException {
 		return command.count();
-	}
-
-	public String jsonp(String callback) throws EvrythngClientException, BadRequestException, UnauthorizedException, ForbiddenException, NotFoundException, ConflictException, EvrythngUnexpectedException,
-			InternalErrorException {
-		throw new IllegalStateException("Not implemented");
 	}
 }

@@ -21,15 +21,6 @@
 		<url>https://github.com/evrythng/evrythng-java-wrapper.git</url>
 	</scm>
 	
-	<distributionManagement>
-		<snapshotRepository>
-			<id>evrythng-repository</id>
-			<name>Evrythng Snapshots Repository</name>
-			<url>https://internal.evrythng.net/nexus/content/repositories/snapshots</url>
-			<uniqueVersion>false</uniqueVersion>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<properties>
 		<!-- Versions -->
 		<java.version>1.6</java.version>
