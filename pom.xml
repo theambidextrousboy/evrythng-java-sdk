@@ -199,4 +199,14 @@
 			<url>http://repo.springsource.org/release</url>
 		</repository>
 	</repositories>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>evrythng-repository</id>
+			<name>Evrythng Snapshots Repository</name>
+			<url>https://internal.evrythng.net/nexus/content/repositories/snapshots</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
+	
 </project>
