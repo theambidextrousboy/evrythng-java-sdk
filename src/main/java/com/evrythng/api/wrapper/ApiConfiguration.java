@@ -33,6 +33,7 @@ public class ApiConfiguration {
 	public static final String QUERY_PARAM_PER_PAGE = "perPage";
 	public static final String QUERY_PARAM_FROM = "from";
 	public static final String QUERY_PARAM_TO = "to";
+	public static final String QUERY_PARAM_CALLBACK = "callback";
 
 	public enum QueryKeyword {
 		LATEST("latest");

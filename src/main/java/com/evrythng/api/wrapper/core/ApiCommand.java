@@ -75,9 +75,10 @@ public class ApiCommand<T> {
 	 * @return
 	 */
 	public String jsonp(String callback) throws EvrythngException {
-		String data = execute(new TypeReference<String>() {
+		setQueryParam(ApiConfiguration.QUERY_PARAM_CALLBACK, callback);
+		String jsonp = execute(new TypeReference<String>() {
 		});
-		String jsonp = String.format("%s(%s);", callback, data);
+		removeQueryParam(ApiConfiguration.QUERY_PARAM_CALLBACK);
 		return jsonp;
 	}
 
@@ -107,6 +108,14 @@ public class ApiCommand<T> {
 	public void setQueryParam(String key, String value) {
 		logger.debug("Setting query parameter: [key={}, value={}]", key, value);
 		queryParams.set(key, value);
+	}
+
+	/**
+	 * @param name
+	 */
+	public void removeQueryParam(String key) {
+		logger.debug("Removing query parameter: [key={}]", key);
+		queryParams.remove(key);
 	}
 
 	/**
@@ -223,14 +232,16 @@ public class ApiCommand<T> {
 					throw new EvrythngUnexpectedException(message);
 			}
 		} else {
-			if (type.equals(HttpResponse.class)) {
+			if (type.getType().equals(HttpResponse.class)) {
 				// We already have a HttpResponse, let's return it:
 				result = (K) response;
+			} else if (type.getType().equals(String.class)) {
+				result = (K) entity;
 			} else {
 				try {
 					result = JSONUtils.read(entity, type);
 				} catch (Exception e) {
-					throw new EvrythngClientException(String.format("Unable to map response entity: [type=%s, entity=%s]", type, entity), e);
+					throw new EvrythngClientException(String.format("Unable to map response entity: [type=%s, entity=%s]", type.getType(), entity), e);
 				}
 			}
 		}
