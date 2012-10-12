@@ -52,7 +52,6 @@ public class CommandBuilder<T, B extends CommandBuilder> {
 	 * 
 	 * @param callback The name of the callback function
 	 * @see ApiCommand#jsonp(String)
-	 * @return
 	 * @throws EvrythngException
 	 */
 	public String jsonp(String callback) throws EvrythngException {

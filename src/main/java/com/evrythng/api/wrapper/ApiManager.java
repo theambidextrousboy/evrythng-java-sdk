@@ -21,8 +21,8 @@ public class ApiManager {
 	/**
 	 * Create a new manager instance.
 	 */
-	public ApiManager(ApiConfiguration apiConfig) {
-		this.config = checkConfiguration(apiConfig);
+	public ApiManager(ApiConfiguration config) {
+		this.config = checkConfiguration(config);
 		thngService = new ThngService(this.config);
 		collectionService = new CollectionService(this.config);
 	}
@@ -60,4 +60,5 @@ public class ApiManager {
 	public ApiConfiguration getConfig() {
 		return config;
 	}
+
 }
