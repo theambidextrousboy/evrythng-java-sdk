@@ -65,9 +65,9 @@ public final class JSONUtils {
 	 * @param type
 	 * @return Deserialized native instance
 	 */
-	public static <T> T read(String json, TypeReference<T> typeToken) {
+	public static <T> T read(String json, TypeReference<T> type) {
 		try {
-			return getObjectMapper().readValue(json, typeToken);
+			return getObjectMapper().readValue(json, type);
 		} catch (Exception e) {
 			// Convert to unchecked exception:
 			throw new RuntimeException(e);

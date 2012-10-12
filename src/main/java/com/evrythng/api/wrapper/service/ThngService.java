@@ -146,6 +146,17 @@ public class ThngService extends AbstractApiService {
 		});
 	}
 
+	/**
+	 * DELETE {@value #PATH_THNG_PROPERTIES}
+	 * 
+	 * @param thngId
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public Builder<Boolean> propertiesDeleter(String thngId) throws EvrythngClientException {
+		return delete(String.format(PATH_THNG_PROPERTIES, thngId));
+	}
+
 	/* ***** /thngs/{id}/properties/{key} ***** */
 
 	/**

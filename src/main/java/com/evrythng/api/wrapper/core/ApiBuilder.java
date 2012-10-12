@@ -19,7 +19,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
  * EVRYTHNG API commands builder.
  * 
  * @author Pedro De Almeida (almeidap)
- * 
  */
 public class ApiBuilder {
 
@@ -62,6 +61,10 @@ public class ApiBuilder {
 
 		public Builder<T> apiKey(String apiKey) {
 			return header(ApiConfiguration.HTTP_HEADER_AUTHORIZATION, apiKey);
+		}
+
+		public Builder<T> search(String pattern) {
+			return queryParam(ApiConfiguration.QUERY_PARAM_SEARCH, pattern);
 		}
 
 		public Builder<T> page(int page) {

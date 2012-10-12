@@ -5,10 +5,11 @@
  */
 package com.evrythng.api.wrapper.exception;
 
+import com.evrythng.api.wrapper.core.Status;
 import com.evrythng.thng.resource.model.exception.ErrorMessage;
 
 /**
- * TODO Comment this class
+ * {@link Status#BAD_REQUEST} (400)
  * 
  * @author Pedro De Almeida (almeidap)
  **/

@@ -28,6 +28,7 @@ public class ApiConfiguration {
 	/*
 	 * Query Parameters
 	 */
+	public static final String QUERY_PARAM_SEARCH = "q";
 	public static final String QUERY_PARAM_PAGE = "page";
 	public static final String QUERY_PARAM_PER_PAGE = "perPage";
 	public static final String QUERY_PARAM_FROM = "from";
