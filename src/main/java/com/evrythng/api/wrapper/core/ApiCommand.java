@@ -190,14 +190,14 @@ public class ApiCommand<T> {
 		// Retrieve response entity (as String so that it can be outputted in case of exception):
 		String entity = readEntity(response);
 
-		Status responseStatus = Status.fromStatusCode(response.getStatusLine().getStatusCode());
-		if (responseStatus == null) {
+		Status actualStatus = Status.fromStatusCode(response.getStatusLine().getStatusCode());
+		if (actualStatus == null) {
 			throw new EvrythngUnexpectedException(new ErrorMessage(Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Unknown status code " + response.getStatusLine().getStatusCode()));
 		}
-		logger.debug("<< Response received: [code={}, expected={}]", responseStatus.getStatusCode(), expectedStatus.getStatusCode());
+		logger.debug("<< Response received: [status={expected={}, actual={}}]", expectedStatus.getStatusCode(), actualStatus.getStatusCode());
 
-		if (!responseStatus.equals(expectedStatus)) {
-			logger.debug("Unexpected status code, mapping response to ErrorMessage...");
+		if (!actualStatus.equals(expectedStatus)) {
+			logger.debug("Unexpected status code, mapping response to ErrorMessage: [entity={}]", entity);
 
 			// Map to ErrorMessage:
 			ErrorMessage message = null;
@@ -210,9 +210,9 @@ public class ApiCommand<T> {
 			}
 
 			// Handle unexpected status (TODO: handle all required status family and codes):
-			switch (responseStatus.getFamily()) {
+			switch (actualStatus.getFamily()) {
 				case CLIENT_ERROR:
-					switch (responseStatus) {
+					switch (actualStatus) {
 						case BAD_REQUEST:
 							throw new BadRequestException(message);
 						case UNAUTHORIZED:
