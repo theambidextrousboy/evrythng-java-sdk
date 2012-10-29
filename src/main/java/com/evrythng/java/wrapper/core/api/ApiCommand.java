@@ -46,13 +46,13 @@ public class ApiCommand<T> {
 
 	private static final Logger logger = LoggerFactory.getLogger(ApiCommand.class);
 
-	protected LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-	protected Map<String, String> headers = new LinkedHashMap<String, String>();
+	private LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+	private Map<String, String> headers = new LinkedHashMap<String, String>();
 
-	protected MethodBuilder<?> methodBuilder;
-	protected URI uri;
-	protected Status responseStatus;
-	protected TypeReference<T> responseType;
+	private MethodBuilder<?> methodBuilder;
+	private URI uri;
+	private Status responseStatus;
+	private TypeReference<T> responseType;
 
 	/**
 	 * Creates a new instance of {@link ApiCommand}.

@@ -4,28 +4,61 @@
 
 	<groupId>com.evrythng</groupId>
 	<artifactId>evrythng-java-wrapper</artifactId>
-	<version>0.3.1-SNAPSHOT</version>
+	<version>0.3.2-SNAPSHOT</version>
 
 	<name>evrythng-java-wrapper</name>
 	<description>Java wrapper for the EVRYTHNG API.</description>
 	<url>https://github.com/evrythng/evrythng-java-wrapper</url>
-	
-	<issueManagement>
-		<system>JIRA</system>
-		<url>http://internal.evrythng.net/jira</url>
-	</issueManagement>
 
-	<scm>
-		<connection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</connection>
-		<developerConnection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</developerConnection>
-		<url>https://github.com/evrythng/evrythng-java-wrapper.git</url>
-	</scm>
-	
+	<organization>
+		<name>EVRYTHNG Ltd London / Zurich</name>
+		<url>http://www.evrythng.com</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>dom</id>
+			<email>dom@evrythng.com</email>
+			<name>Dominique Guinard</name>
+			<roles>
+				<role>Chief Technology Officer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>pedro</id>
+			<email>pedro@evrythng.com</email>
+			<name>Pedro de Almeida</name>
+			<roles>
+				<role>Lead Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>thomas</id>
+			<email>thomas@evrythng.com</email>
+			<name>Thomas Pham</name>
+			<roles>
+				<role>Lead Infrastructure / Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>my</id>
+			<email>my@evrythng.com</email>
+			<name>Michel Yerly</name>
+			<roles>
+				<role>Senior Backend Developer</role>
+			</roles>
+		</developer>
+	</developers>
+
 	<properties>
 		<!-- Versions -->
 		<java.version>1.6</java.version>
-		<apache.httpclient.version>4.0.1</apache.httpclient.version>
-		<jackson.databind.version>2.0.5</jackson.databind.version>
+		<apache.httpclient.version>4.2.1</apache.httpclient.version>
+		<jackson.databind.version>2.1.0</jackson.databind.version>
+		
+		<!-- Encodings -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 	<dependencies>
@@ -93,7 +126,7 @@
 			<version>3.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
+			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>1.3.2</version>
 		</dependency>
@@ -119,7 +152,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.evrythng.api.wrapper.exemples.Example</mainClass>
+							<mainClass>com.evrythng.java.wrapper.examples.ApiExamples</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -155,13 +188,6 @@
 			<plugin>
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.1</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.doxia</groupId>
-						<artifactId>doxia-module-markdown</artifactId>
-						<version>1.3</version>
-					</dependency>
-				</dependencies>
 				<executions>
 					<execution>
 						<id>attach-descriptor</id>
@@ -172,25 +198,55 @@
 				</executions>
 			</plugin>
 		</plugins>
-
-		<extensions>
-			<extension>
-				<groupId>com.github.stephenc.wagon</groupId>
-				<artifactId>wagon-gitsite</artifactId>
-				<version>0.4.1</version>
-			</extension>
-		</extensions>
-
 	</build>
 
 	<repositories>
 		<repository>
+			<id>evrythng-repository</id>
+			<name>Internal Snapshots</name>
+			<url>https://internal.evrythng.net/nexus/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>evrythng-releases</id>
+			<name>Internal Releases</name>
+			<url>https://internal.evrythng.net/nexus/content/repositories/releases</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
 			<id>springsource-repo</id>
 			<name>SpringSource Repository</name>
 			<url>http://repo.springsource.org/release</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
 
+	<scm>
+		<connection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</connection>
+		<developerConnection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</developerConnection>
+		<url>https://github.com/evrythng/evrythng-java-wrapper.git</url>
+	</scm>
+
+	<issueManagement>
+		<system>JIRA</system>
+		<url>http://internal.evrythng.net/jira</url>
+	</issueManagement>
+	
 	<distributionManagement>
 		<snapshotRepository>
 			<id>evrythng-repository</id>
@@ -199,5 +255,5 @@
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
 	</distributionManagement>
-	
+
 </project>

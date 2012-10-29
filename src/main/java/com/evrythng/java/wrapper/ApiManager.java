@@ -17,7 +17,7 @@ import com.evrythng.java.wrapper.service.ThngService;
  */
 public class ApiManager {
 
-	protected final ApiConfiguration config;
+	private final ApiConfiguration config;
 
 	private ThngService thngService;
 	private CollectionService collectionService;
@@ -59,7 +59,7 @@ public class ApiManager {
 
 	/**
 	 * Returns a preconfigured EVRYTHNG service for accessing the <a
-	 * href="https://dev.evrythng.com/documentation/api#thngs">Thngs</code> API.
+	 * href="https://dev.evrythng.com/documentation/api#thngs">Thngs</a> API.
 	 * 
 	 * @see ThngService
 	 */
@@ -69,7 +69,7 @@ public class ApiManager {
 
 	/**
 	 * Returns a preconfigured EVRYTHNG service for accessing the <a
-	 * href="https://dev.evrythng.com/documentation/api#collections">Collections</code> API.
+	 * href="https://dev.evrythng.com/documentation/api#collections">Collections</a> API.
 	 * 
 	 * @see CollectionService
 	 */

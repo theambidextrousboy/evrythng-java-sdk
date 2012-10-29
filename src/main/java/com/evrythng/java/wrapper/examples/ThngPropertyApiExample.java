@@ -18,10 +18,12 @@ import com.evrythng.thng.resource.model.store.PropertyValue;
 import com.evrythng.thng.resource.model.store.Thng;
 
 /**
- * This is a simple example of how to use the EVRYTHNG API wrapper.
+ * Example on the usage of the EVRYTHNG Java Wrapper for accessing the <a
+ * href="https://dev.evrythng.com/documentation/api#properties">Thngs > Properties</a> API.
  * 
- * @author Dominique Guinard (domguinard)
+ * TODO: clean up the example code
  * 
+ * @author Pedro De Almeida (almeidap)
  */
 public class ThngPropertyApiExample extends ExampleRunner {
 
@@ -39,11 +41,11 @@ public class ThngPropertyApiExample extends ExampleRunner {
 	public static void main(String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
-			ApiExamples.usage();
+			usage();
 			return;
 		}
 
-		ApiConfiguration config = ApiExamples.extractConfig(args);
+		ApiConfiguration config = extractConfig(args);
 
 		// Run example:
 		new ThngPropertyApiExample(config).run();
@@ -57,7 +59,7 @@ public class ThngPropertyApiExample extends ExampleRunner {
 	@Override
 	public void doRun() throws EvrythngException {
 		// Initialize the API Manager:
-		ApiManager apiManager = new ApiManager(config);
+		ApiManager apiManager = new ApiManager(getConfig());
 
 		// Get the Thng API service.
 		ThngService thngService = apiManager.thngService();

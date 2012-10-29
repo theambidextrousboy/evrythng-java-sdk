@@ -18,10 +18,11 @@ import com.evrythng.java.wrapper.service.ThngService;
 import com.evrythng.thng.resource.model.store.Thng;
 
 /**
- * This is a simple example of how to use the EVRYTHNG API wrapper.
+ * Example of API exception handling using the EVRYTHNG Java Wrapper.
  * 
- * @author Dominique Guinard (domguinard)
+ * TODO: clean up the example code
  * 
+ * @author Pedro De Almeida (almeidap)
  */
 public class ExceptionHandlingExample extends ExampleRunner {
 
@@ -39,11 +40,11 @@ public class ExceptionHandlingExample extends ExampleRunner {
 	public static void main(String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
-			ApiExamples.usage();
+			usage();
 			return;
 		}
 
-		ApiConfiguration config = ApiExamples.extractConfig(args);
+		ApiConfiguration config = extractConfig(args);
 
 		// Run example:
 		new ExceptionHandlingExample(config).run();
@@ -58,7 +59,7 @@ public class ExceptionHandlingExample extends ExampleRunner {
 	@Override
 	public void doRun() throws EvrythngException {
 		// Initialize the API Manager:
-		ApiManager apiManager = new ApiManager(config);
+		ApiManager apiManager = new ApiManager(getConfig());
 
 		// Get the Thng API service.
 		ThngService thngService = apiManager.thngService();

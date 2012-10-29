@@ -23,9 +23,8 @@ import com.evrythng.java.wrapper.exception.EvrythngClientException;
  * TODO Comment this class
  * 
  * @author Thomas Pham (tpham)
- * @copyright 2012 Evrythng Ltd London / Zurich
  **/
-public class URIBuilder {
+public final class URIBuilder {
 
 	private final String baseUri;
 

@@ -13,14 +13,7 @@ import com.evrythng.java.wrapper.exception.EvrythngException;
  * 
  * @author Pedro De Almeida (almeidap)
  */
-public class ApiExamples extends ExampleRunner {
-
-	/**
-	 * @param config
-	 */
-	public ApiExamples(ApiConfiguration config) {
-		super(config);
-	}
+public class ApiExamples {
 
 	/**
 	 * @param args
@@ -29,25 +22,18 @@ public class ApiExamples extends ExampleRunner {
 	public static void main(String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
-			usage();
+			ExampleRunner.usage();
 			return;
 		}
 
-		ApiConfiguration config = extractConfig(args);
-		new ApiExamples(config).run();
+		ApiConfiguration config = ExampleRunner.extractConfig(args);
 
-		System.exit(0);
-	}
-
-	/* {@inheritDoc}
-	 * @see com.evrythng.java.wrapper.examples.ExampleRunner#doRun()
-	 */
-	@Override
-	public void doRun() throws EvrythngException {
 		// Run examples:
 		new ThngApiExample(config).run();
 		new ThngLocationApiExample(config).run();
 		new ThngPropertyApiExample(config).run();
 		new ExceptionHandlingExample(config).run();
+
+		System.exit(0);
 	}
 }

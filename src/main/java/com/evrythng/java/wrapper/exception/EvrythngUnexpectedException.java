@@ -14,6 +14,8 @@ import com.evrythng.thng.resource.model.exception.ErrorMessage;
  **/
 public class EvrythngUnexpectedException extends EvrythngErrorException {
 
+	private static final long serialVersionUID = 1L;
+
 	public EvrythngUnexpectedException(ErrorMessage message) {
 		super(message);
 	}

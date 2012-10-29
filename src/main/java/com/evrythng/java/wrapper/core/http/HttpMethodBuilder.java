@@ -23,22 +23,16 @@ import com.evrythng.java.wrapper.util.JSONUtils;
  * 
  * @author Pedro De Almeida (almeidap)
  **/
-public class HttpMethodBuilder {
+public final class HttpMethodBuilder {
 
 	public interface MethodBuilder<T extends HttpRequestBase> {
 		T build(URI uri) throws EvrythngClientException;
 	}
 
-	public static abstract class EntityMethodBuilder<E extends HttpEntityEnclosingRequestBase> implements MethodBuilder<E> {
-
-		protected void entity(E request, final Object data) throws EvrythngClientException {
-			try {
-				request.setEntity(new StringEntity(JSONUtils.write(data)));
-			} catch (Exception e) {
-				// Convert to custom exception:
-				throw new EvrythngClientException("Unable to define request entity: [data={}]", e);
-			}
-		}
+	/**
+	 * Private constructor, use static methods to create a {@link MethodBuilder}.
+	 */
+	private HttpMethodBuilder() {
 	}
 
 	public static MethodBuilder<HttpPost> httpPost(final Object data) {
@@ -79,5 +73,17 @@ public class HttpMethodBuilder {
 				return new HttpDelete(uri);
 			}
 		};
+	}
+
+	protected static abstract class EntityMethodBuilder<E extends HttpEntityEnclosingRequestBase> implements MethodBuilder<E> {
+
+		protected void entity(E request, final Object data) throws EvrythngClientException {
+			try {
+				request.setEntity(new StringEntity(JSONUtils.write(data)));
+			} catch (Exception e) {
+				// Convert to custom exception:
+				throw new EvrythngClientException("Unable to define request entity: [data={}]", e);
+			}
+		}
 	}
 }

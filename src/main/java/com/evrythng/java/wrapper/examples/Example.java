@@ -5,20 +5,15 @@
  */
 package com.evrythng.java.wrapper.examples;
 
-import com.evrythng.java.wrapper.ApiManager;
-import com.evrythng.java.wrapper.service.CollectionService;
-import com.evrythng.java.wrapper.service.ThngService;
-
 /**
  * This is a simple example of how to use the EVRYTHNG API wrapper.
  * 
  * @author Dominique Guinard (domguinard)
- * 
  */
+@Deprecated
 public class Example {
 	// private static String EVRYTHNG_ROOT_URL = "URL_HERE";
-
-	private static final String ACCESS_TOKEN = "YOUR_API_TOKEN_HERE";
+	// private static final String ACCESS_TOKEN = "YOUR_API_TOKEN_HERE";
 
 	/**
 	 * @param args
@@ -26,10 +21,11 @@ public class Example {
 	public static void main(String[] args) {
 
 		// Instantiate the API Manager
-		ApiManager apiManager = new ApiManager(ACCESS_TOKEN);
+		// ApiManager apiManager = new ApiManager(ACCESS_TOKEN);
 
-		ThngService thngService = apiManager.thngService();
-		CollectionService collectionService = apiManager.collectionService();
+		// ThngService thngService = apiManager.thngService();
+		// CollectionService collectionService = apiManager.collectionService();
+
 		/*
 		// Create a new Thng
 		Thng aThng = new Thng();

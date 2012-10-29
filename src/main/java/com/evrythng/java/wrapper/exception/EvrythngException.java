@@ -6,7 +6,7 @@
 package com.evrythng.java.wrapper.exception;
 
 /**
- * TODO Comment this class
+ * Root definition for handling any exception thrown by the wrapper.
  * 
  * @author Thomas Pham (tpham)
  * @author Pedro De Almeida (almeidap)

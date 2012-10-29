@@ -21,7 +21,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 @SuppressWarnings("rawtypes")
 public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 
-	protected ApiCommand<T> command;
+	private final ApiCommand<T> command;
 
 	public ApiCommandBuilder(MethodBuilder<?> methodBuilder, URI uri, Status responseStatus, TypeReference<T> responseType) {
 		this.command = new ApiCommand<T>(methodBuilder, uri, responseStatus, responseType);
@@ -82,5 +82,9 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	 */
 	public HttpResponse request() throws EvrythngException {
 		return command.request();
+	}
+
+	public ApiCommand<T> getCommand() {
+		return command;
 	}
 }

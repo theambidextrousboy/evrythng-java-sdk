@@ -16,13 +16,13 @@ import com.evrythng.java.wrapper.util.URIBuilder;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
- * Base definition for API services.
+ * Base definition for EVRYTHNG API services.
  * 
  * @author Pedro De Almeida (almeidap)
  **/
 public class EvrythngServiceBase {
 
-	protected ApiConfiguration config;
+	private final ApiConfiguration config;
 
 	/**
 	 * Creates a new instance of {@link EvrythngServiceBase} using the provided {@link ApiConfiguration}.
@@ -100,9 +100,11 @@ public class EvrythngServiceBase {
 	 * @throws EvrythngClientException
 	 */
 	private URI absoluteUri(String relativePath) throws EvrythngClientException {
-		if (!relativePath.startsWith("/")) {
-			relativePath = String.format("/%s", relativePath);
-		}
-		return URIBuilder.fromUri(String.format("%s%s", config.getUrl(), relativePath)).build();
+		String path = relativePath.startsWith("/") ? relativePath : String.format("/%s", relativePath);
+		return URIBuilder.fromUri(String.format("%s%s", config.getUrl(), path)).build();
+	}
+
+	public ApiConfiguration getConfig() {
+		return config;
 	}
 }

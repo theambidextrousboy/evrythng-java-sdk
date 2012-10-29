@@ -22,13 +22,13 @@ import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
- * Commands builder for the EVRYTHNG API.
+ * Entry-point command builder for the EVRYTHNG API.
  * 
  * @author Pedro De Almeida (almeidap)
  */
-public class EvrythngApiBuilder {
+public final class EvrythngApiBuilder {
 
-	private static final Logger logger = LoggerFactory.getLogger(ApiCommand.class);
+	private static final Logger logger = LoggerFactory.getLogger(EvrythngApiBuilder.class);
 
 	/**
 	 * Protected constructor, use one of the static methods to obtain an instance.
@@ -36,21 +36,62 @@ public class EvrythngApiBuilder {
 	protected EvrythngApiBuilder() {
 	}
 
+	/**
+	 * Creates a {@link Builder} for executing a {@code POST} request.
+	 * 
+	 * @param apiKey the authorization token for accessing the EVRYTHNG API
+	 * @param uri the {@link URI} holding the absolute URL
+	 * @param data the content data that will be associated with the POST request
+	 * @param responseStatus the expected {@link HttpResponse} status
+	 * @param responseType the native type to which the {@link HttpResponse} will be mapped to
+	 * @return an EVRYTHNG API-ready {@link Builder}
+	 */
 	public static <T> Builder<T> post(String apiKey, URI uri, Object data, Status responseStatus, TypeReference<T> responseType) {
 		return new Builder<T>(apiKey, HttpMethodBuilder.httpPost(data), uri, responseStatus, responseType);
 	}
 
+	/**
+	 * Creates a {@link Builder} for executing a {@code GET} request.
+	 * 
+	 * @param apiKey the authorization token for accessing the EVRYTHNG API
+	 * @param uri the {@link URI} holding the absolute URL
+	 * @param responseStatus the expected {@link HttpResponse} status
+	 * @param responseType the native type to which the {@link HttpResponse} will be mapped to
+	 * @return an EVRYTHNG API-ready {@link Builder}
+	 */
 	public static <T> Builder<T> get(String apiKey, URI uri, Status responseStatus, TypeReference<T> returnType) {
 		return new Builder<T>(apiKey, HttpMethodBuilder.httpGet(), uri, responseStatus, returnType);
 	}
 
+	/**
+	 * Creates a {@link Builder} for executing a {@code PUT} request.
+	 * 
+	 * @param apiKey the authorization token for accessing the EVRYTHNG API
+	 * @param uri the {@link URI} holding the absolute URL
+	 * @param data the content data that will be associated with the POST request
+	 * @param responseStatus the expected {@link HttpResponse} status
+	 * @param responseType the native type to which the {@link HttpResponse} will be mapped to
+	 * @return an EVRYTHNG API-ready {@link Builder}
+	 */
 	public static <T> Builder<T> put(String apiKey, URI uri, Object data, Status responseStatus, TypeReference<T> returnType) {
 		return new Builder<T>(apiKey, HttpMethodBuilder.httpPut(data), uri, responseStatus, returnType);
 	}
 
+	/**
+	 * Creates a {@link Builder} for executing a {@code DELETE} request.
+	 * 
+	 * @param apiKey the authorization token for accessing the EVRYTHNG API
+	 * @param uri the {@link URI} holding the absolute URL
+	 * @param responseStatus the expected {@link HttpResponse} status
+	 * @return an EVRYTHNG API-ready {@link Builder}
+	 */
 	public static Builder<Boolean> delete(String apiKey, URI uri, Status responseStatus) {
 		return new Builder<Boolean>(apiKey, HttpMethodBuilder.httpDelete(), uri, responseStatus, new TypeReference<Boolean>() {
 		}) {
+			/**
+			 * {@code true} if the request has been successfully executed (i.e. returned response status code equals
+			 * {@link Status#OK}), {@code false} otherwise
+			 */
 			@Override
 			public Boolean execute() throws EvrythngException {
 				// Perform request (response status code will be automatically checked):
@@ -59,9 +100,16 @@ public class EvrythngApiBuilder {
 		};
 	}
 
+	/**
+	 * Default command builder for the EVRYTHNG API.
+	 * 
+	 * @author Pedro De Almeida (almeidap)
+	 */
 	public static class Builder<T> extends ApiCommandBuilder<T, Builder<T>> {
 
-		/* Hide constructor */
+		/**
+		 * Private constructor, use {@link EvrythngApiBuilder} static methods for creating a {@link Builder}.
+		 */
 		private Builder(String apiKey, MethodBuilder<?> methodBuilder, URI uri, Status responseStatus, TypeReference<T> responseType) {
 			super(methodBuilder, uri, responseStatus, responseType);
 
@@ -112,7 +160,8 @@ public class EvrythngApiBuilder {
 		}
 
 		/**
-		 * Count the <strong>total</strong> number of elements if the current command was executed as a {@code HEAD} request.
+		 * Counts the <strong>total</strong> number of elements if the current command was executed as a {@code HEAD}
+		 * request.
 		 * 
 		 * TODO: check usefulness & validity of this!
 		 * 
@@ -122,7 +171,7 @@ public class EvrythngApiBuilder {
 		 */
 		public int count() throws EvrythngException {
 			logger.debug("Counting total number of elements: [header={}]", ApiConfiguration.HTTP_HEADER_RESULT_COUNT);
-			Header xResultCountHeader = command.head(ApiConfiguration.HTTP_HEADER_RESULT_COUNT);
+			Header xResultCountHeader = getCommand().head(ApiConfiguration.HTTP_HEADER_RESULT_COUNT);
 			return Integer.valueOf(xResultCountHeader.getValue());
 		}
 
@@ -140,7 +189,7 @@ public class EvrythngApiBuilder {
 			queryParam(ApiConfiguration.QUERY_PARAM_CALLBACK, callback);
 
 			// Retrieve response output:
-			String jsonp = command.output();
+			String jsonp = getCommand().output();
 
 			// Remove callback to avoid conflicts on future requests:
 			queryParam(ApiConfiguration.QUERY_PARAM_CALLBACK, null);

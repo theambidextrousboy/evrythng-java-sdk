@@ -20,7 +20,7 @@ public abstract class ExampleRunner {
 
 	private static final Logger logger = LoggerFactory.getLogger(ExampleRunner.class);
 
-	protected ApiConfiguration config;
+	private final ApiConfiguration config;
 
 	/**
 	 * @param config
@@ -34,7 +34,7 @@ public abstract class ExampleRunner {
 			// Delegate:
 			doRun();
 		} catch (EvrythngException e) {
-			System.out.println("[EvrythngException] " + e.getMessage());
+			echo("[EvrythngException] ", e.getMessage());
 			throw e;
 		}
 	}
@@ -54,16 +54,28 @@ public abstract class ExampleRunner {
 	}
 
 	public static void usage() {
-		System.out.println(">> Usage:");
-		System.out.println("   --key: The EVRYTHNG API key for authentication.\n");
-		System.out.println("   --url: [Optional] The EVRYTHNG API base URL.\n");
+		echo(">> Usage:");
+		echo("   --key: The EVRYTHNG API key for authentication.\n");
+		echo("   --url: [Optional] The EVRYTHNG API base URL.\n");
 	}
 
 	/**
 	 * @param string
 	 * @param results
 	 */
-	protected void echo(String label, Object object) {
+	public static void echo(String message) {
+		logger.info("[ECHO] {}", message);
+	}
+
+	/**
+	 * @param string
+	 * @param results
+	 */
+	public static void echo(String label, Object object) {
 		logger.info("[ECHO] {}: {}", label, JSONUtils.write(object));
+	}
+
+	public ApiConfiguration getConfig() {
+		return config;
 	}
 }

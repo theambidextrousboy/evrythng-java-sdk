@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import com.evrythng.java.wrapper.exception.WrappedRuntimeException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,7 +35,7 @@ public final class JSONUtils {
 	/**
 	 * ObjectMapper singleton.
 	 */
-	private static ObjectMapper MAPPER = null;
+	public static final ObjectMapper OBJECT_MAPPER = createObjectMapper();
 
 	private JSONUtils() {
 		/* Hide default constructor */
@@ -52,10 +53,10 @@ public final class JSONUtils {
 	 */
 	public static <T> T read(String json, Class<T> type) throws JsonParseException, JsonMappingException, IOException {
 		try {
-			return getObjectMapper().readValue(json, type);
+			return OBJECT_MAPPER.readValue(json, type);
 		} catch (Exception e) {
-			// Convert to unchecked exception:
-			throw new RuntimeException(e);
+			// Wrap into unchecked exception:
+			throw new WrappedRuntimeException(e);
 		}
 	}
 
@@ -68,10 +69,10 @@ public final class JSONUtils {
 	 */
 	public static <T> T read(String json, TypeReference<T> type) {
 		try {
-			return getObjectMapper().readValue(json, type);
+			return OBJECT_MAPPER.readValue(json, type);
 		} catch (Exception e) {
-			// Convert to unchecked exception:
-			throw new RuntimeException(e);
+			// Wrap into unchecked exception:
+			throw new WrappedRuntimeException(e);
 		}
 	}
 
@@ -84,10 +85,10 @@ public final class JSONUtils {
 	 */
 	public static <T> T read(InputStream inputStream, TypeReference<T> type) throws JsonParseException, JsonMappingException, IOException {
 		try {
-			return getObjectMapper().readValue(inputStream, type);
+			return OBJECT_MAPPER.readValue(inputStream, type);
 		} catch (Exception e) {
-			// Convert to unchecked exception:
-			throw new RuntimeException(e);
+			// Wrap into unchecked exception:
+			throw new WrappedRuntimeException(e);
 		}
 	}
 
@@ -100,10 +101,10 @@ public final class JSONUtils {
 	 */
 	public static <T> T read(InputStream inputStream, Class<T> valueType) {
 		try {
-			return getObjectMapper().readValue(inputStream, valueType);
+			return OBJECT_MAPPER.readValue(inputStream, valueType);
 		} catch (Exception e) {
-			// Convert to unchecked exception:
-			throw new RuntimeException(e);
+			// Wrap into unchecked exception:
+			throw new WrappedRuntimeException(e);
 		}
 	}
 
@@ -115,25 +116,11 @@ public final class JSONUtils {
 	 */
 	public static String write(Object object) {
 		try {
-			return getObjectMapper().writeValueAsString(object);
+			return OBJECT_MAPPER.writeValueAsString(object);
 		} catch (Exception e) {
-			// Convert to unchecked exception:
-			throw new RuntimeException(e);
+			// Wrap into unchecked exception:
+			throw new WrappedRuntimeException(e);
 		}
-	}
-
-	/**
-	 * Create an {@link ObjectMapper} and register all of the custom types
-	 * needed
-	 * in order to properly deserialize complex evrythng-specific types.
-	 * 
-	 * @return Assembled Jackson mapper instance.
-	 */
-	public static ObjectMapper getObjectMapper() {
-		if (MAPPER == null) {
-			MAPPER = createObjectMapper();
-		}
-		return MAPPER;
 	}
 
 	/**
