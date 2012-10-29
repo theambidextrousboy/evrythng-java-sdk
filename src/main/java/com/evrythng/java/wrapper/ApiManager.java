@@ -10,7 +10,7 @@ import com.evrythng.java.wrapper.service.CollectionService;
 import com.evrythng.java.wrapper.service.ThngService;
 
 /**
- * Definition for API management.
+ * Manager for the EVRYTHNG API.
  * 
  * @author Thomas Pham (tpham)
  * @author Pedro De Almeida (almeidap)

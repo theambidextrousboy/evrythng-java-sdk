@@ -4,7 +4,7 @@
 
 	<groupId>com.evrythng</groupId>
 	<artifactId>evrythng-java-wrapper</artifactId>
-	<version>0.3.2-SNAPSHOT</version>
+	<version>0.3.3-SNAPSHOT</version>
 
 	<name>evrythng-java-wrapper</name>
 	<description>Java wrapper for the EVRYTHNG API.</description>
