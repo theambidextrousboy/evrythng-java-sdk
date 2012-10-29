@@ -188,67 +188,28 @@ public class ApiCommand<T> {
 				HttpUriRequest request = buildRequest(method);
 				logger.debug(">> Executing request: [method={}, url={}]", request.getMethod(), request.getURI().toString());
 				response = client.execute(request);
+				logger.debug("<< Response received: [statusLine={}]", response.getStatusLine().toString());
 			} catch (Exception e) {
 				// Convert to custom exception:
 				throw new EvrythngClientException("Unable to execute request!", e);
 			}
 
+			// Assert response status:
+			assertStatus(response, expectedStatus);
+
 			// Retrieve response entity (as String so that it can be outputted in case of exception):
 			String entity = readEntity(response);
 
-			Status actualStatus = Status.fromStatusCode(response.getStatusLine().getStatusCode());
-			if (actualStatus == null) {
-				throw new EvrythngUnexpectedException(new ErrorMessage(Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Unknown status code " + response.getStatusLine().getStatusCode()));
-			}
-			logger.debug("<< Response received: [status={expected={}, actual={}}]", expectedStatus.getStatusCode(), actualStatus.getStatusCode());
-
-			if (!actualStatus.equals(expectedStatus)) {
-				logger.debug("Unexpected status code, mapping response to ErrorMessage: [entity={}]", entity);
-
-				// Map to ErrorMessage:
-				ErrorMessage message = null;
-				try {
-					// API should always return an ErrorMessage as JSON:
-					message = JSONUtils.read(entity, new TypeReference<ErrorMessage>() {
-					});
-				} catch (Exception e) {
-					throw new EvrythngClientException(String.format("Unable to retrieve ErrorMessage from response: [entity=%s]", entity), e);
-				}
-
-				// Handle unexpected status:
-				switch (actualStatus.getFamily()) {
-					case CLIENT_ERROR:
-						switch (actualStatus) {
-							case BAD_REQUEST:
-								throw new BadRequestException(message);
-							case UNAUTHORIZED:
-								throw new UnauthorizedException(message);
-							case FORBIDDEN:
-								throw new ForbiddenException(message);
-							case NOT_FOUND:
-								throw new NotFoundException(message);
-							case CONFLICT:
-								throw new ConflictException(message);
-							default:
-								throw new EvrythngUnexpectedException(message);
-						}
-					case SERVER_ERROR:
-						throw new InternalErrorException(message);
-					default:
-						throw new EvrythngUnexpectedException(message);
-				}
+			if (type.getType().equals(HttpResponse.class)) {
+				// We already have a HttpResponse, let's return it:
+				result = (K) response;
+			} else if (type.getType().equals(String.class)) {
+				result = (K) entity;
 			} else {
-				if (type.getType().equals(HttpResponse.class)) {
-					// We already have a HttpResponse, let's return it:
-					result = (K) response;
-				} else if (type.getType().equals(String.class)) {
-					result = (K) entity;
-				} else {
-					try {
-						result = JSONUtils.read(entity, type);
-					} catch (Exception e) {
-						throw new EvrythngClientException(String.format("Unable to map response entity: [type=%s, entity=%s]", type.getType(), entity), e);
-					}
+				try {
+					result = JSONUtils.read(entity, type);
+				} catch (Exception e) {
+					throw new EvrythngClientException(String.format("Unable to map response entity: [type=%s, entity=%s]", type.getType(), entity), e);
 				}
 			}
 			return result;
@@ -307,6 +268,61 @@ public class ApiCommand<T> {
 			throw new EvrythngClientException(String.format("Error while reading response entity! [type=%s]", String.class), e);
 		}
 		return result;
+	}
+
+	/**
+	 * Asserts {@code expected} {@link Status} against the provided {@link HttpResponse}. If {@code actual} response
+	 * {@link Status} does not match {@code expected} one, then reponse entity will be mapped to an {@link ErrorMessage}
+	 * instance and an exception will be thrown.
+	 * 
+	 * @param response the {@link HttpResponse} holding a valid status code
+	 * @param expected the expected response status code
+	 * @throws EvrythngException if provided {@code response} {@link Status} does not match {@code expected} one
+	 */
+	private void assertStatus(HttpResponse response, Status expected) throws EvrythngException {
+		Status actual = Status.fromStatusCode(response.getStatusLine().getStatusCode());
+		if (actual == null) {
+			throw new EvrythngUnexpectedException(new ErrorMessage(Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Unknown status code " + actual));
+		}
+		logger.debug("Checking response status: [expected={}, actual={}]", expected.getStatusCode(), actual.getStatusCode());
+
+		if (!actual.equals(expected)) {
+			logger.debug("Unexpected response status, mapping entity to ErrorMessage...");
+
+			// Map entity to ErrorMessage:
+			String entity = readEntity(response);
+			ErrorMessage message = null;
+			try {
+				// API should always return an ErrorMessage as JSON:
+				message = JSONUtils.read(entity, new TypeReference<ErrorMessage>() {
+				});
+			} catch (Exception e) {
+				throw new EvrythngClientException(String.format("Unable to retrieve ErrorMessage from response: [entity=%s]", entity), e);
+			}
+
+			// Handle unexpected status:
+			switch (actual.getFamily()) {
+				case CLIENT_ERROR:
+					switch (actual) {
+						case BAD_REQUEST:
+							throw new BadRequestException(message);
+						case UNAUTHORIZED:
+							throw new UnauthorizedException(message);
+						case FORBIDDEN:
+							throw new ForbiddenException(message);
+						case NOT_FOUND:
+							throw new NotFoundException(message);
+						case CONFLICT:
+							throw new ConflictException(message);
+						default:
+							throw new EvrythngUnexpectedException(message);
+					}
+				case SERVER_ERROR:
+					throw new InternalErrorException(message);
+				default:
+					throw new EvrythngUnexpectedException(message);
+			}
+		}
 	}
 
 	/**

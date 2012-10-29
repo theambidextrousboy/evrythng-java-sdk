@@ -15,10 +15,6 @@ import com.evrythng.java.wrapper.exception.EvrythngException;
  */
 public class ApiExamples {
 
-	/**
-	 * @param args
-	 * @throws EvrythngException
-	 */
 	public static void main(String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
@@ -29,6 +25,7 @@ public class ApiExamples {
 		ApiConfiguration config = ExampleRunner.extractConfig(args);
 
 		// Run examples:
+		new SimpleExample(config).run();
 		new ThngApiExample(config).run();
 		new ThngLocationApiExample(config).run();
 		new ThngPropertyApiExample(config).run();

@@ -16,6 +16,8 @@ import com.evrythng.thng.resource.model.exception.ErrorMessage;
  **/
 public class NotFoundException extends EvrythngErrorException {
 
+	private static final long serialVersionUID = 1L;
+
 	public NotFoundException(ErrorMessage message) {
 		super(message);
 	}

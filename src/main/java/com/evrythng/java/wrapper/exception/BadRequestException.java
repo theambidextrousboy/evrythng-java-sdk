@@ -15,6 +15,8 @@ import com.evrythng.thng.resource.model.exception.ErrorMessage;
  **/
 public class BadRequestException extends EvrythngErrorException {
 
+	private static final long serialVersionUID = 1L;
+
 	public BadRequestException(ErrorMessage message) {
 		super(message);
 	}

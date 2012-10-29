@@ -26,17 +26,10 @@ import com.evrythng.thng.resource.model.store.Thng;
  */
 public class ExceptionHandlingExample extends ExampleRunner {
 
-	/**
-	 * @param config
-	 */
 	public ExceptionHandlingExample(ApiConfiguration config) {
 		super(config);
 	}
 
-	/**
-	 * @param args
-	 * @throws EvrythngException
-	 */
 	public static void main(String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
@@ -52,8 +45,7 @@ public class ExceptionHandlingExample extends ExampleRunner {
 		System.exit(0);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* {@inheritDoc}
 	 * @see com.evrythng.api.wrapper.examples.ExampleRunner#doRun()
 	 */
 	@Override

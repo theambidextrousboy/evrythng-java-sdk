@@ -27,17 +27,10 @@ import com.evrythng.thng.resource.model.store.Thng;
  */
 public class ThngPropertyApiExample extends ExampleRunner {
 
-	/**
-	 * @param config
-	 */
 	public ThngPropertyApiExample(ApiConfiguration config) {
 		super(config);
 	}
 
-	/**
-	 * @param args
-	 * @throws EvrythngException
-	 */
 	public static void main(String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
@@ -53,7 +46,7 @@ public class ThngPropertyApiExample extends ExampleRunner {
 		System.exit(0);
 	}
 
-	/* (non-Javadoc)
+	/* {@inheritDoc}
 	 * @see com.evrythng.api.wrapper.examples.ExampleRunner#doRun()
 	 */
 	@Override
