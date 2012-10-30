@@ -99,7 +99,7 @@ public class EvrythngServiceBase {
 	 * @return the absolute endpoint {@link URI}
 	 * @throws EvrythngClientException
 	 */
-	private URI absoluteUri(String relativePath) throws EvrythngClientException {
+	protected URI absoluteUri(String relativePath) throws EvrythngClientException {
 		String path = relativePath.startsWith("/") ? relativePath : String.format("/%s", relativePath);
 		return URIBuilder.fromUri(String.format("%s%s", config.getUrl(), path)).build();
 	}
