@@ -50,6 +50,11 @@ public enum Status {
 	 */
 	NOT_FOUND(404, "Not Found"),
 	/**
+	 * 405 Method Not Allowed, see <a href="http://en.wikipedia.org/wiki/List_of_HTTP_status_codes#405">List of HTTP status
+	 * codes</a>.
+	 */
+	METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
+	/**
 	 * 406 Not Acceptable, see
 	 * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.7">HTTP/1.1 documentation</a>}.
 	 */

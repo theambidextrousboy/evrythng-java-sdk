@@ -44,7 +44,7 @@ public class EvrythngServiceBase {
 	 * @return a preconfigured {@link Builder} for executing POST requests
 	 * @throws EvrythngClientException
 	 */
-	protected <T> Builder<T> post(String relativePath, Object data, TypeReference<T> type) throws EvrythngClientException {
+	public <T> Builder<T> post(String relativePath, Object data, TypeReference<T> type) throws EvrythngClientException {
 		return EvrythngApiBuilder.post(config.getKey(), absoluteUri(relativePath), data, Status.CREATED, type);
 	}
 
@@ -58,7 +58,7 @@ public class EvrythngServiceBase {
 	 * @return a preconfigured {@link Builder} for executing GET requests
 	 * @throws EvrythngClientException
 	 */
-	protected <T> Builder<T> get(String relativePath, TypeReference<T> type) throws EvrythngClientException {
+	public <T> Builder<T> get(String relativePath, TypeReference<T> type) throws EvrythngClientException {
 		return EvrythngApiBuilder.get(config.getKey(), absoluteUri(relativePath), Status.OK, type);
 	}
 
@@ -73,7 +73,7 @@ public class EvrythngServiceBase {
 	 * @return a preconfigured {@link Builder} for executing PUT requests
 	 * @throws EvrythngClientException
 	 */
-	protected <T> Builder<T> put(String relativePath, Object data, TypeReference<T> type) throws EvrythngClientException {
+	public <T> Builder<T> put(String relativePath, Object data, TypeReference<T> type) throws EvrythngClientException {
 		return EvrythngApiBuilder.put(config.getKey(), absoluteUri(relativePath), data, Status.OK, type);
 	}
 
@@ -86,7 +86,7 @@ public class EvrythngServiceBase {
 	 * @return a preconfigured {@link Builder} for executing DELETE requests
 	 * @throws EvrythngClientException
 	 */
-	protected Builder<Boolean> delete(String relativePath) throws EvrythngClientException {
+	public Builder<Boolean> delete(String relativePath) throws EvrythngClientException {
 		return EvrythngApiBuilder.delete(config.getKey(), absoluteUri(relativePath), Status.OK);
 	}
 

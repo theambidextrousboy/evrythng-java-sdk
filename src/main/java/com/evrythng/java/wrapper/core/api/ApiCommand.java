@@ -30,6 +30,7 @@ import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.exception.EvrythngUnexpectedException;
 import com.evrythng.java.wrapper.exception.ForbiddenException;
 import com.evrythng.java.wrapper.exception.InternalErrorException;
+import com.evrythng.java.wrapper.exception.MethodNotAllowedException;
 import com.evrythng.java.wrapper.exception.NotFoundException;
 import com.evrythng.java.wrapper.exception.UnauthorizedException;
 import com.evrythng.java.wrapper.util.JSONUtils;
@@ -312,6 +313,8 @@ public class ApiCommand<T> {
 							throw new ForbiddenException(message);
 						case NOT_FOUND:
 							throw new NotFoundException(message);
+						case METHOD_NOT_ALLOWED:
+							throw new MethodNotAllowedException(message);
 						case CONFLICT:
 							throw new ConflictException(message);
 						default:
