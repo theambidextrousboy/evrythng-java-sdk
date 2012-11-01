@@ -6,6 +6,7 @@ package com.evrythng.java.wrapper.core.api;
 
 import java.net.URI;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -159,6 +160,17 @@ public class ApiCommand<T> {
 	}
 
 	/**
+	 * Sets (adds or overwrittes) the multi-value of specified query parameter.
+	 *
+	 * @param name the query parameter name
+	 * @param value the query parameter values list
+	 */
+	public void setQueryParam(String name, List<String> value) {
+		logger.debug("Setting query parameter: [name={}, value={}]", name, value);
+		queryParams.put(name, value);
+	}
+
+	/**
 	 * Removes the specified query parameter.
 	 * 
 	 * @param name the name of the query parameter to be removed
@@ -184,15 +196,14 @@ public class ApiCommand<T> {
 		try {
 			K result = null;
 			HttpResponse response = null;
-
+			HttpUriRequest request = buildRequest(method);
 			try {
-				HttpUriRequest request = buildRequest(method);
 				logger.debug(">> Executing request: [method={}, url={}]", request.getMethod(), request.getURI().toString());
 				response = client.execute(request);
 				logger.debug("<< Response received: [statusLine={}]", response.getStatusLine().toString());
 			} catch (Exception e) {
 				// Convert to custom exception:
-				throw new EvrythngClientException("Unable to execute request!", e);
+				throw new EvrythngClientException("Unable to execute request: " + request.getURI(), e);
 			}
 
 			// Assert response status:

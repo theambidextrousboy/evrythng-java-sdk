@@ -5,6 +5,7 @@
 package com.evrythng.java.wrapper.core.api;
 
 import java.net.URI;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 
@@ -36,6 +37,19 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	 */
 	@SuppressWarnings("unchecked")
 	public B queryParam(String name, String value) {
+		if (value != null) {
+			command.setQueryParam(name, value);
+		} else {
+			command.removeQueryParam(name);
+		}
+		return (B) this;
+	}
+
+	/**
+	 * Sets a multi-valued query parameter or removes it if {@code value} equals {@code null}.
+	 * */
+	@SuppressWarnings("unchecked")
+	public B queryParam(String name, List<String> value) {
 		if (value != null) {
 			command.setQueryParam(name, value);
 		} else {

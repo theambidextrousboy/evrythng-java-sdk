@@ -192,7 +192,7 @@ public final class EvrythngApiBuilder {
 			String jsonp = getCommand().output();
 
 			// Remove callback to avoid conflicts on future requests:
-			queryParam(ApiConfiguration.QUERY_PARAM_CALLBACK, null);
+			queryParam(ApiConfiguration.QUERY_PARAM_CALLBACK, (String) null);
 
 			return jsonp;
 		}
