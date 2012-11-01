@@ -79,6 +79,10 @@
 					<artifactId>jboss-logging</artifactId>
 					<groupId>org.jboss.logging</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>hibernate-validator</artifactId>
+					<groupId>org.hibernate</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
