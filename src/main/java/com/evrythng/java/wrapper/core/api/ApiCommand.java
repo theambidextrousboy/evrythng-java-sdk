@@ -294,7 +294,9 @@ public class ApiCommand<T> {
 	private void assertStatus(HttpResponse response, Status expected) throws EvrythngException {
 		Status actual = Status.fromStatusCode(response.getStatusLine().getStatusCode());
 		if (actual == null) {
-			throw new EvrythngUnexpectedException(new ErrorMessage(Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Unknown status code " + actual));
+			throw new EvrythngUnexpectedException(
+				new ErrorMessage(Status.INTERNAL_SERVER_ERROR.getStatusCode(),
+					"Unknown status code " + response.getStatusLine().getStatusCode()));
 		}
 		logger.debug("Checking response status: [expected={}, actual={}]", expected.getStatusCode(), actual.getStatusCode());
 
