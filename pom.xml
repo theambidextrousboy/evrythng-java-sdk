@@ -48,6 +48,14 @@
 				<role>Senior Backend Developer</role>
 			</roles>
 		</developer>
+		<developer>
+			<id>victor</id>
+			<email>victor@evrythng.com</email>
+			<name>Victor Sergienko</name>
+			<roles>
+				<role>Backend Developer</role>
+			</roles>
+		</developer>
 	</developers>
 
 	<properties>
@@ -231,7 +239,7 @@
 
 	<issueManagement>
 		<system>JIRA</system>
-		<url>http://internal.evrythng.net/jira</url>
+		<url>https://internal.evrythng.net/jira/browse/WEJA</url>
 	</issueManagement>
 	
 	<distributionManagement>
