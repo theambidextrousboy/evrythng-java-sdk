@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.evrythng</groupId>
@@ -66,35 +66,24 @@
 			<groupId>com.evrythng</groupId>
 			<artifactId>thng-resource-model</artifactId>
 			<version>1.1.4-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>jackson-core-asl</artifactId>
-					<groupId>org.codehaus.jackson</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jackson-mapper-asl</artifactId>
-					<groupId>org.codehaus.jackson</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jboss-logging</artifactId>
-					<groupId>org.jboss.logging</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>hibernate-validator</artifactId>
-					<groupId>org.hibernate</groupId>
-				</exclusion>
-			</exclusions>
+		 <exclusions>
+		  <exclusion>
+		   <artifactId>jboss-logging</artifactId>
+		   <groupId>org.jboss.logging</groupId>
+		  </exclusion>
+		 </exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>${apache.httpclient.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.android</groupId>
-			<artifactId>spring-android-core</artifactId>
-			<version>1.0.0.RELEASE</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -103,21 +92,15 @@
 			<version>${jackson.databind.version}</version>
 		</dependency>
 		<dependency>
-		<groupId>com.github.tony19</groupId>
-		<artifactId>logback-android-core</artifactId>
-		<version>1.0.7-1</version>
-		</dependency>
-		<dependency>
-		<groupId>com.github.tony19</groupId>
-		<artifactId>logback-android-classic</artifactId>
-		<version>1.0.7-1</version>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>log4j-over-slf4j</artifactId>
 			<version>1.6.5</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.android</groupId>
+			<artifactId>spring-android-core</artifactId>
+			<version>1.0.0.RELEASE</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
