@@ -12,7 +12,7 @@ import com.evrythng.thng.resource.model.store.Thng;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
- * Service warpper for the {@code /collections} endpoint of the EVRYTHNG API.
+ * Service wrapper for the {@code /collections} endpoint of the EVRYTHNG API.
  * 
  * @author Pedro De Almeida (almeidap)
  */

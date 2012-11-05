@@ -2,7 +2,10 @@
  * (c) Copyright 2012 EVRYTHNG Ltd London / Zurich
  * www.evrythng.com
  */
-package com.evrythng.java.wrapper.examples;
+package com.evrythng.java.wrapper.core;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +15,7 @@ import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.util.JSONUtils;
 
 /**
- * Base definition for running examples using the EVRYTHNG API wrapper.
+ * Base definition for implementing examples on top of the EVRYTHNG API wrapper.
  * 
  * @author Pedro De Almeida (almeidap)
  **/
@@ -23,24 +26,43 @@ public abstract class ExampleRunner {
 	private final ApiConfiguration config;
 
 	/**
+	 * Creates a new instance of {@link ExampleRunner} using the provided {@link ApiConfiguration}.
+	 * 
 	 * @param config
 	 */
 	public ExampleRunner(ApiConfiguration config) {
 		this.config = config;
 	}
 
+	/**
+	 * Runs the current example.
+	 * 
+	 * @throws EvrythngException
+	 */
 	public void run() throws EvrythngException {
 		try {
 			// Delegate:
 			doRun();
+			echo("Done! Checkout others examples for more usages of the EVRYTHNG API wrapper.");
 		} catch (EvrythngException e) {
 			echo("[EvrythngException] ", e.getMessage());
 			throw e;
 		}
 	}
 
-	abstract public void doRun() throws EvrythngException;
+	/**
+	 * Concrete implementation.
+	 * 
+	 * @throws EvrythngException
+	 */
+	abstract protected void doRun() throws EvrythngException;
 
+	/**
+	 * Extracts required parameters from the profided {@code args}.
+	 * 
+	 * @param args
+	 * @return
+	 */
 	public static ApiConfiguration extractConfig(String[] args) {
 		ApiConfiguration config = new ApiConfiguration();
 		for (int i = 0; i < args.length; i++) {
@@ -53,6 +75,9 @@ public abstract class ExampleRunner {
 		return config;
 	}
 
+	/**
+	 * Displays the usage information.
+	 */
 	public static void usage() {
 		echo(">> Usage:");
 		echo("   --key: The EVRYTHNG API key for authentication.\n");
@@ -60,19 +85,28 @@ public abstract class ExampleRunner {
 	}
 
 	/**
-	 * @param string
-	 * @param results
+	 * Logs the provided message.
+	 * 
+	 * @param message
 	 */
 	public static void echo(String message) {
 		logger.info("[ECHO] {}", message);
 	}
 
 	/**
-	 * @param string
-	 * @param results
+	 * Logs an INFO message according to the specified format and arguments. Arguments will be jsonified before string
+	 * replacement.
+	 * 
+	 * @param format
+	 * @param args
 	 */
-	public static void echo(String label, Object object) {
-		logger.info("[ECHO] {}: {}", label, JSONUtils.write(object));
+	public static void echo(String format, Object... args) {
+		// Jsonify data objects:
+		List<Object> argsAsJson = new ArrayList<Object>();
+		for (Object arg : args) {
+			argsAsJson.add(JSONUtils.write(arg));
+		}
+		logger.info("[ECHO] " + format, argsAsJson.toArray());
 	}
 
 	public ApiConfiguration getConfig() {

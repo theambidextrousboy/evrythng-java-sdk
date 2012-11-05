@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.map.MultiValueMap;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -19,7 +20,6 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.LinkedMultiValueMap;
 
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
@@ -48,7 +48,7 @@ public class ApiCommand<T> {
 
 	private static final Logger logger = LoggerFactory.getLogger(ApiCommand.class);
 
-	private LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+	private MultiValueMap queryParams = new MultiValueMap();
 	private Map<String, String> headers = new LinkedHashMap<String, String>();
 
 	private MethodBuilder<?> methodBuilder;
@@ -155,13 +155,16 @@ public class ApiCommand<T> {
 	 * @param value the query parameter value
 	 */
 	public void setQueryParam(String name, String value) {
+		// Ensure unicity of parameter:
+		queryParams.remove(name);
+
 		logger.debug("Setting query parameter: [name={}, value={}]", name, value);
-		queryParams.set(name, value);
+		queryParams.put(name, value);
 	}
 
 	/**
 	 * Sets (adds or overwrittes) the multi-value of specified query parameter.
-	 *
+	 * 
 	 * @param name the query parameter name
 	 * @param value the query parameter values list
 	 */
@@ -294,9 +297,7 @@ public class ApiCommand<T> {
 	private void assertStatus(HttpResponse response, Status expected) throws EvrythngException {
 		Status actual = Status.fromStatusCode(response.getStatusLine().getStatusCode());
 		if (actual == null) {
-			throw new EvrythngUnexpectedException(
-				new ErrorMessage(Status.INTERNAL_SERVER_ERROR.getStatusCode(),
-					"Unknown status code " + response.getStatusLine().getStatusCode()));
+			throw new EvrythngUnexpectedException(new ErrorMessage(Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Unknown status code " + response.getStatusLine().getStatusCode()));
 		}
 		logger.debug("Checking response status: [expected={}, actual={}]", expected.getStatusCode(), actual.getStatusCode());
 

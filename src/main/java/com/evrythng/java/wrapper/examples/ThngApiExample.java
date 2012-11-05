@@ -5,20 +5,36 @@
  */
 package com.evrythng.java.wrapper.examples;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.evrythng.java.wrapper.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
+import com.evrythng.java.wrapper.core.ExampleRunner;
 import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.service.ThngService;
 import com.evrythng.thng.resource.model.store.Thng;
 
 /**
+ * <p>
  * Example on the usage of the EVRYTHNG Java Wrapper for accessing the <a
  * href="https://dev.evrythng.com/documentation/api#thngs">Thngs</a> API.
+ * </p>
  * 
- * TODO: clean up the example code
+ * <p>
+ * In this example, you will learn how to:
+ * </p>
+ * 
+ * <ul>
+ * <li>Initialize the {@link ApiManager}</li>
+ * <li>Retrieve the {@link ThngService} through the {@link ApiManager}</li>
+ * <li>Create some {@link Thng} resources</li>
+ * <li>Count the total number of {@link Thng} resources</li>
+ * <li>Navigate through pages of {@link Thng} resources</li>
+ * <li>Update a {@link Thng} resource</li>
+ * <li>Delete a {@link Thng} resource</li>
+ * </ul>
  * 
  * @author Pedro De Almeida (almeidap)
  */
@@ -47,60 +63,70 @@ public class ThngApiExample extends ExampleRunner {
 	 * @see com.evrythng.api.wrapper.examples.ExampleRunner#doRun()
 	 */
 	@Override
-	public void doRun() throws EvrythngException {
+	protected void doRun() throws EvrythngException {
 		// Initialize the API Manager:
+		echo("Initializing the ApiManager: [config={}]", getConfig());
 		ApiManager apiManager = new ApiManager(getConfig());
 
-		// Get the Thng API service.
+		// Let's create some Thng resources using the ThngService:
+		echo("Retrieving the Thng API service...");
 		ThngService thngService = apiManager.thngService();
 
-		// Command builder: GET /thngs
+		echo("Creating 5 Thng resources...");
+		List<Thng> thngs = new ArrayList<Thng>();
+		for (int i = 0; i < 5; i++) {
+			// Build data for a new Thng:
+			Thng data = new Thng();
+			data.setName("Thng " + i);
+			data.setDescription("Description for Thng " + i);
+			data.addCustomFields("position", String.valueOf(i));
+			thngs.add(data);
+
+			// Retrieve a thngCreator builder and execute it:
+			echo("Creating Thng {}: [input={}]", i, data);
+			Thng thng = thngService.thngCreator(data).execute();
+			echo("Thng {} created: [output={}]", i, thng);
+		}
+
+		// Get a Thngs reader builder for querying resources:
+		echo("Getting a reader for Thng resources...");
 		Builder<List<Thng>> thngsReader = thngService.thngsReader();
 
+		echo("Counting total number of Thng resources...");
+		echo("Total: {}", thngsReader.count());
+
+		// Navigate through resource pages using a thngsReader builder:
+		echo("Reading first page of Thng resources...");
 		List<Thng> results = thngsReader.execute();
-		echo("GET /thngs", results);
-		echo("GET /thngs > count", thngsReader.count());
+		echo("Results: {}", results);
 
+		echo("Reading second page of Thng resources...");
 		results = thngsReader.page(2).execute();
-		echo("GET /thngs?page=2", results);
+		echo("Results: {}", results);
 
+		echo("Reading second page of Thng resources with 2 elements per page...");
 		results = thngsReader.page(2).perPage(2).execute();
-		echo("GET /thngs?page=2&perPage=2", results);
+		echo("Results: {}", results);
 
-		results = thngsReader.perPage(1).execute();
-		echo("GET /thngs?perPage=1", results);
+		echo("Reading second page of Thng resources with 1 element per page...");
+		results = thngsReader.perPage(1).execute(); // "page=2" is still active!
+		echo("Results: {}", results);
 
-		// Command builder: GET /thngs/{id}
-		Thng retrieved = thngService.thngReader(results.get(0).getId()).execute();
-		echo("GET /thngs/{id}", retrieved);
+		// Retrieve a specific Thng using a thngReader builder:
+		echo("Retrieving Thng by ID: {}", thngs.get(0).getId());
+		Thng retrieved = thngService.thngReader(thngs.get(0).getId()).execute();
+		echo("Thng retrieved: {}", retrieved);
 
-		// Command builder: POST /thngs
-		retrieved.setId(null);
-		Builder<Thng> thngCreator = thngService.thngCreator(retrieved);
+		// Update a specific Thng using a thngUpdater builder:
+		Thng update = new Thng();
+		update.setDescription("I've been updated!");
+		echo("Updating Thng: [id={}, update={}]", retrieved.getId(), update);
+		Thng updated = thngService.thngUpdater(retrieved.getId(), update).execute();
+		echo("Thng updated: {}", updated);
 
-		Thng created = thngCreator.execute();
-		echo("POST /thngs", created);
-		echo("GET /thngs > count", thngsReader.count());
-
-		// Command builder: POST /thngs/bulk
-		for (Thng thng : results) {
-			thng.setId(null);
-		}
-		/*
-		List<String> refs = thngService.thngsCreator(results).execute();
-		echo("POST /thngs/bulk", refs));
-		*/
-
-		// Command builder: PUT /thngs
-		created.setName("[Updated] " + created.getName());
-		Thng updated = thngService.thngUpdater(created.getId(), created).execute();
-		echo("PUT /thngs/{id}", updated);
-		echo("GET /thngs > count", thngsReader.count());
-
-		// Command builder: DELETE /thngs/{id}
-		created = thngCreator.execute();
-		boolean deleted = thngService.thngDeleter(created.getId()).execute();
-		echo("DELETE /thngs/{id}", deleted);
-		echo("GET /thngs > count", thngsReader.count());
+		// Delete a specific Thng using a thngDeleter builder:
+		echo("Deleting Thng: [id={}]", retrieved.getId());
+		boolean deleted = thngService.thngDeleter(retrieved.getId()).execute();
+		echo("Thng deleted: [output={}]", deleted);
 	}
 }

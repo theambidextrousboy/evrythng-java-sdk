@@ -11,6 +11,7 @@ import java.util.List;
 import com.evrythng.java.wrapper.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
+import com.evrythng.java.wrapper.core.ExampleRunner;
 import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.service.ThngService;
 import com.evrythng.thng.resource.model.store.Property;
@@ -18,10 +19,25 @@ import com.evrythng.thng.resource.model.store.PropertyValue;
 import com.evrythng.thng.resource.model.store.Thng;
 
 /**
+ * <p>
  * Example on the usage of the EVRYTHNG Java Wrapper for accessing the <a
  * href="https://dev.evrythng.com/documentation/api#properties">Thngs > Properties</a> API.
+ * </p>
+ * <p>
+ * In this example, you will learn how to:
+ * </p>
  * 
- * TODO: clean up the example code
+ * <ul>
+ * <li>Initialize the {@link ApiManager}</li>
+ * <li>Retrieve the {@link ThngService} through the {@link ApiManager}</li>
+ * <li>Create a {@link Thng} resources</li>
+ * <li>Create some Property resources on an existing {@link Thng}</li>
+ * <li>Retrieve Property resources from an existing {@link Thng}</li>
+ * <li>Retrieve last Property values from an existing {@link Thng}</li>
+ * <li>Update the value of a specific Property on an existing {@link Thng}</li>
+ * <li>Delete a specific Property on an existing {@link Thng}</li>
+ * <li>Retrieve Property values from an existing {@link Thng} using temporal queries</li>
+ * </ul>
  * 
  * @author Pedro De Almeida (almeidap)
  */
@@ -50,54 +66,83 @@ public class ThngPropertyApiExample extends ExampleRunner {
 	 * @see com.evrythng.api.wrapper.examples.ExampleRunner#doRun()
 	 */
 	@Override
-	public void doRun() throws EvrythngException {
+	protected void doRun() throws EvrythngException {
 		// Initialize the API Manager:
+		echo("Initializing the ApiManager: [config={}]", getConfig());
 		ApiManager apiManager = new ApiManager(getConfig());
 
-		// Get the Thng API service.
+		// Let's create a Thng resource using the ThngService:
+		echo("Retrieving the Thng API service...");
 		ThngService thngService = apiManager.thngService();
 
-		// Command builder: GET /thngs:
-		Builder<List<Thng>> thngsReader = thngService.thngsReader();
+		// Build data for a new Thng:
+		Thng thngData = new Thng();
+		thngData.setName("Panasonic LUMIX DMC-GF5");
+		thngData.setDescription("The LUMIX GF5 enables unlimited artistic expression. Designed in sophisticated profile of ultra-compact body, the new DMC-GF5 features higher image quality even in high sensitivity.");
+		thngData.addCustomFields("color", "black");
 
-		Thng thng = thngsReader.execute().get(0);
-		echo("GET /thngs/[first]", thng);
+		// Retrieve a Thng creator builder and execute it:
+		echo("Creating a new Thng: [input={}]", thngData);
+		Thng thng = thngService.thngCreator(thngData).execute();
+		echo("Thng created: [output={}]", thng);
 
-		// Command builder: GET /thngs/{id}/properties:
-		Builder<List<Property>> thngPropertiesReader = thngService.propertiesReader(thng.getId());
-
-		List<Property> results = thngPropertiesReader.execute();
-		echo("GET /thngs/{id}/properties", results);
-
-		// Command builder: PUT /thngs/{id}/properties:
+		// Build some sample data for creating new Property resources:
 		List<Property> properties = new ArrayList<Property>();
-		properties.add(new Property(null, "temperature", String.valueOf(Math.random()), System.currentTimeMillis()));
-		properties.add(new Property(null, "speed", String.valueOf(Math.random()), System.currentTimeMillis()));
-		results = thngService.propertiesCreator(thng.getId(), properties).execute();
-		echo("PUT /thngs/{id}/properties", results);
+		properties.add(new Property("temperature", String.valueOf(Math.random())));
+		properties.add(new Property("altitude", String.valueOf(Math.random())));
 
-		// Command builder: GET /thngs/{id}/properties/temperature:
-		Builder<List<PropertyValue>> temperatureGetter = thngService.propertyReader(thng.getId(), "temperature");
-		List<PropertyValue> values = temperatureGetter.execute();
-		echo("GET /thngs/{id}/properties/temperature", values);
+		// Now, we can create these Property resources on a specific Thng
+		// using a propertiesCreator builder:
+		echo("Creating new Property resources: [thngId={}, input={}]", thng.getId(), properties);
+		List<Property> results = thngService.propertiesCreator(thng.getId(), properties).execute();
+		echo("Property resources created: [output={}]", results);
 
-		// Command builder: DELETE /thngs/{id}/properties/temperature:
+		// Retrieve created Property resources using a propertiesReader builder:
+		echo("Retrieving Property resources from Thng: [thngId={}]", thng.getId());
+		Builder<List<Property>> thngPropertiesReader = thngService.propertiesReader(thng.getId());
+		results = thngPropertiesReader.execute();
+		echo("Thng Property resources retrieved: [output={}]", results);
+
+		// Retrieve last values of a specific Property using a propertyReader builder:
+		echo("Retrieving last values of the {} Property: [thngId={}]", "temperature", thng.getId());
+		Builder<List<PropertyValue>> temperatureReader = thngService.propertyReader(thng.getId(), "temperature");
+		List<PropertyValue> values = temperatureReader.execute();
+		echo("List of PropertyValue retrieved: [size={}, output={}]", values.size(), values);
+
+		// Update value of a specific Property:
+		echo("Updating value of the {} Property: [thngId={}]", "temperature", thng.getId());
+		Builder<List<PropertyValue>> temperatureUpdater = thngService.propertyUpdater(thng.getId(), "temperature", String.valueOf(Math.random()));
+		values = temperatureUpdater.execute();
+		echo("Thng Property value updated: [output={}]", values);
+
+		// Delete a Property and all it's values using a propertyDeleter builder:
+		echo("Deleting the {} Property: [thngId={}]", "temperature", thng.getId());
 		boolean deleted = thngService.propertyDeleter(thng.getId(), "temperature").execute();
-		echo("DELETE /thngs/{id}/properties/temperature", deleted);
+		echo("Thng Property deleted: [output={}]", deleted);
 
-		// Command builder: GET /thngs/{id}/properties/temperature:
-		values = temperatureGetter.execute();
-		echo("GET /thngs/{id}/properties/temperature", values);
+		// Try to retrieve deleted Property values using the temperatureReader builder:
+		echo("Retrieving values of {} Property: [thngId={}]", "temperature", thng.getId());
+		values = temperatureReader.execute();
+		echo("List of PropertyValue retrieved: [size={}, output={}]", values.size(), values);
 
-		// Command builder: GET /thngs/{id}/properties/speed:
-		Builder<List<PropertyValue>> speedGetter = thngService.propertyReader(thng.getId(), "speed");
+		// Update the speed Property in order to perform some temporal queries
+		// using a propertyReader:
+		thngService.propertyUpdater(thng.getId(), "speed", new PropertyValue("10", 1000)).execute();
+		thngService.propertyUpdater(thng.getId(), "speed", new PropertyValue("20", 2000)).execute();
+		thngService.propertyUpdater(thng.getId(), "speed", new PropertyValue("30", 3000)).execute();
+		thngService.propertyUpdater(thng.getId(), "speed", new PropertyValue("40", 4000)).execute();
+		Builder<List<PropertyValue>> speedReader = thngService.propertyReader(thng.getId(), "speed");
 
-		values = speedGetter.from(System.currentTimeMillis() - (1000 * 60 * 5)).execute();
-		echo("GET /thngs/{id}/properties/speed?from", values);
-		echo("COUNT /thngs/{id}/properties/speed", values.size());
+		echo("Retrieving temporal values of {} Property: [thngId={}, from={}]", "speed", thng.getId(), 2000);
+		values = speedReader.from(2000).execute();
+		echo("List of PropertyValue retrieved: [size={}, output={}]", values.size(), values);
 
-		values = speedGetter.to(System.currentTimeMillis() - (1000 * 60 * 2)).execute();
-		echo("GET /thngs/{id}/properties/speed?to", values);
-		echo("COUNT /thngs/{id}/properties/speed", values.size());
+		echo("Retrieving temporal values of {} Property: [thngId={}, to={}]", "speed", thng.getId(), 3000);
+		values = speedReader.to(3000).execute(); // from=2000 is still active!
+		echo("List of PropertyValue retrieved: [size={}, output={}]", values.size(), values);
+
+		echo("Retrieving temporal values of {} Property: [thngId={}, from={}, to={}]", "speed", thng.getId(), 1000, 4000);
+		values = speedReader.from(1000).to(4000).execute();
+		echo("List of PropertyValue retrieved: [size={}, output={}]", values.size(), values);
 	}
 }

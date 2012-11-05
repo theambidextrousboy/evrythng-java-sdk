@@ -14,8 +14,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.apache.commons.collections.map.MultiValueMap;
 
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 
@@ -28,7 +27,7 @@ public final class URIBuilder {
 
 	private final String baseUri;
 
-	private MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+	private MultiValueMap parameters = new MultiValueMap();
 
 	private URIBuilder(String baseUri) {
 		this.baseUri = baseUri;
@@ -45,14 +44,14 @@ public final class URIBuilder {
 	 * Adds a query parameter to the URI
 	 */
 	public URIBuilder queryParam(String name, String value) {
-		parameters.add(name, value);
+		parameters.put(name, value);
 		return this;
 	}
 
 	/**
 	 * Adds a query parameters to the URI
 	 */
-	public URIBuilder queryParams(MultiValueMap<String, String> params) {
+	public URIBuilder queryParams(MultiValueMap params) {
 		parameters.putAll(params);
 		return this;
 	}
@@ -62,6 +61,7 @@ public final class URIBuilder {
 	 * 
 	 * @throws EvrythngClientException
 	 */
+	@SuppressWarnings("unchecked")
 	public URI build() throws EvrythngClientException {
 		try {
 			StringBuilder builder = new StringBuilder();

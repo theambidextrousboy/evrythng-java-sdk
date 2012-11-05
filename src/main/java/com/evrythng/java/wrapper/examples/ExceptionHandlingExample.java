@@ -5,11 +5,10 @@
  */
 package com.evrythng.java.wrapper.examples;
 
-import java.util.List;
-
 import com.evrythng.java.wrapper.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
+import com.evrythng.java.wrapper.core.ExampleRunner;
 import com.evrythng.java.wrapper.exception.BadRequestException;
 import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.exception.ForbiddenException;
@@ -18,9 +17,19 @@ import com.evrythng.java.wrapper.service.ThngService;
 import com.evrythng.thng.resource.model.store.Thng;
 
 /**
+ * <p>
  * Example of API exception handling using the EVRYTHNG Java Wrapper.
+ * </p>
  * 
- * TODO: clean up the example code
+ * <p>
+ * In this example, you will learn how to:
+ * </p>
+ * 
+ * <ul>
+ * <li>Initialize the {@link ApiManager}</li>
+ * <li>Retrieve the {@link ThngService} through the {@link ApiManager}</li>
+ * <li>Handle exceptions when performing incorrect operations</li>
+ * </ul>
  * 
  * @author Pedro De Almeida (almeidap)
  */
@@ -49,50 +58,49 @@ public class ExceptionHandlingExample extends ExampleRunner {
 	 * @see com.evrythng.api.wrapper.examples.ExampleRunner#doRun()
 	 */
 	@Override
-	public void doRun() throws EvrythngException {
+	protected void doRun() throws EvrythngException {
 		// Initialize the API Manager:
 		ApiManager apiManager = new ApiManager(getConfig());
 
-		// Get the Thng API service.
+		// Get the Thng API service:
 		ThngService thngService = apiManager.thngService();
 
-		// Command builder: GET /thngs:
-		Builder<List<Thng>> thngsReader = thngService.thngsReader();
-
-		List<Thng> results = thngsReader.execute();
-		echo("GET /thngs", results);
-		echo("GET /thngs > count", thngsReader.count());
-
-		Thng thng = new Thng();
+		// Let's try to create a Thng with invalid data:
+		Thng thng = new Thng(); // Missing required 'name' field
 		Builder<Thng> thngCreator = thngService.thngCreator(thng);
-
 		try {
+			echo("Trying to create a new Thng: [input={}]", thng);
 			thngCreator.execute();
 		} catch (BadRequestException e) {
-			echo("POST /thngs", "[BadRequestException]");
+			echo("Exception catched! [class={}]", e.getClass().getName());
 		}
 
+		// Let's create a Thng to test NotFoundException handling:
 		thng.setName("foo");
-		Thng created = thngService.thngCreator(thng).execute();
+		echo("Creating a new Thng: [input={}]", thng);
+		thng = thngService.thngCreator(thng).execute();
+		echo("Thng created: [output={}]", thng);
 
-		// Command builder: DELETE /thngs/{id}:
-		boolean deleted = thngService.thngDeleter(created.getId()).execute();
-		echo("DELETE /thngs/{id}", deleted);
-		echo("GET /thngs > count", thngsReader.count());
+		// Now, delete the Thng:
+		echo("Deleting Thng: [id={}]", thng.getId());
+		boolean deleted = thngService.thngDeleter(thng.getId()).execute();
+		echo("Thng deleted: [output={}]", deleted);
 
-		Builder<Thng> thngReader = thngService.thngReader(created.getId());
+		// Let's try to retrieve deleted Thng:
+		Builder<Thng> thngReader = thngService.thngReader(thng.getId());
 		try {
+			echo("Trying to retrieve deleted Thng: [id={}]", thng.getId());
 			thngReader.execute();
 		} catch (NotFoundException e) {
-			echo("GET /thngs/{id}", "[NotFoundException]");
+			echo("Exception catched! [class={}]", e.getClass().getName());
 		}
 
+		// Finally, let's try to read Thng resources using an invalid API key:
 		try {
-			thngReader.apiKey("invalid").execute();
+			echo("Trying to read Thng resources: [apiKey={}]", "invalid-api-key");
+			thngReader.apiKey("invalid-api-key").execute();
 		} catch (ForbiddenException e) {
-			echo("GET /thngs/{id}", "[ForbiddenException]");
+			echo("Exception catched! [class={}]", e.getClass().getName());
 		}
-
-		echo("GET /thngs > count", thngsReader.count());
 	}
 }

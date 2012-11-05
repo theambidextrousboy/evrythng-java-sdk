@@ -6,6 +6,7 @@
 package com.evrythng.java.wrapper.examples;
 
 import com.evrythng.java.wrapper.ApiConfiguration;
+import com.evrythng.java.wrapper.core.ExampleRunner;
 import com.evrythng.java.wrapper.exception.EvrythngException;
 
 /**
@@ -24,10 +25,9 @@ public class ApiExamples {
 
 		ApiConfiguration config = ExampleRunner.extractConfig(args);
 
-		// Run examples:
+		// Run all examples:
 		new SimpleExample(config).run();
 		new ThngApiExample(config).run();
-		new ThngLocationApiExample(config).run();
 		new ThngPropertyApiExample(config).run();
 		new ExceptionHandlingExample(config).run();
 

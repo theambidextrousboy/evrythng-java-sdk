@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.evrythng.java.wrapper.ApiConfiguration;
-import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
+import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.thng.resource.model.store.Location;
 import com.evrythng.thng.resource.model.store.Property;
@@ -14,14 +14,13 @@ import com.evrythng.thng.resource.model.store.Thng;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
- * Service warpper for the {@code /thngs} endpoint of the EVRYTHNG API.
+ * Service wrapper for the {@code /thngs} endpoint of the EVRYTHNG API.
  * 
  * @author Pedro De Almeida (almeidap)
  */
 public class ThngService extends EvrythngServiceBase {
 
 	public static final String PATH_THNGS = "/thngs";
-	public static final String PATH_THNGS_BULK = PATH_THNGS + "/bulk";
 	public static final String PATH_THNG = PATH_THNGS + "/%s";
 	public static final String PATH_THNG_PROPERTIES = PATH_THNG + "/properties";
 	public static final String PATH_THNG_PROPERTY = PATH_THNG_PROPERTIES + "/%s";
@@ -42,18 +41,6 @@ public class ThngService extends EvrythngServiceBase {
 	 */
 	public Builder<Thng> thngCreator(Thng thng) throws EvrythngClientException {
 		return post(PATH_THNGS, thng, new TypeReference<Thng>() {
-		});
-	}
-
-	/**
-	 * POST {@value #PATH_THNGS_BULK}
-	 * 
-	 * @param thngs
-	 * @return
-	 * @throws EvrythngClientException
-	 */
-	public Builder<List<String>> thngsCreator(List<Thng> thngs) throws EvrythngClientException {
-		return put(PATH_THNGS_BULK, thngs, new TypeReference<List<String>>() {
 		});
 	}
 
