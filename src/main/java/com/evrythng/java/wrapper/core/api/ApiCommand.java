@@ -170,7 +170,7 @@ public class ApiCommand<T> {
 	 */
 	public void setQueryParam(String name, List<String> value) {
 		logger.debug("Setting query parameter: [name={}, value={}]", name, value);
-		queryParams.put(name, value);
+		queryParams.putAll(name, value);
 	}
 
 	/**
