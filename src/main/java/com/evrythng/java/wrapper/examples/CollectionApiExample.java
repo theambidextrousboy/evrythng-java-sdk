@@ -20,8 +20,8 @@ import com.evrythng.thng.resource.model.store.Collection;
 import com.evrythng.thng.resource.model.store.Thng;
 
 /**
- * Example on the usage of the EVRYTHNG Java Wrapper for accessing the <a
- * href="https://dev.evrythng.com/documentation/api#collections">Collections</a> API. In this example, you will learn how to:
+ * Usage example of the EVRYTHNG Java Wrapper for accessing the <a
+ * href="https://dev.evrythng.com/documentation/api#collections">Collection</a> API. In this example, you will learn how to:
  * <ul>
  * <li>Initialize the {@link ApiManager}</li>
  * <li>Retrieve the {@link CollectionService} through the {@link ApiManager}</li>
@@ -61,7 +61,7 @@ public class CollectionApiExample extends ExampleRunner {
 	 */
 	@Override
 	protected void doRun() throws EvrythngException {
-		// Initialize the API Manager:
+		// We initialize the API Manager:
 		echo("Initializing the ApiManager: [config={}]", getConfig());
 		ApiManager apiManager = new ApiManager(getConfig());
 

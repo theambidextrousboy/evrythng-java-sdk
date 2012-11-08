@@ -20,7 +20,7 @@ import com.evrythng.thng.resource.model.store.Thng;
 
 /**
  * <p>
- * Example on the usage of the EVRYTHNG Java Wrapper for accessing the <a
+ * Usage example of the EVRYTHNG Java Wrapper for accessing the <a
  * href="https://dev.evrythng.com/documentation/api#properties">Thngs > Properties</a> API.
  * </p>
  * <p>
@@ -77,8 +77,8 @@ public class ThngPropertyApiExample extends ExampleRunner {
 
 		// Build data for a new Thng:
 		Thng thngData = new Thng();
-		thngData.setName("Panasonic LUMIX DMC-GF5");
-		thngData.setDescription("The LUMIX GF5 enables unlimited artistic expression. Designed in sophisticated profile of ultra-compact body, the new DMC-GF5 features higher image quality even in high sensitivity.");
+		thngData.setName("Tissot t-touch");
+		thngData.setDescription("This is my favorite watch for hiking!");
 		thngData.addCustomFields("color", "black");
 
 		// Retrieve a Thng creator builder and execute it:

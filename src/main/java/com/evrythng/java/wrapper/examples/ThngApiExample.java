@@ -18,7 +18,7 @@ import com.evrythng.thng.resource.model.store.Thng;
 
 /**
  * <p>
- * Example on the usage of the EVRYTHNG Java Wrapper for accessing the <a
+ * Usage example of the EVRYTHNG Java Wrapper for accessing the <a
  * href="https://dev.evrythng.com/documentation/api#thngs">Thngs</a> API.
  * </p>
  * 

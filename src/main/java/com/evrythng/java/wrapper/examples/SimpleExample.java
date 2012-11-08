@@ -20,7 +20,7 @@ import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.Thng;
 
 /**
- * Simple example on the usage of the EVRYTHNG API Java Wrapper. In this example, you will learn how to:
+ * Simple usage example of the EVRYTHNG API Java Wrapper. In this example, you will learn how to:
  * <ul>
  * <li>Initialize the {@link ApiManager}</li>
  * <li>Retrieve the {@link CollectionService} and {@link ThngService} through the {@link ApiManager}</li>
