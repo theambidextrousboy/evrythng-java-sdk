@@ -40,8 +40,8 @@ Then you should look at the [examples](https://github.com/evrythng/evrythng-java
     public class EVRYTHNGWrapperTests {
 
     public static void main(String[] args) throws EvrythngClientException, EvrythngException {
-    ApiManager api = new ApiManager(new ApiConfiguration("YOUR_EVRYTHNG_API_KEY"));
-    ThngService thngService = api.thngService();
+        ApiManager api = new ApiManager(new ApiConfiguration("YOUR_EVRYTHNG_API_KEY"));
+        ThngService thngService = api.thngService();
 
         // Create a thng
         Thng myThng = new Thng();
