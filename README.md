@@ -9,13 +9,15 @@ You need an API token for authentication which you can get on [http://dev.evryth
 The easiest way is to get the latest `.jar` from the [Downloads](https://github.com/evrythng/evrythng-java-wrapper/downloads) section and adding it to your Java project.
 
 The project is also available on maven:
+
     <dependency>
-      <groupId>com.evrythng</groupId>
-      <artifactId>evrythng-java-wrapper</artifactId>
-      <version>1.0.0</version>
+     <groupId>com.evrythng</groupId>
+     <artifactId>evrythng-java-wrapper</artifactId>
+     <version>1.0.0</version>
     </dependency>
 
 from our repository:
+
     <repository>
       <id>evrythng-releases</id>
       <name>EVRYTHNG Releases</name>
