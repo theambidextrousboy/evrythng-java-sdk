@@ -21,7 +21,7 @@ Then you should look at the [examples](https://github.com/evrythng/evrythng-java
     public class EVRYTHNGWrapperTests {
 
     public static void main(String[] args) throws EvrythngClientException, EvrythngException {
-    ApiManager api = new ApiManager(new ApiConfiguration("hep12ZDr4cKXkEeR9Vs1NwYYl1w4vj31tyVSCXbEXVzyJ1Cjng0KLshcJNc88bUaHCTv6iQvgjyNJc4g"));
+    ApiManager api = new ApiManager(new ApiConfiguration("YOUR_EVRYTHNG_API_KEY"));
     ThngService thngService = api.thngService();
 
         // Create a thng
