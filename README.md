@@ -3,9 +3,26 @@
 This is a Java wrapper for the [EVRYTHNG API](http://api.evrythng.com). It lets you use all the features provided by our API with pure Java constructs. 
 You need an API token for authentication which you can get on [http://dev.evrythng.com/].
 
-## Working with the wrapper for Java projects
+## Getting Started
 
+### Setup
 The easiest way is to get the latest `.jar` from the [Downloads](https://github.com/evrythng/evrythng-java-wrapper/downloads) section and adding it to your Java project.
+
+The project is also available on maven:
+    <dependency>
+      <groupId>com.evrythng</groupId>
+      <artifactId>evrythng-java-wrapper</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
+from our repository:
+    <repository>
+      <id>evrythng-releases</id>
+      <name>EVRYTHNG Releases</name>
+      <url>https://repo.evrythng.com/public/releases</url>
+    </repository>
+
+### Hello world!
 
 Then you should look at the [examples](https://github.com/evrythng/evrythng-java-wrapper/tree/master/src/main/java/com/evrythng/java/wrapper/examples) or, if you are impatient, get started with the snippet below:
 
@@ -51,6 +68,8 @@ See [examples](https://github.com/evrythng/evrythng-java-wrapper/tree/master/src
 
 You can also use the wrapper for your Android applications as it compiles on the Dalvik virtual machine! To get started get the latest `.jar` from the [Downloads](https://github.com/evrythng/evrythng-java-wrapper/downloads) section and adding it to your Android project's libraries. Make sure that the wrapper library is exported to your final Android application.
 
+To get you started with Android and EVRYTHNG have a look at the [FreezeMe](https://github.com/webofthings/FreezeMe) sample app. It is a freezer management application using QR codes, NFC tags and the EVRYTHNG API.
+
 ## Extending the wrapper
 
 ### Cloning the repository
@@ -70,14 +89,6 @@ To build the `.jar` with all dependencies run:
 ### Using the wrapper in your project
 
 To use the wrapper, just add the generated `.jar` file located in the `target/` directory to your Java project.
-
-# Extending the wrapper with Eclipse
-
-Simply import the project as a new Maven project (requires `m2eclipse` plugin, see <http://m2eclipse.sonatype.org/>).
-
-# Extending the wrapper with Netbeans
-
-Simply open the project by selecting its root folder. The Netbeans Maven plugin does the rest for you!
 
 
 # License

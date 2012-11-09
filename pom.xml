@@ -4,7 +4,7 @@
 
 	<groupId>com.evrythng</groupId>
 	<artifactId>evrythng-java-wrapper</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 
 	<name>evrythng-java-wrapper</name>
 	<description>Java wrapper for the EVRYTHNG API.</description>
@@ -74,6 +74,9 @@
 		<!-- Encodings -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- Log levels -->
+		<log.level>DEBUG</log.level>
 	</properties>
 
 	<dependencies>
@@ -197,52 +200,35 @@
 	<profiles>
 		<profile>
 			<id>dist-java</id>
-			<activation>
-				<property>
-					<name>dist</name>
-					<value>android</value>
-				</property>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>org.apache.httpcomponents</groupId>
-					<artifactId>httpclient</artifactId>
-					<version>${apache.httpclient.version}</version>
-					<exclusions>
-						<exclusion>
-							<artifactId>commons-logging</artifactId>
-							<groupId>commons-logging</groupId>
-						</exclusion>
-					</exclusions>
-				</dependency>
-			</dependencies>
+			<properties>
+				<log.level>WARN</log.level>
+			</properties>
 		</profile>
-		<profile>
-			<id>dist-android</id>
-			<activation>
-				<property>
-					<name>dist</name>
-					<value>android</value>
-				</property>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>org.apache.httpcomponents</groupId>
-					<artifactId>httpclient</artifactId>
-					<version>${apache.httpclient.version}</version>
-					<exclusions>
-						<exclusion>
-							<artifactId>commons-logging</artifactId>
-							<groupId>commons-logging</groupId>
-						</exclusion>
-					</exclusions>
-				</dependency>
-			</dependencies>
-		</profile>
-	
 	</profiles>
 
 	<repositories>
+		<repository>
+			<id>evrythng-repository</id>
+			<name>EVRYTHNG Snapshots</name>
+			<url>https://repo.evrythng.com/public/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>evrythng-releases</id>
+			<name>EVRYTHNG Releases</name>
+			<url>https://repo.evrythng.com/public/releases</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<scm>
@@ -250,19 +236,5 @@
 		<developerConnection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</developerConnection>
 		<url>https://github.com/evrythng/evrythng-java-wrapper.git</url>
 	</scm>
-
-	<issueManagement>
-		<system>JIRA</system>
-		<url>https://internal.evrythng.net/jira/browse/WEJA</url>
-	</issueManagement>
-	
-	<distributionManagement>
-		<snapshotRepository>
-			<id>evrythng-repository</id>
-			<name>Evrythng Snapshots Repository</name>
-			<url>https://internal.evrythng.net/nexus/content/repositories/snapshots</url>
-			<uniqueVersion>false</uniqueVersion>
-		</snapshotRepository>
-	</distributionManagement>
 
 </project>
