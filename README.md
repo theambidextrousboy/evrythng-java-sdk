@@ -3,7 +3,7 @@
 This is a Java wrapper for the [EVRYTHNG API](http://api.evrythng.com). It lets you use all the features provided by our API with pure Java constructs. 
 You need an API token for authentication which you can get on [http://dev.evrythng.com/].
 
-IMPORTANT: On Nov. 16 2012. We will release a complete rewrite of the wrapper. 
+IMPORTANT: On Dec. 14 2012. We will release a complete rewrite of the wrapper. 
 Until then you can checkout the source but might experience some problems. Thanks for your understanding!
 
 ## Getting Started
