@@ -75,6 +75,9 @@ You can also use the wrapper for your Android applications as it compiles on the
 
 To get you started with Android and EVRYTHNG have a look at the [FreezeMe](https://github.com/webofthings/FreezeMe) sample app. It is a freezer management application using QR codes, NFC tags and the EVRYTHNG API.
 
+Note that the examples won't work out of the box on Android unless you include [SLF4j for Android](http://www.slf4j.org/android/) in your project.
+You can do that but we suggest to rather simply use the Hello-World example above (which does work) and use the native Android logging.
+
 ## Extending the wrapper
 
 ### Cloning the repository
