@@ -11,14 +11,14 @@ import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.evrythng.java.wrapper.ApiConfiguration;
-import com.evrythng.java.wrapper.ApiConfiguration.QueryKeyword;
 import com.evrythng.java.wrapper.core.api.ApiCommand;
 import com.evrythng.java.wrapper.core.api.ApiCommandBuilder;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
 import com.evrythng.java.wrapper.core.http.Status;
 import com.evrythng.java.wrapper.exception.EvrythngException;
+import com.evrythng.thng.commons.config.ApiConfiguration;
+import com.evrythng.thng.commons.config.ApiConfiguration.QueryKeyword;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
@@ -188,8 +188,8 @@ public final class EvrythngApiBuilder {
 			// Add JSONP callback to query parameters list:
 			queryParam(ApiConfiguration.QUERY_PARAM_CALLBACK, callback);
 
-			// Retrieve response output:
-			String jsonp = getCommand().output();
+			// Retrieve response entity content:
+			String jsonp = getCommand().content();
 
 			// Remove callback to avoid conflicts on future requests:
 			queryParam(ApiConfiguration.QUERY_PARAM_CALLBACK, (String) null);

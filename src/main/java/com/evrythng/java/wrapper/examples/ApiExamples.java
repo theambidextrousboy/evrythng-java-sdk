@@ -5,9 +5,9 @@
  */
 package com.evrythng.java.wrapper.examples;
 
-import com.evrythng.java.wrapper.ApiConfiguration;
 import com.evrythng.java.wrapper.core.ExampleRunner;
 import com.evrythng.java.wrapper.exception.EvrythngException;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 
 /**
  * Runner suite for all EVRYTHNG API examples.

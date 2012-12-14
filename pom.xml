@@ -4,7 +4,7 @@
 
 	<groupId>com.evrythng</groupId>
 	<artifactId>evrythng-java-wrapper</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 
 	<name>evrythng-java-wrapper</name>
 	<description>Java wrapper for the EVRYTHNG API.</description>
@@ -66,14 +66,21 @@
 	</developers>
 
 	<properties>
-		<!-- Versions -->
-		<java.version>1.6</java.version>
-		<apache.httpclient.version>4.2.1</apache.httpclient.version>
-		<jackson.databind.version>2.1.0</jackson.databind.version>
+		<!-- *** Platform *** -->
+		<java.jdk.level>1.6</java.jdk.level>
 		
 		<!-- Encodings -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		
+		<!-- Versions -->
+		<version.org.apache.httpcomponents>4.2.1</version.org.apache.httpcomponents>
+		<version.jackson-databind>2.1.0</version.jackson-databind>
+		<version.commons-collections>3.2.1</version.commons-collections>
+		<version.commons-io>2.3</version.commons-io>
+		<version.commons-lang3>3.1</version.commons-lang3>
+		<version.logback-classic>1.0.7</version.logback-classic>
+		<version.junit>4.10</version.junit>
 
 		<!-- Log levels -->
 		<log.level>DEBUG</log.level>
@@ -82,8 +89,13 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.evrythng</groupId>
+			<artifactId>thng-commons</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.evrythng</groupId>
 			<artifactId>thng-resource-model</artifactId>
-			<version>1.1.4-SNAPSHOT</version>
+			<version>${project.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jboss-logging</artifactId>
@@ -94,38 +106,38 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>${apache.httpclient.version}</version>
+			<version>${version.org.apache.httpcomponents}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.databind.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.10</version>
-			<scope>test</scope>
+			<version>${version.jackson-databind}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
-			<version>3.2.1</version>
+			<version>${version.commons-collections}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.3</version>
+			<version>${version.commons-io}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.1</version>
+			<version>${version.commons-lang3}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.0.7</version>
+			<version>${version.logback-classic}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${version.junit}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -161,10 +173,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
-				<!-- compile for Java 1.6 -->
 				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
+					<source>${java.jdk.level}</source>
+					<target>${java.jdk.level}</target>
 					<encoding>UTF-8</encoding>
 					<debug>true</debug>
 					<debuglevel>lines,vars,source</debuglevel>
@@ -232,9 +243,23 @@
 	</repositories>
 
 	<scm>
-		<connection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</connection>
-		<developerConnection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</developerConnection>
 		<url>https://github.com/evrythng/evrythng-java-wrapper.git</url>
+		<connection>scm:git:ssh://git@github.com/evrythng/evrythng-java-wrapper.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/evrythng/evrythng-java-wrapper.git</developerConnection>
 	</scm>
+	
+	<distributionManagement>
+		<repository>
+			<id>evrythng-public-releases</id>
+			<name>Evrythng Releases Repository</name>
+			<url>https://internal.evrythng.net/nexus/content/repositories/evrythng-public-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>evrythng-public-snapshots</id>
+			<name>Evrythng Snapshots Repository</name>
+			<url>https://internal.evrythng.net/nexus/content/repositories/evrythng-public-snapshots</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>

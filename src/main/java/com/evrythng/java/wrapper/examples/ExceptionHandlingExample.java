@@ -5,7 +5,7 @@
  */
 package com.evrythng.java.wrapper.examples;
 
-import com.evrythng.java.wrapper.ApiConfiguration;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.ExampleRunner;

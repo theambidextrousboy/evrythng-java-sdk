@@ -8,11 +8,11 @@ import java.net.URI;
 
 import org.apache.http.HttpResponse;
 
-import com.evrythng.java.wrapper.ApiConfiguration;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.http.Status;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.java.wrapper.util.URIBuilder;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**

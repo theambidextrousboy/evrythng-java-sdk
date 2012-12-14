@@ -3,18 +3,19 @@ package com.evrythng.java.wrapper.service;
 import java.util.Arrays;
 import java.util.List;
 
-import com.evrythng.java.wrapper.ApiConfiguration;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Location;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.PropertyValue;
 import com.evrythng.thng.resource.model.store.Thng;
+import com.evrythng.thng.resource.model.store.ThngActionCheckin;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
- * Service wrapper for the {@code /thngs} endpoint of the EVRYTHNG API.
+ * Service wrapper for the {@code /thngs} endpoint of the EVRYTHNG Engine API.
  * 
  * @author Pedro De Almeida (almeidap)
  */
@@ -22,9 +23,14 @@ public class ThngService extends EvrythngServiceBase {
 
 	public static final String PATH_THNGS = "/thngs";
 	public static final String PATH_THNG = PATH_THNGS + "/%s";
+
 	public static final String PATH_THNG_PROPERTIES = PATH_THNG + "/properties";
 	public static final String PATH_THNG_PROPERTY = PATH_THNG_PROPERTIES + "/%s";
+
 	public static final String PATH_THNG_LOCATION = PATH_THNG + "/location";
+
+	public static final String PATH_THNG_ACTIONS_CHECKINS = PATH_THNG + "/actions/checkins";
+	public static final String PATH_THNG_ACTIONS_CHECKIN = PATH_THNG_ACTIONS_CHECKINS + "/%s";
 
 	public ThngService(ApiConfiguration config) {
 		super(config);
@@ -33,6 +39,8 @@ public class ThngService extends EvrythngServiceBase {
 	/* ***** Thng ***** */
 
 	/**
+	 * Creates a new {@link Thng}.
+	 * 
 	 * POST {@value #PATH_THNGS}
 	 * 
 	 * @param thng
@@ -45,6 +53,8 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Retrieves the lst updates {@link Thng} resources.
+	 * 
 	 * GET {@value #PATH_THNGS}
 	 * 
 	 * @return
@@ -58,6 +68,8 @@ public class ThngService extends EvrythngServiceBase {
 	/* ***** /thngs/{id} ***** */
 
 	/**
+	 * Retrieves the referenced {@link Thng}.
+	 * 
 	 * GET {@value #PATH_THNG}
 	 * 
 	 * @param thngId
@@ -70,6 +82,8 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Updates the referenced {@link Thng}.
+	 * 
 	 * PUT {@value #PATH_THNG}
 	 * 
 	 * @param thngId
@@ -83,6 +97,8 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Deletes the referenced {@link Thng}.
+	 * 
 	 * DELETE {@value #PATH_THNG}
 	 * 
 	 * @param thngId
@@ -96,6 +112,8 @@ public class ThngService extends EvrythngServiceBase {
 	/* ***** /thngs/{id}/properties ***** */
 
 	/**
+	 * Creates a new {@link Property} on the referenced {@link Thng}.
+	 * 
 	 * PUT {@value #PATH_THNG_PROPERTIES}
 	 * 
 	 * @see #thngsCreator(List)
@@ -109,6 +127,8 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Creates multiple {@link Property} resources on the referenced {@link Thng}.
+	 * 
 	 * PUT {@value #PATH_THNG_PROPERTIES}
 	 * 
 	 * @param thngId
@@ -122,6 +142,8 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Retrieves the last updated {@link Property} resources from the referenced {@link Thng}.
+	 * 
 	 * GET {@value #PATH_THNG_PROPERTIES}
 	 * 
 	 * @param thngId
@@ -134,6 +156,8 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Deletes all {@link Property} resources from the referenced {@link Thng}.
+	 * 
 	 * DELETE {@value #PATH_THNG_PROPERTIES}
 	 * 
 	 * @param thngId
@@ -147,6 +171,8 @@ public class ThngService extends EvrythngServiceBase {
 	/* ***** /thngs/{id}/properties/{key} ***** */
 
 	/**
+	 * Retrieves the last values of the {@link Property} named {@code key} from the referenced {@link Thng}.
+	 * 
 	 * GET {@value #PATH_THNG_PROPERTY}
 	 * 
 	 * @param thngId
@@ -160,6 +186,8 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Updates the {@link Property} named {@code key} of the referenced {@link Thng}.
+	 * 
 	 * PUT {@value #PATH_THNG_PROPERTY}
 	 * 
 	 * @see #propertiesCreator(String, Property)
@@ -174,6 +202,8 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Updates the {@link Property} named {@code key} of the referenced {@link Thng}.
+	 * 
 	 * PUT {@value #PATH_THNG_PROPERTY}
 	 * 
 	 * @see #propertiesCreator(String, Property)
@@ -189,6 +219,8 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Updates the {@link Property} named {@code key} of the referenced {@link Thng}.
+	 * 
 	 * PUT {@value #PATH_THNG_PROPERTY}
 	 * 
 	 * @param thngId
@@ -203,6 +235,8 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Deletes the {@link Property} named {@code key} from the referenced {@link Thng}.
+	 * 
 	 * DELETE {@value #PATH_THNG_PROPERTY}
 	 * 
 	 * @param thngId
@@ -217,6 +251,8 @@ public class ThngService extends EvrythngServiceBase {
 	/* ***** /thngs/{id}/location ***** */
 
 	/**
+	 * Retrieves the last {@link Location} resources from the referenced {@link Thng}.
+	 * 
 	 * GET {@value #PATH_THNG_LOCATION}
 	 * 
 	 * @param thngId
@@ -229,6 +265,8 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Updates the current {@link Location} of the referenced {@link Thng}.
+	 * 
 	 * PUT {@value #PATH_THNG_LOCATION}
 	 * 
 	 * @see #locationUpdater(String, List)
@@ -242,6 +280,8 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Updates the referenced {@link Thng} with multiple {@link Location} resources.
+	 * 
 	 * PUT {@value #PATH_THNG_LOCATION}
 	 * 
 	 * @param thngId
@@ -255,6 +295,8 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Deletes the {@link Location} of the referenced {@link Thng}.
+	 * 
 	 * DELETE {@value #PATH_THNG_LOCATION}
 	 * 
 	 * @param thngId
@@ -264,5 +306,107 @@ public class ThngService extends EvrythngServiceBase {
 	 */
 	public Builder<Boolean> locationDeleter(String thngId) throws EvrythngClientException {
 		return delete(String.format(PATH_THNG_LOCATION, thngId));
+	}
+
+	/* ***** /thngs/{id}/actions/checkins ***** */
+
+	/**
+	 * Checks in into the referenced {@link Thng}, i.e. claims the "ownership" of the {@link Thng}.
+	 * 
+	 * POST {@value #PATH_THNG_ACTIONS_CHECKINS}
+	 * 
+	 * @param thngId
+	 * @param checkin
+	 * @param singleCheckin
+	 *        If false, verifies that the thng has no checkin yet.
+	 *        Otherwise, throws a ConflictException.
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public Builder<ThngActionCheckin> checkinAdder(String thngId, ThngActionCheckin checkin, boolean singleCheckin) throws EvrythngClientException {
+		return put(String.format(PATH_THNG_ACTIONS_CHECKINS, thngId), checkin, new TypeReference<ThngActionCheckin>() {
+		}).queryParam("single", String.valueOf(singleCheckin));
+	}
+
+	/**
+	 * Gets all the checkins that occured for the referenced {@link Thng}.
+	 * 
+	 * GET {@value #PATH_THNG_ACTIONS_CHECKINS}
+	 * 
+	 * @param thngId
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public Builder<List<ThngActionCheckin>> checkinsReader(String thngId) throws EvrythngClientException {
+		return this.get(String.format(PATH_THNG_ACTIONS_CHECKINS, thngId), new TypeReference<List<ThngActionCheckin>>() {
+		});
+	}
+
+	/**
+	 * Removes all checkins from the referenced {@link Thng}.
+	 * 
+	 * @param thngId
+	 * @param checkinId
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public Builder<Boolean> checkinsRemover(String thngId) throws EvrythngClientException {
+		return delete(String.format(PATH_THNG_ACTIONS_CHECKINS, thngId));
+	}
+
+	/**
+	 * Checks in into the referenced {@link Thng}, i.e. claim the "ownership" of the {@link Thng}. Allows
+	 * multiple checkins
+	 * 
+	 * POST {@value #PATH_THNG_ACTIONS_CHECKINS}
+	 * 
+	 * @param thngId
+	 * @param checkin
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public Builder<ThngActionCheckin> checkinAdder(String thngId, ThngActionCheckin checkin) throws EvrythngClientException {
+		return checkinAdder(thngId, checkin, false);
+	}
+
+	/**
+	 * Updates an existing checkin from the referenced {@link Thng}.
+	 * 
+	 * PUT {@value #PATH_THNG_ACTIONS_CHECKINS}
+	 * 
+	 * @param thngId
+	 * @param id
+	 * @param update
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public Builder<ThngActionCheckin> checkinUpdater(String thngId, String id, ThngActionCheckin update) throws EvrythngClientException {
+		return put(String.format(PATH_THNG_ACTIONS_CHECKIN, thngId, id), update, new TypeReference<ThngActionCheckin>() {
+		});
+	}
+
+	/**
+	 * Removes checkins from the referenced {@link Thng}.
+	 * 
+	 * @param thngId
+	 * @param checkinId
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public Builder<Boolean> checkinRemover(String thngId, String checkinId) throws EvrythngClientException {
+		return delete(String.format(PATH_THNG_ACTIONS_CHECKIN, thngId, checkinId));
+	}
+
+	/**
+	 * Retrieves a checkin give provided {@code id} from the referenced {@link Thng}.
+	 * 
+	 * @param thngId
+	 * @param checkinId
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public Builder<ThngActionCheckin> checkinReader(String thngId, String checkinId) throws EvrythngClientException {
+		return get(String.format(PATH_THNG_ACTIONS_CHECKIN, thngId, checkinId), new TypeReference<ThngActionCheckin>() {
+		});
 	}
 }

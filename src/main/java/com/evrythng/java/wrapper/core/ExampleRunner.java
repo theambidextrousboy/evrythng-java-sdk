@@ -10,9 +10,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.evrythng.java.wrapper.ApiConfiguration;
 import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.util.JSONUtils;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 
 /**
  * Base definition for implementing examples on top of the EVRYTHNG API wrapper.
@@ -58,7 +58,7 @@ public abstract class ExampleRunner {
 	abstract protected void doRun() throws EvrythngException;
 
 	/**
-	 * Extracts required parameters from the profided {@code args}.
+	 * Extracts required parameters from program {@code args}.
 	 * 
 	 * @param args
 	 * @return

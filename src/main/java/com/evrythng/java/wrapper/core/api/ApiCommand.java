@@ -4,6 +4,7 @@
  */
 package com.evrythng.java.wrapper.core.api;
 
+import java.io.InputStream;
 import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -84,6 +85,18 @@ public class ApiCommand<T> {
 	}
 
 	/**
+	 * Executes the current command and returns the {@link HttpResponse} entity content as {@link String}.
+	 * 
+	 * @see #execute(TypeReference)
+	 * @return the {@link HttpResponse} entity content as {@link String}
+	 * @throws EvrythngException
+	 */
+	public String content() throws EvrythngException {
+		return execute(new TypeReference<String>() {
+		});
+	}
+
+	/**
 	 * Executes the current command and returns the native {@link HttpResponse}.
 	 * 
 	 * @see #execute(TypeReference)
@@ -96,14 +109,14 @@ public class ApiCommand<T> {
 	}
 
 	/**
-	 * Executes the current command and outputs the {@link HttpResponse} entity body.
+	 * Executes the current command and returns the {@link HttpResponse} entity body as {@link InputStream}.
 	 * 
 	 * @see #execute(TypeReference)
-	 * @return the {@link HttpResponse} entity body
+	 * @return the {@link HttpResponse} entity as {@link InputStream}
 	 * @throws EvrythngException
 	 */
-	public String output() throws EvrythngException {
-		return execute(new TypeReference<String>() {
+	public InputStream stream() throws EvrythngException {
+		return execute(new TypeReference<InputStream>() {
 		});
 	}
 
@@ -206,25 +219,35 @@ public class ApiCommand<T> {
 				logger.debug("<< Response received: [statusLine={}]", response.getStatusLine().toString());
 			} catch (Exception e) {
 				// Convert to custom exception:
-				throw new EvrythngClientException("Unable to execute request: " + request.getURI(), e);
+				throw new EvrythngClientException(String.format("Unable to execute request: [uri=%s, cause=%s]", request.getURI(), e.getMessage()), e);
 			}
 
 			// Assert response status:
 			assertStatus(response, expectedStatus);
 
-			// Retrieve response entity (as String so that it can be outputted in case of exception):
-			String entity = readEntity(response);
-
-			if (type.getType().equals(HttpResponse.class)) {
-				// We already have a HttpResponse, let's return it:
-				result = (K) response;
-			} else if (type.getType().equals(String.class)) {
-				result = (K) entity;
-			} else {
+			logger.debug("Performing conversion: [type={}]", type.getType());
+			if (type.getType().equals(InputStream.class)) {
 				try {
-					result = JSONUtils.read(entity, type);
+					// Retrieve response content stream and buffer data as connection may be closed before input is handled:
+					result = (K) IOUtils.toBufferedInputStream(entityStream(response));
 				} catch (Exception e) {
-					throw new EvrythngClientException(String.format("Unable to map response entity: [type=%s, entity=%s]", type.getType(), entity), e);
+					throw new EvrythngClientException(String.format("Unable to retrieve response content stream: [type=%s, cause=%s]", type.getType(), e.getMessage()), e);
+				}
+			} else {
+				// Retrieve response entity (as String so that it can be outputted in case of exception):
+				String entity = entityString(response);
+
+				if (type.getType().equals(HttpResponse.class)) {
+					// We already have a HttpResponse, let's return it:
+					result = (K) response;
+				} else if (type.getType().equals(String.class)) {
+					result = (K) entity;
+				} else {
+					try {
+						result = JSONUtils.read(entity, type);
+					} catch (Exception e) {
+						throw new EvrythngClientException(String.format("Unable to map response entity: [type=%s, entity=%s, cause=%s]", type.getType(), entity, e.getMessage()), e);
+					}
 				}
 			}
 			return result;
@@ -271,16 +294,36 @@ public class ApiCommand<T> {
 	 * @return the {@link HttpResponse} entity content as {@link String}
 	 * @throws EvrythngClientException
 	 */
-	private String readEntity(HttpResponse response) throws EvrythngClientException {
-		HttpEntity entity = response.getEntity();
+	private String entityString(HttpResponse response) throws EvrythngClientException {
 		logger.debug("Reading response entity...");
 
 		String result = null;
 		try {
-			result = IOUtils.toString(entity.getContent());
+			result = IOUtils.toString(entityStream(response));
 		} catch (Exception e) {
 			// Convert to custom exception:
 			throw new EvrythngClientException(String.format("Error while reading response entity! [type=%s]", String.class), e);
+		}
+		return result;
+	}
+
+	/**
+	 * Reads entity content stream from the provided {@link HttpResponse}.
+	 * 
+	 * @param response
+	 * @return the {@link HttpResponse} entity content as {@link InputStream}
+	 * @throws EvrythngClientException
+	 */
+	private InputStream entityStream(HttpResponse response) throws EvrythngClientException {
+		logger.debug("Reading response content stream...");
+
+		InputStream result = null;
+		try {
+			HttpEntity entity = response.getEntity();
+			result = entity.getContent();
+		} catch (Exception e) {
+			// Convert to custom exception:
+			throw new EvrythngClientException("Error while reading response content stream!", e);
 		}
 		return result;
 	}
@@ -302,17 +345,18 @@ public class ApiCommand<T> {
 		logger.debug("Checking response status: [expected={}, actual={}]", expected.getStatusCode(), actual.getStatusCode());
 
 		if (!actual.equals(expected)) {
-			logger.debug("Unexpected response status, mapping entity to ErrorMessage...");
+			logger.debug("Unexpected response status!");
 
 			// Map entity to ErrorMessage:
-			String entity = readEntity(response);
+			String entity = entityString(response);
 			ErrorMessage message = null;
 			try {
+				logger.debug("Mapping response to ErrorMessage: [entity={}]", entity);
 				// API should always return an ErrorMessage as JSON:
 				message = JSONUtils.read(entity, new TypeReference<ErrorMessage>() {
 				});
 			} catch (Exception e) {
-				throw new EvrythngClientException(String.format("Unable to retrieve ErrorMessage from response: [entity=%s]", entity), e);
+				throw new EvrythngClientException("Unable to retrieve ErrorMessage from response!", e);
 			}
 
 			// Handle unexpected status:

@@ -8,7 +8,7 @@ package com.evrythng.java.wrapper.examples;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.evrythng.java.wrapper.ApiConfiguration;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.ExampleRunner;
@@ -113,8 +113,8 @@ public class ThngApiExample extends ExampleRunner {
 		echo("Results: {}", results);
 
 		// Retrieve a specific Thng using a thngReader builder:
-		echo("Retrieving Thng by ID: {}", thngs.get(0).getId());
-		Thng retrieved = thngService.thngReader(thngs.get(0).getId()).execute();
+		echo("Retrieving Thng by ID: {}", results.get(0).getId());
+		Thng retrieved = thngService.thngReader(results.get(0).getId()).execute();
 		echo("Thng retrieved: {}", retrieved);
 
 		// Update a specific Thng using a thngUpdater builder:

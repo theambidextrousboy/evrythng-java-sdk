@@ -4,14 +4,18 @@
  */
 package com.evrythng.java.wrapper.core.api;
 
+import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.http.HttpResponse;
 
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
 import com.evrythng.java.wrapper.core.http.Status;
 import com.evrythng.java.wrapper.exception.EvrythngException;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
@@ -59,6 +63,21 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	}
 
 	/**
+	 * Sets the provided query parametes.
+	 * 
+	 * @see #queryParam(String, String)
+	 * @param params a map name/value entries
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public B queryParams(Map<String, String> params) {
+		for (Entry<String, String> entry : params.entrySet()) {
+			queryParam(entry.getKey(), entry.getValue());
+		}
+		return (B) this;
+	}
+
+	/**
 	 * Sets a request header or removes it if {@code value} equals {@code null}.
 	 * 
 	 * @param name request header name
@@ -76,6 +95,16 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	}
 
 	/**
+	 * Sets the value of the {@code Accept} HTTP header.
+	 * 
+	 * @param mediaType a valid media type for the {@code Accept} HTTP header
+	 * @return
+	 */
+	public B accept(String mediaType) {
+		return header(ApiConfiguration.HTTP_HEADER_ACCEPT, mediaType);
+	}
+
+	/**
 	 * Executes the current command and maps the {@link HttpResponse} entity to {@code T} specified by
 	 * {@link ApiCommand#responseType}.
 	 * 
@@ -88,14 +117,36 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	}
 
 	/**
+	 * Executes the current command and returns the {@link HttpResponse} entity content as {@link String}.
+	 * 
+	 * @see ApiCommand#content()
+	 * @return the {@link HttpResponse} entity content as {@link String}
+	 * @throws EvrythngException
+	 */
+	public String content() throws EvrythngException {
+		return command.content();
+	}
+
+	/**
 	 * Executes the current command and returns the native {@link HttpResponse}.
 	 * 
 	 * @see ApiCommand#request()
-	 * @return the {@link HttpResponse} implied by the request
+	 * @return the {@link HttpResponse} resulting from the request
 	 * @throws EvrythngException
 	 */
 	public HttpResponse request() throws EvrythngException {
 		return command.request();
+	}
+
+	/**
+	 * Executes the current command and returns the {@link HttpResponse} content {@link InputStream}.
+	 * 
+	 * @see ApiCommand#stream()
+	 * @return the {@link InputStream} of the {@link HttpResponse}
+	 * @throws EvrythngException
+	 */
+	public InputStream stream() throws EvrythngException {
+		return command.stream();
 	}
 
 	public ApiCommand<T> getCommand() {

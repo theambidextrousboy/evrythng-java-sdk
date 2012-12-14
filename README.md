@@ -3,7 +3,7 @@
 This is a Java wrapper for the [EVRYTHNG API](http://api.evrythng.com). It lets you use all the features provided by our API with pure Java constructs. 
 You need an API token for authentication which you can get on [http://dev.evrythng.com/].
 
-IMPORTANT: On Dec. 14 2012. We will release a complete rewrite of the wrapper. 
+IMPORTANT: On Nov. 16 2012. We will release a complete rewrite of the wrapper. 
 Until then you can checkout the source but might experience some problems. Thanks for your understanding!
 
 ## Getting Started
@@ -74,9 +74,6 @@ See [examples](https://github.com/evrythng/evrythng-java-wrapper/tree/master/src
 You can also use the wrapper for your Android applications as it compiles on the Dalvik virtual machine! To get started get the latest `.jar` from the [Downloads](https://github.com/evrythng/evrythng-java-wrapper/downloads) section and adding it to your Android project's libraries. Make sure that the wrapper library is exported to your final Android application.
 
 To get you started with Android and EVRYTHNG have a look at the [FreezeMe](https://github.com/webofthings/FreezeMe) sample app. It is a freezer management application using QR codes, NFC tags and the EVRYTHNG API.
-
-Note that the examples won't work out of the box on Android unless you include [SLF4j for Android](http://www.slf4j.org/android/) in your project.
-You can do that but we suggest to rather simply use the Hello-World example above (which does work) and use the native Android logging.
 
 ## Extending the wrapper
 

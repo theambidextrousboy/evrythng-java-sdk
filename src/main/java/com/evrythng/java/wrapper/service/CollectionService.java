@@ -3,10 +3,10 @@ package com.evrythng.java.wrapper.service;
 import java.util.Arrays;
 import java.util.List;
 
-import com.evrythng.java.wrapper.ApiConfiguration;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Collection;
 import com.evrythng.thng.resource.model.store.Thng;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -30,6 +30,8 @@ public class CollectionService extends EvrythngServiceBase {
 	/* ***** /collections ***** */
 
 	/**
+	 * Creates a new {@link Collection}.
+	 * 
 	 * POST {@value #PATH_COLLECTIONS}
 	 * 
 	 * @param collection the instant holding the {@link Collection} resource data
@@ -42,6 +44,8 @@ public class CollectionService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Retrieves the last updated {@link Collection} resources.
+	 * 
 	 * GET {@value #PATH_COLLECTIONS}
 	 * 
 	 * @return
@@ -55,6 +59,8 @@ public class CollectionService extends EvrythngServiceBase {
 	/* ***** /collections/{id} ***** */
 
 	/**
+	 * Retrieves the referenced {@link Collection}.
+	 * 
 	 * GET {@value #PATH_COLLECTION}
 	 * 
 	 * @param collectionId
@@ -67,6 +73,8 @@ public class CollectionService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Updates the referenced {@link Collection}.
+	 * 
 	 * PUT {@value #PATH_COLLECTION}
 	 * 
 	 * @param collectionId
@@ -80,6 +88,8 @@ public class CollectionService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Deletes the referenced {@link Collection}.
+	 * 
 	 * DELETE {@value #PATH_COLLECTION}
 	 * 
 	 * @param collectionId
@@ -93,6 +103,8 @@ public class CollectionService extends EvrythngServiceBase {
 	/* ***** /collections/{id}/thngs ***** */
 
 	/**
+	 * Retrieves the last updated {@link Thng} resources linked with the referenced {@link Collection}.
+	 * 
 	 * GET {@value #PATH_COLLECTION_THNGS}
 	 * 
 	 * @param collectionId
@@ -105,6 +117,8 @@ public class CollectionService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Adds the referenced {@link Thng} to the provided {@link Collection}.
+	 * 
 	 * PUT {@value #PATH_COLLECTION_THNGS}
 	 * 
 	 * @see #thngsAdder(String, List)
@@ -118,6 +132,8 @@ public class CollectionService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Adds the referenced {@link Thng} resources to the provided {@link Collection}.
+	 * 
 	 * PUT {@value #PATH_COLLECTION_THNGS}
 	 * 
 	 * @param collectionId
@@ -133,6 +149,8 @@ public class CollectionService extends EvrythngServiceBase {
 	/* ***** /collections/{id}/thngs/{id} ***** */
 
 	/**
+	 * Removes the referenced {@link Thng} from the provided {@link Collection}.
+	 * 
 	 * DELETE {@value #PATH_COLLECTION_THNG}
 	 * 
 	 * @param collectionId
@@ -145,6 +163,8 @@ public class CollectionService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Removes all {@link Thng} resources from the provided {@link Collection}.
+	 * 
 	 * DELETE {@value #PATH_COLLECTION_THNGS}
 	 * 
 	 * @param collectionId

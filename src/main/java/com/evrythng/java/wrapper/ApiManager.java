@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.evrythng.java.wrapper.service.CollectionService;
 import com.evrythng.java.wrapper.service.ThngService;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 
 /**
  * Manager for the EVRYTHNG API.
