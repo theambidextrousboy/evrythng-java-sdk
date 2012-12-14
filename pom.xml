@@ -74,6 +74,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		
 		<!-- Versions -->
+		<version.evrythng-engine>1.0.0</version.evrythng-engine>
 		<version.org.apache.httpcomponents>4.2.1</version.org.apache.httpcomponents>
 		<version.jackson-databind>2.1.0</version.jackson-databind>
 		<version.commons-collections>3.2.1</version.commons-collections>
@@ -90,12 +91,12 @@
 		<dependency>
 			<groupId>com.evrythng</groupId>
 			<artifactId>thng-commons</artifactId>
-			<version>${project.version}</version>
+			<version>${version.evrythng-engine}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.evrythng</groupId>
 			<artifactId>thng-resource-model</artifactId>
-			<version>${project.version}</version>
+			<version>${version.evrythng-engine}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jboss-logging</artifactId>
