@@ -1,7 +1,7 @@
 # EVRYTHNG API Java Wrapper
 
-This is a Java wrapper for the [EVRYTHNG API](http://api.evrythng.com). It lets you use all the features provided by our API with pure Java constructs. 
-You need an API token for authentication which you can get on http://dev.evrythng.com/.
+This is a Java wrapper for the [EVRYTHNG API](http://dev.evrythng.com). It lets you use all the features provided by our API with pure Java constructs. 
+You will need a (free) account and API token for authentication which you can get on http://dev.evrythng.com/.
 
 ## Getting Started
 
