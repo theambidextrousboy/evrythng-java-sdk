@@ -1,17 +1,16 @@
 # EVRYTHNG API Java Wrapper
 
 This is a Java wrapper for the [EVRYTHNG API](http://api.evrythng.com). It lets you use all the features provided by our API with pure Java constructs. 
-You need an API token for authentication which you can get on [http://dev.evrythng.com/].
-
-IMPORTANT: On Nov. 16 2012. We will release a complete rewrite of the wrapper. 
-Until then you can checkout the source but might experience some problems. Thanks for your understanding!
+You need an API token for authentication which you can get on http://dev.evrythng.com/.
 
 ## Getting Started
 
 ### Setup
-The easiest way is to get the latest `.jar` from the [Downloads](https://github.com/evrythng/evrythng-java-wrapper/downloads) section and adding it to your Java project.
+The easiest way is to download the latest release from our repository manager:
 
-The project is also available on maven:
+> http://repo.evrythng.com/public/releases/com/evrythng/evrythng-java-wrapper/
+
+The project is also available as a Maven dependency:
 
     <dependency>
      <groupId>com.evrythng</groupId>
@@ -19,13 +18,17 @@ The project is also available on maven:
      <version>1.0.0</version>
     </dependency>
 
-from our repository:
+...from our repository:
 
     <repository>
       <id>evrythng-releases</id>
       <name>EVRYTHNG Releases</name>
       <url>https://repo.evrythng.com/public/releases</url>
     </repository>
+
+Latests snapshots versions of the wrapper are also available at:
+
+> http://repo.evrythng.com/public/snapshots/com/evrythng/evrythng-java-wrapper/
 
 ### Hello world!
 
