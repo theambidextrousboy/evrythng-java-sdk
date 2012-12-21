@@ -5,7 +5,7 @@ You will need a (free) account and API token for authentication which you can ge
 
 ## Getting Started
 
-To get started get the latest `.jar` [here[(https://s3.amazonaws.com/evrythng-public/evrythng-java-wrapper-1.0.0-jar-with-dependencies.jar) and add it to your project's libraries.
+To get started get the latest `.jar` [here](https://s3.amazonaws.com/evrythng-public/evrythng-java-wrapper-1.0.0-jar-with-dependencies.jar) and add it to your project's libraries.
 
 ### Hello world!
 
