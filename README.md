@@ -5,30 +5,7 @@ You will need a (free) account and API token for authentication which you can ge
 
 ## Getting Started
 
-### Setup
-The easiest way is to download the latest release from our repository manager:
-
-> http://repo.evrythng.com/public/releases/com/evrythng/evrythng-java-wrapper/
-
-The project is also available as a Maven dependency:
-
-    <dependency>
-     <groupId>com.evrythng</groupId>
-     <artifactId>evrythng-java-wrapper</artifactId>
-     <version>1.0.0</version>
-    </dependency>
-
-...from our repository:
-
-    <repository>
-      <id>evrythng-releases</id>
-      <name>EVRYTHNG Releases</name>
-      <url>https://repo.evrythng.com/public/releases</url>
-    </repository>
-
-Latests snapshots versions of the wrapper are also available at:
-
-> http://repo.evrythng.com/public/snapshots/com/evrythng/evrythng-java-wrapper/
+To get started get the latest `.jar` [here[(https://s3.amazonaws.com/evrythng-public/evrythng-java-wrapper-1.0.0-jar-with-dependencies.jar) and add it to your project's libraries.
 
 ### Hello world!
 
@@ -74,7 +51,7 @@ See [examples](https://github.com/evrythng/evrythng-java-wrapper/tree/master/src
 
 ## Working with the wrapper for Android projects
 
-You can also use the wrapper for your Android applications as it compiles on the Dalvik virtual machine! To get started get the latest `.jar` from the [Downloads](https://github.com/evrythng/evrythng-java-wrapper/downloads) section and adding it to your Android project's libraries. Make sure that the wrapper library is exported to your final Android application.
+You can also use the wrapper for your Android applications as it compiles on the Dalvik virtual machine! To get started get the latest `.jar` [here](https://s3.amazonaws.com/evrythng-public/evrythng-java-wrapper-1.0.0-jar-with-dependencies.jar) and add it to your Android project's libraries. Make sure that the wrapper library is exported to your final Android application.
 
 To get you started with Android and EVRYTHNG have a look at the [FreezeMe](https://github.com/webofthings/FreezeMe) sample app. It is a freezer management application using QR codes, NFC tags and the EVRYTHNG API.
 
