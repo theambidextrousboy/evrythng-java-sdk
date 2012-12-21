@@ -55,27 +55,6 @@ You can also use the wrapper for your Android applications as it compiles on the
 
 To get you started with Android and EVRYTHNG have a look at the [FreezeMe](https://github.com/webofthings/FreezeMe) sample app. It is a freezer management application using QR codes, NFC tags and the EVRYTHNG API.
 
-## Extending the wrapper
-
-### Cloning the repository
-
-  git clone git@github.com:evrythng/evrythng-java-wrapper.git
-
-### Compiling the wrapper
-
-    mvn install
-
-You should now find a `.jar` file in the `target/` directory.
-
-To build the `.jar` with all dependencies run:
-
-    mvn assembly:single
-
-### Using the wrapper in your project
-
-To use the wrapper, just add the generated `.jar` file located in the `target/` directory to your Java project.
-
-
 # License
 
  Copyright EVRYTHNG Ltd London / Zurich
