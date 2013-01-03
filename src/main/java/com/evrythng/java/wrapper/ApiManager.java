@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.evrythng.java.wrapper.service.CollectionService;
 import com.evrythng.java.wrapper.service.ThngService;
+import com.evrythng.java.wrapper.service.ProductService;
 import com.evrythng.thng.commons.config.ApiConfiguration;
 
 /**
@@ -22,6 +23,7 @@ public class ApiManager {
 
 	private ThngService thngService;
 	private CollectionService collectionService;
+        private ProductService productService;
 
 	/**
 	 * Creates a new {@link ApiManager} instance using the provided {@link ApiConfiguration}.
@@ -31,6 +33,7 @@ public class ApiManager {
 		this.config = config;
 		this.thngService = new ThngService(this.config);
 		this.collectionService = new CollectionService(this.config);
+                this.productService = new ProductService(this.config);
 	}
 
 	/**
@@ -76,6 +79,16 @@ public class ApiManager {
 	 */
 	public CollectionService collectionService() {
 		return this.collectionService;
+	}
+        
+        /**
+	 * Returns a preconfigured EVRYTHNG service for accessing the <a
+	 * href="https://dev.evrythng.com/documentation/api#products">Products</a> API.
+	 * 
+	 * @see ProductService
+	 */
+        public ProductService productService() {
+		return productService;
 	}
 
 	public ApiConfiguration getConfig() {
