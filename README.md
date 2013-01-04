@@ -9,21 +9,6 @@ You need an API token for authentication which you can get on [http://dev.evryth
 ### Setup
 The easiest way is to get the latest `.jar` with packaged dependencies from [here](https://s3.amazonaws.com/evrythng-public/evrythng-java-wrapper-1.0.5-jar-with-dependencies.jar) and adding it to your Java project.
 
-The project is also available in our maven repository:
-
-    <dependency>
-     <groupId>com.evrythng</groupId>
-     <artifactId>evrythng-java-wrapper</artifactId>
-     <version>1.0.5</version>
-    </dependency>
-
-the repository:
-
-    <repository>
-      <id>evrythng-public-snapshots</id>
-      <name>EVRYTHNG Public Releases</name>
-      <url>https://internal.evrythng.net/nexus/content/repositories/evrythng-public-releases</url>
-    </repository>
 
 ### Hello world!
 
@@ -73,25 +58,6 @@ You can also use the wrapper for your Android applications as it compiles on the
 
 To get you started with Android and EVRYTHNG have a look at the [FreezeMe](https://github.com/webofthings/FreezeMe) sample app. It is a freezer management application using QR codes, NFC tags and the EVRYTHNG API.
 
-## Extending the wrapper
-
-### Cloning the repository
-
-  git clone git@github.com:evrythng/evrythng-java-wrapper.git
-
-### Compiling the wrapper
-
-    mvn install
-
-You should now find a `.jar` file in the `target/` directory.
-
-To build the `.jar` with all dependencies run:
-
-    mvn assembly:single
-
-### Using the wrapper in your project
-
-To use the wrapper, just add the generated `.jar` file located in the `target/` directory to your Java project.
 
 
 # License
