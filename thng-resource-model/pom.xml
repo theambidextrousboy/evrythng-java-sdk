@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.evrythng</groupId>
+        <artifactId>evrythng-tools</artifactId>
+        <version>1.0.6-SNAPSHOT</version>
+    </parent>
+	
+    <artifactId>thng-resource-model</artifactId>
+    <packaging>jar</packaging>
+
+    <name>thng-resource-model</name>
+    <description>Models for REST resources representations.</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${version.hibernate-validator}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>${version.jackson-mapper-asl}</version>
+        </dependency>
+    </dependencies>
+
+</project>

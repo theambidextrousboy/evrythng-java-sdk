@@ -2,13 +2,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.evrythng</groupId>
-    <artifactId>evrythng-java-wrapper</artifactId>
-    <version>1.0.5</version>
-    <packaging>jar</packaging>
+    <artifactId>evrythng-tools</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.6-SNAPSHOT</version>
 
-    <name>evrythng-java-wrapper</name>
-    <description>Java wrapper for the EVRYTHNG API.</description>
-    <url>https://github.com/evrythng/evrythng-java-wrapper</url>
+    <name>evrythng-tools</name>
+    <description>Java tools around the EVRYTHNG API.</description>
+    <url>https://github.com/evrythng/evrythng-tools</url>
 
     <organization>
         <name>EVRYTHNG Ltd London / Zurich</name>
@@ -62,89 +62,21 @@
         <!-- Versions -->
         <version.httpclient>4.2.1</version.httpclient>
         <jackson.databind.version>2.1.0</jackson.databind.version>
+        <version.hibernate-validator>4.3.0.Final</version.hibernate-validator>
+        <version.jackson-mapper-asl>1.9.9</version.jackson-mapper-asl>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>thng-commons</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>thng-resource-model</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jboss-logging</artifactId>
-                    <groupId>org.jboss.logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${version.httpclient}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.databind.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.10</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.0.7</version>
-        </dependency>
-        <!-- Use instead of all the Java.commons.logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.6.6</version>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>thng-resource-model</module>
+        <module>evrythng-java-wrapper</module>
+    </modules>
 
     <build>
         <plugins>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.evrythng.java.wrapper.examples.ApiExamples</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
+                <!-- Ensure IDEs use the correct level for compiling. -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -183,28 +115,15 @@
             </snapshots>
         </repository>
     </repositories>
-	
-    <profiles>
-        <profile>
-            <id>dist-android</id>
-            <activation>
-                <property>
-                    <name>dist</name>
-                    <value>android</value>
-                </property>
-            </activation>
-        </profile>
-    </profiles>
 
     <scm>
-        <connection>scm:git:git://github.com/evrythng/evrythng-java-wrapper.git</connection>
-        <developerConnection>scm:git:git@github.com:evrythng/evrythng-java-wrapper.git</developerConnection>
-        <url>https://github.com/evrythng/evrythng-java-wrapper</url>
-      <tag>HEAD</tag>
-  </scm>
+        <connection>scm:git:git://github.com/evrythng/evrythng-tools.git</connection>
+        <developerConnection>scm:git:git@github.com:evrythng/evrythng-tools.git</developerConnection>
+        <url>https://github.com/evrythng/evrythng-tools</url>
+    </scm>
     
     <issueManagement>
-        <url>https://github.com/evrythng/evrythng-java-wrapper/issues</url>
+        <url>https://github.com/evrythng/evrythng-tools/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
 
