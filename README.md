@@ -26,7 +26,7 @@ The project is also available in our maven repository:
 the repository:
 
     <repository>
-      <id>evrythng-public-snapshots</id>
+      <id>evrythng-public-releases</id>
       <name>EVRYTHNG Public Releases</name>
       <url>https://internal.evrythng.net/nexus/content/repositories/evrythng-public-releases</url>
     </repository>
