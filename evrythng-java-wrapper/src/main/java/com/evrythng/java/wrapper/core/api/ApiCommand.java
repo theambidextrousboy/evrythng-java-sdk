@@ -19,6 +19,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,11 +41,6 @@ import com.evrythng.java.wrapper.util.URIBuilder;
 import com.evrythng.thng.resource.model.exception.ErrorMessage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.security.KeyStore;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
@@ -60,6 +56,7 @@ public class ApiCommand<T> {
     private static final Logger logger = LoggerFactory.getLogger(ApiCommand.class);
     private MultiValueMap queryParams = new MultiValueMap();
     private Map<String, String> headers = new LinkedHashMap<String, String>();
+    private HttpParams httpParams = null;
     private MethodBuilder<?> methodBuilder;
     private URI uri;
     private Status responseStatus;
@@ -219,6 +216,16 @@ public class ApiCommand<T> {
         queryParams.remove(name);
     }
 
+    /**
+     * Sets HTTP-specific params, {
+     *
+     * @see HttpClient}
+     */
+    public void setHttpParams(HttpParams params) {
+        logger.debug("Setting HttpParams: [{}]", params);
+        this.httpParams = params;
+    }
+
     private <K> K execute(TypeReference<K> type) throws EvrythngException {
         // Delegate:
         return execute(methodBuilder, type);
@@ -231,7 +238,7 @@ public class ApiCommand<T> {
 
     @SuppressWarnings("unchecked")
     private <K> K execute(MethodBuilder<?> method, Status expectedStatus, TypeReference<K> type) throws EvrythngException {
-        HttpClient client = new DefaultHttpClient();
+        HttpClient client = httpParams == null ? new DefaultHttpClient() : new DefaultHttpClient(httpParams);
         client = wrapClient(client);
         try {
             K result = null;

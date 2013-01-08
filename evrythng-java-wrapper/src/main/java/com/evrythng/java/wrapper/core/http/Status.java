@@ -30,6 +30,11 @@ public enum Status {
 	 */
 	MOVED_PERMANENTLY(301, "Moved Permanently"),
 	/**
+	 * 307 Temporary Redirect, see
+	 * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.8">HTTP/1.1 documentation</a>}.
+	 */
+	TEMPORARY_REDIRECT(307, "Temporary Redirect"),
+	/**
 	 * 400 Bad Request, see
 	 * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.1">HTTP/1.1 documentation</a>}.
 	 */

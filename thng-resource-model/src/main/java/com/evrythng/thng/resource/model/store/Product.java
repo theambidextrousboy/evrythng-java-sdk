@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.evrythng.thng.resource.model.core.PropertiesResourceModel;
+import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
 /**
  * This represents a Product POJO. It is composed of defined fields,
@@ -19,14 +19,12 @@ import com.evrythng.thng.resource.model.core.PropertiesResourceModel;
  * 
  * @author Dominique Guinard (domguinard)
  */
-public class Product extends PropertiesResourceModel {
+public class Product extends DurableResourceModel implements ResourceWithProperties {
 
 	private String brand;
 	private List<String> categories;
 
-	public Product() {
-		super();
-	}
+	private Map<String, String> properties;
 
 	private String description;
 	/**
@@ -45,6 +43,9 @@ public class Product extends PropertiesResourceModel {
 	 * An array of global identifiers for this product
 	 */
 	private Map<String, String> identifiers;
+
+	public Product() {
+	}
 
 	public Product(String brand, List<String> categories, String description, String fn, List<String> photos, String url, Map<String, String> identifiers, Map<String, String> customFields) {
 		this.brand = brand;
@@ -122,5 +123,13 @@ public class Product extends PropertiesResourceModel {
 
 	public String firstIdentifier() {
 		return identifiers.values().iterator().next();
+	}
+
+	public Map<String, String> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Map<String, String> properties) {
+		this.properties = properties;
 	}
 }

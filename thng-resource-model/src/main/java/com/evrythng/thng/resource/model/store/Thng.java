@@ -4,17 +4,19 @@
  */
 package com.evrythng.thng.resource.model.store;
 
+import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import com.evrythng.thng.resource.model.core.PropertiesResourceModel;
+import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
 /**
  * Model representation for <em>thngs</em>.
  * 
  * @author Pedro De Almeida (almeidap)
  **/
-public class Thng extends PropertiesResourceModel {
+public class Thng extends DurableResourceModel implements ResourceWithProperties {
 
 	@NotNull
 	private String name;
@@ -28,6 +30,8 @@ public class Thng extends PropertiesResourceModel {
 	 * Reference to {@link Product#id}.
 	 */
 	private String product;
+
+	private Map<String, String> properties;
 
 	public String getName() {
 		return name;
@@ -59,5 +63,13 @@ public class Thng extends PropertiesResourceModel {
 
 	public void setProduct(String product) {
 		this.product = product;
+	}
+
+	public Map<String, String> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Map<String, String> properties) {
+		this.properties = properties;
 	}
 }
