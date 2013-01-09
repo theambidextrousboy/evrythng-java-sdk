@@ -48,7 +48,7 @@ public class ApiConfiguration {
 	public static final String QUERY_PARAM_ECL = "ecl";
 	public static final String QUERY_PARAM_FONT = "font";
 	public static final String QUERY_PARAM_TEMPLATE = "tpl";
-	public static final String QUERY_PARAM_REVERSE_LOOKUP = "adid";
+	public static final String QUERY_PARAM_REVERSE_LOOKUP = "evrythngId";
 	public static final int SHORT_ID_LENGTH = 8;
 
 	public enum QueryKeyword {
