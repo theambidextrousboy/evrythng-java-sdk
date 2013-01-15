@@ -1,14 +1,11 @@
-# EVRYTHNG API Tools
+# EVRYTHNG API Java / Android Wrapper & Tools
 
-This repository includes two maven modules:
+This the repository of Java tools for the EVRYTHNG API, it includes two modules:
 
-The Java wrapper for the [EVRYTHNG API](https://api.evrythng.com). It lets you use all the features provided by our API with pure Java constructs. 
-You need an API token for authentication which you can get on [https://dev.evrythng.com/].
+* The Java wrapper for the [EVRYTHNG API](https://api.evrythng.com). It lets you use all the features provided by our API with pure Java constructs. 
+You need an API token for authentication which you can get on [https://dev.evrythng.com/]. Note that the wrapper also works on Android / Dalvik.
 
-and
-
-The resource models used to map into POJO the resources representation.
-
+* The resource models used to map the server responses to POJOs (the wrapper uses these!).
 
 ## Getting Started
 
