@@ -31,7 +31,8 @@ public final class EvrythngApiBuilder {
 	private static final Logger logger = LoggerFactory.getLogger(EvrythngApiBuilder.class);
 
 	/**
-	 * Protected constructor, use one of the static methods to obtain an instance.
+	 * Protected constructor, use one of the static methods to obtain an
+	 * instance.
 	 */
 	protected EvrythngApiBuilder() {
 	}
@@ -39,11 +40,17 @@ public final class EvrythngApiBuilder {
 	/**
 	 * Creates a {@link Builder} for executing a {@code POST} request.
 	 * 
-	 * @param apiKey the authorization token for accessing the EVRYTHNG API
-	 * @param uri the {@link URI} holding the absolute URL
-	 * @param data the content data that will be associated with the POST request
-	 * @param responseStatus the expected {@link HttpResponse} status
-	 * @param responseType the native type to which the {@link HttpResponse} will be mapped to
+	 * @param apiKey
+	 *            the authorization token for accessing the EVRYTHNG API
+	 * @param uri
+	 *            the {@link URI} holding the absolute URL
+	 * @param data
+	 *            the content data that will be associated with the POST request
+	 * @param responseStatus
+	 *            the expected {@link HttpResponse} status
+	 * @param responseType
+	 *            the native type to which the {@link HttpResponse} will be
+	 *            mapped to
 	 * @return an EVRYTHNG API-ready {@link Builder}
 	 */
 	public static <T> Builder<T> post(String apiKey, URI uri, Object data, Status responseStatus, TypeReference<T> responseType) {
@@ -53,10 +60,15 @@ public final class EvrythngApiBuilder {
 	/**
 	 * Creates a {@link Builder} for executing a {@code GET} request.
 	 * 
-	 * @param apiKey the authorization token for accessing the EVRYTHNG API
-	 * @param uri the {@link URI} holding the absolute URL
-	 * @param responseStatus the expected {@link HttpResponse} status
-	 * @param responseType the native type to which the {@link HttpResponse} will be mapped to
+	 * @param apiKey
+	 *            the authorization token for accessing the EVRYTHNG API
+	 * @param uri
+	 *            the {@link URI} holding the absolute URL
+	 * @param responseStatus
+	 *            the expected {@link HttpResponse} status
+	 * @param responseType
+	 *            the native type to which the {@link HttpResponse} will be
+	 *            mapped to
 	 * @return an EVRYTHNG API-ready {@link Builder}
 	 */
 	public static <T> Builder<T> get(String apiKey, URI uri, Status responseStatus, TypeReference<T> returnType) {
@@ -66,11 +78,17 @@ public final class EvrythngApiBuilder {
 	/**
 	 * Creates a {@link Builder} for executing a {@code PUT} request.
 	 * 
-	 * @param apiKey the authorization token for accessing the EVRYTHNG API
-	 * @param uri the {@link URI} holding the absolute URL
-	 * @param data the content data that will be associated with the POST request
-	 * @param responseStatus the expected {@link HttpResponse} status
-	 * @param responseType the native type to which the {@link HttpResponse} will be mapped to
+	 * @param apiKey
+	 *            the authorization token for accessing the EVRYTHNG API
+	 * @param uri
+	 *            the {@link URI} holding the absolute URL
+	 * @param data
+	 *            the content data that will be associated with the POST request
+	 * @param responseStatus
+	 *            the expected {@link HttpResponse} status
+	 * @param responseType
+	 *            the native type to which the {@link HttpResponse} will be
+	 *            mapped to
 	 * @return an EVRYTHNG API-ready {@link Builder}
 	 */
 	public static <T> Builder<T> put(String apiKey, URI uri, Object data, Status responseStatus, TypeReference<T> returnType) {
@@ -80,17 +98,21 @@ public final class EvrythngApiBuilder {
 	/**
 	 * Creates a {@link Builder} for executing a {@code DELETE} request.
 	 * 
-	 * @param apiKey the authorization token for accessing the EVRYTHNG API
-	 * @param uri the {@link URI} holding the absolute URL
-	 * @param responseStatus the expected {@link HttpResponse} status
+	 * @param apiKey
+	 *            the authorization token for accessing the EVRYTHNG API
+	 * @param uri
+	 *            the {@link URI} holding the absolute URL
+	 * @param responseStatus
+	 *            the expected {@link HttpResponse} status
 	 * @return an EVRYTHNG API-ready {@link Builder}
 	 */
 	public static Builder<Boolean> delete(String apiKey, URI uri, Status responseStatus) {
 		return new Builder<Boolean>(apiKey, HttpMethodBuilder.httpDelete(), uri, responseStatus, new TypeReference<Boolean>() {
 		}) {
 			/**
-			 * {@code true} if the request has been successfully executed (i.e. returned response status code equals
-			 * {@link Status#OK}), {@code false} otherwise
+			 * {@code true} if the request has been successfully executed (i.e.
+			 * returned response status code equals {@link Status#OK}),
+			 * {@code false} otherwise
 			 */
 			@Override
 			public Boolean execute() throws EvrythngException {
@@ -108,7 +130,8 @@ public final class EvrythngApiBuilder {
 	public static class Builder<T> extends ApiCommandBuilder<T, Builder<T>> {
 
 		/**
-		 * Private constructor, use {@link EvrythngApiBuilder} static methods for creating a {@link Builder}.
+		 * Private constructor, use {@link EvrythngApiBuilder} static methods
+		 * for creating a {@link Builder}.
 		 */
 		private Builder(String apiKey, MethodBuilder<?> methodBuilder, URI uri, Status responseStatus, TypeReference<T> responseType) {
 			super(methodBuilder, uri, responseStatus, responseType);
@@ -160,13 +183,14 @@ public final class EvrythngApiBuilder {
 		}
 
 		/**
-		 * Counts the <strong>total</strong> number of elements if the current command was executed as a {@code HEAD}
-		 * request.
+		 * Counts the <strong>total</strong> number of elements if the current
+		 * command was executed as a {@code HEAD} request.
 		 * 
 		 * TODO: check usefulness & validity of this!
 		 * 
 		 * @see ApiCommand#head(String)
-		 * @return the <strong>total</strong> number of elements matching the current request
+		 * @return the <strong>total</strong> number of elements matching the
+		 *         current request
 		 * @throws EvrythngException
 		 */
 		public int count() throws EvrythngException {
@@ -176,11 +200,13 @@ public final class EvrythngApiBuilder {
 		}
 
 		/**
-		 * Executes the current command by requesting JSONP in the {@link HttpResponse} entity.
+		 * Executes the current command by requesting JSONP in the
+		 * {@link HttpResponse} entity.
 		 * 
 		 * TODO: check usefulness & validity of this!
 		 * 
-		 * @param callback the name of the callback function
+		 * @param callback
+		 *            the name of the callback function
 		 * @throws EvrythngException
 		 * @return the {@link HttpResponse} entity in the form of JSONP content
 		 */

@@ -7,30 +7,34 @@ package com.evrythng.thng.resource.model.store;
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
 /**
- * Represents a redirection.
+ * Represents a redirector.
  * 
  * @author Michel Yerly (my)
  **/
-public class Redirection extends DurableResourceModel {
+public class Redirector extends DurableResourceModel {
 
-	private String targetUrl; //http://example.com/{thngId}
-	private String shortDomain; //t.tn.gg
+	public static final String THNGID_TAG = "{thngId}";
+	public static final String SHORTID_TAG = "{shortId}";
+
+	private String defaultRedirectUrl; //http://example.com/{thngId}
+	private String evrythngUrl;
+	private String shortDomain; //tn.gg
 	private String shortId; // 10 digits
 	private Integer hits;
 
 	/**
-	 * @return the targetUrl
+	 * @return the defaultRedirectUrl
 	 */
-	public String getTargetUrl() {
-		return targetUrl;
+	public String getDefaultRedirectUrl() {
+		return defaultRedirectUrl;
 	}
 
 	/**
-	 * @param targetUrl
-	 *            the targetUrl to set
+	 * @param defaultRedirectUrl
+	 *            the defaultRedirectUrl to set
 	 */
-	public void setTargetUrl(String targetUrl) {
-		this.targetUrl = targetUrl;
+	public void setDefaultRedirectUrl(String defaultRedirectUrl) {
+		this.defaultRedirectUrl = defaultRedirectUrl;
 	}
 
 	/**
@@ -76,6 +80,21 @@ public class Redirection extends DurableResourceModel {
 	 */
 	public void setHits(Integer hits) {
 		this.hits = hits;
+	}
+
+	/**
+	 * @return the evrythngUrl
+	 */
+	public String getEvrythngUrl() {
+		return evrythngUrl;
+	}
+
+	/**
+	 * @param evrythngUrl
+	 *            the evrythngUrl to set
+	 */
+	public void setEvrythngUrl(String evrythngUrl) {
+		this.evrythngUrl = evrythngUrl;
 	}
 
 }

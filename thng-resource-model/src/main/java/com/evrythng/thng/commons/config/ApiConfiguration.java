@@ -4,6 +4,7 @@
  */
 package com.evrythng.thng.commons.config;
 
+
 /**
  * Parameters and values for the EVRYTHNG API configuration.
  * 
@@ -60,7 +61,9 @@ public class ApiConfiguration {
 			this.keyword = keyword;
 		}
 
-		/* {@inheritDoc}
+		/*
+		 * {@inheritDoc}
+		 * 
 		 * @see java.lang.Enum#toString()
 		 */
 		@Override
@@ -109,4 +112,5 @@ public class ApiConfiguration {
 	public void setPerPage(int perPage) {
 		this.perPage = perPage;
 	}
+
 }
