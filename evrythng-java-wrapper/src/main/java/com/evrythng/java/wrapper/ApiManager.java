@@ -7,8 +7,8 @@ package com.evrythng.java.wrapper;
 import org.apache.commons.lang3.StringUtils;
 
 import com.evrythng.java.wrapper.service.CollectionService;
-import com.evrythng.java.wrapper.service.ThngService;
 import com.evrythng.java.wrapper.service.ProductService;
+import com.evrythng.java.wrapper.service.ThngService;
 import com.evrythng.thng.commons.config.ApiConfiguration;
 
 /**
@@ -23,24 +23,27 @@ public class ApiManager {
 
 	private ThngService thngService;
 	private CollectionService collectionService;
-        private ProductService productService;
+	private ProductService productService;
 
 	/**
-	 * Creates a new {@link ApiManager} instance using the provided {@link ApiConfiguration}.
+	 * Creates a new {@link ApiManager} instance using the provided
+	 * {@link ApiConfiguration}.
 	 */
 	public ApiManager(ApiConfiguration config) {
 		checkConfiguration(config);
 		this.config = config;
 		this.thngService = new ThngService(this.config);
 		this.collectionService = new CollectionService(this.config);
-                this.productService = new ProductService(this.config);
+		this.productService = new ProductService(this.config);
 	}
 
 	/**
-	 * Creates a new {@link ApiManager} instance using the provided {@code apiKey} for building an {@link ApiConfiguration}
-	 * with default values.
+	 * Creates a new {@link ApiManager} instance using the provided
+	 * {@code apiKey} for building an {@link ApiConfiguration} with default
+	 * values.
 	 * 
-	 * @param apiKey the API key for authorization
+	 * @param apiKey
+	 *            the API key for authorization
 	 */
 	public ApiManager(String apiKey) {
 		this(new ApiConfiguration(apiKey));
@@ -49,9 +52,10 @@ public class ApiManager {
 	/**
 	 * Checks that the provided {@link ApiConfiguration} is valid.
 	 * 
-	 * @param apiConfiguration the {@link ApiConfiguration} to be verified
+	 * @param apiConfiguration
+	 *            the {@link ApiConfiguration} to be verified
 	 */
-	protected static void checkConfiguration(ApiConfiguration apiConfiguration) {
+	protected void checkConfiguration(ApiConfiguration apiConfiguration) {
 		if (StringUtils.isBlank(apiConfiguration.getUrl())) {
 			throw new IllegalStateException(String.format("URL of provided API configuration is invalid: [url=%s]", apiConfiguration.getUrl()));
 		}
@@ -73,21 +77,23 @@ public class ApiManager {
 
 	/**
 	 * Returns a preconfigured EVRYTHNG service for accessing the <a
-	 * href="https://dev.evrythng.com/documentation/api#collections">Collections</a> API.
+	 * href="https://dev.evrythng.com/documentation/api#collections">Collections
+	 * </a> API.
 	 * 
 	 * @see CollectionService
 	 */
 	public CollectionService collectionService() {
 		return this.collectionService;
 	}
-        
-        /**
+
+	/**
 	 * Returns a preconfigured EVRYTHNG service for accessing the <a
-	 * href="https://dev.evrythng.com/documentation/api#products">Products</a> API.
+	 * href="https://dev.evrythng.com/documentation/api#products">Products</a>
+	 * API.
 	 * 
 	 * @see ProductService
 	 */
-        public ProductService productService() {
+	public ProductService productService() {
 		return productService;
 	}
 

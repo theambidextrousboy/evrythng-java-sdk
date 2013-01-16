@@ -6,6 +6,7 @@ package com.evrythng.java.wrapper.core.api;
 
 import java.io.InputStream;
 import java.net.URI;
+import java.security.KeyStore;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,10 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
 import org.slf4j.Logger;
@@ -40,417 +45,428 @@ import com.evrythng.java.wrapper.util.JSONUtils;
 import com.evrythng.java.wrapper.util.URIBuilder;
 import com.evrythng.thng.resource.model.exception.ErrorMessage;
 import com.fasterxml.jackson.core.type.TypeReference;
-import java.security.KeyStore;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
 
 /**
  * Generic definition for API commands.
- *
+ * 
  * @author Pedro De Almeida (almeidap)
  */
 public class ApiCommand<T> {
 
-    private static final Logger logger = LoggerFactory.getLogger(ApiCommand.class);
-    private MultiValueMap queryParams = new MultiValueMap();
-    private Map<String, String> headers = new LinkedHashMap<String, String>();
-    private HttpParams httpParams = null;
-    private MethodBuilder<?> methodBuilder;
-    private URI uri;
-    private Status responseStatus;
-    private TypeReference<T> responseType;
+	private static final Logger logger = LoggerFactory.getLogger(ApiCommand.class);
+	private MultiValueMap queryParams = new MultiValueMap();
+	private Map<String, String> headers = new LinkedHashMap<String, String>();
+	private HttpParams httpParams = null;
+	private MethodBuilder<?> methodBuilder;
+	private URI uri;
+	private Status responseStatus;
+	private TypeReference<T> responseType;
 
-    /**
-     * Creates a new instance of {@link ApiCommand}.
-     *
-     * @param methodBuilder  the {@link MethodBuilder} used for creating the
-     *                       request
-     * @param uri            the {@link URI} holding the absolute URL
-     * @param responseStatus the expected {@link HttpResponse} status
-     * @param responseType   the native type to which the {@link HttpResponse}
-     *                       will be mapped to
-     */
-    public ApiCommand(MethodBuilder<?> methodBuilder, URI uri, Status responseStatus, TypeReference<T> responseType) {
-        this.methodBuilder = methodBuilder;
-        this.uri = uri;
-        this.responseStatus = responseStatus;
-        this.responseType = responseType;
-    }
+	/**
+	 * Creates a new instance of {@link ApiCommand}.
+	 * 
+	 * @param methodBuilder
+	 *            the {@link MethodBuilder} used for creating the
+	 *            request
+	 * @param uri
+	 *            the {@link URI} holding the absolute URL
+	 * @param responseStatus
+	 *            the expected {@link HttpResponse} status
+	 * @param responseType
+	 *            the native type to which the {@link HttpResponse} will be
+	 *            mapped to
+	 */
+	public ApiCommand(MethodBuilder<?> methodBuilder, URI uri, Status responseStatus, TypeReference<T> responseType) {
+		this.methodBuilder = methodBuilder;
+		this.uri = uri;
+		this.responseStatus = responseStatus;
+		this.responseType = responseType;
+	}
 
-    /**
-     * Executes the current command and maps the {@link HttpResponse} entity to
-     * {@code T} specified by
-     * {@link ApiCommand#responseType}.
-     *
-     * @see #execute(TypeReference)
-     * @return the {@link HttpResponse} entity mapped to {@code T}
-     *
-     * @throws EvrythngException
-     */
-    public T execute() throws EvrythngException {
-        return execute(responseType);
-    }
+	/**
+	 * Executes the current command and maps the {@link HttpResponse} entity to
+	 * {@code T} specified by {@link ApiCommand#responseType}.
+	 * 
+	 * @see #execute(TypeReference)
+	 * @return the {@link HttpResponse} entity mapped to {@code T}
+	 * 
+	 * @throws EvrythngException
+	 */
+	public T execute() throws EvrythngException {
+		return execute(responseType);
+	}
 
-    /**
-     * Executes the current command and returns the {@link HttpResponse} entity
-     * content as {@link String}.
-     *
-     * @see #execute(TypeReference)
-     * @return the {@link HttpResponse} entity content as {@link String}
-     *
-     * @throws EvrythngException
-     */
-    public String content() throws EvrythngException {
-        return execute(new TypeReference<String>() {
-        });
-    }
+	/**
+	 * Executes the current command and returns the {@link HttpResponse} entity
+	 * content as {@link String}.
+	 * 
+	 * @see #execute(TypeReference)
+	 * @return the {@link HttpResponse} entity content as {@link String}
+	 * 
+	 * @throws EvrythngException
+	 */
+	public String content() throws EvrythngException {
+		return execute(new TypeReference<String>() {
+		});
+	}
 
-    /**
-     * Executes the current command and returns the native {@link HttpResponse}.
-     *
-     * @see #execute(TypeReference)
-     * @return the {@link HttpResponse} implied by the request
-     *
-     * @throws EvrythngException
-     */
-    public HttpResponse request() throws EvrythngException {
-        return execute(new TypeReference<HttpResponse>() {
-        });
-    }
+	/**
+	 * Executes the current command and returns the native {@link HttpResponse}.
+	 * 
+	 * @see #execute(TypeReference)
+	 * @return the {@link HttpResponse} implied by the request
+	 * 
+	 * @throws EvrythngException
+	 */
+	public HttpResponse request() throws EvrythngException {
+		return execute(new TypeReference<HttpResponse>() {
+		});
+	}
 
-    /**
-     * Executes the current command and returns the {@link HttpResponse} entity
-     * body as {@link InputStream}.
-     *
-     * @see #execute(TypeReference)
-     * @return the {@link HttpResponse} entity as {@link InputStream}
-     *
-     * @throws EvrythngException
-     */
-    public InputStream stream() throws EvrythngException {
-        return execute(new TypeReference<InputStream>() {
-        });
-    }
+	/**
+	 * Executes the current command and returns the {@link HttpResponse} entity
+	 * body as {@link InputStream}.
+	 * 
+	 * @see #execute(TypeReference)
+	 * @return the {@link HttpResponse} entity as {@link InputStream}
+	 * 
+	 * @throws EvrythngException
+	 */
+	public InputStream stream() throws EvrythngException {
+		return execute(new TypeReference<InputStream>() {
+		});
+	}
 
-    /**
-     * Executes the current command using the HTTP {@code HEAD} method and
-     * returns the value of the first
-     * {@link HttpResponse} {@link Header} specified by {@code headerName}. This
-     * method is usefull for obtaining
-     * metainformation about the {@link HttpResponse} implied by the request
-     * without transferring the entity-body.
-     *
-     * FIXME: HEAD not supported for now, using GET instead
-     *
-     * @see HttpResponse#getFirstHeader(String)
-     *
-     * @param headerName the {@link HttpResponse} header to be retrieved
-     *
-     * @return the value of the first retrieved {@link HttpResponse} header or
-     *         null if no such header could be found.
-     *
-     * @throws EvrythngException
-     */
-    public Header head(String headerName) throws EvrythngException {
-        HttpResponse response = execute(HttpMethodBuilder.httpGet(), new TypeReference<HttpResponse>() {
-        });
-        logger.debug("Retrieving first header: [name={}]", headerName);
-        return response.getFirstHeader(headerName);
-    }
+	/**
+	 * Executes the current command using the HTTP {@code HEAD} method and
+	 * returns the value of the first {@link HttpResponse} {@link Header}
+	 * specified by {@code headerName}. This
+	 * method is usefull for obtaining
+	 * metainformation about the {@link HttpResponse} implied by the request
+	 * without transferring the entity-body.
+	 * 
+	 * FIXME: HEAD not supported for now, using GET instead
+	 * 
+	 * @see HttpResponse#getFirstHeader(String)
+	 * 
+	 * @param headerName
+	 *            the {@link HttpResponse} header to be retrieved
+	 * 
+	 * @return the value of the first retrieved {@link HttpResponse} header or
+	 *         null if no such header could be found.
+	 * 
+	 * @throws EvrythngException
+	 */
+	public Header head(String headerName) throws EvrythngException {
+		HttpResponse response = execute(HttpMethodBuilder.httpGet(), new TypeReference<HttpResponse>() {
+		});
+		logger.debug("Retrieving first header: [name={}]", headerName);
+		return response.getFirstHeader(headerName);
+	}
 
-    /**
-     * Sets (adds or overwrittes) the specified request header.
-     *
-     * @param name  the request header name
-     * @param value the request header value
-     */
-    public void setHeader(String name, String value) {
-        logger.debug("Setting header: [name={}, value={}]", name, value);
-        headers.put(name, value);
-    }
+	/**
+	 * Sets (adds or overwrittes) the specified request header.
+	 * 
+	 * @param name
+	 *            the request header name
+	 * @param value
+	 *            the request header value
+	 */
+	public void setHeader(String name, String value) {
+		logger.debug("Setting header: [name={}, value={}]", name, value);
+		headers.put(name, value);
+	}
 
-    /**
-     * Removes the specified request header.
-     *
-     * @param name the name of the request header to be removed
-     */
-    public void removeHeader(String name) {
-        logger.debug("Removing header: [name={}]", name);
-        headers.remove(name);
-    }
+	/**
+	 * Removes the specified request header.
+	 * 
+	 * @param name
+	 *            the name of the request header to be removed
+	 */
+	public void removeHeader(String name) {
+		logger.debug("Removing header: [name={}]", name);
+		headers.remove(name);
+	}
 
-    /**
-     * Sets (adds or overwrittes) the specified query parameter.
-     *
-     * @param name  the query parameter name
-     * @param value the query parameter value
-     */
-    public void setQueryParam(String name, String value) {
-        // Ensure unicity of parameter:
-        queryParams.remove(name);
+	/**
+	 * Sets (adds or overwrittes) the specified query parameter.
+	 * 
+	 * @param name
+	 *            the query parameter name
+	 * @param value
+	 *            the query parameter value
+	 */
+	public void setQueryParam(String name, String value) {
+		// Ensure unicity of parameter:
+		queryParams.remove(name);
 
-        logger.debug("Setting query parameter: [name={}, value={}]", name, value);
-        queryParams.put(name, value);
-    }
+		logger.debug("Setting query parameter: [name={}, value={}]", name, value);
+		queryParams.put(name, value);
+	}
 
-    /**
-     * Sets (adds or overwrittes) the multi-value of specified query parameter.
-     *
-     * @param name  the query parameter name
-     * @param value the query parameter values list
-     */
-    public void setQueryParam(String name, List<String> value) {
-        logger.debug("Setting query parameter: [name={}, value={}]", name, value);
-        queryParams.putAll(name, value);
-    }
+	/**
+	 * Sets (adds or overwrittes) the multi-value of specified query parameter.
+	 * 
+	 * @param name
+	 *            the query parameter name
+	 * @param value
+	 *            the query parameter values list
+	 */
+	public void setQueryParam(String name, List<String> value) {
+		logger.debug("Setting query parameter: [name={}, value={}]", name, value);
+		queryParams.putAll(name, value);
+	}
 
-    /**
-     * Removes the specified query parameter.
-     *
-     * @param name the name of the query parameter to be removed
-     */
-    public void removeQueryParam(String name) {
-        logger.debug("Removing query parameter: [name={}]", name);
-        queryParams.remove(name);
-    }
+	/**
+	 * Removes the specified query parameter.
+	 * 
+	 * @param name
+	 *            the name of the query parameter to be removed
+	 */
+	public void removeQueryParam(String name) {
+		logger.debug("Removing query parameter: [name={}]", name);
+		queryParams.remove(name);
+	}
 
-    /**
-     * Sets HTTP-specific params, {
-     *
-     * @see HttpClient}
-     */
-    public void setHttpParams(HttpParams params) {
-        logger.debug("Setting HttpParams: [{}]", params);
-        this.httpParams = params;
-    }
+	/**
+	 * Sets HTTP-specific params, {
+	 * 
+	 * @see HttpClient
+	 */
+	public void setHttpParams(HttpParams params) {
+		logger.debug("Setting HttpParams: [{}]", params);
+		this.httpParams = params;
+	}
 
-    private <K> K execute(TypeReference<K> type) throws EvrythngException {
-        // Delegate:
-        return execute(methodBuilder, type);
-    }
+	private <K> K execute(TypeReference<K> type) throws EvrythngException {
+		// Delegate:
+		return execute(methodBuilder, type);
+	}
 
-    private <K> K execute(MethodBuilder<?> method, TypeReference<K> type) throws EvrythngException {
-        // Delegate:
-        return execute(method, responseStatus, type);
-    }
+	private <K> K execute(MethodBuilder<?> method, TypeReference<K> type) throws EvrythngException {
+		// Delegate:
+		return execute(method, responseStatus, type);
+	}
 
-    @SuppressWarnings("unchecked")
-    private <K> K execute(MethodBuilder<?> method, Status expectedStatus, TypeReference<K> type) throws EvrythngException {
-        HttpClient client = httpParams == null ? new DefaultHttpClient() : new DefaultHttpClient(httpParams);
-        client = wrapClient(client);
-        try {
-            K result = null;
-            HttpResponse response = null;
-            HttpUriRequest request = buildRequest(method);
-            try {
-                logger.debug(">> Executing request: [method={}, url={}]", request.getMethod(), request.getURI().toString());
-                response = client.execute(request);
-                logger.debug("<< Response received: [statusLine={}]", response.getStatusLine().toString());
-            } catch (Exception e) {
-                // Convert to custom exception:
-                throw new EvrythngClientException(String.format("Unable to execute request: [uri=%s, cause=%s]", request.getURI(), e.getMessage()), e);
-            }
+	@SuppressWarnings("unchecked")
+	private <K> K execute(MethodBuilder<?> method, Status expectedStatus, TypeReference<K> type) throws EvrythngException {
+		HttpClient client = httpParams == null ? new DefaultHttpClient() : new DefaultHttpClient(httpParams);
+		client = wrapClient(client);
+		try {
+			K result = null;
+			HttpResponse response = null;
+			HttpUriRequest request = buildRequest(method);
+			try {
+				logger.debug(">> Executing request: [method={}, url={}]", request.getMethod(), request.getURI().toString());
+				response = client.execute(request);
+				logger.debug("<< Response received: [statusLine={}]", response.getStatusLine().toString());
+			} catch (Exception e) {
+				// Convert to custom exception:
+				throw new EvrythngClientException(String.format("Unable to execute request: [uri=%s, cause=%s]", request.getURI(), e.getMessage()), e);
+			}
 
-            // Assert response status:
-            assertStatus(response, expectedStatus);
+			// Assert response status:
+			assertStatus(response, expectedStatus);
 
-            logger.debug("Performing conversion: [type={}]", type.getType());
-            if (type.getType().equals(InputStream.class)) {
-                try {
-                    // Retrieve response content stream and buffer data as connection may be closed before input is handled:
-                    result = (K) IOUtils.toBufferedInputStream(entityStream(response));
-                } catch (Exception e) {
-                    throw new EvrythngClientException(String.format("Unable to retrieve response content stream: [type=%s, cause=%s]", type.getType(), e.getMessage()), e);
-                }
-            } else {
-                // Retrieve response entity (as String so that it can be outputted in case of exception):
-                String entity = entityString(response);
+			logger.debug("Performing conversion: [type={}]", type.getType());
+			if (type.getType().equals(InputStream.class)) {
+				try {
+					// Retrieve response content stream and buffer data as connection may be closed before input is handled:
+					result = (K) IOUtils.toBufferedInputStream(entityStream(response));
+				} catch (Exception e) {
+					throw new EvrythngClientException(String.format("Unable to retrieve response content stream: [type=%s, cause=%s]", type.getType(), e.getMessage()), e);
+				}
+			} else {
+				// Retrieve response entity (as String so that it can be outputted in case of exception):
+				String entity = entityString(response);
 
-                if (type.getType().equals(HttpResponse.class)) {
-                    // We already have a HttpResponse, let's return it:
-                    result = (K) response;
-                } else if (type.getType().equals(String.class)) {
-                    result = (K) entity;
-                } else {
-                    try {
-                        result = JSONUtils.read(entity, type);
-                    } catch (Exception e) {
-                        throw new EvrythngClientException(String.format("Unable to map response entity: [type=%s, entity=%s, cause=%s]", type.getType(), entity, e.getMessage()), e);
-                    }
-                }
-            }
-            return result;
-        } finally {
-            shutdown(client);
-        }
-    }
+				if (type.getType().equals(HttpResponse.class)) {
+					// We already have a HttpResponse, let's return it:
+					result = (K) response;
+				} else if (type.getType().equals(String.class)) {
+					result = (K) entity;
+				} else {
+					try {
+						result = JSONUtils.read(entity, type);
+					} catch (Exception e) {
+						throw new EvrythngClientException(String.format("Unable to map response entity: [type=%s, entity=%s, cause=%s]", type.getType(), entity, e.getMessage()), e);
+					}
+				}
+			}
+			return result;
+		} finally {
+			shutdown(client);
+		}
+	}
 
-    private static HttpClient wrapClient(HttpClient base) {
-        try {
-            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            trustStore.load(null, null);
-            SSLSocketFactory ssf = new WrapperSSLSocketFactory(trustStore);
-            ssf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-            ClientConnectionManager ccm = base.getConnectionManager();
-            SchemeRegistry sr = ccm.getSchemeRegistry();
-            sr.register(new Scheme("https", ssf, 443));
-            return new DefaultHttpClient(ccm, base.getParams());
-        } catch (Exception ex) {
-            return null;
-        }
-    }
+	private static HttpClient wrapClient(HttpClient base) {
+		try {
+			KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+			trustStore.load(null, null);
+			SSLSocketFactory ssf = new WrapperSSLSocketFactory(trustStore);
+			ssf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+			ClientConnectionManager ccm = base.getConnectionManager();
+			SchemeRegistry sr = ccm.getSchemeRegistry();
+			sr.register(new Scheme("https", ssf, 443));
+			return new DefaultHttpClient(ccm, base.getParams());
+		} catch (Exception ex) {
+			return null;
+		}
+	}
 
-    /**
-     * Builds and prepares the {@link HttpUriRequest}.
-     *
-     * @param method the {@link MethodBuilder} used to build the request
-     *
-     * @return the prepared {@link HttpUriRequest} for execution
-     *
-     * @throws EvrythngClientException
-     */
-    private HttpUriRequest buildRequest(MethodBuilder<?> method) throws EvrythngClientException {
+	/**
+	 * Builds and prepares the {@link HttpUriRequest}.
+	 * 
+	 * @param method
+	 *            the {@link MethodBuilder} used to build the request
+	 * 
+	 * @return the prepared {@link HttpUriRequest} for execution
+	 * 
+	 * @throws EvrythngClientException
+	 */
+	private HttpUriRequest buildRequest(MethodBuilder<?> method) throws EvrythngClientException {
 
-        // Build request method:
-        HttpUriRequest request = method.build(buildUri());
+		// Build request method:
+		HttpUriRequest request = method.build(buildUri());
 
-        // Define client headers:
-        for (Entry<String, String> header : headers.entrySet()) {
-            request.setHeader(header.getKey(), header.getValue());
-        }
+		// Define client headers:
+		for (Entry<String, String> header : headers.entrySet()) {
+			request.setHeader(header.getKey(), header.getValue());
+		}
 
-        return request;
-    }
+		return request;
+	}
 
-    /**
-     * Builds the final {@link URI} using {@link ApiCommand#uri} as base URL and
-     * all defined {@link ApiCommand#queryParams}
-     * as query parameters.
-     *
-     * @return the absolute URI
-     *
-     * @throws EvrythngClientException
-     */
-    private URI buildUri() throws EvrythngClientException {
-        return URIBuilder.fromUri(uri.toString()).queryParams(queryParams).build();
-    }
+	/**
+	 * Builds the final {@link URI} using {@link ApiCommand#uri} as base URL and
+	 * all defined {@link ApiCommand#queryParams} as query parameters.
+	 * 
+	 * @return the absolute URI
+	 * 
+	 * @throws EvrythngClientException
+	 */
+	private URI buildUri() throws EvrythngClientException {
+		return URIBuilder.fromUri(uri.toString()).queryParams(queryParams).build();
+	}
 
-    /**
-     * Reads entity content from the provided {@link HttpResponse}.
-     *
-     * @param response
-     *
-     * @return the {@link HttpResponse} entity content as {@link String}
-     *
-     * @throws EvrythngClientException
-     */
-    private String entityString(HttpResponse response) throws EvrythngClientException {
-        logger.debug("Reading response entity...");
+	/**
+	 * Reads entity content from the provided {@link HttpResponse}.
+	 * 
+	 * @param response
+	 * 
+	 * @return the {@link HttpResponse} entity content as {@link String}
+	 * 
+	 * @throws EvrythngClientException
+	 */
+	private String entityString(HttpResponse response) throws EvrythngClientException {
+		logger.debug("Reading response entity...");
 
-        String result = null;
-        try {
-            result = IOUtils.toString(entityStream(response));
-        } catch (Exception e) {
-            // Convert to custom exception:
-            throw new EvrythngClientException(String.format("Error while reading response entity! [type=%s]", String.class), e);
-        }
-        return result;
-    }
+		String result = null;
+		try {
+			result = IOUtils.toString(entityStream(response));
+		} catch (Exception e) {
+			// Convert to custom exception:
+			throw new EvrythngClientException(String.format("Error while reading response entity! [type=%s]", String.class), e);
+		}
+		return result;
+	}
 
-    /**
-     * Reads entity content stream from the provided {@link HttpResponse}.
-     *
-     * @param response
-     *
-     * @return the {@link HttpResponse} entity content as {@link InputStream}
-     *
-     * @throws EvrythngClientException
-     */
-    private InputStream entityStream(HttpResponse response) throws EvrythngClientException {
-        logger.debug("Reading response content stream...");
+	/**
+	 * Reads entity content stream from the provided {@link HttpResponse}.
+	 * 
+	 * @param response
+	 * 
+	 * @return the {@link HttpResponse} entity content as {@link InputStream}
+	 * 
+	 * @throws EvrythngClientException
+	 */
+	private InputStream entityStream(HttpResponse response) throws EvrythngClientException {
+		logger.debug("Reading response content stream...");
 
-        InputStream result = null;
-        try {
-            HttpEntity entity = response.getEntity();
-            result = entity.getContent();
-        } catch (Exception e) {
-            // Convert to custom exception:
-            throw new EvrythngClientException("Error while reading response content stream!", e);
-        }
-        return result;
-    }
+		InputStream result = null;
+		try {
+			HttpEntity entity = response.getEntity();
+			result = entity.getContent();
+		} catch (Exception e) {
+			// Convert to custom exception:
+			throw new EvrythngClientException("Error while reading response content stream!", e);
+		}
+		return result;
+	}
 
-    /**
-     * Asserts {@code expected} {@link Status} against the provided
-     * {@link HttpResponse}. If {@code actual} response
-     * {@link Status} does not match {@code expected} one, then reponse entity
-     * will be mapped to an {@link ErrorMessage}
-     * instance and an exception will be thrown.
-     *
-     * @param response the {@link HttpResponse} holding a valid status code
-     * @param expected the expected response status code
-     *
-     * @throws EvrythngException if provided {@code response} {@link Status}
-     *                           does not match {@code expected} one
-     */
-    private void assertStatus(HttpResponse response, Status expected) throws EvrythngException {
-        Status actual = Status.fromStatusCode(response.getStatusLine().getStatusCode());
-        if (actual == null) {
-            throw new EvrythngUnexpectedException(new ErrorMessage(Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Unknown status code " + response.getStatusLine().getStatusCode()));
-        }
-        logger.debug("Checking response status: [expected={}, actual={}]", expected.getStatusCode(), actual.getStatusCode());
+	/**
+	 * Asserts {@code expected} {@link Status} against the provided
+	 * {@link HttpResponse}. If {@code actual} response {@link Status} does not
+	 * match {@code expected} one, then reponse entity
+	 * will be mapped to an {@link ErrorMessage} instance and an exception will
+	 * be thrown.
+	 * 
+	 * @param response
+	 *            the {@link HttpResponse} holding a valid status code
+	 * @param expected
+	 *            the expected response status code
+	 * 
+	 * @throws EvrythngException
+	 *             if provided {@code response} {@link Status} does not match
+	 *             {@code expected} one
+	 */
+	private void assertStatus(HttpResponse response, Status expected) throws EvrythngException {
+		Status actual = Status.fromStatusCode(response.getStatusLine().getStatusCode());
+		if (actual == null) {
+			throw new EvrythngUnexpectedException(new ErrorMessage(Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Unknown status code " + response.getStatusLine().getStatusCode()));
+		}
+		logger.debug("Checking response status: [expected={}, actual={}]", expected.getStatusCode(), actual.getStatusCode());
 
-        if (!actual.equals(expected)) {
-            logger.debug("Unexpected response status!");
+		if (!actual.equals(expected)) {
+			logger.debug("Unexpected response status!");
 
-            // Map entity to ErrorMessage:
-            String entity = entityString(response);
-            ErrorMessage message = null;
-            try {
-                logger.debug("Mapping response to ErrorMessage: [entity={}]", entity);
-                // API should always return an ErrorMessage as JSON:
-                message = JSONUtils.read(entity, new TypeReference<ErrorMessage>() {
-                });
-            } catch (Exception e) {
-                throw new EvrythngClientException("Unable to retrieve ErrorMessage from response!", e);
-            }
+			// Map entity to ErrorMessage:
+			String entity = entityString(response);
+			ErrorMessage message = null;
+			try {
+				logger.debug("Mapping response to ErrorMessage: [entity={}]", entity);
+				// API should always return an ErrorMessage as JSON:
+				message = JSONUtils.read(entity, new TypeReference<ErrorMessage>() {
+				});
+			} catch (Exception e) {
+				throw new EvrythngClientException("Unable to retrieve ErrorMessage from response!", e);
+			}
 
-            // Handle unexpected status:
-            switch (actual.getFamily()) {
-                case CLIENT_ERROR:
-                    switch (actual) {
-                        case BAD_REQUEST:
-                            throw new BadRequestException(message);
-                        case UNAUTHORIZED:
-                            throw new UnauthorizedException(message);
-                        case FORBIDDEN:
-                            throw new ForbiddenException(message);
-                        case NOT_FOUND:
-                            throw new NotFoundException(message);
-                        case METHOD_NOT_ALLOWED:
-                            throw new MethodNotAllowedException(message);
-                        case CONFLICT:
-                            throw new ConflictException(message);
-                        default:
-                            throw new EvrythngUnexpectedException(message);
-                    }
-                case SERVER_ERROR:
-                    throw new InternalErrorException(message);
-                default:
-                    throw new EvrythngUnexpectedException(message);
-            }
-        }
-    }
+			// Handle unexpected status:
+			switch (actual.getFamily()) {
+				case CLIENT_ERROR:
+					switch (actual) {
+						case BAD_REQUEST:
+							throw new BadRequestException(message);
+						case UNAUTHORIZED:
+							throw new UnauthorizedException(message);
+						case FORBIDDEN:
+							throw new ForbiddenException(message);
+						case NOT_FOUND:
+							throw new NotFoundException(message);
+						case METHOD_NOT_ALLOWED:
+							throw new MethodNotAllowedException(message);
+						case CONFLICT:
+							throw new ConflictException(message);
+						default:
+							throw new EvrythngUnexpectedException(message);
+					}
+				case SERVER_ERROR:
+					throw new InternalErrorException(message);
+				default:
+					throw new EvrythngUnexpectedException(message);
+			}
+		}
+	}
 
-    /**
-     * Shuts down the connection manager to ensure immediate deallocation of all
-     * system resources.
-     *
-     * @param client the {@link HttpClient} to shut down
-     */
-    protected void shutdown(HttpClient client) {
-        client.getConnectionManager().shutdown();
-    }
+	/**
+	 * Shuts down the connection manager to ensure immediate deallocation of all
+	 * system resources.
+	 * 
+	 * @param client
+	 *            the {@link HttpClient} to shut down
+	 */
+	protected void shutdown(HttpClient client) {
+		client.getConnectionManager().shutdown();
+	}
 }

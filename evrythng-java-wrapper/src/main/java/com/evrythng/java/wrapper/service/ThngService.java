@@ -33,9 +33,8 @@ public class ThngService extends EvrythngServiceBase {
 	public static final String PATH_THNG_ACTIONS_CHECKINS = PATH_THNG + "/actions/checkins";
 	public static final String PATH_THNG_ACTIONS_CHECKIN = PATH_THNG_ACTIONS_CHECKINS + "/%s";
 
-	public static final String PATH_THNG_REDIRECTIONS = PATH_THNG + "/redirections";
-	public static final String PATH_THNG_REDIRECTION = PATH_THNG_REDIRECTIONS + "/%s";
-	public static final String PATH_THGN_REDIRECTION_QR = PATH_THNG_REDIRECTION + "/qr";
+	public static final String PATH_THNG_REDIRECTOR = PATH_THNG + "/redirector";
+	public static final String PATH_THNG_REDIRECTOR_QR = PATH_THNG_REDIRECTOR + "/qr";
 
 	public ThngService(ApiConfiguration config) {
 		super(config);
@@ -427,54 +426,36 @@ public class ThngService extends EvrythngServiceBase {
 		});
 	}
 
-	/* ***** /thngs/{id}/redirections ***** */
+	/* ***** /thngs/{id}/redirector ***** */
 
 	/**
-	 * Creates a redirection for the Thng.
+	 * Creates a redirector for the Thng.
 	 */
-	public Builder<Redirector> redirectionCreator(String thngId, Redirector redirection) throws EvrythngClientException {
-		return post(String.format(PATH_THNG_REDIRECTIONS, thngId), redirection, new TypeReference<Redirector>() {
+	public Builder<Redirector> redirectorCreator(String thngId, Redirector redirection) throws EvrythngClientException {
+		return post(String.format(PATH_THNG_REDIRECTOR, thngId), redirection, new TypeReference<Redirector>() {
 		});
 	}
 
 	/**
-	 * Retrieves all redirections for the Thng.
+	 * Retrieves the redirector for the Thng.
 	 */
-	public Builder<List<Redirector>> redirectionsReader(String thngId) throws EvrythngClientException {
-		return get(String.format(PATH_THNG_REDIRECTIONS, thngId), new TypeReference<List<Redirector>>() {
+	public Builder<Redirector> redirectorReader(String thngId) throws EvrythngClientException {
+		return get(String.format(PATH_THNG_REDIRECTOR, thngId), new TypeReference<Redirector>() {
 		});
 	}
 
 	/**
-	 * Deletes all redirections for the Thng.
+	 * Deletes the redirector for the Thng.
 	 */
-	public Builder<Boolean> redirectionsDeleter(String thngId) throws EvrythngClientException {
-		return delete(String.format(PATH_THNG_REDIRECTIONS, thngId));
+	public Builder<Boolean> redirectorDeleter(String thngId) throws EvrythngClientException {
+		return delete(String.format(PATH_THNG_REDIRECTOR, thngId));
 	}
 
-	/* ***** /thngs/{id}/redirections/{id} ***** */
-
 	/**
-	 * Retrieves a redirection for the Thng.
+	 * Updates the redirector for the Thng.
 	 */
-	public Builder<Redirector> redirectionReader(String thngId, String redirectionId) throws EvrythngClientException {
-		return get(String.format(PATH_THNG_REDIRECTION, thngId, redirectionId), new TypeReference<Redirector>() {
+	public Builder<Redirector> redirectorUpdater(String thngId, Redirector redirection) throws EvrythngClientException {
+		return put(String.format(PATH_THNG_REDIRECTOR, thngId), redirection, new TypeReference<Redirector>() {
 		});
 	}
-
-	/**
-	 * Updates a redirection for the Thng.
-	 */
-	public Builder<Redirector> redirectionUpdater(String thngId, String redirectionId, Redirector redirection) throws EvrythngClientException {
-		return put(String.format(PATH_THNG_REDIRECTION, thngId, redirectionId), redirection, new TypeReference<Redirector>() {
-		});
-	}
-
-	/**
-	 * Retrieves a redirection for the Thng.
-	 */
-	public Builder<Boolean> redirectionDeleter(String thngId, String redirectionId) throws EvrythngClientException {
-		return delete(String.format(PATH_THNG_REDIRECTION, thngId, redirectionId));
-	}
-
 }

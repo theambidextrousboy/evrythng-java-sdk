@@ -8,9 +8,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonValue;
-
 /**
  * Enumearates Evrythng's object types.
  * 
@@ -21,7 +18,7 @@ public enum EvrythngType {
 	THNG("thng"), PRODUCT("product"), COLLECTION("collection");
 
 	private final String jsonValue;
-	private static Map<String, EvrythngType> lookup = new HashMap<String, EvrythngType>();
+	private static Map<String, EvrythngType> lookup;
 
 	private EvrythngType(String jsonValue) {
 		this.jsonValue = jsonValue;
@@ -34,12 +31,14 @@ public enum EvrythngType {
 		}
 	}
 
-	@JsonValue
+	@com.fasterxml.jackson.annotation.JsonValue
+	@org.codehaus.jackson.annotate.JsonValue
 	public String getJsonValue() {
 		return jsonValue;
 	}
 
-	@JsonCreator
+	@com.fasterxml.jackson.annotation.JsonCreator
+	@org.codehaus.jackson.annotate.JsonCreator
 	public static EvrythngType forValue(String v) {
 		if (v == null) {
 			return null;

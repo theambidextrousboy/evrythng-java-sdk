@@ -42,7 +42,8 @@ public final class JSONUtils {
 	}
 
 	/**
-	 * Deserializes the provided {@code json} {@link String} to a native {@code type} representation.
+	 * Deserializes the provided {@code json} {@link String} to a native
+	 * {@code type} representation.
 	 * 
 	 * @param json
 	 * @param type
@@ -61,7 +62,8 @@ public final class JSONUtils {
 	}
 
 	/**
-	 * Deserializes the provided {@code json} {@link String} to a native {@code type} representation.
+	 * Deserializes the provided {@code json} {@link String} to a native
+	 * {@code type} representation.
 	 * 
 	 * @param json
 	 * @param type
@@ -77,7 +79,8 @@ public final class JSONUtils {
 	}
 
 	/**
-	 * Deserializes the provided {@link InputStream} to a native {@code type} representation.
+	 * Deserializes the provided {@link InputStream} to a native {@code type}
+	 * representation.
 	 * 
 	 * @param inputStream
 	 * @param type
@@ -93,7 +96,8 @@ public final class JSONUtils {
 	}
 
 	/**
-	 * Deserializes the provided {@link InputStream} to a native {@code valueType} representation.
+	 * Deserializes the provided {@link InputStream} to a native
+	 * {@code valueType} representation.
 	 * 
 	 * @param inputStream
 	 * @param type
