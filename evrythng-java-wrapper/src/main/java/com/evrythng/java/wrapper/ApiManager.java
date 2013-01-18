@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.evrythng.java.wrapper.service.CollectionService;
 import com.evrythng.java.wrapper.service.ProductService;
+import com.evrythng.java.wrapper.service.SearchService;
 import com.evrythng.java.wrapper.service.ThngService;
 import com.evrythng.thng.commons.config.ApiConfiguration;
 
@@ -24,6 +25,7 @@ public class ApiManager {
 	private ThngService thngService;
 	private CollectionService collectionService;
 	private ProductService productService;
+	private SearchService searchService;
 
 	/**
 	 * Creates a new {@link ApiManager} instance using the provided
@@ -35,6 +37,7 @@ public class ApiManager {
 		this.thngService = new ThngService(this.config);
 		this.collectionService = new CollectionService(this.config);
 		this.productService = new ProductService(this.config);
+		this.searchService = new SearchService(this.config);
 	}
 
 	/**
@@ -95,6 +98,17 @@ public class ApiManager {
 	 */
 	public ProductService productService() {
 		return productService;
+	}
+
+	/**
+	 * Returns a preconfigured EVRYTHNG service for accessing the <a
+	 * href="https://dev.evrythng.com/documentation/api#search">Search</a>
+	 * API.
+	 * 
+	 * @see SearchService
+	 */
+	public SearchService searchService() {
+		return searchService;
 	}
 
 	public ApiConfiguration getConfig() {
