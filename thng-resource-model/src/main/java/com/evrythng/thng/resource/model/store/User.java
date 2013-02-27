@@ -6,48 +6,30 @@ package com.evrythng.thng.resource.model.store;
 
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
 /**
  * Model representation for <em>users</em>.
- * 
- * @author Pedro De Almeida (almeidap)
  */
 public class User extends DurableResourceModel {
 
 	/**
 	 * The user's unique email address.
 	 */
-	@NotNull
-	@NotBlank
-	@Email
 	private String email;
 
-	@NotNull
-	@NotEmpty
-	// Note: @Size below is used only for validation. Stored passwords are 255 characters long.
-	@Size(min = 6, max = 30)
+
 	private String password;
 
 	/**
 	 * The user's first name.
 	 */
-	@NotNull
-	@NotBlank
 	private String firstName;
 
 	/**
 	 * The user's last name.
 	 */
-	@NotNull
-	@NotBlank
 	private String lastName;
 
 	/**
@@ -60,9 +42,11 @@ public class User extends DurableResourceModel {
 
 	/**
 	 * The user's locale.
+	 * The basic format is ''ll_CC'', where ''ll'' is a two-letter language code, 
+	 * and ''CC'' is a two-letter country code. For instance, 'en_US' represents US English.
 	 * 
 	 * @see <a
-	 *      href="http://en.wikipedia.org/wiki/ISO_639">http://en.wikipedia.org/wiki/ISO_639</a>
+	 *      href="https://developers.facebook.com/docs/internationalization/">https://developers.facebook.com/docs/internationalization/</a>
 	 */
 	private String locale;
 

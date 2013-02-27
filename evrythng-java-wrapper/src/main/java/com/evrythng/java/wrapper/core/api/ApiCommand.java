@@ -48,8 +48,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * Generic definition for API commands.
- * 
- * @author Pedro De Almeida (almeidap)
  */
 public class ApiCommand<T> {
 
@@ -397,7 +395,7 @@ public class ApiCommand<T> {
 	/**
 	 * Asserts {@code expected} {@link Status} against the provided
 	 * {@link HttpResponse}. If {@code actual} response {@link Status} does not
-	 * match {@code expected} one, then reponse entity
+	 * match {@code expected} one, then response entity
 	 * will be mapped to an {@link ErrorMessage} instance and an exception will
 	 * be thrown.
 	 * 

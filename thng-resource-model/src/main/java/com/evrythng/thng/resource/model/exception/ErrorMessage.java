@@ -11,19 +11,18 @@ import java.util.List;
 
 /**
  * This defines the format of an error message as sent by the API. E.g., in JSON
- * such a message would look like: <code>{"status": 201, "errors":["message", "..."]}</code>
+ * such a message looks like: <code>{"status": 201, "errors":["message", "...", "moreInfo" : URL]}</code>
  * 
  * @author Dominique Guinard (domguinard)
  **/
 public class ErrorMessage {
 
-	private static final String MORE_INFO_ROOT = "http://dev.evrythng.com/";
-	private static final String MORE_INFO_DEFAULT = MORE_INFO_ROOT + "#support";
+	private static final String MORE_INFO_ROOT = "https://dev.evrythng.com/documentation/api";
 	/** HTTP status */
 	private int status;
 	/** Human-friendly error(s) description(s) */
 	private List<String> errors = new ArrayList<String>();
-	private String moreInfo = MORE_INFO_DEFAULT;
+	private String moreInfo = MORE_INFO_ROOT;
 
 	/**
 	 * Creates a new ErrorMessage.
