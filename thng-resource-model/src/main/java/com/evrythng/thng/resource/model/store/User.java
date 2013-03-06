@@ -31,7 +31,14 @@ public class User extends DurableResourceModel {
 	 * The user's last name.
 	 */
 	private String lastName;
-
+	
+	/**
+	 * The user's birthday as http://en.wikipedia.org/wiki/ISO_8601 
+	 * i.e., YYYY-MM-DD
+	 */
+	private String birthday;
+	
+	
 	/**
 	 * The user's timezone offset from <strong>UTC</strong>.
 	 * 
@@ -61,7 +68,6 @@ public class User extends DurableResourceModel {
 	 */
 	private Boolean canLogin = true;
 
-	private Map<String, Object> attributes;
 
 	/* *** Getters / Setters *** */
 
@@ -129,4 +135,13 @@ public class User extends DurableResourceModel {
 	public void setCanLogin(Boolean canLogin) {
 		this.canLogin = canLogin;
 	}
+	
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+	
 }
