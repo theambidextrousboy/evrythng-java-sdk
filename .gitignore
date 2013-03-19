@@ -9,3 +9,4 @@ nbactions.xml
 .DS_Store
 /thng-resource-model/target/
 /evrythng-java-wrapper/target/
+/evrythng-commons/target/
