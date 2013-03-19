@@ -11,11 +11,15 @@ import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.evrythng.commons.Ref;
 import com.evrythng.java.wrapper.core.api.ApiCommand;
 import com.evrythng.java.wrapper.core.api.ApiCommandBuilder;
+import com.evrythng.java.wrapper.core.api.Utils;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
+import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.Method;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
 import com.evrythng.java.wrapper.core.http.Status;
+import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.commons.config.ApiConfiguration.QueryKeyword;
@@ -186,17 +190,50 @@ public final class EvrythngApiBuilder {
 		 * Counts the <strong>total</strong> number of elements if the current
 		 * command was executed as a {@code HEAD} request.
 		 * 
-		 * TODO: check usefulness & validity of this!
-		 * 
 		 * @see ApiCommand#head(String)
 		 * @return the <strong>total</strong> number of elements matching the
 		 *         current request
 		 * @throws EvrythngException
+		 * @Deprecated Use {@link #fetchTotalCount(Ref)} instead.
 		 */
+		@Deprecated
 		public int count() throws EvrythngException {
 			logger.debug("Counting total number of elements: [header={}]", ApiConfiguration.HTTP_HEADER_RESULT_COUNT);
 			Header xResultCountHeader = getCommand().head(ApiConfiguration.HTTP_HEADER_RESULT_COUNT);
 			return Integer.valueOf(xResultCountHeader.getValue());
+		}
+
+		/**
+		 * Executes the requests and returns a result object. The result objects
+		 * contains the actual object and the total count for the paginated
+		 * list. This method can only be used in the context of a paginated
+		 * result set, otherwise an exception is thrown.
+		 */
+		public Result<T> list() throws EvrythngException {
+
+			if (getCommand().getMethod() != Method.GET) {
+				throw new EvrythngClientException("The list() method is only available for GET requests.");
+			}
+
+			// Issue the command "manually" to get the response object.
+			HttpResponse response = getCommand().request();
+			Utils.assertStatus(response, getCommand().getExpectedResponseStatus());
+			T ret = Utils.convert(response, getCommand().getResponseType());
+
+			// Parse the total result count.
+			Header header = response.getFirstHeader(ApiConfiguration.HTTP_HEADER_RESULT_COUNT);
+			long n;
+			if (header == null) {
+				throw new EvrythngClientException("The response contains no " + ApiConfiguration.HTTP_HEADER_RESULT_COUNT + " header.");
+			}
+			try {
+				n = Long.parseLong(header.getValue());
+			} catch (NumberFormatException e) {
+				throw new EvrythngClientException("The response's " + ApiConfiguration.HTTP_HEADER_RESULT_COUNT + " header could not be parsed.");
+			}
+			logger.debug("Total number of items: {}", n);
+
+			return new Result<T>(ret, n);
 		}
 
 		/**
@@ -221,6 +258,28 @@ public final class EvrythngApiBuilder {
 			queryParam(ApiConfiguration.QUERY_PARAM_CALLBACK, (String) null);
 
 			return jsonp;
+		}
+
+		/**
+		 * Class to hold the results and the total count.
+		 */
+		public static class Result<R> {
+			private R result;
+			private long totalCount;
+
+			public Result(R result, long totalCount) {
+
+				this.result = result;
+				this.totalCount = totalCount;
+			}
+
+			public R getResult() {
+				return result;
+			}
+
+			public long getTotalCount() {
+				return totalCount;
+			}
 		}
 	}
 }

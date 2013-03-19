@@ -70,6 +70,7 @@
 	<modules>
 		<module>thng-resource-model</module>
 		<module>evrythng-java-wrapper</module>
+		<module>evrythng-commons</module>
 	</modules>
 
 	<build>

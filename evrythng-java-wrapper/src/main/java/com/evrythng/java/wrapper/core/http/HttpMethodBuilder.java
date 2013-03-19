@@ -27,16 +27,23 @@ public final class HttpMethodBuilder {
 
 	public interface MethodBuilder<T extends HttpRequestBase> {
 		T build(URI uri) throws EvrythngClientException;
+
+		Method getMethod();
+	}
+
+	public enum Method {
+		GET, POST, PUT, DELETE
 	}
 
 	/**
-	 * Private constructor, use static methods to create a {@link MethodBuilder}.
+	 * Private constructor, use static methods to create a {@link MethodBuilder}
+	 * .
 	 */
 	private HttpMethodBuilder() {
 	}
 
 	public static MethodBuilder<HttpPost> httpPost(final Object data) {
-		return new EntityMethodBuilder<HttpPost>() {
+		return new EntityMethodBuilder<HttpPost>(Method.POST) {
 			@Override
 			public HttpPost build(URI uri) throws EvrythngClientException {
 				HttpPost request = new HttpPost(uri);
@@ -52,11 +59,15 @@ public final class HttpMethodBuilder {
 			public HttpGet build(URI uri) {
 				return new HttpGet(uri);
 			}
+
+			public Method getMethod() {
+				return Method.GET;
+			}
 		};
 	}
 
 	public static MethodBuilder<HttpPut> httpPut(final Object data) {
-		return new EntityMethodBuilder<HttpPut>() {
+		return new EntityMethodBuilder<HttpPut>(Method.PUT) {
 			@Override
 			public HttpPut build(URI uri) throws EvrythngClientException {
 				HttpPut request = new HttpPut(uri);
@@ -72,10 +83,20 @@ public final class HttpMethodBuilder {
 			public HttpDelete build(URI uri) {
 				return new HttpDelete(uri);
 			}
+
+			public Method getMethod() {
+				return Method.DELETE;
+			}
 		};
 	}
 
 	protected static abstract class EntityMethodBuilder<E extends HttpEntityEnclosingRequestBase> implements MethodBuilder<E> {
+
+		private Method method;
+
+		public EntityMethodBuilder(Method method) {
+			this.method = method;
+		}
 
 		protected void entity(E request, final Object data) throws EvrythngClientException {
 			try {
@@ -84,6 +105,11 @@ public final class HttpMethodBuilder {
 				// Convert to custom exception:
 				throw new EvrythngClientException("Unable to define request entity: [data={}]", e);
 			}
+		}
+
+		@Override
+		public Method getMethod() {
+			return method;
 		}
 	}
 }
