@@ -15,7 +15,7 @@ import java.util.Map;
  **/
 public enum EvrythngType {
 
-	THNG("thng"), PRODUCT("product"), COLLECTION("collection");
+	THNG("thng"), PRODUCT("product"), PLACE("place"), COLLECTION("collection");
 
 	private final String jsonValue;
 	private static Map<String, EvrythngType> lookup;
