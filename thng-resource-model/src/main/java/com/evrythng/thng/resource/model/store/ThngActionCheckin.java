@@ -9,10 +9,9 @@ package com.evrythng.thng.resource.model.store;
  * 
  * @author Michel Yerly (my)
  **/
+@Deprecated
 public class ThngActionCheckin extends ThngAction {
 
-	
-	
 	public ThngActionCheckin downCastCopy(ThngAction action) {
 		return (ThngActionCheckin) new ThngActionCheckin().shallowCopyFrom(action);
 	}
