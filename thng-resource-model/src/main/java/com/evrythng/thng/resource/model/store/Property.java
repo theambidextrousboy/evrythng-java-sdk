@@ -4,8 +4,6 @@
  */
 package com.evrythng.thng.resource.model.store;
 
-import javax.validation.constraints.NotNull;
-
 import com.evrythng.thng.resource.model.core.TemporalResourceModel;
 
 /**
@@ -15,13 +13,10 @@ import com.evrythng.thng.resource.model.core.TemporalResourceModel;
  **/
 public class Property extends TemporalResourceModel {
 
-	@NotNull
 	private String thng;
 
-	@NotNull
 	private String key;
 
-	@NotNull
 	private String value;
 
 	/**
@@ -80,7 +75,7 @@ public class Property extends TemporalResourceModel {
 
 	/**
 	 * @param thng
-	 *        the thng to set
+	 *            the thng to set
 	 */
 	public void setThng(String thng) {
 		this.thng = thng;

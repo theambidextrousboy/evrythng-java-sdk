@@ -1,9 +1,5 @@
 package com.evrythng.thng.resource.model.store;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 import com.evrythng.thng.resource.model.core.TemporalResourceModel;
 
 /**
@@ -13,15 +9,7 @@ import com.evrythng.thng.resource.model.core.TemporalResourceModel;
  **/
 public class Location extends TemporalResourceModel {
 
-	@Min(-90)
-	@Max(90)
-	@NotNull
-	// make all the Location null instead
 	private Double latitude;
-
-	@Min(-180)
-	@Max(180)
-	@NotNull
 	private Double longitude;
 
 	private String place;

@@ -1,7 +1,5 @@
 package com.evrythng.thng.resource.model.store;
 
-import javax.validation.ValidationException;
-
 import com.evrythng.thng.resource.model.core.TemporalResourceModel;
 import com.evrythng.thng.resource.model.utils.ObjectUtils;
 
@@ -146,7 +144,7 @@ public class ThngAction extends TemporalResourceModel {
 			if (latitude != null && longitude != null) {
 				hasOne = true;
 				if (-90 > latitude || latitude > 90 || -180 > longitude || longitude > 180) {
-					throw new ValidationException("Latitude or longitude not in range.");
+					throw new IllegalArgumentException("Latitude or longitude not in range.");
 				}
 			}
 
@@ -155,7 +153,7 @@ public class ThngAction extends TemporalResourceModel {
 			}
 
 			if (!hasOne) {
-				throw new ValidationException("Please provide either a place or a latitude and longitude.");
+				throw new IllegalArgumentException("Please provide either a place or a latitude and longitude.");
 			}
 		}
 

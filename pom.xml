@@ -61,9 +61,9 @@
 	<properties>
 		<!-- Versions -->
 		<version.httpclient>4.2.1</version.httpclient>
-		<jackson.databind.version>2.1.0</jackson.databind.version>
-		<version.hibernate-validator>4.3.0.Final</version.hibernate-validator>
-		<version.jackson-mapper-asl>1.9.9</version.jackson-mapper-asl>
+		<version.jackson-core>2.2.1</version.jackson-core>
+		<version.jackson-module-jaxb-annotations>2.2.0</version.jackson-module-jaxb-annotations>
+		
 	</properties>
 
 	<modules>

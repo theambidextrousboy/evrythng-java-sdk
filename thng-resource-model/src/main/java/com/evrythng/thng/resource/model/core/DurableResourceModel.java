@@ -6,8 +6,6 @@ package com.evrythng.thng.resource.model.core;
 
 import java.util.List;
 
-import javax.validation.constraints.Past;
-
 /**
  * Abstract model representation for <em>updatable</em> resources.
  * 
@@ -16,7 +14,6 @@ import javax.validation.constraints.Past;
  **/
 public abstract class DurableResourceModel extends ResourceModel {
 
-	@Past
 	protected Long updatedAt;
 
 	private List<String> tags;
