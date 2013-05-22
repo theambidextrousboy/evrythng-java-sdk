@@ -37,6 +37,13 @@ public enum EvrythngType {
 		return jsonValue;
 	}
 
+	/**
+	 * Returns an {@link EvrythngType} value given its corresponding name.
+	 * 
+	 * @return The {@link EvrythngType} value or null if the parameter is null.
+	 * @throws IllegalArgumentException
+	 *             if the name does not match any value.
+	 */
 	@com.fasterxml.jackson.annotation.JsonCreator
 	@org.codehaus.jackson.annotate.JsonCreator
 	public static EvrythngType forValue(String v) {

@@ -5,24 +5,24 @@
 package com.evrythng.commons;
 
 /**
- * Class that holds a value. Useful for passing arguments by reference.
+ * Thread-safe version of {@link Ref}.
  * 
  * @author Michel Yerly (my)
  **/
-public final class Ref<T> {
+public final class RefTS<T> {
 
-	private T obj = null;
+	private volatile T obj = null;
 
 	/**
 	 * Creates an instance that holds the null value.
 	 */
-	public Ref() {
+	public RefTS() {
 	}
 
 	/**
 	 * Creates an instance that holds the specified value.
 	 */
-	public Ref(final T obj) {
+	public RefTS(final T obj) {
 		this.obj = obj;
 	}
 
@@ -36,7 +36,7 @@ public final class Ref<T> {
 	/**
 	 * Sets the value to hold.
 	 */
-	public final void set(final T obj) {
+	public final synchronized void set(final T obj) {
 		this.obj = obj;
 	}
 }
