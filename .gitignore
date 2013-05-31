@@ -11,3 +11,4 @@ nb-configuration.xml
 /evrythng-commons/target/
 *.versionsBackup
 nbactions*.xml
+*.iml
