@@ -6,9 +6,6 @@ package com.evrythng.thng.resource.model.store;
 
 import java.util.Map;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
 /**
@@ -18,12 +15,10 @@ import com.evrythng.thng.resource.model.core.DurableResourceModel;
  **/
 public class Thng extends DurableResourceModel implements ResourceWithProperties {
 
-	@NotNull
 	private String name;
 
 	private String description;
 
-	@Valid
 	private Location location;
 
 	/**

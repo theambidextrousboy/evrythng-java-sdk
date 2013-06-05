@@ -6,21 +6,17 @@ package com.evrythng.thng.resource.model.core;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 
 /**
  * Abstract model representation for resources.
- *
+ * 
  * @author Pedro De Almeida (almeidap)
  * @author Dominique Guinard (domguinard)
- *
+ * 
  */
 public abstract class ResourceModel {
 
 	protected String id;
-	@Past
-	@NotNull
 	protected Long createdAt;
 	protected Map<String, String> customFields;
 

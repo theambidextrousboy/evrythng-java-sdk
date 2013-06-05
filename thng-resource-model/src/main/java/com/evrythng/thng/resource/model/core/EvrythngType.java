@@ -8,6 +8,9 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * Enumearates Evrythng's object types.
  * 
@@ -31,8 +34,7 @@ public enum EvrythngType {
 		}
 	}
 
-	@com.fasterxml.jackson.annotation.JsonValue
-	@org.codehaus.jackson.annotate.JsonValue
+	@JsonValue
 	public String getJsonValue() {
 		return jsonValue;
 	}
@@ -44,8 +46,7 @@ public enum EvrythngType {
 	 * @throws IllegalArgumentException
 	 *             if the name does not match any value.
 	 */
-	@com.fasterxml.jackson.annotation.JsonCreator
-	@org.codehaus.jackson.annotate.JsonCreator
+	@JsonCreator
 	public static EvrythngType forValue(String v) {
 		if (v == null) {
 			return null;

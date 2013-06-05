@@ -6,8 +6,6 @@ package com.evrythng.thng.resource.model.store;
 
 import java.util.LinkedHashSet;
 
-import javax.validation.constraints.NotNull;
-
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
 /**
@@ -18,7 +16,6 @@ import com.evrythng.thng.resource.model.core.DurableResourceModel;
  **/
 public class Collection extends DurableResourceModel {
 
-	@NotNull
 	private String name;
 
 	private String description;

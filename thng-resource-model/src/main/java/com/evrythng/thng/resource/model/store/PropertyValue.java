@@ -4,8 +4,6 @@
  */
 package com.evrythng.thng.resource.model.store;
 
-import javax.validation.constraints.NotNull;
-
 import com.evrythng.thng.resource.model.core.ResourceModel;
 
 /**
@@ -16,7 +14,6 @@ import com.evrythng.thng.resource.model.core.ResourceModel;
  */
 public class PropertyValue extends ResourceModel {
 
-	@NotNull
 	private String value;
 	private long timestamp;
 

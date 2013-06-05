@@ -6,8 +6,6 @@ package com.evrythng.thng.resource.model.core;
 
 import java.util.Comparator;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * Abstract model representation for temporal resources.
  * 
@@ -31,7 +29,6 @@ public abstract class TemporalResourceModel extends ResourceModel {
 		}
 	};
 
-	@NotNull
 	private Long timestamp;
 
 	protected TemporalResourceModel() {

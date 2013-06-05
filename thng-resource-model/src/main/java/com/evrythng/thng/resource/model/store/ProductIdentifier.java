@@ -4,24 +4,21 @@
  */
 package com.evrythng.thng.resource.model.store;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * Model representation for product identifiers.
  * 
  * @author Dominique Guinard (domguinard)
  * @deprecated Use Map(String,String) instead. Use something for a single entry.
  */
+@Deprecated
 public class ProductIdentifier {
 
 	/**
 	 * Type of identifier, examples are: model, mpn, upc, isbn, epc, issn, ean,
 	 * jan, sn, vin, sku
 	 */
-	@NotNull
 	private String type;
 
-	@NotNull
 	private String value;
 
 	/**
