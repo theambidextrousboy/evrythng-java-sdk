@@ -39,4 +39,13 @@ public final class Ref<T> {
 	public final void set(final T obj) {
 		this.obj = obj;
 	}
+
+	/**
+	 * Null-safe setter.
+	 */
+	public static <T> void set(Ref<T> ref, T obj) {
+		if (ref != null) {
+			ref.set(obj);
+		}
+	}
 }

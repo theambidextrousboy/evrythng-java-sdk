@@ -39,4 +39,13 @@ public final class RefTS<T> {
 	public final synchronized void set(final T obj) {
 		this.obj = obj;
 	}
+
+	/**
+	 * Null-safe setter.
+	 */
+	public static <T> void set(RefTS<T> ref, T obj) {
+		if (ref != null) {
+			ref.set(obj);
+		}
+	}
 }
