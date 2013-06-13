@@ -30,10 +30,6 @@ public class Location extends TemporalResourceModel implements ILocation {
 		this.longitude = longitude;
 	}
 
-	//	public boolean coordinatesEqual(Location other) {
-	//		return (other != null) && (latitude.equals(other.latitude) && longitude.equals(other.longitude));
-	//	}
-
 	public String getPlace() {
 		return place;
 	}
@@ -41,25 +37,6 @@ public class Location extends TemporalResourceModel implements ILocation {
 	public void setPlace(String place) {
 		this.place = place;
 	}
-
-	//	@Override
-	//	public boolean equals(Object o) {
-	//		if (this == o)
-	//			return true;
-	//		if (o == null || getClass() != o.getClass())
-	//			return false;
-	//
-	//		Location location = (Location) o;
-	//
-	//		return this.coordinatesEqual(location) && ((getTimestamp() == null && location.getTimestamp() == null) || (getTimestamp() != null && getTimestamp().equals(location.getTimestamp())));
-	//	}
-	//
-	//	@Override
-	//	public int hashCode() {
-	//		int result = latitude.hashCode();
-	//		result = 31 * result + longitude.hashCode();
-	//		return result;
-	//	}
 
 	@Override
 	public String toString() {

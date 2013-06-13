@@ -13,8 +13,6 @@ import com.evrythng.thng.resource.model.core.TemporalResourceModel;
  **/
 public class Property extends TemporalResourceModel {
 
-	private String thng;
-
 	private String key;
 
 	private String value;
@@ -23,7 +21,7 @@ public class Property extends TemporalResourceModel {
 	 * Creates a new empty instance of {@link Property}.
 	 */
 	public Property() {
-		/* Allow dynamic instantiation */
+		/* Required by jackson. */
 	}
 
 	/**
@@ -43,9 +41,8 @@ public class Property extends TemporalResourceModel {
 	 * @param key
 	 * @param value
 	 */
-	public Property(String thng, String key, String value, Long timestamp) {
+	public Property(String key, String value, Long timestamp) {
 		super(timestamp);
-		this.thng = thng;
 		this.key = key;
 		this.value = value;
 	}
@@ -64,20 +61,5 @@ public class Property extends TemporalResourceModel {
 
 	public void setValue(String value) {
 		this.value = value;
-	}
-
-	/**
-	 * @return the thng
-	 */
-	public String getThng() {
-		return thng;
-	}
-
-	/**
-	 * @param thng
-	 *            the thng to set
-	 */
-	public void setThng(String thng) {
-		this.thng = thng;
 	}
 }

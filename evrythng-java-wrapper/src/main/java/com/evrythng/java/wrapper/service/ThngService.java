@@ -9,7 +9,6 @@ import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Location;
 import com.evrythng.thng.resource.model.store.Property;
-import com.evrythng.thng.resource.model.store.PropertyValue;
 import com.evrythng.thng.resource.model.store.Redirector;
 import com.evrythng.thng.resource.model.store.Thng;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -183,8 +182,8 @@ public class ThngService extends EvrythngServiceBase {
 	 * @return
 	 * @throws EvrythngClientException
 	 */
-	public Builder<List<PropertyValue>> propertyReader(String thngId, String key) throws EvrythngClientException {
-		return get(String.format(PATH_THNG_PROPERTY, thngId, key), new TypeReference<List<PropertyValue>>() {
+	public Builder<List<Property>> propertyReader(String thngId, String key) throws EvrythngClientException {
+		return get(String.format(PATH_THNG_PROPERTY, thngId, key), new TypeReference<List<Property>>() {
 		});
 	}
 
@@ -201,8 +200,8 @@ public class ThngService extends EvrythngServiceBase {
 	 * @return
 	 * @throws EvrythngClientException
 	 */
-	public Builder<List<PropertyValue>> propertyUpdater(String thngId, String key, String value) throws EvrythngClientException {
-		return propertyUpdater(thngId, key, new PropertyValue(value));
+	public Builder<List<Property>> propertyUpdater(String thngId, String key, String value) throws EvrythngClientException {
+		return propertyUpdater(thngId, key, new Property(null, value));
 	}
 
 	/**
@@ -219,8 +218,8 @@ public class ThngService extends EvrythngServiceBase {
 	 * @return
 	 * @throws EvrythngClientException
 	 */
-	public Builder<List<PropertyValue>> propertyUpdater(String thngId, String key, String value, long timestamp) throws EvrythngClientException {
-		return propertyUpdater(thngId, key, new PropertyValue(value, timestamp));
+	public Builder<List<Property>> propertyUpdater(String thngId, String key, String value, long timestamp) throws EvrythngClientException {
+		return propertyUpdater(thngId, key, new Property(null, value, timestamp));
 	}
 
 	/**
@@ -235,8 +234,8 @@ public class ThngService extends EvrythngServiceBase {
 	 * @return
 	 * @throws EvrythngClientException
 	 */
-	public Builder<List<PropertyValue>> propertyUpdater(String thngId, String key, PropertyValue value) throws EvrythngClientException {
-		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Arrays.asList(value), new TypeReference<List<PropertyValue>>() {
+	public Builder<List<Property>> propertyUpdater(String thngId, String key, Property value) throws EvrythngClientException {
+		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Arrays.asList(value), new TypeReference<List<Property>>() {
 		});
 	}
 

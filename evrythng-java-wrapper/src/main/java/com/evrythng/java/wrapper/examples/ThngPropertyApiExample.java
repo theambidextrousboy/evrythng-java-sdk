@@ -8,20 +8,20 @@ package com.evrythng.java.wrapper.examples;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.ExampleRunner;
 import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.service.ThngService;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Property;
-import com.evrythng.thng.resource.model.store.PropertyValue;
 import com.evrythng.thng.resource.model.store.Thng;
 
 /**
  * <p>
  * Usage example of the EVRYTHNG Java Wrapper for accessing the <a
- * href="https://dev.evrythng.com/documentation/api#properties">Thngs > Properties</a> API.
+ * href="https://dev.evrythng.com/documentation/api#properties">Thngs >
+ * Properties</a> API.
  * </p>
  * <p>
  * In this example, you will learn how to:
@@ -36,7 +36,8 @@ import com.evrythng.thng.resource.model.store.Thng;
  * <li>Retrieve last Property values from an existing {@link Thng}</li>
  * <li>Update the value of a specific Property on an existing {@link Thng}</li>
  * <li>Delete a specific Property on an existing {@link Thng}</li>
- * <li>Retrieve Property values from an existing {@link Thng} using temporal queries</li>
+ * <li>Retrieve Property values from an existing {@link Thng} using temporal
+ * queries</li>
  * </ul>
  * 
  * @author Pedro De Almeida (almeidap)
@@ -62,7 +63,9 @@ public class ThngPropertyApiExample extends ExampleRunner {
 		System.exit(0);
 	}
 
-	/* {@inheritDoc}
+	/*
+	 * {@inheritDoc}
+	 * 
 	 * @see com.evrythng.api.wrapper.examples.ExampleRunner#doRun()
 	 */
 	@Override
@@ -105,13 +108,13 @@ public class ThngPropertyApiExample extends ExampleRunner {
 
 		// Retrieve last values of a specific Property using a propertyReader builder:
 		echo("Retrieving last values of the {} Property: [thngId={}]", "temperature", thng.getId());
-		Builder<List<PropertyValue>> temperatureReader = thngService.propertyReader(thng.getId(), "temperature");
-		List<PropertyValue> values = temperatureReader.execute();
-		echo("List of PropertyValue retrieved: [size={}, output={}]", values.size(), values);
+		Builder<List<Property>> temperatureReader = thngService.propertyReader(thng.getId(), "temperature");
+		List<Property> values = temperatureReader.execute();
+		echo("List of Property retrieved: [size={}, output={}]", values.size(), values);
 
 		// Update value of a specific Property:
 		echo("Updating value of the {} Property: [thngId={}]", "temperature", thng.getId());
-		Builder<List<PropertyValue>> temperatureUpdater = thngService.propertyUpdater(thng.getId(), "temperature", String.valueOf(Math.random()));
+		Builder<List<Property>> temperatureUpdater = thngService.propertyUpdater(thng.getId(), "temperature", String.valueOf(Math.random()));
 		values = temperatureUpdater.execute();
 		echo("Thng Property value updated: [output={}]", values);
 
@@ -123,15 +126,15 @@ public class ThngPropertyApiExample extends ExampleRunner {
 		// Try to retrieve deleted Property values using the temperatureReader builder:
 		echo("Retrieving values of {} Property: [thngId={}]", "temperature", thng.getId());
 		values = temperatureReader.execute();
-		echo("List of PropertyValue retrieved: [size={}, output={}]", values.size(), values);
+		echo("List of Property retrieved: [size={}, output={}]", values.size(), values);
 
 		// Update the speed Property in order to perform some temporal queries
 		// using a propertyReader:
-		thngService.propertyUpdater(thng.getId(), "speed", new PropertyValue("10", 1000)).execute();
-		thngService.propertyUpdater(thng.getId(), "speed", new PropertyValue("20", 2000)).execute();
-		thngService.propertyUpdater(thng.getId(), "speed", new PropertyValue("30", 3000)).execute();
-		thngService.propertyUpdater(thng.getId(), "speed", new PropertyValue("40", 4000)).execute();
-		Builder<List<PropertyValue>> speedReader = thngService.propertyReader(thng.getId(), "speed");
+		thngService.propertyUpdater(thng.getId(), "speed", "10", 1000).execute();
+		thngService.propertyUpdater(thng.getId(), "speed", "20", 2000).execute();
+		thngService.propertyUpdater(thng.getId(), "speed", "30", 3000).execute();
+		thngService.propertyUpdater(thng.getId(), "speed", "40", 4000).execute();
+		Builder<List<Property>> speedReader = thngService.propertyReader(thng.getId(), "speed");
 
 		echo("Retrieving temporal values of {} Property: [thngId={}, from={}]", "speed", thng.getId(), 2000);
 		values = speedReader.from(2000).execute();
