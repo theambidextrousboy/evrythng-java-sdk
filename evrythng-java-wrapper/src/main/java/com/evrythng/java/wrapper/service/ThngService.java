@@ -12,7 +12,6 @@ import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.PropertyValue;
 import com.evrythng.thng.resource.model.store.Redirector;
 import com.evrythng.thng.resource.model.store.Thng;
-import com.evrythng.thng.resource.model.store.ThngActionCheckin;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
@@ -29,9 +28,6 @@ public class ThngService extends EvrythngServiceBase {
 	public static final String PATH_THNG_PROPERTY = PATH_THNG_PROPERTIES + "/%s";
 
 	public static final String PATH_THNG_LOCATION = PATH_THNG + "/location";
-
-	public static final String PATH_THNG_ACTIONS_CHECKINS = PATH_THNG + "/actions/checkins";
-	public static final String PATH_THNG_ACTIONS_CHECKIN = PATH_THNG_ACTIONS_CHECKINS + "/%s";
 
 	public static final String PATH_THNG_REDIRECTOR = PATH_THNG + "/redirector";
 	public static final String PATH_THNG_REDIRECTOR_QR = PATH_THNG_REDIRECTOR + "/qr";
@@ -319,111 +315,6 @@ public class ThngService extends EvrythngServiceBase {
 	 */
 	public Builder<Boolean> locationDeleter(String thngId) throws EvrythngClientException {
 		return delete(String.format(PATH_THNG_LOCATION, thngId));
-	}
-
-	/* ***** /thngs/{id}/actions/checkins ***** */
-
-	/**
-	 * Checks in into the referenced {@link Thng}, i.e. claims the "ownership"
-	 * of the {@link Thng}.
-	 * 
-	 * POST {@value #PATH_THNG_ACTIONS_CHECKINS}
-	 * 
-	 * @param thngId
-	 * @param checkin
-	 * @param singleCheckin
-	 *            If false, verifies that the thng has no checkin yet.
-	 *            Otherwise, throws a ConflictException.
-	 * @return
-	 * @throws EvrythngClientException
-	 */
-	public Builder<ThngActionCheckin> checkinAdder(String thngId, ThngActionCheckin checkin, boolean singleCheckin) throws EvrythngClientException {
-		return put(String.format(PATH_THNG_ACTIONS_CHECKINS, thngId), checkin, new TypeReference<ThngActionCheckin>() {
-		}).queryParam("single", String.valueOf(singleCheckin));
-	}
-
-	/**
-	 * Gets all the checkins that occured for the referenced {@link Thng}.
-	 * 
-	 * GET {@value #PATH_THNG_ACTIONS_CHECKINS}
-	 * 
-	 * @param thngId
-	 * @return
-	 * @throws EvrythngClientException
-	 */
-	public Builder<List<ThngActionCheckin>> checkinsReader(String thngId) throws EvrythngClientException {
-		return this.get(String.format(PATH_THNG_ACTIONS_CHECKINS, thngId), new TypeReference<List<ThngActionCheckin>>() {
-		});
-	}
-
-	/**
-	 * Removes all checkins from the referenced {@link Thng}.
-	 * 
-	 * @param thngId
-	 * @param checkinId
-	 * @return
-	 * @throws EvrythngClientException
-	 */
-	public Builder<Boolean> checkinsRemover(String thngId) throws EvrythngClientException {
-		return delete(String.format(PATH_THNG_ACTIONS_CHECKINS, thngId));
-	}
-
-	/**
-	 * Checks in into the referenced {@link Thng}, i.e. claim the "ownership" of
-	 * the {@link Thng}. Allows
-	 * multiple checkins
-	 * 
-	 * POST {@value #PATH_THNG_ACTIONS_CHECKINS}
-	 * 
-	 * @param thngId
-	 * @param checkin
-	 * @return
-	 * @throws EvrythngClientException
-	 */
-	public Builder<ThngActionCheckin> checkinAdder(String thngId, ThngActionCheckin checkin) throws EvrythngClientException {
-		return checkinAdder(thngId, checkin, false);
-	}
-
-	/**
-	 * Updates an existing checkin from the referenced {@link Thng}.
-	 * 
-	 * PUT {@value #PATH_THNG_ACTIONS_CHECKINS}
-	 * 
-	 * @param thngId
-	 * @param id
-	 * @param update
-	 * @return
-	 * @throws EvrythngClientException
-	 */
-	public Builder<ThngActionCheckin> checkinUpdater(String thngId, String id, ThngActionCheckin update) throws EvrythngClientException {
-		return put(String.format(PATH_THNG_ACTIONS_CHECKIN, thngId, id), update, new TypeReference<ThngActionCheckin>() {
-		});
-	}
-
-	/**
-	 * Removes checkins from the referenced {@link Thng}.
-	 * 
-	 * @param thngId
-	 * @param checkinId
-	 * @return
-	 * @throws EvrythngClientException
-	 */
-	public Builder<Boolean> checkinRemover(String thngId, String checkinId) throws EvrythngClientException {
-		return delete(String.format(PATH_THNG_ACTIONS_CHECKIN, thngId, checkinId));
-	}
-
-	/**
-	 * Retrieves a checkin give provided {@code id} from the referenced
-	 * {@link Thng}.
-	 * 
-	 * @param thngId
-	 * @param checkinId
-	 * @return
-	 * @throws EvrythngClientException
-	 */
-	public Builder<ThngActionCheckin> checkinReader(String thngId, String checkinId) throws EvrythngClientException {
-		return get(String.format(PATH_THNG_ACTIONS_CHECKIN, thngId, checkinId), new TypeReference<ThngActionCheckin>() {
-		});
 	}
 
 	/* ***** /thngs/{id}/redirector ***** */

@@ -26,32 +26,6 @@ public class GlobalSearchResult {
 	private List<Collection> collections;
 
 	/**
-	 * Found ActionCheckins
-	 */
-	private List<ThngActionCheckin> actionCheckins;
-
-	/**
-	 * Found ActionScans
-	 */
-	private List<ThngActionScan> actionScans;
-
-	public List<ThngActionCheckin> getActionCheckins() {
-		return actionCheckins;
-	}
-
-	public void setActionCheckins(List<ThngActionCheckin> actionCheckins) {
-		this.actionCheckins = actionCheckins;
-	}
-
-	public List<ThngActionScan> getActionScans() {
-		return actionScans;
-	}
-
-	public void setActionScans(List<ThngActionScan> actionScans) {
-		this.actionScans = actionScans;
-	}
-
-	/**
 	 * @return the thngs
 	 */
 	public List<Thng> getThngs() {
