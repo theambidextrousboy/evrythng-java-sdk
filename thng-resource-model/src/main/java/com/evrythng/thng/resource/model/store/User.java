@@ -4,9 +4,6 @@
  */
 package com.evrythng.thng.resource.model.store;
 
-import java.util.Map;
-
-
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
 /**
@@ -19,7 +16,6 @@ public class User extends DurableResourceModel {
 	 */
 	private String email;
 
-
 	private String password;
 
 	/**
@@ -31,14 +27,13 @@ public class User extends DurableResourceModel {
 	 * The user's last name.
 	 */
 	private String lastName;
-	
+
 	/**
-	 * The user's birthday as http://en.wikipedia.org/wiki/ISO_8601 
+	 * The user's birthday as http://en.wikipedia.org/wiki/ISO_8601
 	 * i.e., YYYY-MM-DD
 	 */
 	private String birthday;
-	
-	
+
 	/**
 	 * The user's timezone offset from <strong>UTC</strong>.
 	 * 
@@ -49,8 +44,10 @@ public class User extends DurableResourceModel {
 
 	/**
 	 * The user's locale.
-	 * The basic format is ''ll_CC'', where ''ll'' is a two-letter language code, 
-	 * and ''CC'' is a two-letter country code. For instance, 'en_US' represents US English.
+	 * The basic format is ''ll_CC'', where ''ll'' is a two-letter language
+	 * code,
+	 * and ''CC'' is a two-letter country code. For instance, 'en_US' represents
+	 * US English.
 	 * 
 	 * @see <a
 	 *      href="https://developers.facebook.com/docs/internationalization/">https://developers.facebook.com/docs/internationalization/</a>
@@ -67,7 +64,6 @@ public class User extends DurableResourceModel {
 	 * Tells if the user can log in or not.
 	 */
 	private Boolean canLogin = true;
-
 
 	/* *** Getters / Setters *** */
 
@@ -135,7 +131,7 @@ public class User extends DurableResourceModel {
 	public void setCanLogin(Boolean canLogin) {
 		this.canLogin = canLogin;
 	}
-	
+
 	public String getBirthday() {
 		return birthday;
 	}
@@ -143,5 +139,5 @@ public class User extends DurableResourceModel {
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
-	
+
 }

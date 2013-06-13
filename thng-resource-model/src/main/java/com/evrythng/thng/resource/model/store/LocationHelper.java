@@ -35,4 +35,33 @@ public class LocationHelper {
 			return false;
 		}
 	}
+
+	public static boolean coordinatesEqual(ILocation a, ILocation b) {
+		if (a == b) {
+			return true;
+		}
+		if (a == null || b == null) {
+			return false;
+		}
+		final double TOLERANCE = 0.0000001;
+		boolean lat, lon;
+		if (a.getLatitude() == null && b.getLatitude() == null) {
+			lat = true;
+		} else if (a.getLatitude() == null || b.getLatitude() == null) {
+			lat = false;
+		} else {
+			lat = Math.abs(a.getLatitude() - b.getLatitude()) < TOLERANCE;
+		}
+		if (!lat) {
+			return false;
+		}
+		if (a.getLongitude() == null && b.getLongitude() == null) {
+			lon = true;
+		} else if (a.getLongitude() == null || b.getLongitude() == null) {
+			lon = false;
+		} else {
+			lon = Math.abs(a.getLongitude() - b.getLongitude()) < TOLERANCE;
+		}
+		return lon;
+	}
 }

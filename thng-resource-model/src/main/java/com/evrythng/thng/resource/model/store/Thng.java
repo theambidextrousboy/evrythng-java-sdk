@@ -19,7 +19,7 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 
 	private String description;
 
-	private Location location;
+	private EmbeddedLocation location;
 
 	/**
 	 * Reference to {@link Product#id}.
@@ -44,11 +44,11 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 		this.description = description;
 	}
 
-	public Location getLocation() {
+	public EmbeddedLocation getLocation() {
 		return location;
 	}
 
-	public void setLocation(Location location) {
+	public void setLocation(EmbeddedLocation location) {
 		this.location = location;
 	}
 
