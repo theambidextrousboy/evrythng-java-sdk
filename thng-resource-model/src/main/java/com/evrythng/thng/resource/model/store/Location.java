@@ -7,7 +7,7 @@ import com.evrythng.thng.resource.model.core.TemporalResourceModel;
  * 
  * @author Pedro De Almeida (almeidap)
  **/
-public class Location extends TemporalResourceModel {
+public class Location extends TemporalResourceModel implements ILocation {
 
 	private Double latitude;
 	private Double longitude;
