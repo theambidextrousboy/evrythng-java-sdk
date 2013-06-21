@@ -12,6 +12,19 @@ package com.evrythng.thng.resource.model.access;
  **/
 public class SocialNetwork {
 
+	public SocialNetwork() {
+		// nop
+	}
+
+	/**
+	 * Create a SocialNetwork having the give appId set
+	 * 
+	 * @param appId
+	 */
+	public SocialNetwork(String appId) {
+		this.appId = appId;
+	}
+
 	private String appId;
 
 	/**

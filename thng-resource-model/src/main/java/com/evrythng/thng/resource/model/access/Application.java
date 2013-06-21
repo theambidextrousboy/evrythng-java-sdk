@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A registered Application in the EVRYTHNG engine.
@@ -15,12 +16,16 @@ import com.evrythng.thng.resource.model.core.DurableResourceModel;
  **/
 public class Application extends DurableResourceModel {
 
+	// === some useful keys ================================================ //
+
+	public static final String SN_FACEBOOK = "facebook";
+
 	private String description;
 	private String customer;
 
 	private String appApiKey;
 
-	private Map<String, SocialNetwork> socialNetworks = new HashMap<String, SocialNetwork>();
+	private Map<String, SocialNetwork> socialNetworks;
 
 	/**
 	 * @return the description
@@ -103,4 +108,32 @@ public class Application extends DurableResourceModel {
 		return "Application{" + "id='" + id + '\'' + "customer='" + customer + '\'' + ", description='" + description + '\'' + ", socialNetworks='" + socialNetworks + '\'' + '}';
 	}
 
+	// === helpers methods ================================================= //
+
+	/**
+	 * This convinience method set / replace the {@link SocialNetwork} object in
+	 * the
+	 * socialnetworks map. It creates the map if necessary.
+	 * 
+	 * @param snName
+	 * @param socialNetwork
+	 */
+	@JsonIgnore
+	public void defineSocialNetwork(String snName, SocialNetwork socialNetwork) {
+		if (socialNetworks == null) {
+			socialNetworks = new HashMap<String, SocialNetwork>();
+		}
+
+		socialNetworks.put(snName, socialNetwork);
+	}
+
+	/**
+	 * Set the Facebook social network (key {@value SN_FACEBOOK})
+	 * 
+	 * @param socialNetwork
+	 */
+	@JsonIgnore
+	public void defineFacebook(SocialNetwork socialNetwork) {
+		defineSocialNetwork(SN_FACEBOOK, socialNetwork);
+	}
 }
