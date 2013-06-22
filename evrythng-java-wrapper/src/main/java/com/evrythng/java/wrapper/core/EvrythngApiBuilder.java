@@ -186,6 +186,10 @@ public final class EvrythngApiBuilder {
 			return queryParam(ApiConfiguration.QUERY_PARAM_TO, queryKeyword.toString());
 		}
 
+		public Builder<T> app(String appId) {
+			return queryParam(ApiConfiguration.QUERY_PARAM_APP, appId);
+		}
+
 		/**
 		 * Counts the <strong>total</strong> number of elements if the current
 		 * command was executed as a {@code HEAD} request.

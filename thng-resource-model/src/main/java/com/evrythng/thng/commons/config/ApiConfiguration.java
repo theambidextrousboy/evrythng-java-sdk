@@ -42,6 +42,7 @@ public class ApiConfiguration {
 	public static final String QUERY_PARAM_FROM = "from";
 	public static final String QUERY_PARAM_TO = "to";
 	public static final String QUERY_PARAM_CALLBACK = "callback";
+	public static final String QUERY_PARAM_APP = "app";
 
 	/* thng-li */
 	public static final String QUERY_PARAM_WIDTH = "w";
