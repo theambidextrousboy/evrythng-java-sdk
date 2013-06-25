@@ -20,12 +20,28 @@ public class Application extends DurableResourceModel {
 
 	public static final String SN_FACEBOOK = "facebook";
 
+	private String name;
 	private String description;
 	private String customer;
 
 	private String appApiKey;
 
 	private Map<String, SocialNetwork> socialNetworks;
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	/**
 	 * @return the description
@@ -91,7 +107,7 @@ public class Application extends DurableResourceModel {
 		Application that = (Application) o;
 
 		return !(description != null ? !description.equals(that.description) : that.description != null) && customer.equals(that.customer) && appApiKey.equals(that.appApiKey)
-				&& socialNetworks.equals(that.socialNetworks);
+				&& socialNetworks.equals(that.socialNetworks) && name.equals(that.name);
 	}
 
 	@Override
@@ -100,12 +116,16 @@ public class Application extends DurableResourceModel {
 		result = 31 * result + (description != null ? description.hashCode() : 0);
 		result = 31 * result + (appApiKey != null ? appApiKey.hashCode() : 0);
 		result = 31 * result + (socialNetworks != null ? socialNetworks.hashCode() : 0);
+		result = 31 * result + (name != null ? name.hashCode() : 0);
 		return result;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString() {
-		return "Application{" + "id='" + id + '\'' + "customer='" + customer + '\'' + ", description='" + description + '\'' + ", socialNetworks='" + socialNetworks + '\'' + '}';
+		return "Application [name=" + name + ", description=" + description + ", customer=" + customer + ", appApiKey=" + appApiKey + "]";
 	}
 
 	// === helpers methods ================================================= //
