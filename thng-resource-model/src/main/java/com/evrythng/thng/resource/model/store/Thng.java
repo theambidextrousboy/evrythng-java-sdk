@@ -67,4 +67,12 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 	public void setProperties(Map<String, String> properties) {
 		this.properties = properties;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		return "Thng [name=" + name + ", description=" + description + ", location=" + location + ", product=" + product + ", properties=" + properties + ", id=" + id + "]";
+	}
 }

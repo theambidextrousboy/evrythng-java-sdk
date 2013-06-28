@@ -131,6 +131,7 @@ public class ApiCommand<T> {
 		});
 	}
 
+
 	/**
 	 * Executes the current command and returns the {@link HttpResponse} entity
 	 * body as {@link InputStream}.
@@ -143,6 +144,25 @@ public class ApiCommand<T> {
 	public InputStream stream() throws EvrythngException {
 		return execute(new TypeReference<InputStream>() {
 		});
+	}
+
+	/**
+	 * Execute the current command and returns both {@link HttpResponse} and
+	 * the entity typed. Bundeled in a {@link TypedResponseWithEntity} object
+	 * 
+	 * @return
+	 * @throws EvrythngException
+	 */
+	public TypedResponseWithEntity<T> bundle() throws EvrythngException {
+		HttpClient client = httpParams == null ? new DefaultHttpClient() : new DefaultHttpClient(httpParams);
+		client = wrapClient(client);
+		try {
+			HttpResponse response = performRequest(client, methodBuilder, responseStatus);
+			T entity = Utils.convert(response, responseType);
+			return new TypedResponseWithEntity<T>(response, entity);
+		} finally {
+			shutdown(client);
+		}
 	}
 
 	/**
@@ -260,24 +280,31 @@ public class ApiCommand<T> {
 		HttpClient client = httpParams == null ? new DefaultHttpClient() : new DefaultHttpClient(httpParams);
 		client = wrapClient(client);
 		try {
-			HttpResponse response = null;
-			HttpUriRequest request = buildRequest(method);
-			try {
-				logger.debug(">> Executing request: [method={}, url={}]", request.getMethod(), request.getURI().toString());
-				response = client.execute(request);
-				logger.debug("<< Response received: [statusLine={}]", response.getStatusLine().toString());
-			} catch (Exception e) {
-				// Convert to custom exception:
-				throw new EvrythngClientException(String.format("Unable to execute request: [uri=%s, cause=%s]", request.getURI(), e.getMessage()), e);
-			}
-
-			// Assert response status:
-			Utils.assertStatus(response, expectedStatus);
-
+			HttpResponse response = performRequest(client, method, expectedStatus);
 			return Utils.convert(response, type);
 		} finally {
 			shutdown(client);
 		}
+	}
+
+	private HttpResponse performRequest(HttpClient client, MethodBuilder<?> method, Status expectedStatus) throws EvrythngException {
+
+		HttpResponse response = null;
+		HttpUriRequest request = buildRequest(method);
+		try {
+			logger.debug(">> Executing request: [method={}, url={}]", request.getMethod(), request.getURI().toString());
+			response = client.execute(request);
+			logger.debug("<< Response received: [statusLine={}]", response.getStatusLine().toString());
+		} catch (Exception e) {
+			// Convert to custom exception:
+			throw new EvrythngClientException(String.format("Unable to execute request: [uri=%s, cause=%s]", request.getURI(), e.getMessage()), e);
+		}
+
+		// Assert response status:
+		Utils.assertStatus(response, expectedStatus);
+
+		return response;
+
 	}
 
 	private static HttpClient wrapClient(HttpClient base) {

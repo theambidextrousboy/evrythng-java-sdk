@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.evrythng.commons.Ref;
 import com.evrythng.java.wrapper.core.api.ApiCommand;
 import com.evrythng.java.wrapper.core.api.ApiCommandBuilder;
+import com.evrythng.java.wrapper.core.api.TypedResponseWithEntity;
 import com.evrythng.java.wrapper.core.api.Utils;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.Method;
@@ -219,10 +220,13 @@ public final class EvrythngApiBuilder {
 				throw new EvrythngClientException("The list() method is only available for GET requests.");
 			}
 
+			logger.debug("Call list. For type : {}", getCommand().getResponseType().getType());
+
 			// Issue the command "manually" to get the response object.
-			HttpResponse response = getCommand().request();
+			TypedResponseWithEntity<T> bundle = getCommand().bundle();
+			HttpResponse response = bundle.httpResponse;
 			Utils.assertStatus(response, getCommand().getExpectedResponseStatus());
-			T ret = Utils.convert(response, getCommand().getResponseType());
+			T ret = bundle.entity;
 
 			// Parse the total result count.
 			Header header = response.getFirstHeader(ApiConfiguration.HTTP_HEADER_RESULT_COUNT);
