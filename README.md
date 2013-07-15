@@ -10,14 +10,14 @@ You need an API token for authentication which you can get on [https://dev.evryt
 ## Getting Started
 
 ### Setup
-The easiest way is to get the latest `.jar` with packaged dependencies from [here](https://s3.amazonaws.com/evrythng-public/evrythng-java-wrapper-1.3.0-jar-with-dependencies.jar) and adding it to your Java project.
+The easiest way is to get the latest `.jar` with packaged dependencies from [here](https://s3.amazonaws.com/evrythng-public/evrythng-java-wrapper-1.4.0-jar-with-dependencies.jar) and adding it to your Java project.
 
 The project is also available in our maven repository:
 
     <dependency>
      <groupId>com.evrythng</groupId>
      <artifactId>evrythng-java-wrapper</artifactId>
-     <version>1.3.0</version>
+     <version>1.4.0</version>
     </dependency>
 
 the repository:
