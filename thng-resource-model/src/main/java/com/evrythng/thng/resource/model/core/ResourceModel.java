@@ -16,7 +16,9 @@ import java.util.Map;
  */
 public abstract class ResourceModel {
 
+	public static final String FIELD_ID = "id";
 	protected String id;
+
 	protected Long createdAt;
 	protected Map<String, String> customFields;
 
