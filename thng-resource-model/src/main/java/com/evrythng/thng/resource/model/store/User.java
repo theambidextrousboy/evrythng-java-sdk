@@ -115,7 +115,7 @@ public class User extends DurableResourceModel {
 	/**
 	 * Tells if the user can log in or not.
 	 */
-	private Boolean canLogin = true;
+	private Boolean canLogin;
 
 	private Map<String, Loyalty> loyalties;
 
@@ -178,8 +178,7 @@ public class User extends DurableResourceModel {
 	}
 
 	public Boolean isCanLogin() {
-		// TODO: Explicitly changes null to true. Think of a better approach.
-		return canLogin == null || canLogin;
+		return canLogin;
 	}
 
 	public void setCanLogin(Boolean canLogin) {
