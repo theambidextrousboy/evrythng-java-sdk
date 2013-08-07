@@ -72,7 +72,7 @@ See [examples](https://github.com/evrythng/evrythng-tools/tree/master/evrythng-j
 
 ## Working with the wrapper for Android projects
 
-You can also use the wrapper for your Android applications as it compiles on the Dalvik virtual machine! To get started get the latest `.jar` with packaged dependencies from [here](https://s3.amazonaws.com/evrythng-public/evrythng-java-wrapper-1.0.5-jar-with-dependencies.jar) and adding it to your Android project's libraries. Make sure that the wrapper library is exported to your final Android application.
+You can also use the wrapper for your Android applications as it compiles on the Dalvik virtual machine! To get started get the latest `.jar` with packaged dependencies from [here](https://s3.amazonaws.com/evrythng-public/evrythng-java-wrapper-1.4.0-jar-with-dependencies.jar) and adding it to your Android project's libraries. Make sure that the wrapper library is exported to your final Android application.
 
 To get you started with Android and EVRYTHNG have a look at the [FreezeMe](https://github.com/webofthings/FreezeMe) sample app. It is a freezer management application using QR codes, NFC tags and the EVRYTHNG API.
 
