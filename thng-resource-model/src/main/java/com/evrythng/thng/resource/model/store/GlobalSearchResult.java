@@ -14,59 +14,66 @@ public class GlobalSearchResult {
 	 * Found thngs
 	 */
 	private List<Thng> thngs;
+	private Long thngsResultCount;
 
 	/**
 	 * Found products
 	 */
 	private List<Product> products;
+	private Long productsResultCount;
 
 	/**
 	 * Found collections
 	 */
 	private List<Collection> collections;
+	private Long collectionsResultCount;
 
-	/**
-	 * @return the thngs
-	 */
 	public List<Thng> getThngs() {
 		return thngs;
 	}
 
-	/**
-	 * @param thngs
-	 *            the thngs to set
-	 */
 	public void setThngs(List<Thng> thngs) {
 		this.thngs = thngs;
 	}
 
-	/**
-	 * @return the products
-	 */
+	public Long getThngsResultCount() {
+		return thngsResultCount;
+	}
+
+	public void setThngsResultCount(Long thngsResultCount) {
+		this.thngsResultCount = thngsResultCount;
+	}
+
 	public List<Product> getProducts() {
 		return products;
 	}
 
-	/**
-	 * @param products
-	 *            the products to set
-	 */
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
 
-	/**
-	 * @return the collections
-	 */
+	public Long getProductsResultCount() {
+		return productsResultCount;
+	}
+
+	public void setProductsResultCount(Long productsResultCount) {
+		this.productsResultCount = productsResultCount;
+	}
+
 	public List<Collection> getCollections() {
 		return collections;
 	}
 
-	/**
-	 * @param collections
-	 *            the collections to set
-	 */
 	public void setCollections(List<Collection> collections) {
 		this.collections = collections;
 	}
+
+	public Long getCollectionsResultCount() {
+		return collectionsResultCount;
+	}
+
+	public void setCollectionsResultCount(Long collectionsResultCount) {
+		this.collectionsResultCount = collectionsResultCount;
+	}
+
 }
