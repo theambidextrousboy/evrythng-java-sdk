@@ -6,6 +6,7 @@ package com.evrythng.java.wrapper;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.service.ApplicationService;
 import com.evrythng.java.wrapper.service.CollectionService;
 import com.evrythng.java.wrapper.service.ProductService;
@@ -36,11 +37,11 @@ public class ApiManager {
 	public ApiManager(ApiConfiguration config) {
 		checkConfiguration(config);
 		this.config = config;
-		this.thngService = new ThngService(this.config);
-		this.collectionService = new CollectionService(this.config);
-		this.productService = new ProductService(this.config);
-		this.searchService = new SearchService(this.config);
-		this.applicationService = new ApplicationService(this.config);
+		this.thngService = new ThngService(this);
+		this.collectionService = new CollectionService(this);
+		this.productService = new ProductService(this);
+		this.searchService = new SearchService(this);
+		this.applicationService = new ApplicationService(this);
 	}
 
 	/**
@@ -128,5 +129,8 @@ public class ApiManager {
 
 	public ApiConfiguration getConfig() {
 		return config;
+	}
+
+	public void onBuilderCreated(Builder<?> builder) {
 	}
 }

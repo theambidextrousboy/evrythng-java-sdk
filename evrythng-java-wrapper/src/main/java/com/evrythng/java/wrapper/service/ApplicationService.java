@@ -6,10 +6,10 @@ package com.evrythng.java.wrapper.service;
 
 import java.util.List;
 
+import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
-import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.access.Application;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -28,8 +28,8 @@ public class ApplicationService extends EvrythngServiceBase {
 
 	// ==== structor ======================================================= //
 
-	public ApplicationService(ApiConfiguration config) {
-		super(config);
+	public ApplicationService(ApiManager apiManager) {
+		super(apiManager);
 	}
 
 	// ==== CRUD on applications =========================================== //

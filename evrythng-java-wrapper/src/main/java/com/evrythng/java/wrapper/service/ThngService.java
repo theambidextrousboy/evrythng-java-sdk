@@ -3,10 +3,10 @@ package com.evrythng.java.wrapper.service;
 import java.util.Arrays;
 import java.util.List;
 
+import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
-import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Location;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.Redirector;
@@ -31,8 +31,8 @@ public class ThngService extends EvrythngServiceBase {
 	public static final String PATH_THNG_REDIRECTOR = PATH_THNG + "/redirector";
 	public static final String PATH_THNG_REDIRECTOR_QR = PATH_THNG_REDIRECTOR + "/qr";
 
-	public ThngService(ApiConfiguration config) {
-		super(config);
+	public ThngService(ApiManager apiManager) {
+		super(apiManager);
 	}
 
 	/* ***** Thng ***** */

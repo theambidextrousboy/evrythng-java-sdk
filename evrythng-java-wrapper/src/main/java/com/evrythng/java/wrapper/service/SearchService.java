@@ -2,10 +2,10 @@ package com.evrythng.java.wrapper.service;
 
 import java.util.EnumSet;
 
+import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
-import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.core.EvrythngType;
 import com.evrythng.thng.resource.model.store.GlobalSearchResult;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -30,8 +30,8 @@ public class SearchService extends EvrythngServiceBase {
 	public static final String QP_LONGITUDE = "lon";
 	public static final String QP_MAX_DISTANCE = "maxDist";
 
-	public SearchService(ApiConfiguration config) {
-		super(config);
+	public SearchService(ApiManager apiManager) {
+		super(apiManager);
 	}
 
 	/**

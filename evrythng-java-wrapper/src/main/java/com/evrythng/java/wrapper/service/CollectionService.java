@@ -3,10 +3,10 @@ package com.evrythng.java.wrapper.service;
 import java.util.Arrays;
 import java.util.List;
 
+import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
-import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Collection;
 import com.evrythng.thng.resource.model.store.Thng;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -23,8 +23,8 @@ public class CollectionService extends EvrythngServiceBase {
 	public static final String PATH_COLLECTION_THNGS = PATH_COLLECTION + "/thngs";
 	public static final String PATH_COLLECTION_THNG = PATH_COLLECTION_THNGS + "/%s";
 
-	public CollectionService(ApiConfiguration config) {
-		super(config);
+	public CollectionService(ApiManager apiManager) {
+		super(apiManager);
 	}
 
 	/* ***** /collections ***** */
@@ -34,7 +34,8 @@ public class CollectionService extends EvrythngServiceBase {
 	 * 
 	 * POST {@value #PATH_COLLECTIONS}
 	 * 
-	 * @param collection the instant holding the {@link Collection} resource data
+	 * @param collection
+	 *            the instant holding the {@link Collection} resource data
 	 * @return a {@link Collection} creator
 	 * @throws EvrythngClientException
 	 */
@@ -103,7 +104,8 @@ public class CollectionService extends EvrythngServiceBase {
 	/* ***** /collections/{id}/thngs ***** */
 
 	/**
-	 * Retrieves the last updated {@link Thng} resources linked with the referenced {@link Collection}.
+	 * Retrieves the last updated {@link Thng} resources linked with the
+	 * referenced {@link Collection}.
 	 * 
 	 * GET {@value #PATH_COLLECTION_THNGS}
 	 * 
@@ -132,7 +134,8 @@ public class CollectionService extends EvrythngServiceBase {
 	}
 
 	/**
-	 * Adds the referenced {@link Thng} resources to the provided {@link Collection}.
+	 * Adds the referenced {@link Thng} resources to the provided
+	 * {@link Collection}.
 	 * 
 	 * PUT {@value #PATH_COLLECTION_THNGS}
 	 * 
