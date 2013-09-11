@@ -74,6 +74,7 @@ public final class JSONUtils {
 			return OBJECT_MAPPER.readValue(json, type);
 		} catch (Exception e) {
 			// Wrap into unchecked exception:
+			System.out.println(e);
 			throw new WrappedRuntimeException(e);
 		}
 	}

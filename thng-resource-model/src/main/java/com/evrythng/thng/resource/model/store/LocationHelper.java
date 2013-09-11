@@ -12,9 +12,7 @@ package com.evrythng.thng.resource.model.store;
 public class LocationHelper {
 
 	public static void copy(ILocation from, ILocation to) {
-		to.setLatitude(from.getLatitude());
-		to.setLongitude(from.getLongitude());
-		to.setPlace(from.getPlace());
+		to.copy(from);
 	}
 
 	/**

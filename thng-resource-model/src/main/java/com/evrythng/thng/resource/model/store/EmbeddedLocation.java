@@ -11,25 +11,15 @@ package com.evrythng.thng.resource.model.store;
  **/
 public class EmbeddedLocation implements ILocation {
 
-	private String place;
 	private Double latitude;
 	private Double longitude;
 
 	public EmbeddedLocation() {
 	}
 
-	public EmbeddedLocation(String place, Double latitude, Double longitude) {
-		this.place = place;
+	public EmbeddedLocation(Double latitude, Double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
-	}
-
-	public String getPlace() {
-		return place;
-	}
-
-	public void setPlace(String place) {
-		this.place = place;
 	}
 
 	public Double getLatitude() {
@@ -49,12 +39,18 @@ public class EmbeddedLocation implements ILocation {
 	}
 
 	public static EmbeddedLocation copyFrom(EmbeddedLocation source) {
-		return new EmbeddedLocation(source.place, source.latitude, source.longitude);
+		return new EmbeddedLocation(source.latitude, source.longitude);
 	}
 
 	public static EmbeddedLocation copyFrom(ILocation source) {
 		EmbeddedLocation loc = new EmbeddedLocation();
 		LocationHelper.copy(source, loc);
 		return loc;
+	}
+
+	@Override
+	public void copy(ILocation obj) {
+		this.latitude = obj.getLatitude();
+		this.longitude = obj.getLongitude();
 	}
 }

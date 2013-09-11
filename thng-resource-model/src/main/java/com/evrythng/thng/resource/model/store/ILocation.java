@@ -1,19 +1,13 @@
-/*
- * (c) Copyright 2013 EVRYTHNG Ltd London / Zurich
- * www.evrythng.com
- */
 package com.evrythng.thng.resource.model.store;
 
 /**
- * Interface for a location model.
- * 
- * @author Michel Yerly (my)
- **/
-public interface ILocation {
-
-	public String getPlace();
-
-	public void setPlace(String place);
+ * Interface for a location
+ * @author colin
+ *
+ */
+public interface ILocation extends Copyable<ILocation> {
+	static final int LON_IDX = 0;
+	static final int LAT_IDX = 1;
 
 	public Double getLatitude();
 
