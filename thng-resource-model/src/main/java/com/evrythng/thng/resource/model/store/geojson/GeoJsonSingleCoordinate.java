@@ -1,22 +1,22 @@
 package com.evrythng.thng.resource.model.store.geojson;
 
-import com.evrythng.thng.resource.model.store.EmbeddedGeoJSONLocation;
 import com.evrythng.thng.resource.model.store.ILocation;
+import com.evrythng.thng.resource.model.store.LocationHelper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class GeoJSONSingleCoordinate extends GeoJSON implements ILocation {
-	private EmbeddedGeoJSONLocation coordinates;
+public abstract class GeoJsonSingleCoordinate extends GeoJson implements ILocation {
+	private GeoJsonLocation coordinates;
 	
-	protected GeoJSONSingleCoordinate(GeoJSONType type, EmbeddedGeoJSONLocation coordinates) {
+	protected GeoJsonSingleCoordinate(GeoJsonType type, GeoJsonLocation coordinates) {
 		super(type);
-		this.coordinates = new EmbeddedGeoJSONLocation();
-		this.coordinates.copy(coordinates);
+		this.coordinates = new GeoJsonLocation();
+		this.coordinates.setCoordinates(coordinates.getCoordinates());
 	}
 	
-	protected GeoJSONSingleCoordinate(GeoJSONType type, Double latitude, Double longitude) {
+	protected GeoJsonSingleCoordinate(GeoJsonType type, Double latitude, Double longitude) {
 		super(type);
-		this.coordinates = new EmbeddedGeoJSONLocation(latitude, longitude);
+		this.coordinates = new GeoJsonLocation(latitude, longitude);
 	}
 	
 	@JsonIgnore
@@ -31,7 +31,7 @@ public class GeoJSONSingleCoordinate extends GeoJSON implements ILocation {
 	
 	@JsonIgnore
 	@JsonProperty(value="coordinates")
-	public void setCoordinates(EmbeddedGeoJSONLocation coordinates) {
+	public void setCoordinates(GeoJsonLocation coordinates) {
 		this.coordinates = coordinates;
 	}
 	
@@ -40,7 +40,7 @@ public class GeoJSONSingleCoordinate extends GeoJSON implements ILocation {
 	}
 
 	public void copy(ILocation obj) {
-		this.coordinates.copy(obj);
+		LocationHelper.copy(obj, this);
 	}
 
 	@Override

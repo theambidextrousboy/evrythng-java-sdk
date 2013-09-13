@@ -22,10 +22,4 @@ public class LocationWithPlace extends Location implements ILocationWithPlace {
 	public String toString() {
 		return "Location{" + "latitude=" + this.getLatitude() + ", longitude=" + this.getLongitude() + ", place=" + place + ", timestamp=" + getTimestamp() + '}';
 	}
-
-	@Override
-	public void copy(ILocation obj) {
-		this.copy(obj);
-		if (obj instanceof ILocationWithPlace) this.place = ((ILocationWithPlace) obj).getPlace();
-	}
 }

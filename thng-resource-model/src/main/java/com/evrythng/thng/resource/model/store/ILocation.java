@@ -5,7 +5,7 @@ package com.evrythng.thng.resource.model.store;
  * @author colin
  *
  */
-public interface ILocation extends Copyable<ILocation> {
+public interface ILocation {
 	static final int LON_IDX = 0;
 	static final int LAT_IDX = 1;
 

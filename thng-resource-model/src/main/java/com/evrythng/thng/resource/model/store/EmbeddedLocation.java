@@ -47,10 +47,4 @@ public class EmbeddedLocation implements ILocation {
 		LocationHelper.copy(source, loc);
 		return loc;
 	}
-
-	@Override
-	public void copy(ILocation obj) {
-		this.latitude = obj.getLatitude();
-		this.longitude = obj.getLongitude();
-	}
 }

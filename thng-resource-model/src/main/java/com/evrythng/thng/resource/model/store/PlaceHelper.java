@@ -4,7 +4,7 @@
  */
 package com.evrythng.thng.resource.model.store;
 
-import com.evrythng.thng.resource.model.store.geojson.GeoJSONPoint;
+import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
 
 /**
  * Helper class for places.
@@ -17,7 +17,7 @@ public class PlaceHelper {
 		to.copy(from);
 	}*/
 	
-	public static double[] getCoordinates(GeoJSONPoint location) {
+	public static double[] getCoordinates(GeoJsonPoint location) {
 		try {
 			return new double[] {location.getLongitude(), location.getLatitude()};
 		} catch (NullPointerException e) {

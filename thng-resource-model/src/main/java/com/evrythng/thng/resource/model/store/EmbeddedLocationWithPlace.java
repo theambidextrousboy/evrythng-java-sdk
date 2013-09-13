@@ -38,10 +38,4 @@ public class EmbeddedLocationWithPlace extends EmbeddedLocation implements ILoca
 		LocationHelper.copy(source, loc);
 		return loc;
 	}
-
-	@Override
-	public void copy(ILocation obj) {
-		super.copy(obj);
-		if (obj instanceof ILocationWithPlace) this.place = ((ILocationWithPlace) obj).getPlace();
-	}
 }

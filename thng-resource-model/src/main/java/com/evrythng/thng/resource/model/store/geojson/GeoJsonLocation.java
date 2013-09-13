@@ -2,24 +2,27 @@
  * (c) Copyright 2013 EVRYTHNG Ltd London / Zurich
  * www.evrythng.com
  */
-package com.evrythng.thng.resource.model.store;
+package com.evrythng.thng.resource.model.store.geojson;
 
 import java.util.Arrays;
+
+import com.evrythng.thng.resource.model.store.ILocation;
+import com.evrythng.thng.resource.model.store.LocationHelper;
 
 /**
  * Geo JSON location to be used within a parent model.
  * 
  * @author colin
  **/
-public class EmbeddedGeoJSONLocation implements ILocation {
+public class GeoJsonLocation implements ILocation {
 
 	private double[] coordinates;
 
-	public EmbeddedGeoJSONLocation() {
-		this(0d, 0d);
+	public GeoJsonLocation() {
+		this(0, 0);
 	}
 
-	public EmbeddedGeoJSONLocation(Double latitude, Double longitude) {
+	public GeoJsonLocation(double latitude, double longitude) {
 		this.coordinates = new double[] {longitude, latitude};
 	}
 
@@ -51,20 +54,14 @@ public class EmbeddedGeoJSONLocation implements ILocation {
 		this.coordinates = coordinates;
 	}
 
-	public static EmbeddedGeoJSONLocation copyFrom(EmbeddedGeoJSONLocation source) {
-		return new EmbeddedGeoJSONLocation(source.getLatitude(), source.getLongitude());
+	public static GeoJsonLocation copyFrom(GeoJsonLocation source) {
+		return new GeoJsonLocation(source.getLatitude(), source.getLongitude());
 	}
 
-	public static EmbeddedGeoJSONLocation copyFrom(ILocation source) {
-		EmbeddedGeoJSONLocation loc = new EmbeddedGeoJSONLocation();
+	public static GeoJsonLocation copyFrom(ILocation source) {
+		GeoJsonLocation loc = new GeoJsonLocation();
 		LocationHelper.copy(source, loc);
 		return loc;
-	}
-
-	@Override
-	public void copy(ILocation obj) {
-		setLatitude(obj.getLatitude());
-		setLongitude(obj.getLongitude());
 	}
 
 	@Override
