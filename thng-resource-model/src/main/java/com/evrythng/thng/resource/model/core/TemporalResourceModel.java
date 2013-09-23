@@ -30,6 +30,7 @@ public abstract class TemporalResourceModel extends ResourceModel {
 	};
 
 	private Long timestamp;
+	public static String FIELD_TIMESTAMP = "timestamp";
 
 	protected TemporalResourceModel() {
 	}
