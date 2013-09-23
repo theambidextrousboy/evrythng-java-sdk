@@ -12,8 +12,6 @@ public class Location extends TemporalResourceModel implements ILocation {
 	private Double latitude;
 	private Double longitude;
 
-	private String place;
-
 	public Double getLatitude() {
 		return latitude;
 	}
@@ -28,14 +26,6 @@ public class Location extends TemporalResourceModel implements ILocation {
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
-	}
-
-	public String getPlace() {
-		return place;
-	}
-
-	public void setPlace(String place) {
-		this.place = place;
 	}
 
 	@Override

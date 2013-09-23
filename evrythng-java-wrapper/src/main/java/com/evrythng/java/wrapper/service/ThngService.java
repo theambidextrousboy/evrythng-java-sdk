@@ -7,7 +7,8 @@ import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
-import com.evrythng.thng.resource.model.store.Location;
+import com.evrythng.thng.commons.config.ApiConfiguration;
+import com.evrythng.thng.resource.model.store.LocationWithPlace;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.Redirector;
 import com.evrythng.thng.resource.model.store.Thng;
@@ -257,7 +258,7 @@ public class ThngService extends EvrythngServiceBase {
 	/* ***** /thngs/{id}/location ***** */
 
 	/**
-	 * Retrieves the last {@link Location} resources from the referenced
+	 * Retrieves the last {@link LocationWithPlace} resources from the referenced
 	 * {@link Thng}.
 	 * 
 	 * GET {@value #PATH_THNG_LOCATION}
@@ -266,13 +267,13 @@ public class ThngService extends EvrythngServiceBase {
 	 * @return
 	 * @throws EvrythngClientException
 	 */
-	public Builder<List<Location>> locationReader(String thngId) throws EvrythngClientException {
-		return get(String.format(PATH_THNG_LOCATION, thngId), new TypeReference<List<Location>>() {
+	public Builder<List<LocationWithPlace>> locationReader(String thngId) throws EvrythngClientException {
+		return get(String.format(PATH_THNG_LOCATION, thngId), new TypeReference<List<LocationWithPlace>>() {
 		});
 	}
 
 	/**
-	 * Updates the current {@link Location} of the referenced {@link Thng}.
+	 * Updates the current {@link LocationWithPlace} of the referenced {@link Thng}.
 	 * 
 	 * PUT {@value #PATH_THNG_LOCATION}
 	 * 
@@ -282,12 +283,12 @@ public class ThngService extends EvrythngServiceBase {
 	 * @return
 	 * @throws EvrythngClientException
 	 */
-	public Builder<List<Location>> locationUpdater(String thngId, Location location) throws EvrythngClientException {
+	public Builder<List<LocationWithPlace>> locationUpdater(String thngId, LocationWithPlace location) throws EvrythngClientException {
 		return locationUpdater(thngId, Arrays.asList(location));
 	}
 
 	/**
-	 * Updates the referenced {@link Thng} with multiple {@link Location}
+	 * Updates the referenced {@link Thng} with multiple {@link LocationWithPlace}
 	 * resources.
 	 * 
 	 * PUT {@value #PATH_THNG_LOCATION}
@@ -297,13 +298,13 @@ public class ThngService extends EvrythngServiceBase {
 	 * @return
 	 * @throws EvrythngClientException
 	 */
-	public Builder<List<Location>> locationUpdater(String thngId, List<Location> locations) throws EvrythngClientException {
-		return put(String.format(PATH_THNG_LOCATION, thngId), locations, new TypeReference<List<Location>>() {
+	public Builder<List<LocationWithPlace>> locationUpdater(String thngId, List<LocationWithPlace> locations) throws EvrythngClientException {
+		return put(String.format(PATH_THNG_LOCATION, thngId), locations, new TypeReference<List<LocationWithPlace>>() {
 		});
 	}
 
 	/**
-	 * Deletes the {@link Location} of the referenced {@link Thng}.
+	 * Deletes the {@link LocationWithPlace} of the referenced {@link Thng}.
 	 * 
 	 * DELETE {@value #PATH_THNG_LOCATION}
 	 * 

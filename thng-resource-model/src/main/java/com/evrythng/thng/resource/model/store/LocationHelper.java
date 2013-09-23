@@ -14,7 +14,9 @@ public class LocationHelper {
 	public static void copy(ILocation from, ILocation to) {
 		to.setLatitude(from.getLatitude());
 		to.setLongitude(from.getLongitude());
-		to.setPlace(from.getPlace());
+		if (from instanceof LocationWithPlace && to instanceof LocationWithPlace) {
+			((LocationWithPlace)to).setPlace(((LocationWithPlace)from).getPlace());
+		}
 	}
 
 	/**
