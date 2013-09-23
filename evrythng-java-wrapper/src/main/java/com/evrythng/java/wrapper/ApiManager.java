@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.service.ApplicationService;
+import com.evrythng.java.wrapper.service.AuthService;
 import com.evrythng.java.wrapper.service.CollectionService;
 import com.evrythng.java.wrapper.service.ProductService;
 import com.evrythng.java.wrapper.service.SearchService;
@@ -29,6 +30,7 @@ public class ApiManager {
 	private ProductService productService;
 	private SearchService searchService;
 	private ApplicationService applicationService;
+	private AuthService authService;
 
 	/**
 	 * Creates a new {@link ApiManager} instance using the provided
@@ -42,6 +44,7 @@ public class ApiManager {
 		this.productService = new ProductService(this);
 		this.searchService = new SearchService(this);
 		this.applicationService = new ApplicationService(this);
+		this.authService = new AuthService(this);
 	}
 
 	/**
@@ -125,6 +128,10 @@ public class ApiManager {
 	 */
 	public ApplicationService applicationService() {
 		return applicationService;
+	}
+
+	public AuthService authService() {
+		return authService;
 	}
 
 	public ApiConfiguration getConfig() {
