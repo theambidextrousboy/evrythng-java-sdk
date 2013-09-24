@@ -12,7 +12,8 @@ import com.evrythng.thng.resource.model.store.Property;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
- * TODO: comment this class!
+ * Service wrapper for the {@code /products} endpoint of the EVRYTHNG Engine
+ * API.
  * 
  * @author Pedro De Almeida (almeidap)
  */
