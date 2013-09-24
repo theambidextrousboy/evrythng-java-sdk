@@ -10,6 +10,10 @@ package com.evrythng.thng.resource.model.access;
  **/
 public class Credentials {
 
+	/** Value of getStatus() */
+	public static final String STATUS_ACTIVE = "active";
+	public static final String STATUS_INACTIVE = "inactive";
+
 	private String evrythngUser;
 	private String activationCode;
 	private String email;
