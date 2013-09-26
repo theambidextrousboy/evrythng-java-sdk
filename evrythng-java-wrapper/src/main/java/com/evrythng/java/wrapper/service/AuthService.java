@@ -83,7 +83,7 @@ public class AuthService extends EvrythngServiceBase {
 	 * @return
 	 * @throws EvrythngClientException
 	 */
-	public Builder<Credentials> evrythngUserAuth(Credentials credentials) throws EvrythngClientException {
+	public Builder<Credentials> evrythngUserAuthenticator(Credentials credentials) throws EvrythngClientException {
 		return post(PATH_AUTH_EVRYTHNG, credentials, new TypeReference<Credentials>() {
 		});
 	}
@@ -96,7 +96,7 @@ public class AuthService extends EvrythngServiceBase {
 	 * @return
 	 * @throws EvrythngClientException
 	 */
-	public Builder<Map<String, String>> authLogout() throws EvrythngClientException {
+	public Builder<Map<String, String>> authLogouter() throws EvrythngClientException {
 		return post(PATH_AUTH_ALL_LOGOUT, null, new TypeReference<Map<String, String>>() {
 		});
 	}
