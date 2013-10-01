@@ -5,6 +5,7 @@
 package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Model representation for <em>users</em>.
@@ -63,6 +64,7 @@ public class User extends DurableResourceModel {
 	/**
 	 * Tells if the user can log in or not.
 	 */
+	@JsonIgnore
 	private Boolean canLogin;
 
 	/* *** Getters / Setters *** */
@@ -123,10 +125,19 @@ public class User extends DurableResourceModel {
 		this.photo = photo;
 	}
 
+	/**
+	 * Engine returns true. This canLogin is not used anymore
+	 * MOCDTW-385
+	 * 
+	 * @return
+	 */
+	@Deprecated
+	@JsonIgnore
 	public Boolean isCanLogin() {
 		return canLogin;
 	}
 
+	@Deprecated
 	public void setCanLogin(Boolean canLogin) {
 		this.canLogin = canLogin;
 	}
