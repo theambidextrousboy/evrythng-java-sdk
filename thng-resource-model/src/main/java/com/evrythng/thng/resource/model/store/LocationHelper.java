@@ -14,8 +14,8 @@ public class LocationHelper {
 	public static void copy(ILocation from, ILocation to) {
 		to.setLatitude(from.getLatitude());
 		to.setLongitude(from.getLongitude());
-		if (from instanceof LocationWithPlace && to instanceof LocationWithPlace) {
-			((LocationWithPlace)to).setPlace(((LocationWithPlace)from).getPlace());
+		if (from instanceof ILocationWithPlace && to instanceof ILocationWithPlace) {
+			((ILocationWithPlace) to).setPlace(((ILocationWithPlace) from).getPlace());
 		}
 	}
 
@@ -25,7 +25,7 @@ public class LocationHelper {
 	 * @return true if loc is null or if both coordinates are null or if the
 	 *         location is valid; false otherwise.
 	 */
-	public static boolean isGeoValid(ILocation loc) {
+	public static boolean isGeoValid(ILocationWithPlace loc) {
 		if (loc == null) {
 			return true;
 		}
@@ -38,7 +38,7 @@ public class LocationHelper {
 		}
 	}
 
-	public static boolean coordinatesEqual(ILocation a, ILocation b) {
+	public static boolean coordinatesEqual(ILocationWithPlace a, ILocationWithPlace b) {
 		if (a == b) {
 			return true;
 		}
