@@ -13,6 +13,8 @@ public class Place extends DurableResourceModel {
 	private String description;
 	private String icon;
 	private GeoJson location;
+	private String country;
+	private String city;
 	
 	public String getName() {
 		return name;
@@ -44,5 +46,21 @@ public class Place extends DurableResourceModel {
 
 	public void setLocation(GeoJson location) {
 		this.location = location;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 }
