@@ -9,15 +9,19 @@ package com.evrythng.thng.resource.model.store;
  * 
  * @author Michel Yerly (my)
  **/
-public class EmbeddedLocationWithPlace extends EmbeddedLocation implements ILocationWithPlace {
+public class EmbeddedLocationWithPlace implements ILocationWithPlace {
 
 	private String place;
+
+	private Double latitude;
+	private Double longitude;
 
 	public EmbeddedLocationWithPlace() {
 	}
 
 	public EmbeddedLocationWithPlace(String place, Double latitude, Double longitude) {
-		super(latitude, longitude);
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.place = place;
 	}
 
@@ -29,13 +33,32 @@ public class EmbeddedLocationWithPlace extends EmbeddedLocation implements ILoca
 		this.place = place;
 	}
 
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
 	public static EmbeddedLocationWithPlace copyFrom(EmbeddedLocationWithPlace source) {
 		return new EmbeddedLocationWithPlace(source.place, source.getLatitude(), source.getLongitude());
 	}
 
 	public static EmbeddedLocationWithPlace copyFrom(ILocationWithPlace source) {
 		EmbeddedLocationWithPlace loc = new EmbeddedLocationWithPlace();
-		LocationHelper.copy(source, loc);
+		loc.setLatitude(source.getLatitude());
+		loc.setLongitude(source.getLongitude());
+		loc.setPlace(source.getPlace());
+		//LocationHelper.copy(source, loc);
 		return loc;
 	}
 }
