@@ -4,7 +4,9 @@
  */
 package com.evrythng.java.wrapper.core;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 
 import org.apache.http.HttpResponse;
 
@@ -141,5 +143,13 @@ public class EvrythngServiceBase {
 
 	protected void onBuilderCreated(Builder<?> builder) {
 		api.onBuilderCreated(builder);
+	}
+
+	protected static String urlEncode(String s) {
+		try {
+			return URLEncoder.encode(s, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
