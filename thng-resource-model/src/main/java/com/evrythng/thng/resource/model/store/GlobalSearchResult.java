@@ -28,6 +28,12 @@ public class GlobalSearchResult {
 	private List<Collection> collections;
 	private Long collectionsResultCount;
 
+	/**
+	 * Found places
+	 */
+	private List<Place> places;
+	private Long placesResultCount;
+
 	public List<Thng> getThngs() {
 		return thngs;
 	}
@@ -74,6 +80,22 @@ public class GlobalSearchResult {
 
 	public void setCollectionsResultCount(Long collectionsResultCount) {
 		this.collectionsResultCount = collectionsResultCount;
+	}
+
+	public List<Place> getPlaces() {
+		return places;
+	}
+
+	public void setPlaces(List<Place> places) {
+		this.places = places;
+	}
+
+	public Long getPlacesResultCount() {
+		return placesResultCount;
+	}
+
+	public void setPlacesResultCount(Long placesResultCount) {
+		this.placesResultCount = placesResultCount;
 	}
 
 }
