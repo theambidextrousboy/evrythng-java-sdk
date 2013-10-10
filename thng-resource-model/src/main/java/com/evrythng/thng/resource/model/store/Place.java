@@ -2,6 +2,7 @@ package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 import com.evrythng.thng.resource.model.store.geojson.GeoJson;
+import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
 
 /**
  * Model representation for a <em>place</em>
@@ -14,7 +15,7 @@ public class Place extends DurableResourceModel {
 	private String name;
 	private String description;
 	private String icon;
-	private GeoJson location;
+	private GeoJsonPoint location;
 	private String country;
 	private String city;
 	
@@ -42,11 +43,11 @@ public class Place extends DurableResourceModel {
 		this.icon = icon;
 	}
 
-	public GeoJson getLocation() {
+	public GeoJsonPoint getLocation() {
 		return location;
 	}
 
-	public void setLocation(GeoJson location) {
+	public void setLocation(GeoJsonPoint location) {
 		this.location = location;
 	}
 
