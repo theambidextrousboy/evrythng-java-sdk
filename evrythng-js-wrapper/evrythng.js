@@ -8,7 +8,7 @@ Evrythng = function(options) {
 };
 
 
-Evrythng.prototype.jsonp = function(url, callback) {				console.log('jsonp: ' + url);
+Evrythng.prototype.jsonp = function(url, callback) {
 	if (typeof this.options.jQuery === 'function') {
 		return this.options.jQuery.getJSON(url).then(callback);
 	}
@@ -77,14 +77,11 @@ Evrythng.prototype.fbCallback = function(response) {
 	if (response.status === 'connected') {
 		if (response.authResponse) {
 			if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
-			console.log('FB accessToken: ' + response.authResponse.accessToken);
 			FB.api('/me', function(fbUser) {
 				if (!fbUser.name) {
-					console.log('Force FB login');
 					self.fbLogin.call(self, self.fbCallback);
 				}
 				else {
-					console.log('Good to see you, ' + fbUser.name);
 					var data = {
 							'access': {
 								'token': response.authResponse.accessToken
@@ -92,7 +89,6 @@ Evrythng.prototype.fbCallback = function(response) {
 						},
 						dataEscaped = encodeURIComponent(JSON.stringify(data));
 					self.jsonp(self.options.evrythngApiUrl + '/auth/facebook?access_token=' + self.options.evrythngApiKey + '&data=' + dataEscaped + '&method=post', function(access) {
-						console.log(access);
 						if (access.evrythngApiKey) {
 							if (typeof self.options.loginCallback === 'function') {
 								self.options.loginCallback.call(self, access, fbUser);
@@ -147,8 +143,6 @@ Evrythng.prototype.fbPost = function(options, callback) {
 		name: options.name,
 		description: options.description
 	}, function(data) {
-		console.log(data);
-		console.log('Post was created');
 		//if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
 		if (typeof callback === 'function') {
 			callback.call(self, response);
@@ -173,7 +167,6 @@ Evrythng.prototype.checkin = function(options, callback) {
 		var dataEscaped = encodeURIComponent(JSON.stringify(data));
 		self.jsonp(self.options.evrythngApiUrl + '/actions/checkins?access_token=' + options.evrythngApiKey + '&data=' + dataEscaped + '&method=post', function(response) {
 			if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
-			console.log(response);
 			if (typeof callback === 'function') {
 				callback.call(self, response);
 			}
@@ -212,7 +205,6 @@ Evrythng.prototype.scan = function(options, callback) {
 		var dataEscaped = encodeURIComponent(JSON.stringify(data));
 		aloader.jsonp(self.options.evrythngApiUrl + '/actions/scans?access_token=' + options.evrythngApiKey + '&data=' + dataEscaped + '&method=post', function(response) {
 			if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
-			console.log(response);
 			if (typeof callback === 'function') {
 				callback.call(self, response);
 			}
@@ -239,7 +231,6 @@ Evrythng.prototype.getProduct = function(options, callback) {
 	//if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
 	self.jsonp(self.options.evrythngApiUrl + '/products/' + options.product + '?access_token=' + options.evrythngApiKey, function(response) {
 		//if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
-		console.log(response);
 		if (typeof callback === 'function') {
 			callback.call(self, response);
 		}
@@ -252,7 +243,6 @@ Evrythng.prototype.getAnalytics = function(options, callback) {
 	//if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
 	self.jsonp(self.options.evrythngApiUrl + '/analytics/query/' + options.kpi + '?access_token=' + self.options.evrythngApiKey + options.additionalParams, function(response) {
 		//if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
-		console.log(response);
 		if (typeof callback === 'function') {
 			callback.call(self, response);
 		}
