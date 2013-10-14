@@ -13,7 +13,7 @@ The library can work both with and without jQuery.
 		other options...
 	});
 
-If you have to use jQuery (e.g. to use with with Ember.js), pass it's reference as an option:
+If you have to use jQuery (e.g. to use it with Ember.js), pass it's reference as an option:
 
 	Evt = new Evrythng({
 		jQuery: jQuery
