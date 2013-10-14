@@ -228,15 +228,49 @@ Evrythng.prototype.scan = function(options, callback) {
 
 Evrythng.prototype.getProduct = function(options, callback) {
 	var self = this;
-	//if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
-	self.jsonp(self.options.evrythngApiUrl + '/products/' + options.product + '?access_token=' + options.evrythngApiKey, function(response) {
-		//if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
+	var url = this.buildUrl("/products/%s", options.product);
+	self.getResource(options, url, callback);
+};
+
+/** 
+ * Helper method to build a resource path
+ * e.g., buildUrl("/thngs/%s", options.thng);
+ */
+Evrythng.prototype.buildUrl = function(str) {
+	var self = this;
+    var args = [].slice.call(arguments, 1), i = 0;
+    return self.options.evrythngApiUrl + '/' + str.replace(/%s/g, function() {
+        return args[i++];
+    });
+};
+
+Evrythng.prototype.getResource = function(options, url, callback) {
+	var self = this;
+	self.jsonp(url + '?access_token=' + self.options.evrythngApiKey, function(response) {
+		console.log(response);
 		if (typeof callback === 'function') {
 			callback.call(self, response);
 		}
 	});
 };
 
+Evrythng.prototype.getThng = function(options, callback) {
+	var self = this;
+	var url = this.buildUrl("/thngs/%s", options.thng);
+	self.getResource(options, url, callback);
+};
+
+Evrythng.prototype.getProperties = function(options, callback) {
+	var self = this;
+	var url = this.buildUrl("/thngs/%s/properties/", options.thng);
+	self.getResource(options, url, callback);
+};
+
+Evrythng.prototype.getProperty = function(options, callback) {
+	var self = this;
+	var url = this.buildUrl("/thngs/%s/properties/%s", options.thng, options.property);
+	self.getResource(options, url, callback);
+};
 
 Evrythng.prototype.getAnalytics = function(options, callback) {
 	var self = this;
