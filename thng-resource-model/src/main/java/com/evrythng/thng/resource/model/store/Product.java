@@ -31,6 +31,7 @@ public class Product extends DurableResourceModel implements ResourceWithPropert
 	 * Product name or title
 	 */
 	private String fn;
+	public final static String FIELD_FN = "fn";
 	/**
 	 * URLs to the photos, not the photos themselves
 	 */
