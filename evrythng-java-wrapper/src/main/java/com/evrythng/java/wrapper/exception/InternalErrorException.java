@@ -10,9 +10,6 @@ import com.evrythng.thng.resource.model.exception.ErrorMessage;
 
 /**
  * {@link Status#INTERNAL_SERVER_ERROR} (500)
- * 
- * @author Thomas Pham (tpham)
- * @author Pedro De Almeida (almeidap)
  **/
 public class InternalErrorException extends EvrythngErrorException {
 

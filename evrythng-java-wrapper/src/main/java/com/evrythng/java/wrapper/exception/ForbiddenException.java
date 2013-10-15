@@ -10,8 +10,6 @@ import com.evrythng.thng.resource.model.exception.ErrorMessage;
 
 /**
  * {@link Status#FORBIDDEN} (403)
- * 
- * @author Pedro De Almeida (almeidap)
  **/
 public class ForbiddenException extends EvrythngErrorException {
 

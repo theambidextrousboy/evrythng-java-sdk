@@ -16,6 +16,7 @@ import com.evrythng.thng.resource.model.core.DurableResourceModel;
 public class Thng extends DurableResourceModel implements ResourceWithProperties {
 
 	private String name;
+	public final static String FIELD_NAME = "name";
 
 	private String description;
 
