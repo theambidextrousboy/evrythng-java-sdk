@@ -160,9 +160,9 @@ Evrythng.prototype.checkin = function(options, callback) {
 		tags: options.tags,
 		location: {
 			latitude: options.defaultLocation ? options.defaultLocation.latitude : null,
-			longitude: options.defaultLocation ? options.defaultLocation.longitude : null,
-			locationSource: 'sensor'
-		}
+			longitude: options.defaultLocation ? options.defaultLocation.longitude : null
+		},
+		locationSource: 'sensor'
 	},
 	doCheckin = function() {
 		var dataEscaped = encodeURIComponent(JSON.stringify(data));
@@ -199,9 +199,9 @@ Evrythng.prototype.scan = function(options, callback) {
 		type: 'scans',
 		location: {
 			latitude: options.defaultLocation ? options.defaultLocation.latitude : null,
-			longitude: options.defaultLocation ? options.defaultLocation.longitude : null,
-			locationSource: 'sensor'
-		}
+			longitude: options.defaultLocation ? options.defaultLocation.longitude : null
+		},
+		locationSource: 'sensor'
 	}
 	var doScan = function() {
 		var dataEscaped = encodeURIComponent(JSON.stringify(data));
