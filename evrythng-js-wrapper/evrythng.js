@@ -1,3 +1,14 @@
+/*!
+ * Client-side JavaScript library to access Evrythng API v1.0.1
+ * https://github.com/evrythng/evrythng-tools
+ *
+ * Copyright [2013] [EVRYTHNG Ltd. London / Zurich]
+ *
+ * Released under the http://www.apache.org/licenses/LICENSE-2.0
+ * https://github.com/evrythng/evrythng-tools/blob/master/LICENSE.txt
+ *
+ */
+
 Evrythng = function(options) {
 	this.options = {};
 	if (typeof options === 'object') {
