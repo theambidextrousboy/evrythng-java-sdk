@@ -1,5 +1,5 @@
 /*!
- * Client-side JavaScript library to access Evrythng API $Id:$
+ * Client-side JavaScript library to access Evrythng API $Id: e458aa8d525d1f447df2966f56bcf9728854ee16 $
  * https://github.com/evrythng/evrythng-tools
  *
  * Copyright [2013] [EVRYTHNG Ltd. London / Zurich]
