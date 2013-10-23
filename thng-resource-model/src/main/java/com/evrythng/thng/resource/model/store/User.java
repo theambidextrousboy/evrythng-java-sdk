@@ -4,13 +4,67 @@
  */
 package com.evrythng.thng.resource.model.store;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.evrythng.commons.EnumUtils;
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Model representation for <em>users</em>.
  */
 public class User extends DurableResourceModel {
+
+	public static class Birthday {
+		private Integer month;
+		private Integer day;
+
+		public Integer getMonth() {
+			return month;
+		}
+
+		public void setMonth(Integer month) {
+			this.month = month;
+		}
+
+		public Integer getDay() {
+			return day;
+		}
+
+		public void setDay(Integer day) {
+			this.day = day;
+		}
+	}
+
+	public enum Gender {
+
+		MALE("male"), FEMALE("female");
+
+		private static Map<String, Gender> names = new HashMap<String, Gender>();
+		private String name;
+
+		private Gender(String name) {
+			this.name = name;
+		}
+
+		static {
+			names = EnumUtils.createNames(values());
+		}
+
+		@JsonValue
+		@Override
+		public String toString() {
+			return name;
+		}
+
+		@JsonCreator
+		public static Gender fromString(String name) {
+			return EnumUtils.fromString(names, name);
+		}
+	}
 
 	/**
 	 * The user's unique email address.
@@ -18,6 +72,10 @@ public class User extends DurableResourceModel {
 	private String email;
 
 	private String password;
+
+	private SocialNetwork primarySocialNetwork;
+
+	private Long socialProfileLastSync;
 
 	/**
 	 * The user's first name.
@@ -30,10 +88,9 @@ public class User extends DurableResourceModel {
 	private String lastName;
 
 	/**
-	 * The user's birthday as http://en.wikipedia.org/wiki/ISO_8601
-	 * i.e., YYYY-MM-DD
+	 * The user's date of birth.
 	 */
-	private String birthday;
+	private Long dateOfBirth;
 
 	/**
 	 * The user's timezone offset from <strong>UTC</strong>.
@@ -67,7 +124,10 @@ public class User extends DurableResourceModel {
 	@JsonIgnore
 	private Boolean canLogin;
 
-	/* *** Getters / Setters *** */
+	private Birthday birthday;
+
+	private Gender gender;
+	private Integer numberOfFriends;
 
 	public String getEmail() {
 		return email;
@@ -142,12 +202,52 @@ public class User extends DurableResourceModel {
 		this.canLogin = canLogin;
 	}
 
-	public String getBirthday() {
+	public Long getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Long dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public Birthday getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(String birthday) {
+	public void setBirthday(Birthday birthday) {
 		this.birthday = birthday;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
+	public Integer getNumberOfFriends() {
+		return numberOfFriends;
+	}
+
+	public void setNumberOfFriends(Integer numberOfFriends) {
+		this.numberOfFriends = numberOfFriends;
+	}
+
+	public SocialNetwork getPrimarySocialNetwork() {
+		return primarySocialNetwork;
+	}
+
+	public void setPrimarySocialNetwork(SocialNetwork primarySocialNetwork) {
+		this.primarySocialNetwork = primarySocialNetwork;
+	}
+
+	public Long getSocialProfileLastSync() {
+		return socialProfileLastSync;
+	}
+
+	public void setSocialProfileLastSync(Long socialProfileLastSync) {
+		this.socialProfileLastSync = socialProfileLastSync;
 	}
 
 }
