@@ -1,4 +1,4 @@
-Evrythng.js
+EVRYTHNG.js
 ===========
 
 Client-side JavaScript library to access Evrythng API.
