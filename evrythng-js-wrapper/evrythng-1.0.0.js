@@ -99,7 +99,7 @@ Evrythng.prototype.fbCallback = function(response) {
 							}
 						},
 						dataEscaped = encodeURIComponent(JSON.stringify(data));
-					self.jsonp(self.options.evrythngApiUrl + '/auth/facebook?access_token=' + self.options.evrythngApiKey + '&data=' + dataEscaped + '&method=post', function(access) {
+					self.jsonp(self.options.evrythngApiUrl + '/auth/facebook?access_token=' + self.options.evrythngApiKey + '&data=' + dataEscaped + '&method=post&callback=?', function(access) {
 						if (access.evrythngApiKey) {
 							if (typeof self.options.loginCallback === 'function') {
 								self.options.loginCallback.call(self, access, fbUser);
@@ -177,7 +177,7 @@ Evrythng.prototype.checkin = function(options, callback) {
 	},
 	doCheckin = function() {
 		var dataEscaped = encodeURIComponent(JSON.stringify(data));
-		self.jsonp(self.options.evrythngApiUrl + '/actions/checkins?access_token=' + options.evrythngApiKey + '&data=' + dataEscaped + '&method=post', function(response) {
+		self.jsonp(self.options.evrythngApiUrl + '/actions/checkins?access_token=' + options.evrythngApiKey + '&data=' + dataEscaped + '&method=post&callback=?', function(response) {
 			if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
 			if (typeof callback === 'function') {
 				callback.call(self, response);
@@ -216,7 +216,7 @@ Evrythng.prototype.scan = function(options, callback) {
 	}
 	var doScan = function() {
 		var dataEscaped = encodeURIComponent(JSON.stringify(data));
-		load.jsonp(self.options.evrythngApiUrl + '/actions/scans?access_token=' + options.evrythngApiKey + '&data=' + dataEscaped + '&method=post', function(response) {
+		load.jsonp(self.options.evrythngApiUrl + '/actions/scans?access_token=' + options.evrythngApiKey + '&data=' + dataEscaped + '&method=post&callback=?', function(response) {
 			if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
 			if (typeof callback === 'function') {
 				callback.call(self, response);
@@ -259,7 +259,7 @@ Evrythng.prototype.buildUrl = function(str) {
 
 Evrythng.prototype.getResource = function(options, url, callback) {
 	var self = this;
-	return self.jsonp(url + '?access_token=' + self.options.evrythngApiKey, function(response) {
+	return self.jsonp(url + '?access_token=' + self.options.evrythngApiKey + '&callback=?', function(response) {
 		console.log(response);
 		if (typeof callback === 'function') {
 			callback.call(self, response);
@@ -288,7 +288,7 @@ Evrythng.prototype.getProperty = function(options, callback) {
 Evrythng.prototype.getAnalytics = function(options, callback) {
 	var self = this;
 	//if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
-	return self.jsonp(self.options.evrythngApiUrl + '/analytics/query/' + options.kpi + '?access_token=' + self.options.evrythngApiKey + options.additionalParams, function(response) {
+	return self.jsonp(self.options.evrythngApiUrl + '/analytics/query/' + options.kpi + '?access_token=' + self.options.evrythngApiKey + options.additionalParams + '&callback=?', function(response) {
 		//if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
 		if (typeof callback === 'function') {
 			callback.call(self, response);
