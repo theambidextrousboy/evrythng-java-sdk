@@ -19,6 +19,9 @@ Evrythng = function(options) {
 };
 
 
+/*
+	JSONP wrapper
+*/
 Evrythng.prototype.jsonp = function(url, callback) {
 	if (typeof this.options.jQuery === 'function') {
 		return this.options.jQuery.getJSON(url).then(callback);
@@ -29,6 +32,9 @@ Evrythng.prototype.jsonp = function(url, callback) {
 };
 
 
+/*
+	Facebook
+*/
 Evrythng.prototype.fbInit = function(callback) {
 	var self = this;
 	if (typeof callback === 'function') {
@@ -48,22 +54,24 @@ Evrythng.prototype.fbInit = function(callback) {
 
 
 Evrythng.prototype.fbAsyncInit = function() {
-	var self = this;
+	var self = this,
+		checkinButton;
 	FB.init({appId: this.options.facebookAppId, status: true, cookie: true, xfbml: false, oauth: true});
 	FB.getLoginStatus(function(response) {
-		var checkinButton = document.getElementById(self.options.checkinButton);
-		if (response.status === 'connected') {
-			if (checkinButton) {
-				checkinButton.onclick = function() {
-					self.fbCallback.call(self, response);
+		if (self.options.checkinButton && checkinButton = document.getElementById(self.options.checkinButton)) {
+			if (response.status === 'connected') {
+				if (checkinButton) {
+					checkinButton.onclick = function() {
+						self.fbCallback.call(self, response);
+					};
+				}
+				if (self.options.forceLogin) self.fbCallback.call(self, response);
+			}
+			else {
+				if (checkinButton) checkinButton.onclick = function() {
+					self.fbLogin.call(self, self.fbCallback);
 				};
 			}
-			if (self.options.forceLogin) self.fbCallback.call(self, response);
-		}
-		else {
-			if (checkinButton) checkinButton.onclick = function() {
-				self.fbLogin.call(self, self.fbCallback);
-			};
 		}
 	});
 	if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, false);
@@ -162,6 +170,9 @@ Evrythng.prototype.fbPost = function(options, callback) {
 };
 
 
+/*
+	Checkin
+*/
 Evrythng.prototype.checkin = function(options, callback) {
 	var self = this;
 	var data = {
@@ -201,7 +212,9 @@ Evrythng.prototype.checkin = function(options, callback) {
 };
 
 
-
+/*
+	Scan
+*/
 Evrythng.prototype.scan = function(options, callback) {
 	var self = this;
 	var data = {
@@ -239,27 +252,159 @@ Evrythng.prototype.scan = function(options, callback) {
 };
 
 
-Evrythng.prototype.getProduct = function(options, callback) {
+/*
+	Products CRUD
+*/
+Evrythng.prototype.createProduct = function(options, callback) {
 	var self = this;
-	var url = this.buildUrl("/products/%s", options.product);
-	return self.getResource(options, url, callback);
+	return self.query({
+		url: '/products',
+		method: 'post',
+		data: options.data
+	}, callback);
 };
 
-/** 
- * Helper method to build a resource path
- * e.g., buildUrl("/thngs/%s", options.thng);
- */
-Evrythng.prototype.buildUrl = function(str) {
+
+Evrythng.prototype.readProducts = function(options, callback) {
 	var self = this;
-    var args = [].slice.call(arguments, 1), i = 0;
-    return self.options.evrythngApiUrl + '/' + str.replace(/%s/g, function() {
-        return args[i++];
-    });
+	return self.query({
+		url: '/products'
+	}, callback);
 };
 
-Evrythng.prototype.getResource = function(options, url, callback) {
+
+Evrythng.prototype.readProduct = function(options, callback) {
 	var self = this;
-	return self.jsonp(url + '?access_token=' + self.options.evrythngApiKey + '&callback=?', function(response) {
+	return self.query({
+		url: self.buildUrl('/products/%s', options.product)
+	}, callback);
+};
+
+
+Evrythng.prototype.updateProduct = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/products/%s', options.product),
+		method: 'put',
+		data: options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.deleteProduct = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/products/%s', options.product),
+		method: 'delete'
+	}, callback);
+};
+
+
+/*
+	Properties CRUD
+*/
+Evrythng.prototype.createProperty = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/thngs/%s/properties', options.thng),
+		method: 'post',
+		data: options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.readProperties = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/thngs/%s/properties', options.thng)
+	}, callback);
+};
+
+
+Evrythng.prototype.readProperty = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/thngs/%s/properties/%s', options.thng, options.property)
+	}, callback);
+};
+
+
+Evrythng.prototype.updateProperty = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/thngs/%s/properties', options.thng),
+		method: 'put',
+		data: options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.deleteProperty = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/thngs/%s/properties/%s', options.thng, options.property),
+		method: 'delete'
+	}, callback);
+};
+
+
+/*
+	Thngs R
+*/
+Evrythng.prototype.readThng = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/thngs/%s', options.thng)
+	}, callback);
+};
+
+
+/*
+	Analytics R
+*/
+Evrythng.prototype.readAnalytics = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/analytics/query/%s', options.kpi),
+		params: options.params
+	}, callback);
+};
+
+
+/*
+	Users R
+*/
+Evrythng.prototype.readUsers = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/users')
+	}, callback);
+};
+
+
+Evrythng.prototype.readUser = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/users/%s', options.user)
+	}, callback);
+};
+
+
+////////////////////////
+////// UTILITIES ///////
+////////////////////////
+
+
+/*
+	Query API utility
+*/
+Evrythng.prototype.query = function(options, callback) {
+	var self = this;
+	if (typeof options.params !== 'object') options.params = {};
+	if (options.method) options.params.method = options.method;
+	if (options.data) options.params.data = JSON.stringify(options.data);
+	options.params.access_token = self.options.evrythngApiKey;
+	return self.jsonp(self.options.evrythngApiUrl + '/' + options.url + '?callback=?&' + self.buildParams(options.params), function(response) {
 		console.log(response);
 		if (typeof callback === 'function') {
 			callback.call(self, response);
@@ -267,36 +412,34 @@ Evrythng.prototype.getResource = function(options, url, callback) {
 	});
 };
 
-Evrythng.prototype.getThng = function(options, callback) {
-	var self = this;
-	var url = this.buildUrl("/thngs/%s", options.thng);
-	return self.getResource(options, url, callback);
-};
 
-Evrythng.prototype.getProperties = function(options, callback) {
-	var self = this;
-	var url = this.buildUrl("/thngs/%s/properties/", options.thng);
-	return self.getResource(options, url, callback);
-};
-
-Evrythng.prototype.getProperty = function(options, callback) {
-	var self = this;
-	var url = this.buildUrl("/thngs/%s/properties/%s", options.thng, options.property);
-	return self.getResource(options, url, callback);
-};
-
-Evrythng.prototype.getAnalytics = function(options, callback) {
-	var self = this;
-	//if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
-	return self.jsonp(self.options.evrythngApiUrl + '/analytics/query/' + options.kpi + '?access_token=' + self.options.evrythngApiKey + options.additionalParams + '&callback=?', function(response) {
-		//if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
-		if (typeof callback === 'function') {
-			callback.call(self, response);
-		}
-	});
+/*
+	Helper method to build a resource path
+	e.g., buildUrl('/thngs/%s', thngId);
+*/
+Evrythng.prototype.buildUrl = function(str) {
+    var args = [].slice.call(arguments, 1), i = 0;
+    return str.replace(/%s/g, function() {
+        return args[i++];
+    });
 };
 
 
+/*
+	Helper method to build query string
+*/
+Evrythng.prototype.buildParams = function(obj) {
+	var out = [];
+	for (var i in obj) {
+		out.push(i + '=' + encodeURIComponent(obj[i]));
+	}
+	return out.join('&');
+};
+
+
+/*
+	Helper method to read URL parameter
+*/
 Evrythng.prototype.getParam = function(name) {
 	name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
 	var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
@@ -305,256 +448,9 @@ Evrythng.prototype.getParam = function(name) {
 };
 
 
-
-
-
 /*
-	load.js
+	Load.js - JavaScript js/css, jsonp/ajax, sync/async loader
+	Docs and source: https://github.com/articobandurini/load.js
+	Distributed under MIT license.
 */
-(function(context){
-	
-	/*
-		load
-	*/
-	var self = context.load = function(options) {
-		if (typeof options !== 'object' || options instanceof Array) {
-			var args = self.args(arguments);
-			options = {
-				url: args.url,
-				callback: args.callback
-			};
-		}
-		if (options.url && options.url.length) {
-			if (typeof options.async === 'undefined') options.async = true;
-			if (!options.type) options.type = 'js';
-			if (!(options.url instanceof Array)) options.url = [options.url];
-			self.sequence(options);
-		}
-		return self;
-	};
-	
-	
-	/*
-		sequence
-	*/
-	self.sequence = function(options) {
-		var queue = options.url.length,
-			queueCallback = function(amount) {
-				if (!amount) amount = 1;
-				queue = queue - amount;
-				if (!queue && typeof options.callback === 'function') options.callback.call(self);
-			},
-			sequenceCallback = function(url) {
-				return url.length ? (function() {
-					queueCallback(url.length);
-					self.sequence({
-						url: url,
-						async: options.async,
-						type: options.type,
-						callback: queueCallback
-					});
-				}) : queueCallback;
-			};
-		for (var i=0; i<options.url.length; i++) {
-			if (options.url[i] instanceof Array) {
-				self.sequence({
-					url: options.url[i],
-					async: options.async,
-					type: options.type,
-					callback: sequenceCallback(options.url.slice(i + 1))
-				});
-				break;
-			}
-			else {
-				self.one({
-					url: options.url[i],
-					async: options.async,
-					type: options.type,
-					callback: queueCallback
-				});
-			}
-		}
-		return self;
-	};
-	
-	
-	/*
-		one
-	*/
-	self.one = function(options) {
-		var tag, css = false,
-			holder = document.getElementsByTagName('head')[0] || document.body;
-		if (options.type === 'css' || options.url.toLowerCase().match(/\.css$/)) {
-			css = true;
-			tag = document.createElement('link');
-			tag.rel = 'stylesheet';
-			tag.href = self.path(options.url + (options.url.toLowerCase().match(/\.css$/) ? '' : '.css'));
-		}
-		else {
-			tag = document.createElement('script');
-			tag.async = options.async;
-			tag.src = self.path(options.url + (options.type === 'jsonp' || options.url.toLowerCase().match(/\.js$/) ? '' : '.js'));
-		}
-		holder.appendChild(tag);
-		var receive = function(tag) {
-			if (typeof self.ready === 'function') {
-				self.ready.call(self, options.url);
-			}
-			if (typeof options.callback === 'function') {
-				options.callback.call(self);
-			}
-			if (!css && tag && tag.parentNode) {
-				tag.parentNode.removeChild(tag);
-			}
-		};
-		if (navigator.userAgent.indexOf('MSIE') >= 0) {
-			tag.onreadystatechange = function() {
-				if (this.readyState === 'loaded' || this.readyState === 'complete') {
-					receive(this);
-				}
-			};
-		}
-		else {
-			tag.onload = function() {
-				receive(this);
-			};
-		}
-		return self;
-	};
-	
-	
-	/*
-		js, async
-	*/
-	self.js =
-	self.async = function() {
-		var args = self.args(arguments);
-		return self({
-			url: args.url,
-			callback: args.callback
-		});
-	};
-	
-	
-	/*
-		css
-	*/
-	self.css = function() {
-		var args = self.args(arguments);
-		return self({
-			url: args.url,
-			callback: args.callback,
-			type: 'css'
-		});
-	};
-	
-	
-	/*
-		sync
-	*/
-	self.sync = function() {
-		var args = self.args(arguments);
-		return self({
-			url: args.url,
-			callback: args.callback,
-			async: false
-		});
-	};
-	
-	
-	/*
-		jsonp
-	*/
-	self.jsonp = function(url, callback, async) {
-		if (typeof callback === 'function') {
-			if (!self.jsonp.index) {
-				self.jsonp.index = 1;
-			}
-			else {
-				self.jsonp.index++;
-			}
-			window['loadCallback' + self.jsonp.index] = callback;
-			url = url.replace('=?', '=loadCallback' + self.jsonp.index);
-		}
-		return self.one({
-			url: url,
-			async: async !== false,
-			type: 'jsonp'
-		});
-	};
-	
-	
-	/*
-		ajax
-	*/
-	self.ajax = function(url, callback, async) {
-		var xhr;
-		if (window.XMLHttpRequest) {
-			xhr = new XMLHttpRequest();
-		}
-		else if (window.ActiveXObject) {
-			try {
-				xhr = new ActiveXObject('Msxml2.XMLHTTP');
-			}
-			catch(e) {
-				try {
-					xhr = new ActiveXObject('Microsoft.XMLHTTP');
-				}
-				catch(e) {}
-			}
-		}
-		if (!xhr) return null;
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === 4 && typeof callback === 'function') callback.call(xhr, xhr.responseText);
-		};
-		xhr.open('GET', self.path(url), async);
-		xhr.send();
-		return self;
-	}
-	
-	
-	/*
-		args
-	*/
-	self.args = function(input) {
-		var args = Array.prototype.slice.call(input);
-		return {
-			url: args,
-			callback: (typeof args[args.length - 1] === 'function') ? args.pop() : undefined
-		};
-	};
-	
-	
-	/*
-		path
-	*/
-	self.path = function(input) {
-		return input.match(/^(https?\:|file\:|\/)/i) ? input : self.root + input;
-	};
-	
-	
-	/*
-		init
-	*/
-	self.init = function() {
-		self.root = '';
-		var scriptTags = document.getElementsByTagName('script'), dataLoad, slashIndex;
-		for (var i=0; i<scriptTags.length; i++) {
-			if (scriptTags[i].src.indexOf('load.js') > -1 || scriptTags[i].id === 'load.js') {
-				dataLoad = scriptTags[i].getAttribute('data-load');
-				if (dataLoad) {
-					slashIndex = dataLoad.lastIndexOf('/') + 1;
-					self.root = slashIndex ? dataLoad.substring(0, slashIndex) : '';
-					self({
-						url: dataLoad.substring(slashIndex),
-						async: scriptTags[i].getAttribute('data-async') !== 'false'
-					});
-				}
-				break;
-			}
-		}
-	};
-	
-	self.init();
-	
-})(window);
+(function(b){var a=b.load=function(d){if(typeof d!=="object"||d instanceof Array){var c=a.args(arguments);d={url:c.url,callback:c.callback}}if(d.url&&d.url.length){if(typeof d.async==="undefined"){d.async=true}if(!d.type){d.type="js"}if(!(d.url instanceof Array)){d.url=[d.url]}a.sequence(d)}return a};a.sequence=function(e){var d=e.url.length,c=function(h){if(!h){h=1}d=d-h;if(!d&&typeof e.callback==="function"){e.callback.call(a)}},g=function(h){return h.length?(function(){c(h.length);a.sequence({url:h,async:e.async,type:e.type,callback:c})}):c};for(var f=0;f<e.url.length;f++){if(e.url[f] instanceof Array){a.sequence({url:e.url[f],async:e.async,type:e.type,callback:g(e.url.slice(f+1))});break}else{a.one({url:e.url[f],async:e.async,type:e.type,callback:c})}}return a};a.one=function(d){var c,f=false,e=document.getElementsByTagName("head")[0]||document.body;if(d.type==="css"||d.url.toLowerCase().match(/\.css$/)){f=true;c=document.createElement("link");c.rel="stylesheet";c.href=a.path(d.url+(d.url.toLowerCase().match(/\.css$/)?"":".css"))}else{c=document.createElement("script");c.async=d.async;c.src=a.path(d.url+(d.type==="jsonp"||d.url.toLowerCase().match(/\.js$/)?"":".js"))}e.appendChild(c);var g=function(h){if(typeof a.ready==="function"){a.ready.call(a,d.url)}if(typeof d.callback==="function"){d.callback.call(a)}if(!f&&h&&h.parentNode){h.parentNode.removeChild(h)}};if(navigator.userAgent.indexOf("MSIE")>=0){c.onreadystatechange=function(){if(this.readyState==="loaded"||this.readyState==="complete"){g(this)}}}else{c.onload=function(){g(this)}}return a};a.js=a.async=function(){var c=a.args(arguments);return a({url:c.url,callback:c.callback})};a.css=function(){var c=a.args(arguments);return a({url:c.url,callback:c.callback,type:"css"})};a.sync=function(){var c=a.args(arguments);return a({url:c.url,callback:c.callback,async:false})};a.jsonp=function(c,e,d){if(typeof e==="function"){if(!a.jsonp.index){a.jsonp.index=1}else{a.jsonp.index++}window["loadCallback"+a.jsonp.index]=e;c=c.replace("=?","=loadCallback"+a.jsonp.index)}return a.one({url:c,async:d!==false,type:"jsonp"})};a.ajax=function(c,h,d){var g;if(window.XMLHttpRequest){g=new XMLHttpRequest()}else{if(window.ActiveXObject){try{g=new ActiveXObject("Msxml2.XMLHTTP")}catch(f){try{g=new ActiveXObject("Microsoft.XMLHTTP")}catch(f){}}}}if(!g){return null}g.onreadystatechange=function(){if(g.readyState===4&&typeof h==="function"){h.call(g,g.responseText)}};g.open("GET",a.path(c),d);g.send();return a};a.args=function(c){var d=Array.prototype.slice.call(c);return{url:d,callback:(typeof d[d.length-1]==="function")?d.pop():undefined}};a.path=function(c){return c.match(/^(https?\:|file\:|\/)/i)?c:a.root+c};a.init=function(){a.root="";var f=document.getElementsByTagName("script"),d,e;for(var c=0;c<f.length;c++){if(f[c].src.match(/(^|\/)load(\.min)?\.js$/)||f[c].id==="load.js"){d=f[c].getAttribute("data-load");if(d){e=d.lastIndexOf("/")+1;a.root=e?d.substring(0,e):"";a({url:d.substring(e),async:f[c].getAttribute("data-async")!=="false"})}break}}};a.init()})(window);
