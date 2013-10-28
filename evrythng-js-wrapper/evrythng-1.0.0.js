@@ -404,7 +404,7 @@ Evrythng.prototype.query = function(options, callback) {
 	if (options.method) options.params.method = options.method;
 	if (options.data) options.params.data = JSON.stringify(options.data);
 	options.params.access_token = self.options.evrythngApiKey;
-	return self.jsonp(self.options.evrythngApiUrl + '/' + options.url + '?callback=?&' + self.buildParams(options.params), function(response) {
+	return self.jsonp(self.options.evrythngApiUrl + options.url + '?callback=?&' + self.buildParams(options.params), function(response) {
 		console.log(response);
 		if (typeof callback === 'function') {
 			callback.call(self, response);
