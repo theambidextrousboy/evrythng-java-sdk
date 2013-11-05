@@ -59,7 +59,7 @@ Evrythng.prototype.fbAsyncInit = function() {
 		checkinButton;
 	FB.init({appId: this.options.facebookAppId, status: true, cookie: true, xfbml: false, oauth: true});
 	FB.getLoginStatus(function(response) {
-		if (self.options.checkinButton && checkinButton = document.getElementById(self.options.checkinButton)) {
+		if (self.options.checkinButton && (checkinButton = document.getElementById(self.options.checkinButton))) {
 			if (response.status === 'connected') {
 				if (checkinButton) {
 					checkinButton.onclick = function() {
@@ -168,6 +168,34 @@ Evrythng.prototype.fbPost = function(options, callback) {
 			callback.call(self, response);
 		}
 	});
+};
+
+/*
+	Actions
+*/
+Evrythng.prototype.readActionTypes = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: '/actions'
+	}, callback);
+};
+
+
+Evrythng.prototype.readActions = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/actions/%s', options.type),
+		params: options.params
+	}, callback);
+};
+
+
+Evrythng.prototype.readAction = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/actions/' + options.type + '/%s', options.action),
+		params: options.params
+	}, callback);
 };
 
 
