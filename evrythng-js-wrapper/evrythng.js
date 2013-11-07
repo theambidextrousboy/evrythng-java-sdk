@@ -56,23 +56,24 @@ Evrythng.prototype.fbInit = function(callback) {
 
 Evrythng.prototype.fbAsyncInit = function() {
 	var self = this,
-		checkinButton;
+		checkinButton = self.options.checkinButton ? document.getElementById(self.options.checkinButton) : null;
 	FB.init({appId: this.options.facebookAppId, status: true, cookie: true, xfbml: false, oauth: true});
 	FB.getLoginStatus(function(response) {
-		if (self.options.checkinButton && (checkinButton = document.getElementById(self.options.checkinButton))) {
-			if (response.status === 'connected') {
-				if (checkinButton) {
-					checkinButton.onclick = function() {
-						self.fbCallback.call(self, response);
-					};
-				}
-				if (self.options.forceLogin) self.fbCallback.call(self, response);
+		if (response.status === 'connected') {
+			if (checkinButton) {
+				checkinButton.onclick = function() {
+					self.fbCallback.call(self, response);
+				};
 			}
-			else {
-				if (checkinButton) checkinButton.onclick = function() {
+			if (self.options.forceLogin) self.fbCallback.call(self, response);
+		}
+		else {
+			if (checkinButton) {
+				checkinButton.onclick = function() {
 					self.fbLogin.call(self, self.fbCallback);
 				};
 			}
+			if (self.options.forceLogin) self.fbLogin.call(self);
 		}
 	});
 	if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, false);
@@ -159,13 +160,16 @@ Evrythng.prototype.fbPost = function(options, callback) {
 		}
 	});*/
 	//if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
-	FB.api('/me/feed', 'post', {
+	var post = {
 		message: options.message,
 		picture: options.picture,
 		link: options.link,
 		name: options.name,
 		description: options.description
-	}, function(data) {
+	};
+	if (options.tags) post.tags = options.tags;
+	if (options.place) post.place = options.place;
+	FB.api('/me/feed', 'post', post, function(data) {
 		//if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
 		if (typeof callback === 'function') {
 			callback.call(self, response);
@@ -313,7 +317,7 @@ Evrythng.prototype.createProduct = function(options, callback) {
 			method: 'post',
 			data: options.data
 		};
-	if (self.options.evrythngAppId) query.params = {appId: self.options.evrythngAppId};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
 	return self.query(query, callback);
 };
 
@@ -323,7 +327,7 @@ Evrythng.prototype.readProducts = function(options, callback) {
 		query = {
 			url: '/products'
 		};
-	if (self.options.evrythngAppId) query.params = {appId: self.options.evrythngAppId};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
 	return self.query(query, callback);
 };
 
@@ -333,7 +337,7 @@ Evrythng.prototype.readProduct = function(options, callback) {
 		query = {
 			url: self.buildUrl('/products/%s', options.product)
 		};
-	if (self.options.evrythngAppId) query.params = {appId: self.options.evrythngAppId};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
 	return self.query(query, callback);
 };
 
@@ -345,7 +349,7 @@ Evrythng.prototype.updateProduct = function(options, callback) {
 			method: 'put',
 			data: options.data
 		};
-	if (self.options.evrythngAppId) query.params = {appId: self.options.evrythngAppId};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
 	return self.query(query, callback);
 };
 
@@ -356,7 +360,7 @@ Evrythng.prototype.deleteProduct = function(options, callback) {
 			url: self.buildUrl('/products/%s', options.product),
 			method: 'delete'
 		};
-	if (self.options.evrythngAppId) query.params = {appId: self.options.evrythngAppId};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
 	return self.query(query, callback);
 };
 
@@ -440,7 +444,7 @@ Evrythng.prototype.readUsers = function(options, callback) {
 		query = {
 			url: self.buildUrl('/users')
 		};
-	if (self.options.evrythngAppId) query.params = {appId: self.options.evrythngAppId};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
 	return self.query(query, callback);
 };
 
@@ -450,7 +454,7 @@ Evrythng.prototype.readUser = function(options, callback) {
 		query = {
 			url: self.buildUrl('/users/%s', options.user)
 		};
-	if (self.options.evrythngAppId) query.params = {appId: self.options.evrythngAppId};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
 	return self.query(query, callback);
 };
 
@@ -471,7 +475,7 @@ Evrythng.prototype.readLoyaltyTransactions = function(options, callback) {
 		query = {
 			url: self.buildUrl('/loyalty/%s/transactions', options.user)
 		};
-	if (self.options.evrythngAppId) query.params = {appId: self.options.evrythngAppId};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
 	return self.query(query, callback);
 };
 
