@@ -17,16 +17,25 @@ import java.util.List;
  * @author Michel Yerly (my)
  **/
 public class PaginatedList<E> {
-	List<E> items;
-	long totalCount;
-	long itemStart;
-	long itemsPerPage;
+
+	private List<E> items;
+	private long totalCount;
+	private long itemStart;
+	private long itemsPerPage;
 
 	/**
 	 * Creates an empty list.
 	 */
 	public PaginatedList() {
-		this(null);
+		this((E) null);
+	}
+
+	/**
+	 * Creates a list with the items specified. <code>items</code> represent the
+	 * entire list.
+	 */
+	public PaginatedList(List<E> items) {
+		this(items, items.size(), 0, items.size());
 	}
 
 	/**
