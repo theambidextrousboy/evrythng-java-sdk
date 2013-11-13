@@ -509,6 +509,50 @@ Evrythng.prototype.readAction = function(options, callback) {
 	}, callback);
 };
 
+/*
+ *	Applications CRUD
+ */
+
+Evrythng.prototype.readApplications = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/applications')
+	}, callback);
+};
+
+Evrythng.prototype.readApplication = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/applications/%s', options.application)
+	}, callback);
+};
+
+Evrythng.prototype.createApplication = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/applications'),
+		method : 'post',
+		data : options.data
+	}, callback);
+};
+
+Evrythng.prototype.updateApplication = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/applications/%s', options.application),
+		method : 'put',
+		data : options.data
+	}, callback);
+};
+
+Evrythng.prototype.deleteApplication = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/applications/%s', options.application),
+		method : 'delete'
+	}, callback);
+};
+
 
 ////////////////////////
 ////// UTILITIES ///////
