@@ -203,84 +203,6 @@ Evrythng.prototype.fbFriends = function(options, callback) {
 
 
 /*
-	Actions
-*/
-Evrythng.prototype.readActionTypes = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: '/actions'
-	}, callback);
-};
-
-
-Evrythng.prototype.readActions = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/actions/%s', options.type),
-		params: options.params
-	}, callback);
-};
-
-
-Evrythng.prototype.readAction = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/actions/' + options.type + '/%s', options.action),
-		params: options.params
-	}, callback);
-};
-
-
-/*
-	Applications CRUD
-*/
-
-Evrythng.prototype.readApplications = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications')
-	}, callback);
-};
-
-
-Evrythng.prototype.readApplication = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications/%s', options.application)
-	}, callback);
-};
-
-
-Evrythng.prototype.createApplication = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications'),
-		method : 'post',
-		data : options.data
-	}, callback);
-};
-
-
-Evrythng.prototype.updateApplication = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications/%s', options.application),
-		method : 'put',
-		data : options.data
-	}, callback);
-};
-
-
-Evrythng.prototype.deleteApplication = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications/%s', options.application),
-		method : 'delete'
-	}, callback);
-};
-
-
-/*
 	Checkin
 */
 Evrythng.prototype.checkin = function(options, callback) {
@@ -378,6 +300,54 @@ Evrythng.prototype.scan = function(options, callback) {
 	} else {
 		doScan();
 	}
+};
+
+
+/*
+	Applications CRUD
+*/
+Evrythng.prototype.createApplication = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/applications'),
+		method : 'post',
+		data : options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.readApplications = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/applications')
+	}, callback);
+};
+
+
+Evrythng.prototype.readApplication = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/applications/%s', options.application)
+	}, callback);
+};
+
+
+Evrythng.prototype.updateApplication = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/applications/%s', options.application),
+		method : 'put',
+		data : options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.deleteApplication = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/applications/%s', options.application),
+		method : 'delete'
+	}, callback);
 };
 
 
