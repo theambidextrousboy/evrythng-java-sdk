@@ -6,6 +6,7 @@ package com.evrythng.java.wrapper.core;
 
 import java.net.URI;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
@@ -189,6 +190,10 @@ public final class EvrythngApiBuilder {
 
 		public Builder<T> app(String appId) {
 			return queryParam(ApiConfiguration.QUERY_PARAM_APP, appId);
+		}
+
+		public Builder<T> userScope(Iterable<String> userScope) {
+			return queryParam(ApiConfiguration.QUERY_PARAM_USER_SCOPE, StringUtils.join(userScope, ','));
 		}
 
 		/**
