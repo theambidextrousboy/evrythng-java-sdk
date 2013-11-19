@@ -582,6 +582,26 @@ Evrythng.prototype.readMultimedia = function(options, callback) {
 };
 
 
+/*
+	Files R
+*/
+
+Evrythng.prototype.readFiles = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: '/files'
+	}, callback);
+};
+
+
+Evrythng.prototype.readFile = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/files/%s', options.file)
+	}, callback);
+};
+
+
 
 ////////////////////////
 ////// UTILITIES ///////
@@ -653,6 +673,179 @@ Evrythng.prototype.escapeHTML = function(str) {
 
 
 /*
+	Helper to convert dataURL to Blob
+*/
+Evrythng.prototype.dataURLtoBlob = function(dataURL) {
+	var byteString,
+		mimestring,
+		content = [];
+	if (dataURL.split(',')[0].indexOf('base64') !== -1) {
+		byteString = atob(dataURL.split(',')[1]);
+	}
+	else {
+		byteString = decodeURI(dataURL.split(',')[1]);
+	}
+	mimestring = dataURL.split(',')[0].split(':')[1].split(';')[0];
+	for (var i=0; i<byteString.length; i++) {
+		content[i] = byteString.charCodeAt(i);
+	}
+	return new Blob([new Uint8Array(content)], {type: mimestring});
+};
+
+
+/*
+	Helper to get mime type by file's extension
+*/
+Evrythng.prototype.getMimeType = function(ext) {
+	return (function(){
+		var a = 'audio/',
+			v = 'video/',
+			i = 'image/';
+		return {
+			//-- image
+			'jpg':i+'jpeg',
+			'jpeg':i+'jpeg',
+			'png':i+'png',
+			'gif':i+'gif',
+			//-- audio
+			'flac':a+'flac',
+			'mp3':a+'mpeg',
+			'm4a':a+'aac',
+			'm4b':a+'aac',
+			'm4p':a+'aac',
+			'm4r':a+'aac',
+			'aac':a+'aac',
+			'adts':a+'aac',
+			'wav':a+'wav',
+			'bwf':a+'wav',
+			'aiff':a+'aiff',
+			'aif':a+'aiff',
+			'aifc':a+'aiff',
+			'cdda':a+'aiff',
+			'au':a+'basic',
+			'snd':a+'basic',
+			'ulw':a+'basic',
+			'mid':a+'midi',
+			'midi':a+'midi',
+			'smf':a+'midi',
+			'kar':a+'midi',
+			'qcp':a+'vnd.qcelp',
+			'gsm':a+'x-gsm',
+			'amr':a+'amr',
+			'caf':a+'x-caf',
+			'ac3':a+'ac3',
+			'm2a':a+'mpeg',
+			'swa':a+'mpeg',
+			'wma':a+'x-ms-wma',
+			'wax':a+'x-ms-wax',
+			'mpga':a+'mpeg',
+			'mpega':a+'mpeg',
+			'3gpp2':a+'3gpp2',
+			'oga':a+'ogg',
+			//-- video
+			'3gp':v+'3gpp',
+			'3gpp':v+'3gpp',
+			'3g2':v+'3gpp2',
+			'3gp2':v+'3gpp2',
+			'h261':v+'h261',
+			'h263':v+'h263',
+			'h264':v+'h264',
+			'jpgv':v+'jpeg',
+			'jpm':v+'jpm',
+			'jpgm':v+'jpm',
+			'mj2':v+'mj2',
+			'mjp2':v+'mj2',
+			'mp4':v+'mp4',
+			'mp4v':v+'mp4',
+			'mpg4':v+'mp4',
+			'm4u':v+'x-mpegurl',
+			'mp2':v+'mpeg',
+			'mpm':v+'mpeg',
+			'mpa':v+'mpeg',
+			'mpeg':v+'mpeg',
+			'mpg':v+'mpeg',
+			'mpe':v+'mpeg',
+			'mpv':v+'mpeg',
+			'mp2v':v+'mpeg-2',
+			'mpv2':v+'mpeg-2',
+			'm1s':v+'mpeg',
+			'm1a':v+'mpeg',
+			'm75':v+'mpeg',
+			'm15':v+'mpeg',
+			'm1v':v+'mpeg',
+			'm2v':v+'mpeg',
+			'qt':v+'quicktime',
+			'mov':v+'quicktime',
+			'mqv':v+'quicktime',
+			'fvt':v+'vnd.fvt',
+			'mxu':v+'vnd.mpegurl',
+			'm4u':v+'vnd.mpegurl',
+			'viv':v+'vnd.vivo',
+			'vivo':v+'vnd.vivo',
+			'fli':v+'fli',
+			'flc':v+'flc',
+			'cel':v+'flc',
+			'asr':v+'x-ms-asf',
+			'asf':v+'x-ms-asf',
+			'asx':v+'x-ms-asx',
+			'lsf':v+'x-la-asf',
+			'lsx':v+'x-la-asf',
+			'wm':v+'x-ms-wm',
+			'wmp':v+'x-ms-wmp',
+			'wmv':v+'x-ms-wmv',
+			'wmx':v+'x-ms-wmx',
+			'wvx':v+'x-ms-wvx',
+			'avi':v+'x-msvideo',
+			'avs':v+'avs-video',
+			'mv':v+'x-sgi-movie',
+			'movie':v+'x-sgi-movie',
+			'ice':'x-conference/x-cooltalk',
+			'f4v':v+'mp4',
+			'f4p':v+'mp4',
+			'flv':v+'flv',
+			'swf':'application/x-shockwave-flash',
+			'spl':'application/futuresplash',
+			'dxr':'application/x-director',
+			'dir':'application/x-director',
+			'dcr':'application/x-director',
+			'divx':v+'divx',
+			'div':v+'divx',
+			'dv':v+'x-dv',
+			'dif':v+'x-dv',
+			'dl':v+'dl',
+			'gl':v+'gl',
+			'ogv':v+'ogg',
+			'ogg':'application/x-ogg',
+			'ogx':'application/ogg',
+			'axv':v+'annodex',
+			'anx':'application/annodex',
+			'afl':v+'animaflex',
+			'fmf':v+'x-atomic3d-feature',
+			'isu':v+'x-isvideo',
+			'mjpg':v+'x-motion-jpeg',
+			'qtc':v+'x-qtc',
+			'rv':v+'vnd.rn-realvideo',
+			'ra':'audio/x-pn-realaudio',
+			'ram':'audio/x-pn-realaudio',
+			'rm':'audio/x-pn-realaudio-plugin',
+			'rpm':'audio/x-pn-realaudio-plugin',
+			'rpj':'application/vnd.rn-realplayer-javascript',
+			'scm':v+'x-scm',
+			'vdo':v+'vdo',
+			'vos':v+'vosaic',
+			'xdr':v+'x-amt-demorun',
+			'xsr':v+'x-amt-showrun',
+			'sdv':v+'sd-video',
+			'vob':v+'mpeg-system',
+			'm4v':v+'x-m4v',
+			'vlc':'application/x-vlc-plugin',
+			'amc':'application/x-mpeg'
+		};
+	})()[ext];
+};
+
+
+/*
 	Upload
 */
 Evrythng.prototype.createUpload = function(options) {
@@ -661,16 +854,18 @@ Evrythng.prototype.createUpload = function(options) {
 };
 
 Evrythng.prototype.Upload = function(options) {
+	// defaults
+	this.thumbnailFor = [];
+	this.thumbnailWidth = 178;
+	this.thumbnailHeight = 100;
+	this.thumbnailType = 'image/jpeg';
+	this.thumbnailQuality = .92;
 	if (typeof options === 'object') {
 		for (option in options) {
 			this[option] = options[option];
 		}
 	}
-	if (typeof(this.fileInput) === 'undefined') {
-		this.onError('Could not find the file select DOM element.');
-		return;
-	}
-	this.handleFileSelect(this.fileInput);
+	if (this.force) this.handleFileSelect(this.fileInput);
 };
 
 Evrythng.prototype.Upload.prototype.onFinishS3Put = function(public_url) {
@@ -686,6 +881,10 @@ Evrythng.prototype.Upload.prototype.onError = function(status) {
 };
 
 Evrythng.prototype.Upload.prototype.handleFileSelect = function(file_element) {
+	if (typeof(file_element) === 'undefined') {
+		this.onError('Could not find the file select DOM element.');
+		return;
+	}
 	var f, files, _i, _len, _results;
 	files = file_element.files;
 	if (files.length === 0) {
@@ -714,21 +913,21 @@ Evrythng.prototype.Upload.prototype.createCORSRequest = function(method, url) {
 	return xhr;
 };
 
-Evrythng.prototype.Upload.prototype.executeOnSignedUrl = function(file, callback) {
+Evrythng.prototype.Upload.prototype.executeOnSignedUrl = function(file, type, name, callback) {
 	this.evrythng.query({
 		url: '/files/signature',
 		params: {
 			access_token: this.accessToken,
-			type: file.type,
-			name: this.name
+			type: type,
+			name: name
 		}
 	}, function(result) {
 		if (window.console) console.log('Signatue upload url : ' + result.signedUploadUrl + ' publicUrl : ' + result.publicUrl);
-		return callback(result.signedUploadUrl, result.publicUrl);
+		return callback(type, result.signedUploadUrl, result.publicUrl);
 	});
 };
 
-Evrythng.prototype.Upload.prototype.upload = function(file, url, public_url) {
+Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_url) {
 	var xhr, self = this;
 	xhr = this.createCORSRequest('PUT', url);
 	if (!xhr) {
@@ -737,7 +936,7 @@ Evrythng.prototype.Upload.prototype.upload = function(file, url, public_url) {
 		xhr.onload = function() {
 			if (xhr.status === 200) {
 				self.onProgress(100, 'Upload completed.');
-				return self.onFinishS3Put(public_url);
+				return self.onFinishS3Put(public_url, file.size);
 			} else {
 				return self.onError('Upload error: ' + xhr.status);
 			}
@@ -753,16 +952,93 @@ Evrythng.prototype.Upload.prototype.upload = function(file, url, public_url) {
 			}
 		};
 	}
-	xhr.setRequestHeader('Content-Type', file.type);
+	xhr.setRequestHeader('Content-Type', type);
 	xhr.setRequestHeader('x-amz-acl', 'public-read');
 	return xhr.send(file);
 };
 
 Evrythng.prototype.Upload.prototype.uploadFile = function(file) {
 	var self = this;
-	return this.executeOnSignedUrl(file, function(signedURL, publicURL) {
-		return self.upload(file, signedURL, publicURL);
+	if (this.thumbnailFor.indexOf(file.type.split('/')[0]) !== -1) {
+		this.generateThumbnail(file, function(data) {
+		//	self.executeOnSignedUrl(data, self.thumbnailType, 'thumbnail.' + self.thumbnailType.split('/')[1], function(type, signedURL, publicURL) {
+		//		return self.upload(data, type, signedURL, publicURL);
+		//	});
+		});
+	}
+	return this.executeOnSignedUrl(file, file.type, this.name, function(type, signedURL, publicURL) {
+		return self.upload(file, type, signedURL, publicURL);
 	});
+};
+
+Evrythng.prototype.Upload.prototype.generateThumbnail = function(file, callback) {
+	var self = this,
+		URL = window.URL || window.webkitURL,
+		type = file.type.split('/')[0];
+	switch(type) {
+		case 'image':
+			var canvas = document.createElement('canvas'),
+				context = canvas.getContext('2d'),
+				img = new Image();
+			img.onload = function() {
+				canvas.width = self.thumbnailWidth;
+				canvas.height = self.thumbnailHeight;
+				var sourceX = 0;
+				var sourceY = 0;
+				var sourceWidth = img.width;
+				var sourceHeight = img.height;
+				var thumbnailRatio = canvas.width / canvas.height;
+				var ratio = sourceWidth / sourceHeight;
+				if (ratio < thumbnailRatio) {
+					sourceHeight = Math.round(img.width / thumbnailRatio);
+					sourceY = Math.round((img.height - sourceHeight) / 2);
+				}
+				if (ratio > thumbnailRatio) {
+					sourceWidth = Math.round(img.height / thumbnailRatio);
+					sourceX = Math.round((img.width - sourceWidth) / 2);
+				}
+				context.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height);
+				if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self, canvas);
+				if (typeof callback === 'function') callback.call(self, self.evrythng.dataURLtoBlob(canvas.toDataURL(self.thumbnailType, self.thumbnailQuality)));
+			};
+			img.src = URL.createObjectURL(file);
+		break;
+		case 'video':
+			var canvas = document.createElement('canvas'),
+				context = canvas.getContext('2d'),
+				video = document.createElement('video');
+			video.style.visibility = 'hidden';
+			video.style.position = 'absolute';
+			document.body.appendChild(video);
+			video.addEventListener('seeked', function() {
+				canvas.width = self.thumbnailWidth;
+				canvas.height = self.thumbnailHeight;
+				var sourceX = 0;
+				var sourceY = 0;
+				var sourceWidth = video.videoWidth;
+				var sourceHeight = video.videoHeight;
+				var thumbnailRatio = canvas.width / canvas.height;
+				var ratio = sourceWidth / sourceHeight;
+				if (ratio < thumbnailRatio) {
+					sourceHeight = Math.round(video.videoWidth / thumbnailRatio);
+					sourceY = Math.round((video.videoHeight - sourceHeight) / 2);
+				}
+				if (ratio > thumbnailRatio) {
+					sourceWidth = Math.round(video.videoHeight / thumbnailRatio);
+					sourceX = Math.round((video.videoWidth - sourceWidth) / 2);
+				}
+				context.drawImage(video, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height);
+				if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self, canvas);
+				if (typeof callback === 'function') callback.call(self, self.evrythng.dataURLtoBlob(canvas.toDataURL(self.thumbnailType, self.thumbnailQuality)));
+			});
+			video.addEventListener('canplay', function() {
+				URL.revokeObjectURL(video.src);
+				video.currentTime = Math.round(video.duration / 2);
+			});
+			video.src = URL.createObjectURL(file);
+		break;
+	}
+	return true;
 };
 
 
