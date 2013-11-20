@@ -408,9 +408,55 @@ Evrythng.prototype.deleteProduct = function(options, callback) {
 	return self.query(query, callback);
 };
 
+/*
+Thngs CRUD
+*/
+Evrythng.prototype.readThngs = function(options, callback) {
+	var self = this;
+	return self.query({
+		url : self.buildUrl('/thngs'),
+		method: 'get',
+		params: options.params
+	}, callback);
+};
+
+Evrythng.prototype.readThng = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/thngs/%s', options.thng),
+		method: 'get',
+		params: options.params
+	}, callback);
+};
+
+Evrythng.prototype.createThng = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/thngs'),
+		method: 'post',
+		data: options.data
+	}, callback);
+};
+
+Evrythng.prototype.updateThng = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/thngs/%s', options.thng),
+		method: 'put',
+		data: options.data
+	}, callback);
+};
+
+Evrythng.prototype.deleteThng = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/thngs/%s', options.thng),
+		method: 'delete'
+	}, callback);
+};
 
 /*
-	Properties CRUD
+	Thng Properties CRUD
 */
 Evrythng.prototype.createProperty = function(options, callback) {
 	var self = this;
@@ -453,17 +499,6 @@ Evrythng.prototype.deleteProperty = function(options, callback) {
 	return self.query({
 		url: self.buildUrl('/thngs/%s/properties/%s', options.thng, options.property),
 		method: 'delete'
-	}, callback);
-};
-
-
-/*
-	Thngs R
-*/
-Evrythng.prototype.readThng = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s', options.thng)
 	}, callback);
 };
 
