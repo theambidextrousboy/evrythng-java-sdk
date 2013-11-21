@@ -54,7 +54,7 @@ public class ApiConfiguration {
 	public static final int SHORT_ID_LENGTH = 8;
 
 	public enum QueryKeyword {
-		LATEST("latest");
+		LATEST("latest"), ME("me"), ALL("all");
 
 		private String keyword;
 

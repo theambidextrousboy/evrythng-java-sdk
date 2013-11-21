@@ -196,6 +196,10 @@ public final class EvrythngApiBuilder {
 			return queryParam(ApiConfiguration.QUERY_PARAM_USER_SCOPE, StringUtils.join(userScope, ','));
 		}
 
+		public Builder<T> userScopeAll() {
+			return queryParam(ApiConfiguration.QUERY_PARAM_USER_SCOPE, QueryKeyword.ALL.toString());
+		}
+
 		/**
 		 * Counts the <strong>total</strong> number of elements if the current
 		 * command was executed as a {@code HEAD} request.
