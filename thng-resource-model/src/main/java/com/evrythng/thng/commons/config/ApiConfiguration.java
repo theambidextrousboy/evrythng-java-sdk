@@ -4,7 +4,6 @@
  */
 package com.evrythng.thng.commons.config;
 
-
 /**
  * Parameters and values for the EVRYTHNG API configuration.
  * 
@@ -43,6 +42,7 @@ public class ApiConfiguration {
 	public static final String QUERY_PARAM_TO = "to";
 	public static final String QUERY_PARAM_CALLBACK = "callback";
 	public static final String QUERY_PARAM_APP = "app";
+	public static final String QUERY_PARAM_USER_SCOPE = "userScope";
 
 	/* thng-li */
 	public static final String QUERY_PARAM_WIDTH = "w";
@@ -54,7 +54,7 @@ public class ApiConfiguration {
 	public static final int SHORT_ID_LENGTH = 8;
 
 	public enum QueryKeyword {
-		LATEST("latest");
+		LATEST("latest"), ME("me"), ALL("all");
 
 		private String keyword;
 
