@@ -624,7 +624,8 @@ Evrythng.prototype.readMultimedia = function(options, callback) {
 Evrythng.prototype.readFiles = function(options, callback) {
 	var self = this;
 	return self.query({
-		url: '/files'
+		url: '/files',
+		params: options.params
 	}, callback);
 };
 
