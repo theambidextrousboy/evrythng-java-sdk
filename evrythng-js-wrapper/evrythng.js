@@ -880,6 +880,107 @@ Evrythng.prototype.getMimeType = function(ext) {
 	})()[ext];
 };
 
+// basesd on https://github.com/viliusle/Hermite-resize
+Evrythng.prototype.resampleHermite = function(canvas, W, H, W2, H2) {
+	var time1 = Date.now();
+	var img = canvas.getContext('2d').getImageData(0, 0, W, H);
+	var img2 = canvas.getContext('2d').getImageData(0, 0, W2, H2);
+	var data = img.data;
+	var data2 = img2.data;
+	var ratio_w = W / W2;
+	var ratio_h = H / H2;
+	var ratio_w_half = Math.ceil(ratio_w/2);
+	var ratio_h_half = Math.ceil(ratio_h/2);
+	for(var j = 0; j < H2; j++){
+		for(var i = 0; i < W2; i++){
+			var x2 = (i + j*W2) * 4;
+			var weight = 0;
+			var weights = 0;
+			var gx_r = gx_g = gx_b = gx_a = 0;
+			var center_y = (j + 0.5) * ratio_h;
+			for(var yy = Math.floor(j * ratio_h); yy < (j + 1) * ratio_h; yy++){
+				var dy = Math.abs(center_y - (yy + 0.5)) / ratio_h_half;
+				var center_x = (i + 0.5) * ratio_w;
+				var w0 = dy*dy //pre-calc part of w
+				for(var xx = Math.floor(i * ratio_w); xx < (i + 1) * ratio_w; xx++){
+					var dx = Math.abs(center_x - (xx + 0.5)) / ratio_w_half;
+					var w = Math.sqrt(w0 + dx*dx);
+					if(w >= -1 && w <= 1){
+						//hermite filter
+						weight = 2 * w*w*w - 3*w*w + 1;
+						if(weight > 0){
+							dx = 4*(xx + yy*W);
+							gx_r += weight * data[dx];
+							gx_g += weight * data[dx + 1];
+							gx_b += weight * data[dx + 2];
+							gx_a += weight * data[dx + 3];
+							weights += weight;
+							}
+						}
+					}		
+				}
+			data2[x2]     = gx_r / weights;
+			data2[x2 + 1] = gx_g / weights;
+			data2[x2 + 2] = gx_b / weights;
+			data2[x2 + 3] = gx_a / weights;
+			}
+		}
+	canvas.getContext('2d').clearRect(0, 0, Math.max(W, W2), Math.max(H, H2));
+	canvas.getContext('2d').putImageData(img2, 0, 0);
+};
+
+Evrythng.prototype.renderImageResample = function(image, canvas, context, sourceWidth, sourceHeight, destWidth, destHeight) {
+	var sourceX = 0;
+	var sourceY = 0;
+	var originalWidth = sourceWidth;
+	var originalHeight = sourceHeight;
+	var destRatio = destWidth / destHeight;
+	var sourceRatio = sourceWidth / sourceHeight;
+	var tempCanvas = document.createElement('canvas');
+	if (sourceRatio < destRatio) {
+		sourceWidth = destWidth;
+		sourceHeight = Math.round(sourceWidth / sourceRatio);
+		sourceY = Math.round((sourceHeight - destHeight) / 2);
+	}
+	else if (sourceRatio > destRatio) {
+		sourceHeight = destHeight;
+		sourceWidth = Math.round(sourceHeight * sourceRatio);
+		sourceX = Math.round((sourceWidth - destWidth) / 2);
+	}
+	else {
+		sourceWidth = destWidth;
+		sourceHeight = destHeight;
+	}
+	tempCanvas.width = originalWidth;
+	tempCanvas.height = originalHeight;
+	tempCanvas.getContext('2d').drawImage(image, 0, 0, originalWidth, originalHeight, 0, 0, originalWidth, originalHeight);
+	this.resampleHermite(tempCanvas, originalWidth, originalHeight, sourceWidth, sourceHeight);
+	canvas.width = destWidth;
+	canvas.height = destHeight;
+	context.drawImage(tempCanvas, sourceX, sourceY, destWidth, destHeight, 0, 0, destWidth, destHeight);
+	delete tempCanvas;
+};
+
+Evrythng.prototype.renderImage = function(image, canvas, context, sourceWidth, sourceHeight, destWidth, destHeight) {
+	var sourceX = 0;
+	var sourceY = 0;
+	var originalWidth = sourceWidth;
+	var originalHeight = sourceHeight;
+	var destRatio = destWidth / destHeight;
+	var sourceRatio = sourceWidth / sourceHeight;
+	if (sourceRatio < destRatio) {
+		sourceHeight = Math.round(originalWidth / destRatio);
+		sourceY = Math.round((originalHeight - sourceHeight) / 2);
+	}
+	if (sourceRatio > destRatio) {
+		sourceWidth = Math.round(originalHeight * destRatio);
+		sourceX = Math.round((originalWidth - sourceWidth) / 2);
+	}
+	canvas.width = destWidth;
+	canvas.height = destHeight;
+	context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, destWidth, destHeight);
+};
+
 
 /*
 	Upload
@@ -896,16 +997,18 @@ Evrythng.prototype.Upload = function(options) {
 	this.thumbnailHeight = 100;
 	this.thumbnailType = 'image/jpeg';
 	this.thumbnailQuality = .92;
+	this.thumbnailFolder = 'thumbnails';
+	this.thumbnailResample = true;
 	if (typeof options === 'object') {
 		for (option in options) {
 			this[option] = options[option];
 		}
 	}
-	if (this.force) this.handleFileSelect(this.fileInput);
+	if (this.force) this.handleFileInput(this.fileInput);
 };
 
-Evrythng.prototype.Upload.prototype.onFinishS3Put = function(public_url) {
-	if (window.console) console.log('base.onFinishS3Put()', public_url);
+Evrythng.prototype.Upload.prototype.onFinishS3Put = function(public_url, size) {
+	if (window.console) console.log('base.onFinishS3Put()', public_url, size);
 };
 
 Evrythng.prototype.Upload.prototype.onProgress = function(percent, status) {
@@ -916,17 +1019,17 @@ Evrythng.prototype.Upload.prototype.onError = function(status) {
 	if (window.console) console.log('base.onError()', status);
 };
 
-Evrythng.prototype.Upload.prototype.handleFileSelect = function(file_element) {
+Evrythng.prototype.Upload.prototype.handleFileInput = function(file_element) {
 	if (typeof(file_element) === 'undefined') {
-		this.onError('Could not find the file select DOM element.');
+		this.onError('Could not find the file select DOM element');
 		return;
 	}
 	var f, files, _i, _len, _results;
 	files = file_element.files;
 	if (files.length === 0) {
-		return this.onError('No file selected.');
+		return this.onError('No file selected');
 	}
-	this.onProgress(0, 'Upload started.');
+	this.onProgress(0, 'Preparing upload');
 	_results = [];
 	for (_i = 0, _len = files.length; _i < _len; _i++) {
 		f = files[_i];
@@ -940,51 +1043,66 @@ Evrythng.prototype.Upload.prototype.createCORSRequest = function(method, url) {
 	xhr = new XMLHttpRequest();
 	if (xhr.withCredentials != null) {
 		xhr.open(method, url, true);
-	} else if (typeof XDomainRequest !== 'undefined') {
+	}
+	else if (typeof XDomainRequest !== 'undefined') {
 		xhr = new XDomainRequest();
 		xhr.open(method, url);
-	} else {
+	}
+	else {
 		xhr = null;
 	}
 	return xhr;
 };
 
-Evrythng.prototype.Upload.prototype.executeOnSignedUrl = function(file, type, name, callback) {
+Evrythng.prototype.Upload.prototype.executeOnSignedUrl = function(file, type, name, thumbnail, callback) {
+	var params = {
+		access_token: this.accessToken,
+		type: type,
+		name: name
+	};
+	if (thumbnail) params.folders = '.,' + this.thumbnailFolder;
 	this.evrythng.query({
 		url: '/files/signature',
-		params: {
-			access_token: this.accessToken,
-			type: type,
-			name: name
-		}
+		params: params
 	}, function(result) {
-		if (window.console) console.log('Signatue upload url : ' + result.signedUploadUrl + ' publicUrl : ' + result.publicUrl);
-		return callback(type, result.signedUploadUrl, result.publicUrl);
+		return callback(result);
 	});
 };
 
-Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_url) {
-	var xhr, self = this;
-	xhr = this.createCORSRequest('PUT', url);
+Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_url, name, callback) {
+	var self = this,
+		xhr = this.createCORSRequest('PUT', url);
 	if (!xhr) {
 		this.onError('CORS not supported');
-	} else {
+	}
+	else {
 		xhr.onload = function() {
 			if (xhr.status === 200) {
-				self.onProgress(100, 'Upload completed.');
-				return self.onFinishS3Put(public_url, file.size);
-			} else {
-				return self.onError('Upload error: ' + xhr.status);
+				var finish = (function(public_url, size) {
+					return function() {
+						self.onProgress(100, 'Upload completed');
+						return self.onFinishS3Put(public_url, size);
+					};
+				})(public_url, file.size);
+				if (typeof callback === 'function') {
+					return callback.call(self, xhr, finish);
+				}
+				else {
+					finish();
+				}
+			}
+			else {
+				return self.onError('HTTP error ' + xhr.status);
 			}
 		};
 		xhr.onerror = function() {
-			return self.onError('XHR error.');
+			return self.onError('XHR error');
 		};
 		xhr.upload.onprogress = function(e) {
 			var percentLoaded;
 			if (e.lengthComputable) {
 				percentLoaded = Math.round((e.loaded / e.total) * 100);
-				return self.onProgress(percentLoaded, percentLoaded === 100 ? 'Finalizing.' : 'Uploading.');
+				return self.onProgress(percentLoaded, 'Uploading ' + (name || 'file'));
 			}
 		};
 	}
@@ -994,86 +1112,89 @@ Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_ur
 };
 
 Evrythng.prototype.Upload.prototype.uploadFile = function(file) {
-	var self = this;
-	if (this.thumbnailFor.indexOf(file.type.split('/')[0]) !== -1) {
-		this.generateThumbnail(file, function(data) {
-		//	self.executeOnSignedUrl(data, self.thumbnailType, 'thumbnail.' + self.thumbnailType.split('/')[1], function(type, signedURL, publicURL) {
-		//		return self.upload(data, type, signedURL, publicURL);
-		//	});
-		});
+	var self = this,
+		run = function() {
+			self.executeOnSignedUrl(file, file.type, self.name, self.thumbnail, function(result) {
+				self.upload(
+					file,
+					file.type,
+					result.signedUrls['.'].signedUploadUrl,
+					result.signedUrls['.'].publicUrl,
+					file.type.split('/')[0],
+					self.thumbnail ? function(xhr, finish) {
+						self.upload(
+							self.thumbnail,
+							self.thumbnailType,
+							result.signedUrls[self.thumbnailFolder].signedUploadUrl,
+							result.signedUrls[self.thumbnailFolder].publicUrl,
+							'thumbnail',
+							finish
+						);
+					} : undefined
+				);
+			});
+		};
+	if (!this.thumbnail) {
+		this.generateThumbnail(file, run);
 	}
-	return this.executeOnSignedUrl(file, file.type, this.name, function(type, signedURL, publicURL) {
-		return self.upload(file, type, signedURL, publicURL);
-	});
+	else {
+		run.call(this);
+	}
+	
 };
 
 Evrythng.prototype.Upload.prototype.generateThumbnail = function(file, callback) {
 	var self = this,
 		URL = window.URL || window.webkitURL,
 		type = file.type.split('/')[0];
-	switch(type) {
-		case 'image':
-			var canvas = document.createElement('canvas'),
-				context = canvas.getContext('2d'),
-				img = new Image();
-			img.onload = function() {
-				canvas.width = self.thumbnailWidth;
-				canvas.height = self.thumbnailHeight;
-				var sourceX = 0;
-				var sourceY = 0;
-				var sourceWidth = img.width;
-				var sourceHeight = img.height;
-				var thumbnailRatio = canvas.width / canvas.height;
-				var ratio = sourceWidth / sourceHeight;
-				if (ratio < thumbnailRatio) {
-					sourceHeight = Math.round(img.width / thumbnailRatio);
-					sourceY = Math.round((img.height - sourceHeight) / 2);
+	self.thumbnail = undefined;
+	if (this.thumbnailFor.indexOf(type) !== -1) {
+		switch(type) {
+			case 'image':
+				var canvas = document.createElement('canvas'),
+					context = canvas.getContext('2d'),
+					img = new Image();
+				img.onload = function() {
+					var renderMethod = 'renderImage' + (self.thumbnailResample ? 'Resample' : '');
+					self.evrythng[renderMethod](img, canvas, context, img.width, img.height, self.thumbnailWidth, self.thumbnailHeight);
+					self.thumbnail = self.evrythng.dataURLtoBlob(canvas.toDataURL(self.thumbnailType, self.thumbnailQuality));
+					if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self, canvas, self.thumbnail);
+					if (typeof callback === 'function') callback.call(self, canvas, self.thumbnail);
+				};
+				img.src = URL.createObjectURL(file);
+				return true;
+			break;
+			case 'video':
+				var canvas = document.createElement('canvas'),
+					context = canvas.getContext('2d'),
+					video = document.createElement('video');
+				video.style.visibility = 'hidden';
+				video.style.position = 'absolute';
+				document.body.appendChild(video);
+				if (video.canPlayType && video.canPlayType(file.type)) {
+					video.addEventListener('seeked', function() {
+						var renderMethod = 'renderImage' + (self.thumbnailResample ? 'Resample' : '');
+						self.evrythng[renderMethod](video, canvas, context, video.videoWidth, video.videoHeight, self.thumbnailWidth, self.thumbnailHeight);
+						self.thumbnail = self.evrythng.dataURLtoBlob(canvas.toDataURL(self.thumbnailType, self.thumbnailQuality));
+						if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self, canvas, self.thumbnail);
+						if (typeof callback === 'function') callback.call(self, canvas, self.thumbnail);
+					});
+					video.addEventListener('canplay', function() {
+						URL.revokeObjectURL(video.src);
+						video.currentTime = Math.round(video.duration / 2);
+					});
+					video.addEventListener('error', function(e) {
+						if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self);
+						if (typeof callback === 'function') callback.call(self);
+					});
+					video.src = URL.createObjectURL(file);
+					return true;
 				}
-				if (ratio > thumbnailRatio) {
-					sourceWidth = Math.round(img.height / thumbnailRatio);
-					sourceX = Math.round((img.width - sourceWidth) / 2);
-				}
-				context.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height);
-				if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self, canvas);
-				if (typeof callback === 'function') callback.call(self, self.evrythng.dataURLtoBlob(canvas.toDataURL(self.thumbnailType, self.thumbnailQuality)));
-			};
-			img.src = URL.createObjectURL(file);
-		break;
-		case 'video':
-			var canvas = document.createElement('canvas'),
-				context = canvas.getContext('2d'),
-				video = document.createElement('video');
-			video.style.visibility = 'hidden';
-			video.style.position = 'absolute';
-			document.body.appendChild(video);
-			video.addEventListener('seeked', function() {
-				canvas.width = self.thumbnailWidth;
-				canvas.height = self.thumbnailHeight;
-				var sourceX = 0;
-				var sourceY = 0;
-				var sourceWidth = video.videoWidth;
-				var sourceHeight = video.videoHeight;
-				var thumbnailRatio = canvas.width / canvas.height;
-				var ratio = sourceWidth / sourceHeight;
-				if (ratio < thumbnailRatio) {
-					sourceHeight = Math.round(video.videoWidth / thumbnailRatio);
-					sourceY = Math.round((video.videoHeight - sourceHeight) / 2);
-				}
-				if (ratio > thumbnailRatio) {
-					sourceWidth = Math.round(video.videoHeight / thumbnailRatio);
-					sourceX = Math.round((video.videoWidth - sourceWidth) / 2);
-				}
-				context.drawImage(video, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height);
-				if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self, canvas);
-				if (typeof callback === 'function') callback.call(self, self.evrythng.dataURLtoBlob(canvas.toDataURL(self.thumbnailType, self.thumbnailQuality)));
-			});
-			video.addEventListener('canplay', function() {
-				URL.revokeObjectURL(video.src);
-				video.currentTime = Math.round(video.duration / 2);
-			});
-			video.src = URL.createObjectURL(file);
-		break;
+			break;
+		}
 	}
+	if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self);
+	if (typeof callback === 'function') callback.call(self);
 	return true;
 };
 
