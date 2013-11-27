@@ -409,7 +409,7 @@ Evrythng.prototype.deleteProduct = function(options, callback) {
 };
 
 /*
-Thngs CRUD
+	Thngs CRUD
 */
 Evrythng.prototype.readThngs = function(options, callback) {
 	var self = this;
@@ -562,7 +562,6 @@ Evrythng.prototype.readLoyaltyTransactions = function(options, callback) {
 /*
 	Actions R
 */
-
 Evrythng.prototype.readActionTypes = function(options, callback) {
 	var self = this;
 	return self.query({
@@ -592,7 +591,6 @@ Evrythng.prototype.readAction = function(options, callback) {
 /*
 	Multimedia CR
 */
-
 Evrythng.prototype.createMultimedia = function(options, callback) {
 	var self = this;
 	return self.query({
@@ -620,7 +618,6 @@ Evrythng.prototype.readMultimedia = function(options, callback) {
 /*
 	Files R
 */
-
 Evrythng.prototype.readFiles = function(options, callback) {
 	var self = this;
 	return self.query({
@@ -638,6 +635,53 @@ Evrythng.prototype.readFile = function(options, callback) {
 };
 
 
+/*
+	Rewards CRUD - TODO implement direct API calls
+
+Evrythng.prototype.createReward = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: '/configure/api/rewards',
+		method: 'post',
+		data: options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.readRewards = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: '/configure/api/rewards'
+	}, callback);
+};
+
+
+Evrythng.prototype.readReward = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/configure/api/rewards/%s', options.reward)
+	}, callback);
+};
+
+
+Evrythng.prototype.updateReward = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/configure/api/rewards/%s', options.reward),
+		method: 'put',
+		data: options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.deleteReward = function(options, callback) {
+	var self = this;
+	return self.query({
+		url: self.buildUrl('/configure/api/rewards/%s', options.reward),
+		method: 'delete'
+	}, callback);
+};
+*/
 
 ////////////////////////
 ////// UTILITIES ///////
@@ -997,7 +1041,7 @@ Evrythng.prototype.Upload = function(options) {
 	this.thumbnailHeight = 100;
 	this.thumbnailType = 'image/jpeg';
 	this.thumbnailQuality = .92;
-	this.thumbnailFolder = 'thumbnails';
+	this.thumbnailPrefix = '_thumbnail_';
 	this.thumbnailResample = true;
 	if (typeof options === 'object') {
 		for (option in options) {
@@ -1054,22 +1098,29 @@ Evrythng.prototype.Upload.prototype.createCORSRequest = function(method, url) {
 	return xhr;
 };
 
-Evrythng.prototype.Upload.prototype.executeOnSignedUrl = function(file, type, name, thumbnail, callback) {
+Evrythng.prototype.Upload.prototype.getThumbnailName = function(name) {
+	return this.thumbnailPrefix + name.substr(0, name.lastIndexOf('.')) + '.' + this.thumbnailType.split('/')[1];
+};
+
+Evrythng.prototype.Upload.prototype.getSignedUrl = function(file, type, name, thumbnail, callback) {
 	var params = {
 		access_token: this.accessToken,
-		type: type,
-		name: name
+		type0: type,
+		name0: name
 	};
-	if (thumbnail) params.folders = '.,' + this.thumbnailFolder;
+	if (thumbnail) {
+		params.type1 = this.thumbnailType;
+		params.name1 = this.getThumbnailName(name);
+	}
 	this.evrythng.query({
-		url: '/files/signature',
+		url: '/files/signatures',
 		params: params
 	}, function(result) {
 		return callback(result);
 	});
 };
 
-Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_url, name, callback) {
+Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_url, title, callback) {
 	var self = this,
 		xhr = this.createCORSRequest('PUT', url);
 	if (!xhr) {
@@ -1102,7 +1153,7 @@ Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_ur
 			var percentLoaded;
 			if (e.lengthComputable) {
 				percentLoaded = Math.round((e.loaded / e.total) * 100);
-				return self.onProgress(percentLoaded, 'Uploading ' + (name || 'file'));
+				return self.onProgress(percentLoaded, 'Uploading ' + (title || 'file'));
 			}
 		};
 	}
@@ -1114,19 +1165,19 @@ Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_ur
 Evrythng.prototype.Upload.prototype.uploadFile = function(file) {
 	var self = this,
 		run = function() {
-			self.executeOnSignedUrl(file, file.type, self.name, self.thumbnail, function(result) {
+			self.getSignedUrl(file, file.type, self.name, self.thumbnail, function(result) {
 				self.upload(
 					file,
 					file.type,
-					result.signedUrls['.'].signedUploadUrl,
-					result.signedUrls['.'].publicUrl,
+					result[0].signedUploadUrl,
+					result[0].publicUrl,
 					file.type.split('/')[0],
 					self.thumbnail ? function(xhr, finish) {
 						self.upload(
 							self.thumbnail,
 							self.thumbnailType,
-							result.signedUrls[self.thumbnailFolder].signedUploadUrl,
-							result.signedUrls[self.thumbnailFolder].publicUrl,
+							result[1].signedUploadUrl,
+							result[1].publicUrl,
 							'thumbnail',
 							finish
 						);
