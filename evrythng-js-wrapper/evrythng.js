@@ -18,6 +18,494 @@ Evrythng = function(options) {
 	}
 };
 
+/*
+	Actions API
+*/
+
+/*
+	Checkin
+*/
+Evrythng.prototype.checkin = function(options, callback) {
+	var self = this,
+		query = {
+			url: '/actions/checkins',
+			data: {
+				timestamp: new Date().getTime(),
+				type: 'checkins',
+				tags: options.tags,
+				location: {
+					latitude: options.defaultLocation ? options.defaultLocation.latitude : null,
+					longitude: options.defaultLocation ? options.defaultLocation.longitude : null
+				},
+				locationSource: 'sensor'
+			},
+			method: 'post',
+			params: {
+				access_token: options.evrythngApiKey
+			}
+		},
+		doCheckin = function() {
+			self.request(query, function(response) {
+				if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
+				if (typeof callback === 'function') {
+					callback.call(self, response);
+				}
+			});
+		};
+	// is it a product checkin or a thng checkin?
+	if (options.thng) {
+		query.data.thng = options.thng;
+	}
+	else if (options.product) {
+		query.data.product = options.product;
+	}
+	if (options.createThng) {
+		query.params.createThng = options.createThng;
+	}
+	if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			query.data.location.latitude = position.coords.latitude;
+			query.data.location.longitude = position.coords.longitude;
+			doCheckin();
+		}, function(error) {
+			doCheckin();
+		});
+	}
+	else {
+		doCheckin();
+	}
+};
+
+
+/*
+	Scan
+*/
+Evrythng.prototype.scan = function(options, callback) {
+	var self = this,
+		query = {
+			url: '/actions/scans',
+			data: {
+				thng: options.thng,
+				timestamp: new Date().getTime(),
+				type: 'scans',
+				location: {
+					latitude: options.defaultLocation ? options.defaultLocation.latitude : null,
+					longitude: options.defaultLocation ? options.defaultLocation.longitude : null
+				},
+				locationSource: 'sensor'
+			},
+			method: 'post',
+			params: {
+				access_token: options.evrythngApiKey
+			}
+		},
+		doScan = function() {
+			self.request(query, function(response) {
+				if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
+				if (typeof callback === 'function') {
+					callback.call(self, response);
+				}
+			});
+		};
+	if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			data.location.latitude = position.coords.latitude;
+			data.location.longitude = position.coords.longitude;
+			doScan();
+		}, function(error) {
+			doScan();
+		});
+	} else {
+		doScan();
+	}
+};
+
+
+/*
+	Applications CRUD
+*/
+Evrythng.prototype.createApplication = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/applications'),
+		method : 'post',
+		data : options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.readApplications = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/applications')
+	}, callback);
+};
+
+
+Evrythng.prototype.readApplication = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/applications/%s', options.application)
+	}, callback);
+};
+
+
+Evrythng.prototype.updateApplication = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/applications/%s', options.application),
+		method : 'put',
+		data : options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.deleteApplication = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/applications/%s', options.application),
+		method : 'delete'
+	}, callback);
+};
+
+
+/*
+	Products CRUD
+*/
+Evrythng.prototype.createProduct = function(options, callback) {
+	var self = this,
+		query = {
+			url: '/products',
+			method: 'post',
+			data: options.data
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+Evrythng.prototype.readProducts = function(options, callback) {
+	var self = this,
+		query = {
+			url: '/products'
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+Evrythng.prototype.readProduct = function(options, callback) {
+	var self = this,
+		query = {
+			url: self.buildUrl('/products/%s', options.product)
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+Evrythng.prototype.updateProduct = function(options, callback) {
+	var self = this,
+		query = {
+			url: self.buildUrl('/products/%s', options.product),
+			method: 'put',
+			data: options.data
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+Evrythng.prototype.deleteProduct = function(options, callback) {
+	var self = this,
+		query = {
+			url: self.buildUrl('/products/%s', options.product),
+			method: 'delete'
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+/*
+	Thngs CRUD
+*/
+Evrythng.prototype.readThngs = function(options, callback) {
+	var self = this;
+	return self.request({
+		url : self.buildUrl('/thngs'),
+		method: 'get',
+		params: options.params
+	}, callback);
+};
+
+Evrythng.prototype.readThng = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s', options.thng),
+		method: 'get',
+		params: options.params
+	}, callback);
+};
+
+Evrythng.prototype.createThng = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs'),
+		method: 'post',
+		data: options.data
+	}, callback);
+};
+
+Evrythng.prototype.updateThng = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s', options.thng),
+		method: 'put',
+		data: options.data
+	}, callback);
+};
+
+Evrythng.prototype.deleteThng = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s', options.thng),
+		method: 'delete'
+	}, callback);
+};
+
+/*
+	Thng Properties CRUD
+*/
+Evrythng.prototype.createProperty = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s/properties', options.thng),
+		method: 'post',
+		data: options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.readProperties = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s/properties', options.thng)
+	}, callback);
+};
+
+
+Evrythng.prototype.readProperty = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s/properties/%s', options.thng, options.property)
+	}, callback);
+};
+
+
+Evrythng.prototype.updateProperty = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s/properties', options.thng),
+		method: 'put',
+		data: options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.deleteProperty = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s/properties/%s', options.thng, options.property),
+		method: 'delete'
+	}, callback);
+};
+
+
+/*
+	Analytics R
+*/
+Evrythng.prototype.readAnalytics = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/analytics/query/%s', options.kpi),
+		params: options.params
+	}, callback);
+};
+
+
+/*
+	Users R
+*/
+Evrythng.prototype.readUsers = function(options, callback) {
+	var self = this,
+		query = {
+			url: self.buildUrl('/users')
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+Evrythng.prototype.readUser = function(options, callback) {
+	var self = this,
+		query = {
+			url: self.buildUrl('/users/%s', options.user)
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+/*
+	Loyalty R
+*/
+Evrythng.prototype.readLoyaltyStatus = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/loyalty/%s/status', options.user)
+	}, callback);
+};
+
+
+Evrythng.prototype.readLoyaltyTransactions = function(options, callback) {
+	var self = this,
+		query = {
+			url: self.buildUrl('/loyalty/%s/transactions', options.user)
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+/*
+	Actions R
+*/
+Evrythng.prototype.readActionTypes = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: '/actions'
+	}, callback);
+};
+
+
+Evrythng.prototype.readActions = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/actions/%s', options.type),
+		params: options.params
+	}, callback);
+};
+
+
+Evrythng.prototype.readAction = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/actions/' + options.type + '/%s', options.action),
+		params: options.params
+	}, callback);
+};
+
+
+/*
+	Multimedia CR
+*/
+Evrythng.prototype.createMultimedia = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: '/contents/multimedia',
+		data: options.data,
+		method: 'post',
+		params: {
+			access_token: options.evrythngApiKey
+		}
+	}, callback);
+};
+
+
+Evrythng.prototype.readMultimedia = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/contents/multimedia/%s', options.multimedia),
+		params: {
+			access_token: options.evrythngApiKey
+		}
+	}, callback);
+};
+
+
+/*
+	Files R
+*/
+Evrythng.prototype.readFiles = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: '/files',
+		params: options.params
+	}, callback);
+};
+
+
+Evrythng.prototype.readFile = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/files/%s', options.file)
+	}, callback);
+};
+
+
+/*
+	Rewards CRUD - TODO implement direct API calls
+
+Evrythng.prototype.createReward = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: '/configure/api/rewards',
+		method: 'post',
+		data: options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.readRewards = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: '/configure/api/rewards'
+	}, callback);
+};
+
+
+Evrythng.prototype.readReward = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/configure/api/rewards/%s', options.reward)
+	}, callback);
+};
+
+
+Evrythng.prototype.updateReward = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/configure/api/rewards/%s', options.reward),
+		method: 'put',
+		data: options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.deleteReward = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/configure/api/rewards/%s', options.reward),
+		method: 'delete'
+	}, callback);
+};
+*/
+
+////////////////////////
+////// UTILITIES ///////
+////////////////////////
 
 /*
 	JSONP wrapper
@@ -106,7 +594,7 @@ Evrythng.prototype.fbCallback = function(response) {
 								'token': response.authResponse.accessToken
 							}
 						};
-					self.query({
+					self.request({
 						url: '/auth/facebook',
 						data: data,
 						method: 'post'
@@ -202,496 +690,11 @@ Evrythng.prototype.fbFriends = function(options, callback) {
 };
 
 
-/*
-	Checkin
-*/
-Evrythng.prototype.checkin = function(options, callback) {
-	var self = this,
-		query = {
-			url: '/actions/checkins',
-			data: {
-				timestamp: new Date().getTime(),
-				type: 'checkins',
-				tags: options.tags,
-				location: {
-					latitude: options.defaultLocation ? options.defaultLocation.latitude : null,
-					longitude: options.defaultLocation ? options.defaultLocation.longitude : null
-				},
-				locationSource: 'sensor'
-			},
-			method: 'post',
-			params: {
-				access_token: options.evrythngApiKey
-			}
-		},
-		doCheckin = function() {
-			self.query(query, function(response) {
-				if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
-				if (typeof callback === 'function') {
-					callback.call(self, response);
-				}
-			});
-		};
-	// is it a product checkin or a thng checkin?
-	if (options.thng) {
-		query.data.thng = options.thng;
-	}
-	else if (options.product) {
-		query.data.product = options.product;
-	}
-	if (options.createThng) {
-		query.params.createThng = options.createThng;
-	}
-	if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position) {
-			query.data.location.latitude = position.coords.latitude;
-			query.data.location.longitude = position.coords.longitude;
-			doCheckin();
-		}, function(error) {
-			doCheckin();
-		});
-	}
-	else {
-		doCheckin();
-	}
-};
-
 
 /*
-	Scan
+	HTTP Request utility
 */
-Evrythng.prototype.scan = function(options, callback) {
-	var self = this,
-		query = {
-			url: '/actions/scans',
-			data: {
-				thng: options.thng,
-				timestamp: new Date().getTime(),
-				type: 'scans',
-				location: {
-					latitude: options.defaultLocation ? options.defaultLocation.latitude : null,
-					longitude: options.defaultLocation ? options.defaultLocation.longitude : null
-				},
-				locationSource: 'sensor'
-			},
-			method: 'post',
-			params: {
-				access_token: options.evrythngApiKey
-			}
-		},
-		doScan = function() {
-			self.query(query, function(response) {
-				if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
-				if (typeof callback === 'function') {
-					callback.call(self, response);
-				}
-			});
-		};
-	if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position) {
-			data.location.latitude = position.coords.latitude;
-			data.location.longitude = position.coords.longitude;
-			doScan();
-		}, function(error) {
-			doScan();
-		});
-	} else {
-		doScan();
-	}
-};
-
-
-/*
-	Applications CRUD
-*/
-Evrythng.prototype.createApplication = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications'),
-		method : 'post',
-		data : options.data
-	}, callback);
-};
-
-
-Evrythng.prototype.readApplications = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications')
-	}, callback);
-};
-
-
-Evrythng.prototype.readApplication = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications/%s', options.application)
-	}, callback);
-};
-
-
-Evrythng.prototype.updateApplication = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications/%s', options.application),
-		method : 'put',
-		data : options.data
-	}, callback);
-};
-
-
-Evrythng.prototype.deleteApplication = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications/%s', options.application),
-		method : 'delete'
-	}, callback);
-};
-
-
-/*
-	Products CRUD
-*/
-Evrythng.prototype.createProduct = function(options, callback) {
-	var self = this,
-		query = {
-			url: '/products',
-			method: 'post',
-			data: options.data
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-Evrythng.prototype.readProducts = function(options, callback) {
-	var self = this,
-		query = {
-			url: '/products'
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-Evrythng.prototype.readProduct = function(options, callback) {
-	var self = this,
-		query = {
-			url: self.buildUrl('/products/%s', options.product)
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-Evrythng.prototype.updateProduct = function(options, callback) {
-	var self = this,
-		query = {
-			url: self.buildUrl('/products/%s', options.product),
-			method: 'put',
-			data: options.data
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-Evrythng.prototype.deleteProduct = function(options, callback) {
-	var self = this,
-		query = {
-			url: self.buildUrl('/products/%s', options.product),
-			method: 'delete'
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-/*
-	Thngs CRUD
-*/
-Evrythng.prototype.readThngs = function(options, callback) {
-	var self = this;
-	return self.query({
-		url : self.buildUrl('/thngs'),
-		method: 'get',
-		params: options.params
-	}, callback);
-};
-
-Evrythng.prototype.readThng = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s', options.thng),
-		method: 'get',
-		params: options.params
-	}, callback);
-};
-
-Evrythng.prototype.createThng = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs'),
-		method: 'post',
-		data: options.data
-	}, callback);
-};
-
-Evrythng.prototype.updateThng = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s', options.thng),
-		method: 'put',
-		data: options.data
-	}, callback);
-};
-
-Evrythng.prototype.deleteThng = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s', options.thng),
-		method: 'delete'
-	}, callback);
-};
-
-/*
-	Thng Properties CRUD
-*/
-Evrythng.prototype.createProperty = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s/properties', options.thng),
-		method: 'post',
-		data: options.data
-	}, callback);
-};
-
-
-Evrythng.prototype.readProperties = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s/properties', options.thng)
-	}, callback);
-};
-
-
-Evrythng.prototype.readProperty = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s/properties/%s', options.thng, options.property)
-	}, callback);
-};
-
-
-Evrythng.prototype.updateProperty = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s/properties', options.thng),
-		method: 'put',
-		data: options.data
-	}, callback);
-};
-
-
-Evrythng.prototype.deleteProperty = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s/properties/%s', options.thng, options.property),
-		method: 'delete'
-	}, callback);
-};
-
-
-/*
-	Analytics R
-*/
-Evrythng.prototype.readAnalytics = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/analytics/query/%s', options.kpi),
-		params: options.params
-	}, callback);
-};
-
-
-/*
-	Users R
-*/
-Evrythng.prototype.readUsers = function(options, callback) {
-	var self = this,
-		query = {
-			url: self.buildUrl('/users')
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-Evrythng.prototype.readUser = function(options, callback) {
-	var self = this,
-		query = {
-			url: self.buildUrl('/users/%s', options.user)
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-/*
-	Loyalty R
-*/
-Evrythng.prototype.readLoyaltyStatus = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/loyalty/%s/status', options.user)
-	}, callback);
-};
-
-
-Evrythng.prototype.readLoyaltyTransactions = function(options, callback) {
-	var self = this,
-		query = {
-			url: self.buildUrl('/loyalty/%s/transactions', options.user)
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-/*
-	Actions R
-*/
-Evrythng.prototype.readActionTypes = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: '/actions'
-	}, callback);
-};
-
-
-Evrythng.prototype.readActions = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/actions/%s', options.type),
-		params: options.params
-	}, callback);
-};
-
-
-Evrythng.prototype.readAction = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/actions/' + options.type + '/%s', options.action),
-		params: options.params
-	}, callback);
-};
-
-
-/*
-	Multimedia CR
-*/
-Evrythng.prototype.createMultimedia = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: '/contents/multimedia',
-		data: options.data,
-		method: 'post',
-		params: {
-			access_token: options.evrythngApiKey
-		}
-	}, callback);
-};
-
-
-Evrythng.prototype.readMultimedia = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/contents/multimedia/%s', options.multimedia),
-		params: {
-			access_token: options.evrythngApiKey
-		}
-	}, callback);
-};
-
-
-/*
-	Files R
-*/
-Evrythng.prototype.readFiles = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: '/files',
-		params: options.params
-	}, callback);
-};
-
-
-Evrythng.prototype.readFile = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/files/%s', options.file)
-	}, callback);
-};
-
-
-/*
-	Rewards CRUD - TODO implement direct API calls
-
-Evrythng.prototype.createReward = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: '/configure/api/rewards',
-		method: 'post',
-		data: options.data
-	}, callback);
-};
-
-
-Evrythng.prototype.readRewards = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: '/configure/api/rewards'
-	}, callback);
-};
-
-
-Evrythng.prototype.readReward = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/configure/api/rewards/%s', options.reward)
-	}, callback);
-};
-
-
-Evrythng.prototype.updateReward = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/configure/api/rewards/%s', options.reward),
-		method: 'put',
-		data: options.data
-	}, callback);
-};
-
-
-Evrythng.prototype.deleteReward = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/configure/api/rewards/%s', options.reward),
-		method: 'delete'
-	}, callback);
-};
-*/
-
-////////////////////////
-////// UTILITIES ///////
-////////////////////////
-
-
-/*
-	Query API utility
-*/
-Evrythng.prototype.query = function(options, callback) {
+Evrythng.prototype.request = function(options, callback) {
 	var self = this;
 	if (typeof options.params !== 'object') options.params = {};
 	if (options.method) options.params.method = options.method;
