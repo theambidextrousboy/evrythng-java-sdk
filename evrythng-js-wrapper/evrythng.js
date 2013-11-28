@@ -1119,7 +1119,7 @@ Evrythng.prototype.Upload.prototype.getSignedUrl = function(file, type, name, th
 		params.type1 = this.thumbnailType;
 		params.name1 = this.getThumbnailName(name);
 	}
-	this.evrythng.query({
+	this.evrythng.request({
 		url: '/files/signatures',
 		params: params
 	}, function(result) {
