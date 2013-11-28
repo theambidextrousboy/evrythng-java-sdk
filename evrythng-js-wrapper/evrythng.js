@@ -18,6 +18,494 @@ Evrythng = function(options) {
 	}
 };
 
+/*
+	Actions API
+*/
+
+/*
+	Checkin
+*/
+Evrythng.prototype.checkin = function(options, callback) {
+	var self = this,
+		query = {
+			url: '/actions/checkins',
+			data: {
+				timestamp: new Date().getTime(),
+				type: 'checkins',
+				tags: options.tags,
+				location: {
+					latitude: options.defaultLocation ? options.defaultLocation.latitude : null,
+					longitude: options.defaultLocation ? options.defaultLocation.longitude : null
+				},
+				locationSource: 'sensor'
+			},
+			method: 'post',
+			params: {
+				access_token: options.evrythngApiKey
+			}
+		},
+		doCheckin = function() {
+			self.request(query, function(response) {
+				if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
+				if (typeof callback === 'function') {
+					callback.call(self, response);
+				}
+			});
+		};
+	// is it a product checkin or a thng checkin?
+	if (options.thng) {
+		query.data.thng = options.thng;
+	}
+	else if (options.product) {
+		query.data.product = options.product;
+	}
+	if (options.createThng) {
+		query.params.createThng = options.createThng;
+	}
+	if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			query.data.location.latitude = position.coords.latitude;
+			query.data.location.longitude = position.coords.longitude;
+			doCheckin();
+		}, function(error) {
+			doCheckin();
+		});
+	}
+	else {
+		doCheckin();
+	}
+};
+
+
+/*
+	Scan
+*/
+Evrythng.prototype.scan = function(options, callback) {
+	var self = this,
+		query = {
+			url: '/actions/scans',
+			data: {
+				thng: options.thng,
+				timestamp: new Date().getTime(),
+				type: 'scans',
+				location: {
+					latitude: options.defaultLocation ? options.defaultLocation.latitude : null,
+					longitude: options.defaultLocation ? options.defaultLocation.longitude : null
+				},
+				locationSource: 'sensor'
+			},
+			method: 'post',
+			params: {
+				access_token: options.evrythngApiKey
+			}
+		},
+		doScan = function() {
+			self.request(query, function(response) {
+				if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
+				if (typeof callback === 'function') {
+					callback.call(self, response);
+				}
+			});
+		};
+	if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			data.location.latitude = position.coords.latitude;
+			data.location.longitude = position.coords.longitude;
+			doScan();
+		}, function(error) {
+			doScan();
+		});
+	} else {
+		doScan();
+	}
+};
+
+
+/*
+	Applications CRUD
+*/
+Evrythng.prototype.createApplication = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/applications'),
+		method : 'post',
+		data : options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.readApplications = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/applications')
+	}, callback);
+};
+
+
+Evrythng.prototype.readApplication = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/applications/%s', options.application)
+	}, callback);
+};
+
+
+Evrythng.prototype.updateApplication = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/applications/%s', options.application),
+		method : 'put',
+		data : options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.deleteApplication = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/applications/%s', options.application),
+		method : 'delete'
+	}, callback);
+};
+
+
+/*
+	Products CRUD
+*/
+Evrythng.prototype.createProduct = function(options, callback) {
+	var self = this,
+		query = {
+			url: '/products',
+			method: 'post',
+			data: options.data
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+Evrythng.prototype.readProducts = function(options, callback) {
+	var self = this,
+		query = {
+			url: '/products'
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+Evrythng.prototype.readProduct = function(options, callback) {
+	var self = this,
+		query = {
+			url: self.buildUrl('/products/%s', options.product)
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+Evrythng.prototype.updateProduct = function(options, callback) {
+	var self = this,
+		query = {
+			url: self.buildUrl('/products/%s', options.product),
+			method: 'put',
+			data: options.data
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+Evrythng.prototype.deleteProduct = function(options, callback) {
+	var self = this,
+		query = {
+			url: self.buildUrl('/products/%s', options.product),
+			method: 'delete'
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+/*
+	Thngs CRUD
+*/
+Evrythng.prototype.readThngs = function(options, callback) {
+	var self = this;
+	return self.request({
+		url : self.buildUrl('/thngs'),
+		method: 'get',
+		params: options.params
+	}, callback);
+};
+
+Evrythng.prototype.readThng = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s', options.thng),
+		method: 'get',
+		params: options.params
+	}, callback);
+};
+
+Evrythng.prototype.createThng = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs'),
+		method: 'post',
+		data: options.data
+	}, callback);
+};
+
+Evrythng.prototype.updateThng = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s', options.thng),
+		method: 'put',
+		data: options.data
+	}, callback);
+};
+
+Evrythng.prototype.deleteThng = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s', options.thng),
+		method: 'delete'
+	}, callback);
+};
+
+/*
+	Thng Properties CRUD
+*/
+Evrythng.prototype.createProperty = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s/properties', options.thng),
+		method: 'post',
+		data: options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.readProperties = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s/properties', options.thng)
+	}, callback);
+};
+
+
+Evrythng.prototype.readProperty = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s/properties/%s', options.thng, options.property)
+	}, callback);
+};
+
+
+Evrythng.prototype.updateProperty = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s/properties', options.thng),
+		method: 'put',
+		data: options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.deleteProperty = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s/properties/%s', options.thng, options.property),
+		method: 'delete'
+	}, callback);
+};
+
+
+/*
+	Analytics R
+*/
+Evrythng.prototype.readAnalytics = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/analytics/query/%s', options.kpi),
+		params: options.params
+	}, callback);
+};
+
+
+/*
+	Users R
+*/
+Evrythng.prototype.readUsers = function(options, callback) {
+	var self = this,
+		query = {
+			url: self.buildUrl('/users')
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+Evrythng.prototype.readUser = function(options, callback) {
+	var self = this,
+		query = {
+			url: self.buildUrl('/users/%s', options.user)
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+/*
+	Loyalty R
+*/
+Evrythng.prototype.readLoyaltyStatus = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/loyalty/%s/status', options.user)
+	}, callback);
+};
+
+
+Evrythng.prototype.readLoyaltyTransactions = function(options, callback) {
+	var self = this,
+		query = {
+			url: self.buildUrl('/loyalty/%s/transactions', options.user)
+		};
+	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
+	return self.request(query, callback);
+};
+
+
+/*
+	Actions R
+*/
+Evrythng.prototype.readActionTypes = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: '/actions'
+	}, callback);
+};
+
+
+Evrythng.prototype.readActions = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/actions/%s', options.type),
+		params: options.params
+	}, callback);
+};
+
+
+Evrythng.prototype.readAction = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/actions/' + options.type + '/%s', options.action),
+		params: options.params
+	}, callback);
+};
+
+
+/*
+	Multimedia CR
+*/
+Evrythng.prototype.createMultimedia = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: '/contents/multimedia',
+		data: options.data,
+		method: 'post',
+		params: {
+			access_token: options.evrythngApiKey
+		}
+	}, callback);
+};
+
+
+Evrythng.prototype.readMultimedia = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/contents/multimedia/%s', options.multimedia),
+		params: {
+			access_token: options.evrythngApiKey
+		}
+	}, callback);
+};
+
+
+/*
+	Files R
+*/
+Evrythng.prototype.readFiles = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: '/files',
+		params: options.params
+	}, callback);
+};
+
+
+Evrythng.prototype.readFile = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/files/%s', options.file)
+	}, callback);
+};
+
+
+/*
+	Rewards CRUD - TODO implement direct API calls
+
+Evrythng.prototype.createReward = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: '/configure/api/rewards',
+		method: 'post',
+		data: options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.readRewards = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: '/configure/api/rewards'
+	}, callback);
+};
+
+
+Evrythng.prototype.readReward = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/configure/api/rewards/%s', options.reward)
+	}, callback);
+};
+
+
+Evrythng.prototype.updateReward = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/configure/api/rewards/%s', options.reward),
+		method: 'put',
+		data: options.data
+	}, callback);
+};
+
+
+Evrythng.prototype.deleteReward = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/configure/api/rewards/%s', options.reward),
+		method: 'delete'
+	}, callback);
+};
+*/
+
+////////////////////////
+////// UTILITIES ///////
+////////////////////////
 
 /*
 	JSONP wrapper
@@ -106,7 +594,7 @@ Evrythng.prototype.fbCallback = function(response) {
 								'token': response.authResponse.accessToken
 							}
 						};
-					self.query({
+					self.request({
 						url: '/auth/facebook',
 						data: data,
 						method: 'post'
@@ -202,451 +690,11 @@ Evrythng.prototype.fbFriends = function(options, callback) {
 };
 
 
-/*
-	Checkin
-*/
-Evrythng.prototype.checkin = function(options, callback) {
-	var self = this,
-		query = {
-			url: '/actions/checkins',
-			data: {
-				timestamp: new Date().getTime(),
-				type: 'checkins',
-				tags: options.tags,
-				location: {
-					latitude: options.defaultLocation ? options.defaultLocation.latitude : null,
-					longitude: options.defaultLocation ? options.defaultLocation.longitude : null
-				},
-				locationSource: 'sensor'
-			},
-			method: 'post',
-			params: {
-				access_token: options.evrythngApiKey
-			}
-		},
-		doCheckin = function() {
-			self.query(query, function(response) {
-				if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
-				if (typeof callback === 'function') {
-					callback.call(self, response);
-				}
-			});
-		};
-	// is it a product checkin or a thng checkin?
-	if (options.thng) {
-		query.data.thng = options.thng;
-	}
-	else if (options.product) {
-		query.data.product = options.product;
-	}
-	if (options.createThng) {
-		query.params.createThng = options.createThng;
-	}
-	if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position) {
-			query.data.location.latitude = position.coords.latitude;
-			query.data.location.longitude = position.coords.longitude;
-			doCheckin();
-		}, function(error) {
-			doCheckin();
-		});
-	}
-	else {
-		doCheckin();
-	}
-};
-
 
 /*
-	Scan
+	HTTP Request utility
 */
-Evrythng.prototype.scan = function(options, callback) {
-	var self = this,
-		query = {
-			url: '/actions/scans',
-			data: {
-				thng: options.thng,
-				timestamp: new Date().getTime(),
-				type: 'scans',
-				location: {
-					latitude: options.defaultLocation ? options.defaultLocation.latitude : null,
-					longitude: options.defaultLocation ? options.defaultLocation.longitude : null
-				},
-				locationSource: 'sensor'
-			},
-			method: 'post',
-			params: {
-				access_token: options.evrythngApiKey
-			}
-		},
-		doScan = function() {
-			self.query(query, function(response) {
-				if (typeof self.options.loadingCallback === 'function') self.options.loadingCallback.call(self, false);
-				if (typeof callback === 'function') {
-					callback.call(self, response);
-				}
-			});
-		};
-	if (typeof this.options.loadingCallback === 'function') this.options.loadingCallback.call(this, true);
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position) {
-			data.location.latitude = position.coords.latitude;
-			data.location.longitude = position.coords.longitude;
-			doScan();
-		}, function(error) {
-			doScan();
-		});
-	} else {
-		doScan();
-	}
-};
-
-
-/*
-	Applications CRUD
-*/
-Evrythng.prototype.createApplication = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications'),
-		method : 'post',
-		data : options.data
-	}, callback);
-};
-
-
-Evrythng.prototype.readApplications = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications')
-	}, callback);
-};
-
-
-Evrythng.prototype.readApplication = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications/%s', options.application)
-	}, callback);
-};
-
-
-Evrythng.prototype.updateApplication = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications/%s', options.application),
-		method : 'put',
-		data : options.data
-	}, callback);
-};
-
-
-Evrythng.prototype.deleteApplication = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/applications/%s', options.application),
-		method : 'delete'
-	}, callback);
-};
-
-
-/*
-	Products CRUD
-*/
-Evrythng.prototype.createProduct = function(options, callback) {
-	var self = this,
-		query = {
-			url: '/products',
-			method: 'post',
-			data: options.data
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-Evrythng.prototype.readProducts = function(options, callback) {
-	var self = this,
-		query = {
-			url: '/products'
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-Evrythng.prototype.readProduct = function(options, callback) {
-	var self = this,
-		query = {
-			url: self.buildUrl('/products/%s', options.product)
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-Evrythng.prototype.updateProduct = function(options, callback) {
-	var self = this,
-		query = {
-			url: self.buildUrl('/products/%s', options.product),
-			method: 'put',
-			data: options.data
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-Evrythng.prototype.deleteProduct = function(options, callback) {
-	var self = this,
-		query = {
-			url: self.buildUrl('/products/%s', options.product),
-			method: 'delete'
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-/*
-Thngs CRUD
-*/
-Evrythng.prototype.readThngs = function(options, callback) {
-	var self = this;
-	return self.query({
-		url : self.buildUrl('/thngs'),
-		method: 'get',
-		params: options.params
-	}, callback);
-};
-
-Evrythng.prototype.readThng = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s', options.thng),
-		method: 'get',
-		params: options.params
-	}, callback);
-};
-
-Evrythng.prototype.createThng = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs'),
-		method: 'post',
-		data: options.data
-	}, callback);
-};
-
-Evrythng.prototype.updateThng = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s', options.thng),
-		method: 'put',
-		data: options.data
-	}, callback);
-};
-
-Evrythng.prototype.deleteThng = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s', options.thng),
-		method: 'delete'
-	}, callback);
-};
-
-/*
-	Thng Properties CRUD
-*/
-Evrythng.prototype.createProperty = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s/properties', options.thng),
-		method: 'post',
-		data: options.data
-	}, callback);
-};
-
-
-Evrythng.prototype.readProperties = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s/properties', options.thng)
-	}, callback);
-};
-
-
-Evrythng.prototype.readProperty = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s/properties/%s', options.thng, options.property)
-	}, callback);
-};
-
-
-Evrythng.prototype.updateProperty = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s/properties', options.thng),
-		method: 'put',
-		data: options.data
-	}, callback);
-};
-
-
-Evrythng.prototype.deleteProperty = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/thngs/%s/properties/%s', options.thng, options.property),
-		method: 'delete'
-	}, callback);
-};
-
-
-/*
-	Analytics R
-*/
-Evrythng.prototype.readAnalytics = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/analytics/query/%s', options.kpi),
-		params: options.params
-	}, callback);
-};
-
-
-/*
-	Users R
-*/
-Evrythng.prototype.readUsers = function(options, callback) {
-	var self = this,
-		query = {
-			url: self.buildUrl('/users')
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-Evrythng.prototype.readUser = function(options, callback) {
-	var self = this,
-		query = {
-			url: self.buildUrl('/users/%s', options.user)
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-/*
-	Loyalty R
-*/
-Evrythng.prototype.readLoyaltyStatus = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/loyalty/%s/status', options.user)
-	}, callback);
-};
-
-
-Evrythng.prototype.readLoyaltyTransactions = function(options, callback) {
-	var self = this,
-		query = {
-			url: self.buildUrl('/loyalty/%s/transactions', options.user)
-		};
-	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
-	return self.query(query, callback);
-};
-
-
-/*
-	Actions R
-*/
-
-Evrythng.prototype.readActionTypes = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: '/actions'
-	}, callback);
-};
-
-
-Evrythng.prototype.readActions = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/actions/%s', options.type),
-		params: options.params
-	}, callback);
-};
-
-
-Evrythng.prototype.readAction = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/actions/' + options.type + '/%s', options.action),
-		params: options.params
-	}, callback);
-};
-
-
-/*
-	Multimedia CR
-*/
-
-Evrythng.prototype.createMultimedia = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: '/contents/multimedia',
-		data: options.data,
-		method: 'post',
-		params: {
-			access_token: options.evrythngApiKey
-		}
-	}, callback);
-};
-
-
-Evrythng.prototype.readMultimedia = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/contents/multimedia/%s', options.multimedia),
-		params: {
-			access_token: options.evrythngApiKey
-		}
-	}, callback);
-};
-
-
-/*
-	Files R
-*/
-
-Evrythng.prototype.readFiles = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: '/files'
-	}, callback);
-};
-
-
-Evrythng.prototype.readFile = function(options, callback) {
-	var self = this;
-	return self.query({
-		url: self.buildUrl('/files/%s', options.file)
-	}, callback);
-};
-
-
-
-////////////////////////
-////// UTILITIES ///////
-////////////////////////
-
-
-/*
-	Query API utility
-*/
-Evrythng.prototype.query = function(options, callback) {
+Evrythng.prototype.request = function(options, callback) {
 	var self = this;
 	if (typeof options.params !== 'object') options.params = {};
 	if (options.method) options.params.method = options.method;
@@ -732,7 +780,7 @@ Evrythng.prototype.dataURLtoBlob = function(dataURL) {
 	Helper to get mime type by file's extension
 */
 Evrythng.prototype.getMimeType = function(ext) {
-	return (function(){
+	return (function() {
 		var a = 'audio/',
 			v = 'video/',
 			i = 'image/';
@@ -879,6 +927,111 @@ Evrythng.prototype.getMimeType = function(ext) {
 	})()[ext];
 };
 
+// basesd on https://github.com/viliusle/Hermite-resize
+Evrythng.prototype.resampleHermite = function(canvas, W, H, W2, H2) {
+	var time1 = Date.now();
+	var img = canvas.getContext('2d').getImageData(0, 0, W, H);
+	var img2 = canvas.getContext('2d').getImageData(0, 0, W2, H2);
+	var data = img.data;
+	var data2 = img2.data;
+	var ratio_w = W / W2;
+	var ratio_h = H / H2;
+	var ratio_w_half = Math.ceil(ratio_w/2);
+	var ratio_h_half = Math.ceil(ratio_h/2);
+	for (var j = 0; j < H2; j++) {
+		for (var i = 0; i < W2; i++) {
+			var x2 = (i + j*W2) * 4;
+			var weight = 0;
+			var weights = 0;
+			var gx_r = gx_g = gx_b = gx_a = 0;
+			var center_y = (j + 0.5) * ratio_h;
+			for (var yy = Math.floor(j * ratio_h); yy < (j + 1) * ratio_h; yy++) {
+				var dy = Math.abs(center_y - (yy + 0.5)) / ratio_h_half;
+				var center_x = (i + 0.5) * ratio_w;
+				var w0 = dy*dy //pre-calc part of w
+				for (var xx = Math.floor(i * ratio_w); xx < (i + 1) * ratio_w; xx++) {
+					var dx = Math.abs(center_x - (xx + 0.5)) / ratio_w_half;
+					var w = Math.sqrt(w0 + dx*dx);
+					if (w >= -1 && w <= 1) {
+						//hermite filter
+						weight = 2 * w*w*w - 3*w*w + 1;
+						if (weight > 0) {
+							dx = 4*(xx + yy*W);
+							gx_r += weight * data[dx];
+							gx_g += weight * data[dx + 1];
+							gx_b += weight * data[dx + 2];
+							gx_a += weight * data[dx + 3];
+							weights += weight;
+						}
+					}
+				}		
+			}
+			data2[x2]     = gx_r / weights;
+			data2[x2 + 1] = gx_g / weights;
+			data2[x2 + 2] = gx_b / weights;
+			data2[x2 + 3] = gx_a / weights;
+		}
+	}
+	canvas.getContext('2d').clearRect(0, 0, Math.max(W, W2), Math.max(H, H2));
+	canvas.getContext('2d').putImageData(img2, 0, 0);
+};
+
+Evrythng.prototype.renderImageResample = function(image, canvas, context, sourceWidth, sourceHeight, destWidth, destHeight) {
+	var sourceX = 0;
+	var sourceY = 0;
+	var originalWidth = sourceWidth;
+	var originalHeight = sourceHeight;
+	var destRatio = destWidth / destHeight;
+	var sourceRatio = sourceWidth / sourceHeight;
+	var tempCanvas = document.createElement('canvas');
+	if (sourceRatio < destRatio) {
+		sourceWidth = destWidth;
+		sourceHeight = Math.round(sourceWidth / sourceRatio);
+		sourceY = Math.round((sourceHeight - destHeight) / 2);
+	}
+	else if (sourceRatio > destRatio) {
+		sourceHeight = destHeight;
+		sourceWidth = Math.round(sourceHeight * sourceRatio);
+		sourceX = Math.round((sourceWidth - destWidth) / 2);
+	}
+	else {
+		sourceWidth = destWidth;
+		sourceHeight = destHeight;
+	}
+	tempCanvas.width = Math.max(originalWidth, sourceWidth);
+	tempCanvas.height = Math.max(originalHeight, sourceHeight);
+	tempCanvas.getContext('2d').drawImage(image, 0, 0, originalWidth, originalHeight, 0, 0, originalWidth, originalHeight);
+	this.resampleHermite(tempCanvas, originalWidth, originalHeight, sourceWidth, sourceHeight);
+	canvas.width = destWidth;
+	canvas.height = destHeight;
+	context.fillStyle = '#ffffff';
+	context.fillRect(0, 0, destWidth, destHeight);
+	context.drawImage(tempCanvas, sourceX, sourceY, destWidth, destHeight, 0, 0, destWidth, destHeight);
+	delete tempCanvas;
+};
+
+Evrythng.prototype.renderImage = function(image, canvas, context, sourceWidth, sourceHeight, destWidth, destHeight) {
+	var sourceX = 0;
+	var sourceY = 0;
+	var originalWidth = sourceWidth;
+	var originalHeight = sourceHeight;
+	var destRatio = destWidth / destHeight;
+	var sourceRatio = sourceWidth / sourceHeight;
+	if (sourceRatio < destRatio) {
+		sourceHeight = Math.round(originalWidth / destRatio);
+		sourceY = Math.round((originalHeight - sourceHeight) / 2);
+	}
+	if (sourceRatio > destRatio) {
+		sourceWidth = Math.round(originalHeight * destRatio);
+		sourceX = Math.round((originalWidth - sourceWidth) / 2);
+	}
+	canvas.width = destWidth;
+	canvas.height = destHeight;
+	context.fillStyle = '#ffffff';
+	context.fillRect(0, 0, destWidth, destHeight);
+	context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, destWidth, destHeight);
+};
+
 
 /*
 	Upload
@@ -895,16 +1048,18 @@ Evrythng.prototype.Upload = function(options) {
 	this.thumbnailHeight = 100;
 	this.thumbnailType = 'image/jpeg';
 	this.thumbnailQuality = .92;
+	this.thumbnailPrefix = '_thumbnail_';
+	this.thumbnailResample = true;
 	if (typeof options === 'object') {
 		for (option in options) {
 			this[option] = options[option];
 		}
 	}
-	if (this.force) this.handleFileSelect(this.fileInput);
+	if (this.force) this.handleFileInput(this.fileInput);
 };
 
-Evrythng.prototype.Upload.prototype.onFinishS3Put = function(public_url) {
-	if (window.console) console.log('base.onFinishS3Put()', public_url);
+Evrythng.prototype.Upload.prototype.onFinishS3Put = function(public_url, size) {
+	if (window.console) console.log('base.onFinishS3Put()', public_url, size);
 };
 
 Evrythng.prototype.Upload.prototype.onProgress = function(percent, status) {
@@ -915,17 +1070,17 @@ Evrythng.prototype.Upload.prototype.onError = function(status) {
 	if (window.console) console.log('base.onError()', status);
 };
 
-Evrythng.prototype.Upload.prototype.handleFileSelect = function(file_element) {
+Evrythng.prototype.Upload.prototype.handleFileInput = function(file_element) {
 	if (typeof(file_element) === 'undefined') {
-		this.onError('Could not find the file select DOM element.');
+		this.onError('Could not find the file select DOM element');
 		return;
 	}
 	var f, files, _i, _len, _results;
 	files = file_element.files;
 	if (files.length === 0) {
-		return this.onError('No file selected.');
+		return this.onError('No file selected');
 	}
-	this.onProgress(0, 'Upload started.');
+	this.onProgress(0, 'Preparing upload');
 	_results = [];
 	for (_i = 0, _len = files.length; _i < _len; _i++) {
 		f = files[_i];
@@ -939,51 +1094,73 @@ Evrythng.prototype.Upload.prototype.createCORSRequest = function(method, url) {
 	xhr = new XMLHttpRequest();
 	if (xhr.withCredentials != null) {
 		xhr.open(method, url, true);
-	} else if (typeof XDomainRequest !== 'undefined') {
+	}
+	else if (typeof XDomainRequest !== 'undefined') {
 		xhr = new XDomainRequest();
 		xhr.open(method, url);
-	} else {
+	}
+	else {
 		xhr = null;
 	}
 	return xhr;
 };
 
-Evrythng.prototype.Upload.prototype.executeOnSignedUrl = function(file, type, name, callback) {
-	this.evrythng.query({
-		url: '/files/signature',
-		params: {
-			access_token: this.accessToken,
-			type: type,
-			name: name
-		}
+Evrythng.prototype.Upload.prototype.getThumbnailName = function(name) {
+	return this.thumbnailPrefix + name.substr(0, name.lastIndexOf('.')) + '.' + this.thumbnailType.split('/')[1];
+};
+
+Evrythng.prototype.Upload.prototype.getSignedUrl = function(file, type, name, thumbnail, callback) {
+	var params = {
+		access_token: this.accessToken,
+		type0: type,
+		name0: name
+	};
+	if (thumbnail) {
+		params.type1 = this.thumbnailType;
+		params.name1 = this.getThumbnailName(name);
+	}
+	this.evrythng.request({
+		url: '/files/signatures',
+		params: params
 	}, function(result) {
-		if (window.console) console.log('Signatue upload url : ' + result.signedUploadUrl + ' publicUrl : ' + result.publicUrl);
-		return callback(type, result.signedUploadUrl, result.publicUrl);
+		return callback(result);
 	});
 };
 
-Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_url) {
-	var xhr, self = this;
-	xhr = this.createCORSRequest('PUT', url);
+Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_url, title, callback) {
+	var self = this,
+		xhr = this.createCORSRequest('PUT', url);
 	if (!xhr) {
 		this.onError('CORS not supported');
-	} else {
+	}
+	else {
 		xhr.onload = function() {
 			if (xhr.status === 200) {
-				self.onProgress(100, 'Upload completed.');
-				return self.onFinishS3Put(public_url, file.size);
-			} else {
-				return self.onError('Upload error: ' + xhr.status);
+				var finish = (function(public_url, size) {
+					return function() {
+						self.onProgress(100, 'Upload completed');
+						return self.onFinishS3Put(public_url, size);
+					};
+				})(public_url, file.size);
+				if (typeof callback === 'function') {
+					return callback.call(self, xhr, finish);
+				}
+				else {
+					finish();
+				}
+			}
+			else {
+				return self.onError('HTTP error ' + xhr.status);
 			}
 		};
 		xhr.onerror = function() {
-			return self.onError('XHR error.');
+			return self.onError('XHR error');
 		};
 		xhr.upload.onprogress = function(e) {
 			var percentLoaded;
 			if (e.lengthComputable) {
 				percentLoaded = Math.round((e.loaded / e.total) * 100);
-				return self.onProgress(percentLoaded, percentLoaded === 100 ? 'Finalizing.' : 'Uploading.');
+				return self.onProgress(percentLoaded, 'Uploading ' + (title || 'file'));
 			}
 		};
 	}
@@ -993,86 +1170,89 @@ Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_ur
 };
 
 Evrythng.prototype.Upload.prototype.uploadFile = function(file) {
-	var self = this;
-	if (this.thumbnailFor.indexOf(file.type.split('/')[0]) !== -1) {
-		this.generateThumbnail(file, function(data) {
-		//	self.executeOnSignedUrl(data, self.thumbnailType, 'thumbnail.' + self.thumbnailType.split('/')[1], function(type, signedURL, publicURL) {
-		//		return self.upload(data, type, signedURL, publicURL);
-		//	});
-		});
+	var self = this,
+		run = function() {
+			self.getSignedUrl(file, file.type, self.name, self.thumbnail, function(result) {
+				self.upload(
+					file,
+					file.type,
+					result[0].signedUploadUrl,
+					result[0].publicUrl,
+					file.type.split('/')[0],
+					self.thumbnail ? function(xhr, finish) {
+						self.upload(
+							self.thumbnail,
+							self.thumbnailType,
+							result[1].signedUploadUrl,
+							result[1].publicUrl,
+							'thumbnail',
+							finish
+						);
+					} : undefined
+				);
+			});
+		};
+	if (!this.thumbnail) {
+		this.generateThumbnail(file, run);
 	}
-	return this.executeOnSignedUrl(file, file.type, this.name, function(type, signedURL, publicURL) {
-		return self.upload(file, type, signedURL, publicURL);
-	});
+	else {
+		run.call(this);
+	}
+	
 };
 
 Evrythng.prototype.Upload.prototype.generateThumbnail = function(file, callback) {
 	var self = this,
 		URL = window.URL || window.webkitURL,
 		type = file.type.split('/')[0];
-	switch(type) {
-		case 'image':
-			var canvas = document.createElement('canvas'),
-				context = canvas.getContext('2d'),
-				img = new Image();
-			img.onload = function() {
-				canvas.width = self.thumbnailWidth;
-				canvas.height = self.thumbnailHeight;
-				var sourceX = 0;
-				var sourceY = 0;
-				var sourceWidth = img.width;
-				var sourceHeight = img.height;
-				var thumbnailRatio = canvas.width / canvas.height;
-				var ratio = sourceWidth / sourceHeight;
-				if (ratio < thumbnailRatio) {
-					sourceHeight = Math.round(img.width / thumbnailRatio);
-					sourceY = Math.round((img.height - sourceHeight) / 2);
+	self.thumbnail = undefined;
+	if (this.thumbnailFor.indexOf(type) !== -1) {
+		switch(type) {
+			case 'image':
+				var canvas = document.createElement('canvas'),
+					context = canvas.getContext('2d'),
+					img = new Image();
+				img.onload = function() {
+					var renderMethod = 'renderImage' + (self.thumbnailResample ? 'Resample' : '');
+					self.evrythng[renderMethod](img, canvas, context, img.width, img.height, self.thumbnailWidth, self.thumbnailHeight);
+					self.thumbnail = self.evrythng.dataURLtoBlob(canvas.toDataURL(self.thumbnailType, self.thumbnailQuality));
+					if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self, canvas, self.thumbnail);
+					if (typeof callback === 'function') callback.call(self, canvas, self.thumbnail);
+				};
+				img.src = URL.createObjectURL(file);
+				return true;
+			break;
+			case 'video':
+				var canvas = document.createElement('canvas'),
+					context = canvas.getContext('2d'),
+					video = document.createElement('video');
+				video.style.visibility = 'hidden';
+				video.style.position = 'absolute';
+				document.body.appendChild(video);
+				if (video.canPlayType && video.canPlayType(file.type)) {
+					video.addEventListener('seeked', function() {
+						var renderMethod = 'renderImage' + (self.thumbnailResample ? 'Resample' : '');
+						self.evrythng[renderMethod](video, canvas, context, video.videoWidth, video.videoHeight, self.thumbnailWidth, self.thumbnailHeight);
+						self.thumbnail = self.evrythng.dataURLtoBlob(canvas.toDataURL(self.thumbnailType, self.thumbnailQuality));
+						if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self, canvas, self.thumbnail);
+						if (typeof callback === 'function') callback.call(self, canvas, self.thumbnail);
+					});
+					video.addEventListener('canplay', function() {
+						URL.revokeObjectURL(video.src);
+						video.currentTime = Math.round(video.duration / 2);
+					});
+					video.addEventListener('error', function(e) {
+						if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self);
+						if (typeof callback === 'function') callback.call(self);
+					});
+					video.src = URL.createObjectURL(file);
+					return true;
 				}
-				if (ratio > thumbnailRatio) {
-					sourceWidth = Math.round(img.height / thumbnailRatio);
-					sourceX = Math.round((img.width - sourceWidth) / 2);
-				}
-				context.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height);
-				if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self, canvas);
-				if (typeof callback === 'function') callback.call(self, self.evrythng.dataURLtoBlob(canvas.toDataURL(self.thumbnailType, self.thumbnailQuality)));
-			};
-			img.src = URL.createObjectURL(file);
-		break;
-		case 'video':
-			var canvas = document.createElement('canvas'),
-				context = canvas.getContext('2d'),
-				video = document.createElement('video');
-			video.style.visibility = 'hidden';
-			video.style.position = 'absolute';
-			document.body.appendChild(video);
-			video.addEventListener('seeked', function() {
-				canvas.width = self.thumbnailWidth;
-				canvas.height = self.thumbnailHeight;
-				var sourceX = 0;
-				var sourceY = 0;
-				var sourceWidth = video.videoWidth;
-				var sourceHeight = video.videoHeight;
-				var thumbnailRatio = canvas.width / canvas.height;
-				var ratio = sourceWidth / sourceHeight;
-				if (ratio < thumbnailRatio) {
-					sourceHeight = Math.round(video.videoWidth / thumbnailRatio);
-					sourceY = Math.round((video.videoHeight - sourceHeight) / 2);
-				}
-				if (ratio > thumbnailRatio) {
-					sourceWidth = Math.round(video.videoHeight / thumbnailRatio);
-					sourceX = Math.round((video.videoWidth - sourceWidth) / 2);
-				}
-				context.drawImage(video, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height);
-				if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self, canvas);
-				if (typeof callback === 'function') callback.call(self, self.evrythng.dataURLtoBlob(canvas.toDataURL(self.thumbnailType, self.thumbnailQuality)));
-			});
-			video.addEventListener('canplay', function() {
-				URL.revokeObjectURL(video.src);
-				video.currentTime = Math.round(video.duration / 2);
-			});
-			video.src = URL.createObjectURL(file);
-		break;
+			break;
+		}
 	}
+	if (typeof self.onThumbnail === 'function') self.onThumbnail.call(self);
+	if (typeof callback === 'function') callback.call(self);
 	return true;
 };
 

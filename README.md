@@ -1,4 +1,8 @@
-# EVRYTHNG API Java / Android Wrapper & Tools
+# EVRYTHNG Tools
+
+A set of wrappers and tools to facilitate working with the EVRYTHNG APIs.
+
+## EVRYTHNG API Java / Android Wrapper & Tools
 
 This the repository of Java tools for the EVRYTHNG API, it includes two modules:
 
@@ -7,9 +11,9 @@ You need an API token for authentication which you can get on [https://dev.evryt
 
 * The resource models used to map the server responses to POJOs (the wrapper uses these!).
 
-## Getting Started
+### Getting Started
 
-### Setup
+#### Setup
 The easiest way is to get the latest `.jar` with packaged dependencies from [here](https://s3.amazonaws.com/evrythng-public/evrythng-java-wrapper-1.5.0-jar-with-dependencies.jar) and adding it to your Java project.
 
 The project is also available in our maven repository:
@@ -28,7 +32,7 @@ the repository:
       <url>https://internal.evrythng.net/nexus/content/repositories/evrythng-public-releases</url>
     </repository>
 
-### Hello world!
+#### Hello world!
 
 Then you should look at the [examples](https://github.com/evrythng/evrythng-java-wrapper/tree/master/src/main/java/com/evrythng/java/wrapper/examples) or, if you are impatient, get started with the snippet below:
 
@@ -70,19 +74,19 @@ Then you should look at the [examples](https://github.com/evrythng/evrythng-java
 
 See [examples](https://github.com/evrythng/evrythng-tools/tree/master/evrythng-java-wrapper/src/main/java/com/evrythng/java/wrapper/examples) for a complete overview of the functionality.
 
-## Working with the wrapper for Android projects
+### Working with the wrapper for Android projects
 
 You can also use the wrapper for your Android applications as it compiles on the Dalvik virtual machine! To get started get the latest `.jar` with packaged dependencies from [here](https://s3.amazonaws.com/evrythng-public/evrythng-java-wrapper-1.4.0-jar-with-dependencies.jar) and adding it to your Android project's libraries. Make sure that the wrapper library is exported to your final Android application.
 
 To get you started with Android and EVRYTHNG have a look at the [FreezeMe](https://github.com/webofthings/FreezeMe) sample app. It is a freezer management application using QR codes, NFC tags and the EVRYTHNG API.
 
-## Extending the wrapper
+### Extending the wrapper
 
-### Cloning the repository
+#### Cloning the repository
 
   git clone git@github.com:evrythng/evrythng-tools.git
 
-### Compiling the wrapper and resource models
+#### Compiling the wrapper and resource models
 
     mvn clean install
 
@@ -93,12 +97,12 @@ To build the `.jar` with all dependencies run:
     cd evrythng-java-wrapper/
     mvn assembly:single
 
-### Using the wrapper in your project
+#### Using the wrapper in your project
 
 To use the wrapper, just add the generated `.jar` file located in the `target/` directory to your Java project.
 
 
-# License
+## License
 
  Copyright EVRYTHNG Ltd London / Zurich
 
