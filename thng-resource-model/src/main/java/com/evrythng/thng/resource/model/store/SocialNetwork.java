@@ -11,18 +11,22 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum SocialNetwork {
-	FACEBOOK("facebook"), EVRYONE("evryone");
+	FACEBOOK("facebook", "fb"), EVRYONE("evryone", "evo");
 
 	private static Map<String, SocialNetwork> serNames = new HashMap<String, SocialNetwork>();
+	private static Map<String, SocialNetwork> prefixes = new HashMap<String, SocialNetwork>();
 	private String serName;
+	private String prefix;
 
-	SocialNetwork(String serName) {
+	SocialNetwork(String serName, String prefix) {
 		this.serName = serName;
+		this.prefix = prefix;
 	}
 
 	static {
 		for (SocialNetwork t : values()) {
 			serNames.put(t.serName, t);
+			prefixes.put(t.prefix, t);
 		}
 	}
 
@@ -39,6 +43,18 @@ public enum SocialNetwork {
 		SocialNetwork t = serNames.get(serName);
 		if (t == null) {
 			throw new IllegalArgumentException("Invalid enum value.");
+		}
+		return t;
+	}
+
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public static SocialNetwork fromPrefix(String prefix) {
+		SocialNetwork t = prefixes.get(prefix);
+		if (t == null) {
+			throw new IllegalArgumentException("Invalid prefix.");
 		}
 		return t;
 	}
