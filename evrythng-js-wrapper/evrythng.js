@@ -730,7 +730,7 @@ Evrythng.prototype.cors = function(options, callback) {
 			xhr.setRequestHeader('Authorization', this.options.evrythngApiKey);
 			xhr.onload = function() {
 				if (xhr.status.toString().indexOf('2') === 0) {
-					if (typeof callback === 'function') callback.call(self, xhr.response);
+					if (typeof callback === 'function') callback.call(self, xhr.response, xhr.status, xhr);
 				}
 				else {
 					if (window.console) console.log('CORS HTTP status', xhr.status);
@@ -775,10 +775,21 @@ Evrythng.prototype.request = function(options, callback) {
 		};
 		if (options.method) corsOptions.method = options.method;
 		if (options.data) corsOptions.data = JSON.stringify(options.data);
-		corsResult = this.cors(corsOptions, function(response) {
+		corsResult = this.cors(corsOptions, function(response, status, xhr) {
 			if (window.console) console.log(response);
 			if (typeof callback === 'function') {
-				callback.call(self, response);
+				var hs = (xhr && xhr.getAllResponseHeaders ? xhr.getAllResponseHeaders() : undefined),
+					headers = {},
+					header;
+				if (hs) {
+					hs = hs.split('\n');
+					for (var i=0; i<hs.length; i++) {
+						if (!hs[i].trim()) continue;
+						header = hs[i].split(':');
+						headers[header[0].trim().toLowerCase()] = header[1].trim();
+					}
+				}
+				callback.call(self, response, headers);
 			}
 			return response;
 		});
