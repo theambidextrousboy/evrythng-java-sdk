@@ -11,8 +11,8 @@ Moreover it can work both with and without CORS support using JSONP fallback.
 
 	Evt = new Evrythng({
 		evrythngApiKey: 'iZpKaNclRS...vuo59MouTs42',
-		evrythngApiCorsUrl: 'https://js-api...evrythng.net',
-		evrythngApiJsonpUrl: 'https://api...evrythng.net',
+		evrythngApiCorsUrl: 'https://api...evrythng.net',
+		evrythngApiJsonpUrl: 'https://js-api...evrythng.net',
 		other options...
 	});
 
