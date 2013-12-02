@@ -189,7 +189,8 @@ Evrythng.prototype.createProduct = function(options, callback) {
 Evrythng.prototype.readProducts = function(options, callback) {
 	var self = this,
 		query = {
-			url: '/products'
+			url: '/products',
+			params: options.params
 		};
 	if (self.options.evrythngAppId) query.params = {app: self.options.evrythngAppId};
 	return self.request(query, callback);
