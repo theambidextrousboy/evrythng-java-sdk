@@ -7,9 +7,12 @@ Client-side JavaScript library to access Evrythng API.
 
 The library can work both with and without jQuery.
 
+Moreover it can work both with and without CORS support using JSONP fallback.
+
 	Evt = new Evrythng({
 		evrythngApiKey: 'iZpKaNclRS...vuo59MouTs42',
-		evrythngApiUrl: 'https://js...evrythng.net',
+		evrythngApiCorsUrl: 'https://api...evrythng.net',
+		evrythngApiJsonpUrl: 'https://js-api...evrythng.net',
 		other options...
 	});
 

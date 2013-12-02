@@ -427,7 +427,7 @@ Evrythng.prototype.createMultimedia = function(options, callback) {
 Evrythng.prototype.readMultimedia = function(options, callback) {
 	var self = this;
 	return self.request({
-		url: self.buildUrl('/contents/multimedia/%s', options.multimedia),
+		url: options.multimedia ? self.buildUrl('/contents/multimedia/%s', options.multimedia) : '/contents/multimedia',
 		params: {
 			access_token: options.evrythngApiKey
 		}
@@ -506,20 +506,6 @@ Evrythng.prototype.deleteReward = function(options, callback) {
 ////////////////////////
 ////// UTILITIES ///////
 ////////////////////////
-
-/*
-	JSONP wrapper
-*/
-Evrythng.prototype.jsonp = function(url, callback) {
-	if (typeof this.options.jQuery === 'function') {
-		var promise = this.options.jQuery.getJSON(url);
-		return (typeof callback === 'function') ? promise.then(callback) : promise;
-	}
-	else {
-		return load.jsonp(url, callback);
-	}
-};
-
 
 /*
 	Facebook
@@ -690,23 +676,146 @@ Evrythng.prototype.fbFriends = function(options, callback) {
 };
 
 
+/*
+	CORS request
+*/
+Evrythng.prototype.createCORSRequest = function(method, url) {
+	var xhr;
+	xhr = new XMLHttpRequest();
+	if (xhr.withCredentials != null) {
+		xhr.open(method, url, true);
+	}
+	else if (typeof XDomainRequest !== 'undefined') {
+		xhr = new XDomainRequest();
+		xhr.open(method, url);
+	}
+	else {
+		xhr = null;
+	}
+	return xhr;
+};
+
+
+/*
+	CORS wrapper
+*/
+Evrythng.prototype.cors = function(options, callback) {
+	var self = this;
+	if (typeof this.options.jQuery === 'function') {
+		if (!this.options.jQuery.support.cors) return null;
+		var promise = this.options.jQuery.ajax({
+			type: options.method || 'GET',
+			url: options.url,
+			// workaround for DELETE request, which returns empty string (invalid JSON)
+			dataType: (options.method && options.method.toLowerCase() === 'delete') ? 'text' : 'json',
+			data: options.data,
+			processData: false,
+			contentType: 'application/json',
+			headers: {
+				Accept: 'application/json',
+				Authorization: options.evrythngApiKey
+			},
+			error: function(e) {
+				if (window.console) console.log('CORS request error', e);
+			}
+		});
+		return (typeof callback === 'function') ? promise.then(callback) : promise;
+	}
+	else {
+		var xhr = this.createCORSRequest(options.method || 'GET', options.url);
+		if (xhr) {
+			xhr.responseType = 'json';
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.setRequestHeader('Accept', 'application/json');
+			xhr.setRequestHeader('Authorization', this.options.evrythngApiKey);
+			xhr.onload = function() {
+				if (xhr.status.toString().indexOf('2') === 0) {
+					if (typeof callback === 'function') callback.call(self, xhr.response, xhr.status, xhr);
+				}
+				else {
+					if (window.console) console.log('CORS HTTP status', xhr.status);
+				}
+			};
+			xhr.onerror = function(e) {
+				if (window.console) console.log('CORS request error', e);
+			};
+			xhr.send(options.data);
+		}
+		return xhr;
+	}
+};
+
+
+/*
+	JSONP wrapper
+*/
+Evrythng.prototype.jsonp = function(options, callback) {
+	if (typeof this.options.jQuery === 'function') {
+		var promise = this.options.jQuery.getJSON(options.url);
+		return (typeof callback === 'function') ? promise.then(callback) : promise;
+	}
+	else {
+		return load.jsonp(options.url, callback);
+	}
+};
+
 
 /*
 	HTTP Request utility
 */
 Evrythng.prototype.request = function(options, callback) {
-	var self = this;
-	if (typeof options.params !== 'object') options.params = {};
-	if (options.method) options.params.method = options.method;
-	if (options.data) options.params.data = JSON.stringify(options.data);
-	if (!options.params.access_token) options.params.access_token = self.options.evrythngApiKey;
-	return self.jsonp(self.options.evrythngApiUrl + options.url + (options.url.indexOf('?') > -1 ? '&' : '?') + 'callback=?&' + self.buildParams(options.params), function(response) {
-		if (window.console) console.log(response);
-		if (typeof callback === 'function') {
-			callback.call(self, response);
-		}
-		return response;
-	});
+	var self = this,
+		corsResult;
+	if (this.options.evrythngApiCorsUrl) {
+		var corsOptions = {
+			url: this.options.evrythngApiCorsUrl + options.url
+				+ (options.url.indexOf('?') > -1 ? '&' : '?')
+				+ this.buildParams(options.params),
+			evrythngApiKey: this.options.evrythngApiKey
+		};
+		if (options.method) corsOptions.method = options.method;
+		if (options.data) corsOptions.data = JSON.stringify(options.data);
+		corsResult = this.cors(corsOptions, function(response, status, xhr) {
+			if (window.console) console.log(response);
+			if (typeof callback === 'function') {
+				var hs = (xhr && xhr.getAllResponseHeaders ? xhr.getAllResponseHeaders() : undefined),
+					headers = {},
+					header;
+				if (hs) {
+					hs = hs.split('\n');
+					for (var i=0; i<hs.length; i++) {
+						if (!hs[i].trim()) continue;
+						header = hs[i].split(':');
+						headers[header[0].trim().toLowerCase()] = header[1].trim();
+					}
+				}
+				callback.call(self, response, headers);
+			}
+			return response;
+		});
+	}
+	if (corsResult) {
+		return corsResult;
+	}
+	else {
+		if (typeof options.params !== 'object') options.params = {};
+		if (options.method) options.params.method = options.method;
+		if (options.data) options.params.data = JSON.stringify(options.data);
+		if (!options.params.access_token) options.params.access_token = this.options.evrythngApiKey;
+		return this.jsonp({
+			url: this.options.evrythngApiJsonpUrl || this.options.evrythngApiUrl
+				+ options.url
+				+ (options.url.indexOf('?') > -1 ? '&' : '?')
+				+ 'callback=?&'
+				+ this.buildParams(options.params)
+			}, function(response) {
+			if (window.console) console.log(response);
+			if (typeof callback === 'function') {
+				callback.call(self, response);
+			}
+			return response;
+		});
+	}
 };
 
 
@@ -1089,22 +1198,6 @@ Evrythng.prototype.Upload.prototype.handleFileInput = function(file_element) {
 	return _results;
 };
 
-Evrythng.prototype.Upload.prototype.createCORSRequest = function(method, url) {
-	var xhr;
-	xhr = new XMLHttpRequest();
-	if (xhr.withCredentials != null) {
-		xhr.open(method, url, true);
-	}
-	else if (typeof XDomainRequest !== 'undefined') {
-		xhr = new XDomainRequest();
-		xhr.open(method, url);
-	}
-	else {
-		xhr = null;
-	}
-	return xhr;
-};
-
 Evrythng.prototype.Upload.prototype.getThumbnailName = function(name) {
 	return this.thumbnailPrefix + name.substr(0, name.lastIndexOf('.')) + '.' + this.thumbnailType.split('/')[1];
 };
@@ -1129,7 +1222,7 @@ Evrythng.prototype.Upload.prototype.getSignedUrl = function(file, type, name, th
 
 Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_url, title, callback) {
 	var self = this,
-		xhr = this.createCORSRequest('PUT', url);
+		xhr = this.evrythng.createCORSRequest('PUT', url);
 	if (!xhr) {
 		this.onError('CORS not supported');
 	}
