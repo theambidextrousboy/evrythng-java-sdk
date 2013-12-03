@@ -409,6 +409,19 @@ Evrythng.prototype.readAction = function(options, callback) {
 
 
 /*
+	Places R
+*/
+Evrythng.prototype.readPlaces = function(options, callback) {
+	var self = this;
+	return self.request({
+		url : self.buildUrl('/places'),
+		method: 'get',
+		params: options.params
+	}, callback);
+};
+
+
+/*
 	Multimedia CR
 */
 Evrythng.prototype.createMultimedia = function(options, callback) {
