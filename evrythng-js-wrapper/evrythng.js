@@ -1275,7 +1275,7 @@ Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_ur
 		};
 	}
 	xhr.setRequestHeader('Content-Type', type);
-	xhr.setRequestHeader('x-amz-acl', 'public-read');
+	if (!this.uploadUrl) xhr.setRequestHeader('x-amz-acl', 'public-read');
 	return xhr.send(file);
 };
 
