@@ -1153,6 +1153,9 @@ Evrythng.prototype.createUpload = function(options) {
 
 Evrythng.prototype.Upload = function(options) {
 	// defaults
+	this.method = 'PUT';
+	this.uploadUrl = '';
+	this.thumbnailUrl = '';
 	this.thumbnailFor = [];
 	this.thumbnailWidth = 178;
 	this.thumbnailHeight = 100;
@@ -1168,8 +1171,8 @@ Evrythng.prototype.Upload = function(options) {
 	if (this.force) this.handleFileInput(this.fileInput);
 };
 
-Evrythng.prototype.Upload.prototype.onFinishS3Put = function(public_url, size) {
-	if (window.console) console.log('base.onFinishS3Put()', public_url, size);
+Evrythng.prototype.Upload.prototype.onFinish = function(public_url, size) {
+	if (window.console) console.log('base.onFinish()', public_url, size);
 };
 
 Evrythng.prototype.Upload.prototype.onProgress = function(percent, status) {
@@ -1223,7 +1226,7 @@ Evrythng.prototype.Upload.prototype.getSignedUrl = function(file, type, name, th
 
 Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_url, title, callback) {
 	var self = this,
-		xhr = this.evrythng.createCORSRequest('PUT', url);
+		xhr = this.evrythng.createCORSRequest(this.method, url);
 	if (!xhr) {
 		this.onError('CORS not supported');
 	}
@@ -1233,7 +1236,7 @@ Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_ur
 				var finish = (function(public_url, size) {
 					return function() {
 						self.onProgress(100, 'Upload completed');
-						return self.onFinishS3Put(public_url, size);
+						return self.onFinish(public_url, size);
 					};
 				})(public_url, file.size);
 				if (typeof callback === 'function') {
@@ -1265,26 +1268,49 @@ Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_ur
 
 Evrythng.prototype.Upload.prototype.uploadFile = function(file) {
 	var self = this,
+		upl = function(urls) {
+			self.upload(
+				file,
+				file.type,
+				urls.uploadUrl,
+				urls.publicUrl,
+				file.type.split('/')[0],
+				self.thumbnail ? function(xhr, finish) {
+					self.upload(
+						self.thumbnail,
+						self.thumbnailType,
+						urls.thumbnailUploadUrl,
+						urls.thumbnailPublicUrl,
+						'thumbnail',
+						finish
+					);
+				} : undefined
+			);
+		},
 		run = function() {
-			self.getSignedUrl(file, file.type, self.name, self.thumbnail, function(result) {
-				self.upload(
-					file,
-					file.type,
-					result[0].signedUploadUrl,
-					result[0].publicUrl,
-					file.type.split('/')[0],
-					self.thumbnail ? function(xhr, finish) {
-						self.upload(
-							self.thumbnail,
-							self.thumbnailType,
-							result[1].signedUploadUrl,
-							result[1].publicUrl,
-							'thumbnail',
-							finish
-						);
-					} : undefined
-				);
-			});
+			if (self.uploadUrl) {
+				var urls = {
+					uploadUrl: self.uploadUrl,
+					publicUrl: self.uploadUrl
+				};
+				if (self.thumbnail) {
+					urls.thumbnailUploadUrl = urls.thumbnailPublicUrl = self.thumbnailUrl;
+				}
+				upl(urls);
+			}
+			else {
+				self.getSignedUrl(file, file.type, self.name, self.thumbnail, function(result) {
+					var urls = {
+						uploadUrl: result[0].signedUploadUrl,
+						publicUrl: result[0].publicUrl
+					};
+					if (self.thumbnail) {
+						urls.thumbnailUploadUrl = result[1].signedUploadUrl;
+						urls.thumbnailPublicUrl = result[1].publicUrl;
+					}
+					upl(urls);
+				});
+			}
 		};
 	if (!this.thumbnail) {
 		this.generateThumbnail(file, run);
