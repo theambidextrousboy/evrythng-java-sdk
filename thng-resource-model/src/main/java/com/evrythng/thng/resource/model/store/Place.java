@@ -15,10 +15,7 @@ public class Place extends DurableResourceModel {
 	private String description;
 	private String icon;
 	private GeoJsonPoint location;
-	private String country;
-	private String countryCode;
-	private String regionCode;
-	private String city;
+	private AddressInfo address;
 
 	public String getName() {
 		return name;
@@ -52,35 +49,11 @@ public class Place extends DurableResourceModel {
 		this.location = location;
 	}
 
-	public String getCountry() {
-		return country;
+	public AddressInfo getAddress() {
+		return address;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getCountryCode() {
-		return countryCode;
-	}
-
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
-	}
-
-	public String getRegionCode() {
-		return regionCode;
-	}
-
-	public void setRegionCode(String regionCode) {
-		this.regionCode = regionCode;
+	public void setAddress(AddressInfo address) {
+		this.address = address;
 	}
 }
