@@ -19,8 +19,19 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class User extends DurableResourceModel {
 
 	public static class Birthday {
-		private Integer month;
+
 		private Integer day;
+		private Integer month;
+		private Integer year;
+
+		public Birthday() {
+		}
+
+		public Birthday(Integer day, Integer month, Integer year) {
+			this.month = month;
+			this.day = day;
+			this.year = year;
+		}
 
 		public Integer getMonth() {
 			return month;
@@ -36,6 +47,24 @@ public class User extends DurableResourceModel {
 
 		public void setDay(Integer day) {
 			this.day = day;
+		}
+
+		public Integer getYear() {
+			return year;
+		}
+
+		public void setYear(Integer year) {
+			this.year = year;
+		}
+
+		@JsonIgnore
+		public boolean isCompleteDate() {
+			return year != null && hasDayAndMonth();
+		}
+
+		@JsonIgnore
+		public boolean hasDayAndMonth() {
+			return month != null && day != null;
 		}
 	}
 
@@ -86,11 +115,6 @@ public class User extends DurableResourceModel {
 	 * The user's last name.
 	 */
 	private String lastName;
-
-	/**
-	 * The user's date of birth.
-	 */
-	private Long dateOfBirth;
 
 	/**
 	 * The user's timezone offset from <strong>UTC</strong>.
@@ -200,14 +224,6 @@ public class User extends DurableResourceModel {
 	@Deprecated
 	public void setCanLogin(Boolean canLogin) {
 		this.canLogin = canLogin;
-	}
-
-	public Long getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(Long dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
 	}
 
 	public Birthday getBirthday() {
