@@ -1274,14 +1274,17 @@ Evrythng.prototype.Upload.prototype.upload = function(file, type, url, public_ur
 			}
 		};
 	}
-	xhr.setRequestHeader('Content-Type', type);
+	//xhr.setRequestHeader('Content-Type', type);
 	if (this.headers) {
 		for (var i in this.headers) {
 			xhr.setRequestHeader(i, this.headers[i]);
 		}
 	}
 	if (!this.uploadUrl) xhr.setRequestHeader('x-amz-acl', 'public-read');
-	return xhr.send(file);
+
+	var formData = new FormData();
+	formData.append('file', file); //currently hard-coded - guess we need to pass the name field of <input>
+	return xhr.send(formData);
 };
 
 Evrythng.prototype.Upload.prototype.uploadFile = function(file) {
