@@ -325,6 +325,27 @@ Evrythng.prototype.deleteProperty = function(options, callback) {
 	}, callback);
 };
 
+/*
+ * Thng Location 
+ */
+
+Evrythng.prototype.readThngLocations = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s/location', options.thng),
+		params: options.params,
+		method: 'get'
+	}, callback);
+};
+
+Evrythng.prototype.updateThngLocation = function(options, callback) {
+	var self = this;
+	return self.request({
+		url: self.buildUrl('/thngs/%s/location', options.thng),
+		data: options.data,
+		method: 'put'
+	}, callback);
+};
 
 /*
 	Analytics R
