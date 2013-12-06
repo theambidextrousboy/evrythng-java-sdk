@@ -1,5 +1,5 @@
 /*
- * Client-side JavaScript library to access Evrythng API
+ * Client-side JavaScript library to access Evrythng API v1.0.0
  * https://github.com/evrythng/evrythng-tools
  *
  * Copyright [2013] [EVRYTHNG Ltd. London / Zurich]
@@ -8,6 +8,8 @@
  * https://github.com/evrythng/evrythng-tools/blob/master/LICENSE.txt
  *
  */
+
+var evrythngtools_version = "1.0.0";
 
 Evrythng = function(options) {
 	this.options = {};
