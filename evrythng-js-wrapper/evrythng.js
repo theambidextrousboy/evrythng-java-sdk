@@ -1,4 +1,4 @@
-/*
+/*!
  * Client-side JavaScript library to access Evrythng API v1.0.0
  * https://github.com/evrythng/evrythng-tools
  *
