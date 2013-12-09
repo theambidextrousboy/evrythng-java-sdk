@@ -25,7 +25,7 @@ public class LocationHelper {
 	 * @return true if loc is null or if both coordinates are null or if the
 	 *         location is valid; false otherwise.
 	 */
-	public static boolean isGeoValid(ILocationWithPlace loc) {
+	public static boolean isGeoValid(ILocation loc) {
 		if (loc == null) {
 			return true;
 		}
@@ -38,7 +38,7 @@ public class LocationHelper {
 		}
 	}
 
-	public static boolean coordinatesEqual(ILocationWithPlace a, ILocationWithPlace b) {
+	public static boolean coordinatesEqual(ILocation a, ILocation b) {
 		if (a == b) {
 			return true;
 		}
