@@ -17,6 +17,25 @@ Evrythng = function(options) {
 		for (var i in options) {
 			this.options[i] = options[i];
 		}
+
+		//Deduce jsonp url if it's undefined
+		if((!this.options.evrythngApiJsonpUrl && !this.options.evrythngApiUrl) && this.options.evrythngApiCorsUrl) {
+			var evrythngUrlPattern = /(http|https):\/\/api-(test|staging|)\.evrythng\.(net|com)/i;
+
+			//check if this.options.evrythngApiCorsUrl matches EVRYTHNG server url
+			if(evrythngUrlPattern.test(this.options.evrythngApiCorsUrl)) {
+				//As a EVRYTHNG url was specified on the options, we are justified
+				//in deducing the corresponding JSONP url, so that should CORS not me supported
+				//by the client we may fall back to JSONP
+
+				var url = null;
+				if("api.evrythng.com".indexOf(this.options.evrythngApiCorsUrl) != -1) url = "https://js-api.evrythng.com";
+				else if("api-staging".indexOf(this.options.evrythngApiCorsUrl) != -1) url = "https://js-api-staging.evrythng.net";
+				else if("api-test".indexOf(this.options.evrythngApiCorsUrl) != -1) url = "https://js-api-test.evrythng.net";
+
+				this.options.evrythngApiJsonpUrl = url;
+			}
+		}
 	}
 };
 
@@ -803,9 +822,9 @@ Evrythng.prototype.jsonp = function(options, callback) {
 Evrythng.prototype.request = function(options, callback) {
 	var self = this,
 		corsResult;
-	if (this.options.evrythngApiCorsUrl) {
+	if (this.options.evrythngApiCorsUrl || this.options.evrythngApiUrl) {
 		var corsOptions = {
-			url: this.options.evrythngApiCorsUrl + options.url
+			url: (this.options.evrythngApiCorsUrl || this.options.evrythngApiUrl) + options.url
 				+ (options.url.indexOf('?') > -1 ? '&' : '?')
 				+ this.buildParams(options.params),
 			evrythngApiKey: this.options.evrythngApiKey
@@ -830,6 +849,8 @@ Evrythng.prototype.request = function(options, callback) {
 			}
 			return response;
 		});
+
+		colina = corsResult;
 	}
 	if (corsResult) {
 		return corsResult;
@@ -840,7 +861,7 @@ Evrythng.prototype.request = function(options, callback) {
 		if (options.data) options.params.data = JSON.stringify(options.data);
 		if (!options.params.access_token) options.params.access_token = this.options.evrythngApiKey;
 		return this.jsonp({
-			url: this.options.evrythngApiJsonpUrl || this.options.evrythngApiUrl
+			url: this.options.evrythngApiJsonpUrl
 				+ options.url
 				+ (options.url.indexOf('?') > -1 ? '&' : '?')
 				+ 'callback=?&'
