@@ -2,13 +2,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.evrythng</groupId>
-	<artifactId>evrythng-tools</artifactId>
+	<artifactId>evrythng-java-sdk</artifactId>
 	<packaging>pom</packaging>
 	<version>1.7.0-SNAPSHOT</version>
 
-	<name>evrythng-tools</name>
+	<name>evrythng-java-sdk</name>
 	<description>Java tools around the EVRYTHNG API.</description>
-	<url>https://github.com/evrythng/evrythng-tools</url>
+	<url>https://github.com/evrythng/evrythng-java-sdk</url>
 
 	<organization>
 		<name>EVRYTHNG Ltd London / Zurich</name>
@@ -123,13 +123,13 @@
 	</repositories>
 
 	<scm>
-		<connection>scm:git:git://github.com/evrythng/evrythng-tools.git</connection>
-		<developerConnection>scm:git:git@github.com:evrythng/evrythng-tools.git</developerConnection>
-		<url>https://github.com/evrythng/evrythng-tools</url>
+		<connection>scm:git:git://github.com/evrythng/evrythng-java-sdk.git</connection>
+		<developerConnection>scm:git:git@github.com:evrythng/evrythng-java-sdk.git</developerConnection>
+		<url>https://github.com/evrythng/evrythng-java-sdk</url>
 	</scm>
 
 	<issueManagement>
-		<url>https://github.com/evrythng/evrythng-tools/issues</url>
+		<url>https://github.com/evrythng/evrythng-java-sdk/issues</url>
 		<system>GitHub Issues</system>
 	</issueManagement>
 

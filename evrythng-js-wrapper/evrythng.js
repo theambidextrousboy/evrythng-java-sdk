@@ -1,11 +1,11 @@
 /*!
  * Client-side JavaScript library to access Evrythng API v1.0.0
- * https://github.com/evrythng/evrythng-tools
+ * https://github.com/evrythng/evrythng-java-sdk
  *
  * Copyright [2013] [EVRYTHNG Ltd. London / Zurich]
  *
  * Released under the http://www.apache.org/licenses/LICENSE-2.0
- * https://github.com/evrythng/evrythng-tools/blob/master/LICENSE.txt
+ * https://github.com/evrythng/evrythng-java-sdk/blob/master/LICENSE.txt
  *
  */
 

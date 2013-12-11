@@ -1,4 +1,4 @@
-# EVRYTHNG Tools
+# EVRYTHNG Java SDK
 
 A set of wrappers and tools to facilitate working with the EVRYTHNG APIs.
 
@@ -72,7 +72,7 @@ Then you should look at the [examples](https://github.com/evrythng/evrythng-java
       }
     }
 
-See [examples](https://github.com/evrythng/evrythng-tools/tree/master/evrythng-java-wrapper/src/main/java/com/evrythng/java/wrapper/examples) for a complete overview of the functionality.
+See [examples](https://github.com/evrythng/evrythng-java-sdk/tree/master/evrythng-java-wrapper/src/main/java/com/evrythng/java/wrapper/examples) for a complete overview of the functionality.
 
 ### Working with the wrapper for Android projects
 
@@ -84,7 +84,7 @@ To get you started with Android and EVRYTHNG have a look at the [FreezeMe](https
 
 #### Cloning the repository
 
-  git clone git@github.com:evrythng/evrythng-tools.git
+  git clone git@github.com:evrythng/evrythng-java-sdk.git
 
 #### Compiling the wrapper and resource models
 
