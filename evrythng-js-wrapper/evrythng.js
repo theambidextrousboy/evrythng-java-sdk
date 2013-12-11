@@ -9,39 +9,33 @@
  *
  */
 
-var evrythngtools_version = "1.0.0";
-
 Evrythng = function(options) {
-	this.options = {};
+	this.options = {
+		evrythngApiCorsUrl: 'https://api.evrythng.com',
+		evrythngApiJsonpUrl: 'https://js-api.evrythng.com'
+	};
 	if (typeof options === 'object') {
 		for (var i in options) {
 			this.options[i] = options[i];
 		}
-
-		//Deduce jsonp url if it's undefined
-		if((!this.options.evrythngApiJsonpUrl && !this.options.evrythngApiUrl) && this.options.evrythngApiCorsUrl) {
-			var evrythngUrlPattern = /(http|https):\/\/api-(test|staging|)\.evrythng\.(net|com)/i;
-
-			//check if this.options.evrythngApiCorsUrl matches EVRYTHNG server url
-			if(evrythngUrlPattern.test(this.options.evrythngApiCorsUrl)) {
-				//As a EVRYTHNG url was specified on the options, we are justified
-				//in deducing the corresponding JSONP url, so that should CORS not me supported
-				//by the client we may fall back to JSONP
-
-				var url = null;
-				if("api.evrythng.com".indexOf(this.options.evrythngApiCorsUrl) != -1) url = "https://js-api.evrythng.com";
-				else if("api-staging".indexOf(this.options.evrythngApiCorsUrl) != -1) url = "https://js-api-staging.evrythng.net";
-				else if("api-test".indexOf(this.options.evrythngApiCorsUrl) != -1) url = "https://js-api-test.evrythng.net";
-
-				this.options.evrythngApiJsonpUrl = url;
-			}
+	}
+	if (this.options.evrythngApiUrl) {
+		if (this.options.evrythngApiUrl.indexOf('//js-api') !== -1) {
+			// backward compatibility
+			this.options.evrythngApiJsonpUrl = this.options.evrythngApiUrl;
+			this.options.evrythngApiCorsUrl = this.options.evrythngApiUrl.replace('//js-api', '//api');
+		}
+		else {
+			// cors by default
+			this.options.evrythngApiCorsUrl = this.options.evrythngApiUrl;
+			this.options.evrythngApiJsonpUrl = this.options.evrythngApiUrl.replace('//api', '//js-api');
 		}
 	}
 };
 
-/*
-	Actions API
-*/
+
+Evrythng.prototype.version = '1.0.0';
+
 
 /*
 	Checkin
@@ -822,9 +816,9 @@ Evrythng.prototype.jsonp = function(options, callback) {
 Evrythng.prototype.request = function(options, callback) {
 	var self = this,
 		corsResult;
-	if (this.options.evrythngApiCorsUrl || this.options.evrythngApiUrl) {
+	if (this.options.evrythngApiCorsUrl) {
 		var corsOptions = {
-			url: (this.options.evrythngApiCorsUrl || this.options.evrythngApiUrl) + options.url
+			url: this.options.evrythngApiCorsUrl + options.url
 				+ (options.url.indexOf('?') > -1 ? '&' : '?')
 				+ this.buildParams(options.params),
 			evrythngApiKey: this.options.evrythngApiKey
@@ -849,8 +843,6 @@ Evrythng.prototype.request = function(options, callback) {
 			}
 			return response;
 		});
-
-		colina = corsResult;
 	}
 	if (corsResult) {
 		return corsResult;
