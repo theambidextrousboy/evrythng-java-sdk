@@ -466,10 +466,7 @@ Evrythng.prototype.createMultimedia = function(options, callback) {
 	return self.request({
 		url: '/contents/multimedia',
 		data: options.data,
-		method: 'post',
-		params: {
-			access_token: options.evrythngApiKey
-		}
+		method: 'post'
 	}, callback);
 };
 
@@ -477,10 +474,7 @@ Evrythng.prototype.createMultimedia = function(options, callback) {
 Evrythng.prototype.readMultimedia = function(options, callback) {
 	var self = this;
 	return self.request({
-		url: options.multimedia ? self.buildUrl('/contents/multimedia/%s', options.multimedia) : '/contents/multimedia',
-		params: {
-			access_token: options.evrythngApiKey
-		}
+		url: options.multimedia ? self.buildUrl('/contents/multimedia/%s', options.multimedia) : '/contents/multimedia'
 	}, callback);
 };
 
@@ -727,6 +721,15 @@ Evrythng.prototype.fbFriends = function(options, callback) {
 
 
 /*
+	Error Handler
+*/
+Evrythng.prototype.handleError = function(options, callback) {
+	if (window.console) console.error('Evrythng.js Error', options);
+	if (typeof callback === 'function') callback.call(this, options);
+};
+
+
+/*
 	CORS request
 */
 Evrythng.prototype.createCORSRequest = function(method, url) {
@@ -749,15 +752,15 @@ Evrythng.prototype.createCORSRequest = function(method, url) {
 /*
 	CORS wrapper
 */
-Evrythng.prototype.cors = function(options, callback) {
-	var self = this;
+Evrythng.prototype.cors = function(options, callback, errorHandler) {
+	var self = this, method = options.method || 'GET';
 	if (typeof this.options.jQuery === 'function') {
 		if (!this.options.jQuery.support.cors) return null;
 		var promise = this.options.jQuery.ajax({
-			type: options.method || 'GET',
+			type: method,
 			url: options.url,
 			// workaround for DELETE request, which returns empty string (invalid JSON)
-			dataType: (options.method && options.method.toLowerCase() === 'delete') ? 'text' : 'json',
+			dataType: (method.toLowerCase() === 'delete') ? 'text' : 'json',
 			data: options.data,
 			processData: false,
 			contentType: 'application/json',
@@ -766,28 +769,58 @@ Evrythng.prototype.cors = function(options, callback) {
 				Authorization: options.evrythngApiKey
 			},
 			error: function(e) {
-				if (window.console) console.log('CORS request error', e);
+				self.handleError({
+					error: {
+						type: e.responseJSON ? 'server' : 'cors',
+						message: (e.responseJSON ? 'Server responded with an error for the CORS request' : 'Cannot establish CORS connection') + ' (using jQuery)',
+						url: options.url,
+						method: method
+					},
+					originalError: e,
+					responseError: e.responseJSON,
+					status: e.status
+				}, errorHandler);
 			}
 		});
 		return (typeof callback === 'function') ? promise.then(callback) : promise;
 	}
 	else {
-		var xhr = this.createCORSRequest(options.method || 'GET', options.url);
+		var xhr = this.createCORSRequest(method, options.url);
 		if (xhr) {
 			xhr.responseType = 'json';
 			xhr.setRequestHeader('Content-Type', 'application/json');
 			xhr.setRequestHeader('Accept', 'application/json');
 			xhr.setRequestHeader('Authorization', this.options.evrythngApiKey);
-			xhr.onload = function() {
+			xhr.onload = function(e) {
 				if (xhr.status.toString().indexOf('2') === 0) {
 					if (typeof callback === 'function') callback.call(self, xhr.response, xhr.status, xhr);
 				}
 				else {
-					if (window.console) console.log('CORS HTTP status', xhr.status);
+					self.handleError({
+						error: {
+							type: 'server',
+							message: 'Server responded with an error for the CORS request',
+							url: options.url,
+							method: method
+						},
+						originalError: e,
+						responseError: e.target.response,
+						status: e.target.status
+					}, errorHandler);
 				}
 			};
 			xhr.onerror = function(e) {
-				if (window.console) console.log('CORS request error', e);
+				self.handleError({
+					error: {
+						type: 'cors',
+						message: 'Cannot establish CORS connection',
+						url: options.url,
+						method: method
+					},
+					originalError: e,
+					responseError: e.target.response,
+					status: e.target.status
+				}, errorHandler);
 			};
 			xhr.send(options.data);
 		}
@@ -799,13 +832,79 @@ Evrythng.prototype.cors = function(options, callback) {
 /*
 	JSONP wrapper
 */
-Evrythng.prototype.jsonp = function(options, callback) {
+Evrythng.prototype.jsonp = function(options, callback, errorHandler) {
+	var self = this;
 	if (typeof this.options.jQuery === 'function') {
-		var promise = this.options.jQuery.getJSON(options.url);
-		return (typeof callback === 'function') ? promise.then(callback) : promise;
+		var promise = this.options.jQuery.ajax({
+				dataType: 'json',
+				url: options.url,
+				timeout: 10000,	// workaround for error handling
+				error: function(xhr, status, error) {
+					self.handleError({
+						error: {
+							type: 'jsonp',
+							message: 'Cannot establish JSONP connection (using jQuery)',
+							url: options.url,
+							method: 'GET'
+						},
+						originalError: xhr,
+						responseError: null,
+						status: xhr.status
+					}, errorHandler);
+				}
+			}),
+			callbackWrapper = function(data, status, xhr) {
+				if (data.errors && data.status) {
+					self.handleError({
+						error: {
+							type: 'server',
+							message: 'Server responded with an error for the JSONP request (using jQuery)',
+							url: options.url,
+							method: 'GET'
+						},
+						originalError: null,
+						responseError: xhr.responseJSON,
+						status: data.status
+					}, errorHandler);
+				}
+				else {
+					callback.call(self, data);
+				}
+			};
+				
+		return (typeof callback === 'function') ? promise.then(callbackWrapper) : promise;
 	}
 	else {
-		return load.jsonp(options.url, callback);
+		return load.jsonp(options.url, function(data) {
+			if (data.errors && data.status) {
+				self.handleError({
+					error: {
+						type: 'server',
+						message: 'Server responded with an error for the JSONP request',
+						url: options.url,
+						method: 'GET'
+					},
+					originalError: null,
+					responseError: data,
+					status: data.status
+				}, errorHandler);
+			}
+			else {
+				if (typeof callback === 'function') callback.call(self, data);
+			}
+		}, true, function(error) {
+			self.handleError({
+				error: {
+					type: 'jsonp',
+					message: 'Cannot establish JSONP connection',
+					url: options.url,
+					method: 'GET'
+				},
+				originalError: error,
+				responseError: null,
+				status: 0
+			}, errorHandler);
+		});
 	}
 };
 
@@ -1441,6 +1540,5 @@ Evrythng.prototype.Upload.prototype.generateThumbnail = function(file, callback)
 /*
 	Load.js - JavaScript js/css, jsonp/ajax, sync/async loader
 	Docs and source: https://github.com/articobandurini/load.js
-	Distributed under MIT license.
 */
-(function(b){var a=b.load=function(d){if(typeof d!=='object'||d instanceof Array){var c=a.args(arguments);d={url:c.url,callback:c.callback}}if(d.url&&d.url.length){if(typeof d.async==='undefined'){d.async=true}if(!d.type){d.type='js'}if(!(d.url instanceof Array)){d.url=[d.url]}a.sequence(d)}return a};a.sequence=function(e){var d=e.url.length,c=function(h){if(!h){h=1}d=d-h;if(!d&&typeof e.callback==='function'){e.callback.call(a)}},g=function(h){return h.length?(function(){c(h.length);a.sequence({url:h,async:e.async,type:e.type,callback:c})}):c};for(var f=0;f<e.url.length;f++){if(e.url[f] instanceof Array){a.sequence({url:e.url[f],async:e.async,type:e.type,callback:g(e.url.slice(f+1))});break}else{a.one({url:e.url[f],async:e.async,type:e.type,callback:c})}}return a};a.one=function(d){var c,f=false,e=document.getElementsByTagName('head')[0]||document.body;if(d.type==='css'||d.url.toLowerCase().match(/\.css$/)){f=true;c=document.createElement('link');c.rel='stylesheet';c.href=a.path(d.url+(d.url.toLowerCase().match(/\.css$/)?'':'.css'))}else{c=document.createElement('script');c.async=d.async;c.src=a.path(d.url+(d.type==='jsonp'||d.url.toLowerCase().match(/\.js$/)?'':'.js'))}e.appendChild(c);var g=function(h){if(typeof a.ready==='function'){a.ready.call(a,d.url)}if(typeof d.callback==='function'){d.callback.call(a)}if(!f&&h&&h.parentNode){h.parentNode.removeChild(h)}};if(navigator.userAgent.indexOf('MSIE')>=0){c.onreadystatechange=function(){if(this.readyState==='loaded'||this.readyState==='complete'){g(this)}}}else{c.onload=function(){g(this)}}return a};a.js=a.async=function(){var c=a.args(arguments);return a({url:c.url,callback:c.callback})};a.css=function(){var c=a.args(arguments);return a({url:c.url,callback:c.callback,type:'css'})};a.sync=function(){var c=a.args(arguments);return a({url:c.url,callback:c.callback,async:false})};a.jsonp=function(c,e,d){if(typeof e==='function'){if(!a.jsonp.index){a.jsonp.index=1}else{a.jsonp.index++}window['loadCallback'+a.jsonp.index]=e;c=c.replace('=?','=loadCallback'+a.jsonp.index)}return a.one({url:c,async:d!==false,type:'jsonp'})};a.ajax=function(c,h,d){var g;if(window.XMLHttpRequest){g=new XMLHttpRequest()}else{if(window.ActiveXObject){try{g=new ActiveXObject('Msxml2.XMLHTTP')}catch(f){try{g=new ActiveXObject('Microsoft.XMLHTTP')}catch(f){}}}}if(!g){return null}g.onreadystatechange=function(){if(g.readyState===4&&typeof h==='function'){h.call(g,g.responseText)}};g.open('GET',a.path(c),d);g.send();return a};a.args=function(c){var d=Array.prototype.slice.call(c);return{url:d,callback:(typeof d[d.length-1]==='function')?d.pop():undefined}};a.path=function(c){return c.match(/^(https?\:|file\:|\/)/i)?c:a.root+c};a.init=function(){a.root='';var f=document.getElementsByTagName('script'),d,e;for(var c=0;c<f.length;c++){if(f[c].src.match(/(^|\/)load(\.min)?\.js$/)||f[c].id==='load.js'){d=f[c].getAttribute('data-load');if(d){e=d.lastIndexOf('/')+1;a.root=e?d.substring(0,e):'';a({url:d.substring(e),async:f[c].getAttribute('data-async')!=='false'})}break}}};a.init()})(window);
+(function(b){var a=b.load=function(d){if(typeof d!=="object"||d instanceof Array){var c=a.args(arguments);d={url:c.url,callback:c.callback}}if(d.url&&d.url.length){if(typeof d.async==="undefined"){d.async=true}if(!d.type){d.type="js"}if(!(d.url instanceof Array)){d.url=[d.url]}a.sequence(d)}return a};a.sequence=function(e){var d=e.url.length,c=function(h){if(!h){h=1}d=d-h;if(!d&&typeof e.callback==="function"){e.callback.call(a)}},g=function(h){return h.length?(function(){c(h.length);a.sequence({url:h,async:e.async,type:e.type,callback:c})}):c};for(var f=0;f<e.url.length;f++){if(e.url[f] instanceof Array){a.sequence({url:e.url[f],async:e.async,type:e.type,callback:g(e.url.slice(f+1))});break}else{a.one({url:e.url[f],async:e.async,type:e.type,callback:c})}}return a};a.one=function(d){var c,f=false,e=document.getElementsByTagName("head")[0]||document.body;if(d.type==="css"||d.url.toLowerCase().match(/\.css$/)){f=true;c=document.createElement("link");c.rel="stylesheet";c.href=a.path(d.url+(d.url.toLowerCase().match(/\.css$/)?"":".css"))}else{c=document.createElement("script");c.async=d.async;c.src=a.path(d.url+(d.type==="jsonp"||d.url.toLowerCase().match(/\.js$/)?"":".js"))}e.appendChild(c);var g=function(i){if(typeof a.ready==="function"){a.ready.call(a,d.url)}if(typeof d.callback==="function"){d.callback.call(a)}if(!f&&i&&i.parentNode){i.parentNode.removeChild(i)}};var h=navigator.userAgent.match(/MSIE\s(\d+)/);if(h&&h[1]<11){c.onreadystatechange=function(){if(this.readyState==="loaded"||this.readyState==="complete"){g(this)}}}else{c.onload=function(){g(this)}}if(typeof d.errorHandler==="function"){c.onerror=function(i){d.errorHandler.call(a,i)}}return a};a.js=a.async=function(){var c=a.args(arguments);return a({url:c.url,callback:c.callback})};a.css=function(){var c=a.args(arguments);return a({url:c.url,callback:c.callback,type:"css"})};a.sync=function(){var c=a.args(arguments);return a({url:c.url,callback:c.callback,async:false})};a.jsonp=function(d,f,e,c){if(typeof f==="function"){if(!a.jsonp.index){a.jsonp.index=1}else{a.jsonp.index++}window["loadCallback"+a.jsonp.index]=f;d=d.replace("=?","=loadCallback"+a.jsonp.index)}return a.one({url:d,async:e!==false,type:"jsonp",errorHandler:c})};a.ajax=function(d,i,f,c){var h;if(window.XMLHttpRequest){h=new XMLHttpRequest()}else{if(window.ActiveXObject){try{h=new ActiveXObject("Msxml2.XMLHTTP")}catch(g){try{h=new ActiveXObject("Microsoft.XMLHTTP")}catch(g){}}}}if(!h){return null}h.onreadystatechange=function(){if(h.readyState===4&&typeof i==="function"){i.call(h,h.responseText)}};if(typeof c==="function"){h.onerror=function(j){c.call(a,j)}}h.open("GET",a.path(d),f);h.send();return a};a.args=function(c){var d=Array.prototype.slice.call(c);return{url:d,callback:(typeof d[d.length-1]==="function")?d.pop():undefined}};a.path=function(c){return c.match(/^(https?\:|file\:|\/)/i)?c:a.root+c};a.init=function(){a.root="";var f=document.getElementsByTagName("script"),d,e;for(var c=0;c<f.length;c++){if(f[c].src.match(/(^|\/)load(\.min)?\.js$/)||f[c].id==="load.js"){d=f[c].getAttribute("data-load");if(d){e=d.lastIndexOf("/")+1;a.root=e?d.substring(0,e):"";a({url:d.substring(e),async:f[c].getAttribute("data-async")!=="false"})}break}}};a.init()})(window);
