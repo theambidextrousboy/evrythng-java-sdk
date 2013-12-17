@@ -10,8 +10,7 @@ package com.evrythng.thng.resource.model.store.geojson;
  **/
 public class GeoJsonMultiPoint extends GeoJsonMultiCoordinate {
 
-	protected GeoJsonMultiPoint(GeoJsonType type) {
+	public GeoJsonMultiPoint() {
 		super(GeoJsonType.MULTI_POINT);
 	}
-
 }
