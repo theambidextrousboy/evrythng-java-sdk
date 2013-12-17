@@ -1,42 +1,43 @@
 package com.evrythng.thng.resource.model.store.geojson;
 
-import java.util.HashMap;
 import java.util.Map;
 
+import com.evrythng.commons.EnumUtils;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum GeoJsonType {
-	POINT("Point"),
-	POLYGON("Polygon");
-	
-	private static Map<String, GeoJsonType> geoJSONTypeNames = new HashMap<String, GeoJsonType>();
+	POINT("Point"), MULTI_POINT("MultiPoint")/*
+											 * , LINE_STRING("LineString"),
+											 * MULTI_LINE_STRING
+											 * ("MultiLineString"),
+											 * POLYGON("Polygon"),
+											 * MULTI_POLYGON("MultiPolygon"),
+											 * GEOMETRY_COLLECTION(
+											 * "GeometryCollection"),
+											 * FEATURE("Feature"),
+											 * FEATURE_COLLECTION
+											 * ("FeatureCollection")
+											 */;
+
+	private static Map<String, GeoJsonType> geoJSONTypeNames;
 	private String type;
-	
+
 	private GeoJsonType(String type) {
 		this.type = type;
 	}
 
 	static {
-		for (GeoJsonType t : values()) {
-			geoJSONTypeNames.put(t.type, t);
-		}
+		geoJSONTypeNames = EnumUtils.createNames(values());
 	}
 
 	@JsonValue
 	public String toString() {
 		return type;
 	}
-	
+
 	@JsonCreator
 	public static GeoJsonType fromString(String typeName) {
-		if (typeName == null) {
-			return null;
-		}
-		GeoJsonType t = geoJSONTypeNames.get(typeName);
-		if (t == null) {
-			throw new IllegalArgumentException("Invalid enum value.");
-		}
-		return t;
+		return EnumUtils.fromString(geoJSONTypeNames, typeName);
 	}
 }
