@@ -10,7 +10,7 @@ import com.evrythng.thng.resource.model.store.ILocation;
 import com.evrythng.thng.resource.model.store.LocationHelper;
 
 /**
- * Geo JSON location to be used within a parent model.
+ * Geo JSON position to be used within a parent model.
  * 
  * @author colin
  **/
