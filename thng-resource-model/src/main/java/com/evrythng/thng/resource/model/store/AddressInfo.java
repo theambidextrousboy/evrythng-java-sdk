@@ -66,21 +66,24 @@ public class AddressInfo {
 				"ZIMBABWE");
 
 		private static Map<String, CountryCode> names = new HashMap<String, CountryCode>();
-		private static Map<String, CountryCode> countryNames = new HashMap<String, CountryCode>();
+		private static Map<String, String> countryNames;
 		private String code;
 		private String country;
 
 		private CountryCode(String code, String country) {
 			this.code = code;
 			this.country = country;
-			addCountry(country, this);
+			addCountry(country, code);
 		}
 
 		static {
 			names = EnumUtils.createNames(values());
 		}
 
-		private static void addCountry(String country, CountryCode code) {
+		private static void addCountry(String country, String code) {
+			if (countryNames == null) {
+				countryNames = new HashMap<String, String>();
+			}
 			countryNames.put(country, code);
 		}
 
@@ -99,12 +102,12 @@ public class AddressInfo {
 			return EnumUtils.fromString(names, name == null ? name : name.toUpperCase());
 		}
 
-		public static CountryCode getFromCountryName(String name) {
+		public static String getCodeFromCountryName(String name) {
 			try {
-				if (!countryNames.containsKey(name.toUpperCase())) {
+				if (!countryNames.containsKey(name.trim().toUpperCase())) {
 					throw new NullPointerException();
 				}
-				return countryNames.get(name.toUpperCase());
+				return countryNames.get(name.trim().toUpperCase());
 			} catch (Exception e) {
 				throw new IllegalArgumentException("Country name not recognised", e);
 			}
