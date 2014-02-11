@@ -28,67 +28,99 @@ public class AddressInfo {
 	 */
 	public enum CountryCode {
 
-		AF("AF", "AFGHANISTAN"), AX("AX", "ÅLAND ISLANDS"), AL("AL", "ALBANIA"), DZ("DZ", "ALGERIA"), AS("AS", "AMERICAN SAMOA"), AD("AD", "ANDORRA"), AO("AO", "ANGOLA"), AI("AI", "ANGUILLA"), AQ(
-				"AQ", "ANTARCTICA"), AG("AG", "ANTIGUA AND BARBUDA"), AR("AR", "ARGENTINA"), AM("AM", "ARMENIA"), AW("AW", "ARUBA"), AU("AU", "AUSTRALIA"), AT("AT", "AUSTRIA"), AZ("AZ", "AZERBAIJAN"), BS(
-				"BS", "BAHAMAS"), BH("BH", "BAHRAIN"), BD("BD", "BANGLADESH"), BB("BB", "BARBADOS"), BY("BY", "BELARUS"), BE("BE", "BELGIUM"), BZ("BZ", "BELIZE"), BJ("BJ", "BENIN"), BM("BM",
-				"BERMUDA"), BT("BT", "BHUTAN"), BO("BO", "BOLIVIA, PLURINATIONAL STATE OF"), BQ("BQ", "BONAIRE, SINT EUSTATIUS AND SABA"), BA("BA", "BOSNIA AND HERZEGOVINA"), BW("BW", "BOTSWANA"), BV(
-				"BV", "BOUVET ISLAND"), BR("BR", "BRAZIL"), IO("IO", "BRITISH INDIAN OCEAN TERRITORY"), BN("BN", "BRUNEI DARUSSALAM"), BG("BG", "BULGARIA"), BF("BF", "BURKINA FASO"), BI("BI",
-				"BURUNDI"), KH("KH", "CAMBODIA"), CM("CM", "CAMEROON"), CA("CA", "CANADA"), CV("CV", "CAPE VERDE"), KY("KY", "CAYMAN ISLANDS"), CF("CF", "CENTRAL AFRICAN REPUBLIC"), TD("TD", "CHAD"), CL(
-				"CL", "CHILE"), CN("CN", "CHINA"), CX("CX", "CHRISTMAS ISLAND"), CC("CC", "COCOS (KEELING) ISLANDS"), CO("CO", "COLOMBIA"), KM("KM", "COMOROS"), CG("CG", "CONGO"), CD("CD",
-				"CONGO, THE DEMOCRATIC REPUBLIC OF THE"), CK("CK", "COOK ISLANDS"), CR("CR", "COSTA RICA"), CI("CI", "CÔTE D'IVOIRE"), HR("HR", "CROATIA"), CU("CU", "CUBA"), CW("CW", "CURAÇAO"), CY(
-				"CY", "CYPRUS"), CZ("CZ", "CZECH REPUBLIC"), DK("DK", "DENMARK"), DJ("DJ", "DJIBOUTI"), DM("DM", "DOMINICA"), DO("DO", "DOMINICAN REPUBLIC"), EC("EC", "ECUADOR"), EG("EG", "EGYPT"), SV(
-				"SV", "EL SALVADOR"), GQ("GQ", "EQUATORIAL GUINEA"), ER("ER", "ERITREA"), EE("EE", "ESTONIA"), ET("ET", "ETHIOPIA"), FK("FK", "FALKLAND ISLANDS (MALVINAS)"), FO("FO", "FAROE ISLANDS"), FJ(
-				"FJ", "FIJI"), FI("FI", "FINLAND"), FR("FR", "FRANCE"), GF("GF", "FRENCH GUIANA"), PF("PF", "FRENCH POLYNESIA"), TF("TF", "FRENCH SOUTHERN TERRITORIES"), GA("GA", "GABON"), GM("GM",
-				"GAMBIA"), GE("GE", "GEORGIA"), DE("DE", "GERMANY"), GH("GH", "GHANA"), GI("GI", "GIBRALTAR"), GR("GR", "GREECE"), GL("GL", "GREENLAND"), GD("GD", "GRENADA"), GP("GP", "GUADELOUPE"), GU(
-				"GU", "GUAM"), GT("GT", "GUATEMALA"), GG("GG", "GUERNSEY"), GN("GN", "GUINEA"), GW("GW", "GUINEA-BISSAU"), GY("GY", "GUYANA"), HT("HT", "HAITI"), HM("HM",
-				"HEARD ISLAND AND MCDONALD ISLANDS"), VA("VA", "HOLY SEE (VATICAN CITY STATE)"), HN("HN", "HONDURAS"), HK("HK", "HONG KONG"), HU("HU", "HUNGARY"), IS("IS", "ICELAND"), IN("IN",
-				"INDIA"), ID("ID", "INDONESIA"), IR("IR", "IRAN, ISLAMIC REPUBLIC OF"), IQ("IQ", "IRAQ"), IE("IE", "IRELAND"), IM("IM", "ISLE OF MAN"), IL("IL", "ISRAEL"), IT("IT", "ITALY"), JM("JM",
-				"JAMAICA"), JP("JP", "JAPAN"), JE("JE", "JERSEY"), JO("JO", "JORDAN"), KZ("KZ", "KAZAKHSTAN"), KE("KE", "KENYA"), KI("KI", "KIRIBATI"), KP("KP",
-				"KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF"), KR("KR", "KOREA, REPUBLIC OF"), KW("KW", "KUWAIT"), KG("KG", "KYRGYZSTAN"), LA("LA", "LAO PEOPLE'S DEMOCRATIC REPUBLIC"), LV("LV", "LATVIA"), LB(
-				"LB", "LEBANON"), LS("LS", "LESOTHO"), LR("LR", "LIBERIA"), LY("LY", "LIBYA"), LI("LI", "LIECHTENSTEIN"), LT("LT", "LITHUANIA"), LU("LU", "LUXEMBOURG"), MO("MO", "MACAO"), MK("MK",
-				"MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF"), MG("MG", "MADAGASCAR"), MW("MW", "MALAWI"), MY("MY", "MALAYSIA"), MV("MV", "MALDIVES"), ML("ML", "MALI"), MT("MT", "MALTA"), MH("MH",
-				"MARSHALL ISLANDS"), MQ("MQ", "MARTINIQUE"), MR("MR", "MAURITANIA"), MU("MU", "MAURITIUS"), YT("YT", "MAYOTTE"), MX("MX", "MEXICO"), FM("FM", "MICRONESIA, FEDERATED STATES OF"), MD(
-				"MD", "MOLDOVA, REPUBLIC OF"), MC("MC", "MONACO"), MN("MN", "MONGOLIA"), ME("ME", "MONTENEGRO"), MS("MS", "MONTSERRAT"), MA("MA", "MOROCCO"), MZ("MZ", "MOZAMBIQUE"), MM("MM",
-				"MYANMAR"), NA("NA", "NAMIBIA"), NR("NR", "NAURU"), NP("NP", "NEPAL"), NL("NL", "NETHERLANDS"), NC("NC", "NEW CALEDONIA"), NZ("NZ", "NEW ZEALAND"), NI("NI", "NICARAGUA"), NE("NE",
-				"NIGER"), NG("NG", "NIGERIA"), NU("NU", "NIUE"), NF("NF", "NORFOLK ISLAND"), MP("MP", "NORTHERN MARIANA ISLANDS"), NO("NO", "NORWAY"), OM("OM", "OMAN"), PK("PK", "PAKISTAN"), PW("PW",
-				"PALAU"), PS("PS", "PALESTINE, STATE OF"), PA("PA", "PANAMA"), PG("PG", "PAPUA NEW GUINEA"), PY("PY", "PARAGUAY"), PE("PE", "PERU"), PH("PH", "PHILIPPINES"), PN("PN", "PITCAIRN"), PL(
-				"PL", "POLAND"), PT("PT", "PORTUGAL"), PR("PR", "PUERTO RICO"), QA("QA", "QATAR"), RE("RE", "RÉUNION"), RO("RO", "ROMANIA"), RU("RU", "RUSSIAN FEDERATION"), RW("RW", "RWANDA"), BL(
-				"BL", "SAINT BARTHÉLEMY"), SH("SH", "SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA"), KN("KN", "SAINT KITTS AND NEVIS"), LC("LC", "SAINT LUCIA"), MF("MF", "SAINT MARTIN (FRENCH PART)"), PM(
-				"PM", "SAINT PIERRE AND MIQUELON"), VC("VC", "SAINT VINCENT AND THE GRENADINES"), WS("WS", "SAMOA"), SM("SM", "SAN MARINO"), ST("ST", "SAO TOME AND PRINCIPE"), SA("SA", "SAUDI ARABIA"), SN(
-				"SN", "SENEGAL"), RS("RS", "SERBIA"), SC("SC", "SEYCHELLES"), SL("SL", "SIERRA LEONE"), SG("SG", "SINGAPORE"), SX("SX", "SINT MAARTEN (DUTCH PART)"), SK("SK", "SLOVAKIA"), SI("SI",
-				"SLOVENIA"), SB("SB", "SOLOMON ISLANDS"), SO("SO", "SOMALIA"), ZA("ZA", "SOUTH AFRICA"), GS("GS", "SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS"), SS("SS", "SOUTH SUDAN"), ES("ES",
-				"SPAIN"), LK("LK", "SRI LANKA"), SD("SD", "SUDAN"), SR("SR", "SURINAME"), SJ("SJ", "SVALBARD AND JAN MAYEN"), SZ("SZ", "SWAZILAND"), SE("SE", "SWEDEN"), CH("CH", "SWITZERLAND"), SY(
-				"SY", "SYRIAN ARAB REPUBLIC"), TW("TW", "TAIWAN, PROVINCE OF CHINA"), TJ("TJ", "TAJIKISTAN"), TZ("TZ", "TANZANIA, UNITED REPUBLIC OF"), TH("TH", "THAILAND"), TL("TL", "TIMOR-LESTE"), TG(
-				"TG", "TOGO"), TK("TK", "TOKELAU"), TO("TO", "TONGA"), TT("TT", "TRINIDAD AND TOBAGO"), TN("TN", "TUNISIA"), TR("TR", "TURKEY"), TM("TM", "TURKMENISTAN"), TC("TC",
-				"TURKS AND CAICOS ISLANDS"), TV("TV", "TUVALU"), UG("UG", "UGANDA"), UA("UA", "UKRAINE"), AE("AE", "UNITED ARAB EMIRATES"), GB("GB", "UNITED KINGDOM"), US("US", "UNITED STATES"), UM(
-				"UM", "UNITED STATES MINOR OUTLYING ISLANDS"), UY("UY", "URUGUAY"), UZ("UZ", "UZBEKISTAN"), VU("VU", "VANUATU"), VE("VE", "VENEZUELA, BOLIVARIAN REPUBLIC OF"), VN("VN", "VIET NAM"), VG(
-				"VG", "VIRGIN ISLANDS, BRITISH"), VI("VI", "VIRGIN ISLANDS, U.S."), WF("WF", "WALLIS AND FUTUNA"), EH("EH", "WESTERN SAHARA"), YE("YE", "YEMEN"), ZM("ZM", "ZAMBIA"), ZW("ZW",
-				"ZIMBABWE");
+		AF("AF", "AFGHANISTAN", "Afghanistan"), AX("AX", "ÅLAND ISLANDS", "Aland Islands"), AL("AL", "ALBANIA", "Albania"), DZ("DZ", "ALGERIA", "Algeria"), AS("AS", "AMERICAN SAMOA", "American Samoa"), AD(
+				"AD", "ANDORRA", "Andorra"), AO("AO", "ANGOLA", "Angola"), AI("AI", "ANGUILLA", "Anguilla"), AQ("AQ", "ANTARCTICA", "Antarctica"), AG("AG", "ANTIGUA AND BARBUDA",
+				"Antigua and Barbuda"), AR("AR", "ARGENTINA", "Argentina"), AM("AM", "ARMENIA", "Armenia"), AW("AW", "ARUBA", "Aruba"), AU("AU", "AUSTRALIA", "Australia"), AT("AT", "AUSTRIA",
+				"Austria"), AZ("AZ", "AZERBAIJAN", "Azerbaijan"), BS("BS", "BAHAMAS", "Bahamas"), BH("BH", "BAHRAIN", "Bahrain"), BD("BD", "BANGLADESH", "Bangladesh"), BB("BB", "BARBADOS", "Barbados"), BY(
+				"BY", "BELARUS", "Belarus"), BE("BE", "BELGIUM", "Belgium"), BZ("BZ", "BELIZE", "Belize"), BJ("BJ", "BENIN", "Benin"), BM("BM", "BERMUDA", "Bermuda"), BT("BT", "BHUTAN", "Bhutan"), BO(
+				"BO", "BOLIVIA, PLURINATIONAL STATE OF", "Bolivia"), BQ("BQ", "BONAIRE, SINT EUSTATIUS AND SABA", "Bonaire, Saint Eustatius and Saba"), BA("BA", "BOSNIA AND HERZEGOVINA",
+				"Bosnia and Herzegovina"), BW("BW", "BOTSWANA", "Botswana"), BV("BV", "BOUVET ISLAND", "Bouvet Island"), BR("BR", "BRAZIL", "Brazil"), IO("IO", "BRITISH INDIAN OCEAN TERRITORY",
+				"British Indian Ocean Territory"), BN("BN", "BRUNEI DARUSSALAM", "Brunei Darussalam"), BG("BG", "BULGARIA", "Bulgaria"), BF("BF", "BURKINA FASO", "Burkina Faso"), BI("BI", "BURUNDI",
+				"Burundi"), KH("KH", "CAMBODIA", "Cambodia"), CM("CM", "CAMEROON", "Cameroon"), CA("CA", "CANADA", "Canada"), CV("CV", "CAPE VERDE", "Cape Verde"), KY("KY", "CAYMAN ISLANDS",
+				"Cayman Islands"), CF("CF", "CENTRAL AFRICAN REPUBLIC", "Central African Republic"), TD("TD", "CHAD", "Chad"), CL("CL", "CHILE", "Chile"), CN("CN", "CHINA", "China"), CX("CX",
+				"CHRISTMAS ISLAND", "Christmas Island"), CC("CC", "COCOS (KEELING) ISLANDS", "Cocos (Keeling) Islands"), CO("CO", "COLOMBIA", "Colombia"), KM("KM", "COMOROS", "Comoros"), CG("CG",
+				"CONGO", "Congo"), CD("CD", "CONGO, THE DEMOCRATIC REPUBLIC OF THE", "Congo, The Democratic Republic of the"), CK("CK", "COOK ISLANDS", "Cook Islands"), CR("CR", "COSTA RICA",
+				"Costa Rica"), CI("CI", "CÔTE D'IVOIRE", "Cote d'Ivoire"), HR("HR", "CROATIA", "Croatia"), CU("CU", "CUBA", "Cuba"), CW("CW", "CURAÇAO", "Curacao"), CY("CY", "CYPRUS", "Cyprus"), CZ(
+				"CZ", "CZECH REPUBLIC", "Czech Republic"), DK("DK", "DENMARK", "Denmark"), DJ("DJ", "DJIBOUTI", "Djibouti"), DM("DM", "DOMINICA", "Dominica"), DO("DO", "DOMINICAN REPUBLIC",
+				"Dominican Republic"), EC("EC", "ECUADOR", "Ecuador"), EG("EG", "EGYPT", "Egypt"), SV("SV", "EL SALVADOR", "El Salvador"), GQ("GQ", "EQUATORIAL GUINEA", "Equatorial Guinea"), ER("ER",
+				"ERITREA", "Eritrea"), EE("EE", "ESTONIA", "Estonia"), ET("ET", "ETHIOPIA", "Ethiopia"), FK("FK", "FALKLAND ISLANDS (MALVINAS)", "Falkland Islands (Malvinas)"), FO("FO",
+				"FAROE ISLANDS", "Faroe Islands"), FJ("FJ", "FIJI", "Fiji"), FI("FI", "FINLAND", "Finland"), FR("FR", "FRANCE", "France"), GF("GF", "FRENCH GUIANA", "French Guiana"), PF("PF",
+				"FRENCH POLYNESIA", "French Polynesia"), TF("TF", "FRENCH SOUTHERN TERRITORIES", "French Southern Territories"), GA("GA", "GABON", "Gabon"), GM("GM", "GAMBIA", "Gambia"), GE("GE",
+				"GEORGIA", "Georgia"), DE("DE", "GERMANY", "Germany"), GH("GH", "GHANA", "Ghana"), GI("GI", "GIBRALTAR", "Gibraltar"), GR("GR", "GREECE", "Greece"), GL("GL", "GREENLAND", "Greenland"), GD(
+				"GD", "GRENADA", "Grenada"), GP("GP", "GUADELOUPE", "Guadeloupe"), GU("GU", "GUAM", "Guam"), GT("GT", "GUATEMALA", "Guatemala"), GG("GG", "GUERNSEY", "Guernsey"), GN("GN", "GUINEA",
+				"Guinea"), GW("GW", "GUINEA-BISSAU", "Guinea-Bissau"), GY("GY", "GUYANA", "Guyana"), HT("HT", "HAITI", "Haiti"), HM("HM", "HEARD ISLAND AND MCDONALD ISLANDS",
+				"Heard Island and McDonald Islands"), VA("VA", "HOLY SEE (VATICAN CITY STATE)", "Holy See (Vatican City State)"), HN("HN", "HONDURAS", "Honduras"), HK("HK", "HONG KONG", "Hong Kong"), HU(
+				"HU", "HUNGARY", "Hungary"), IS("IS", "ICELAND", "Iceland"), IN("IN", "INDIA", "India"), ID("ID", "INDONESIA", "Indonesia"), IR("IR", "IRAN, ISLAMIC REPUBLIC OF",
+				"Iran, Islamic Republic of"), IQ("IQ", "IRAQ", "Iraq"), IE("IE", "IRELAND", "Ireland"), IM("IM", "ISLE OF MAN", "Isle of Man"), IL("IL", "ISRAEL", "Israel"), IT("IT", "ITALY", "Italy"), JM(
+				"JM", "JAMAICA", "Jamaica"), JP("JP", "JAPAN", "Japan"), JE("JE", "JERSEY", "Jersey"), JO("JO", "JORDAN", "Jordan"), KZ("KZ", "KAZAKHSTAN", "Kazakhstan"), KE("KE", "KENYA", "Kenya"), KI(
+				"KI", "KIRIBATI", "Kiribati"), KP("KP", "KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF", "Korea, Democratic People's Republic of"), KR("KR", "KOREA, REPUBLIC OF", "South Korea"), KW("KW",
+				"KUWAIT", "Kuwait"), KG("KG", "KYRGYZSTAN", "Kyrgyzstan"), LA("LA", "LAO PEOPLE'S DEMOCRATIC REPUBLIC", "Lao People's Democratic Republic"), LV("LV", "LATVIA", "Latvia"), LB("LB",
+				"LEBANON", "Lebanon"), LS("LS", "LESOTHO", "Lesotho"), LR("LR", "LIBERIA", "Liberia"), LY("LY", "LIBYA", "Libyan Arab Jamahiriya"), LI("LI", "LIECHTENSTEIN", "Liechtenstein"), LT(
+				"LT", "LITHUANIA", "Lithuania"), LU("LU", "LUXEMBOURG", "Luxembourg"), MO("MO", "MACAO", "Macao"), MK("MK", "MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF", "Macedonia"), MG("MG",
+				"MADAGASCAR", "Madagascar"), MW("MW", "MALAWI", "Malawi"), MY("MY", "MALAYSIA", "Malaysia"), MV("MV", "MALDIVES", "Maldives"), ML("ML", "MALI", "Mali"), MT("MT", "MALTA", "Malta"), MH(
+				"MH", "MARSHALL ISLANDS", "Marshall Islands"), MQ("MQ", "MARTINIQUE", "Martinique"), MR("MR", "MAURITANIA", "Mauritania"), MU("MU", "MAURITIUS", "Mauritius"), YT("YT", "MAYOTTE",
+				"Mayotte"), MX("MX", "MEXICO", "Mexico"), FM("FM", "MICRONESIA, FEDERATED STATES OF", "Micronesia, Federated States of"), MD("MD", "MOLDOVA, REPUBLIC OF", "Moldova, Republic of"), MC(
+				"MC", "MONACO", "Monaco"), MN("MN", "MONGOLIA", "Mongolia"), ME("ME", "MONTENEGRO", "Montenegro"), MS("MS", "MONTSERRAT", "Montserrat"), MA("MA", "MOROCCO", "Morocco"), MZ("MZ",
+				"MOZAMBIQUE", "Mozambique"), MM("MM", "MYANMAR", "Myanmar"), NA("NA", "NAMIBIA", "Namibia"), NR("NR", "NAURU", "Nauru"), NP("NP", "NEPAL", "Nepal"), NL("NL", "NETHERLANDS",
+				"Netherlands"), NC("NC", "NEW CALEDONIA", "New Caledonia"), NZ("NZ", "NEW ZEALAND", "New Zealand"), NI("NI", "NICARAGUA", "Nicaragua"), NE("NE", "NIGER", "Niger"), NG("NG", "NIGERIA",
+				"Nigeria"), NU("NU", "NIUE", "Niue"), NF("NF", "NORFOLK ISLAND", "Norfolk Island"), MP("MP", "NORTHERN MARIANA ISLANDS", "Northern Mariana Islands"), NO("NO", "NORWAY", "Norway"), OM(
+				"OM", "OMAN", "Oman"), PK("PK", "PAKISTAN", "Pakistan"), PW("PW", "PALAU", "Palau"), PS("PS", "PALESTINE, STATE OF", "Palestinian Territory"), PA("PA", "PANAMA", "Panama"), PG("PG",
+				"PAPUA NEW GUINEA", "Papua New Guinea"), PY("PY", "PARAGUAY", "Paraguay"), PE("PE", "PERU", "Peru"), PH("PH", "PHILIPPINES", "Philippines"), PN("PN", "PITCAIRN", "Pitcairn"), PL("PL",
+				"POLAND", "Poland"), PT("PT", "PORTUGAL", "Portugal"), PR("PR", "PUERTO RICO", "Puerto Rico"), QA("QA", "QATAR", "Qatar"), RE("RE", "RÉUNION", "Reunion"), RO("RO", "ROMANIA",
+				"Romania"), RU("RU", "RUSSIAN FEDERATION", "Russia"), RW("RW", "RWANDA", "Rwanda"), BL("BL", "SAINT BARTHÉLEMY", "Saint Bartelemey"), SH("SH",
+				"SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA", "Saint Helena"), KN("KN", "SAINT KITTS AND NEVIS", "Saint Kitts and Nevis"), LC("LC", "SAINT LUCIA", "Saint Lucia"), MF("MF",
+				"SAINT MARTIN (FRENCH PART)", "Saint Martin"), PM("PM", "SAINT PIERRE AND MIQUELON", "Saint Pierre and Miquelon"), VC("VC", "SAINT VINCENT AND THE GRENADINES",
+				"Saint Vincent and the Grenadines"), WS("WS", "SAMOA", "Samoa"), SM("SM", "SAN MARINO", "San Marino"), ST("ST", "SAO TOME AND PRINCIPE", "Sao Tome and Principe"), SA("SA",
+				"SAUDI ARABIA", "Saudi Arabia"), SN("SN", "SENEGAL", "Senegal"), RS("RS", "SERBIA", "Serbia"), SC("SC", "SEYCHELLES", "Seychelles"), SL("SL", "SIERRA LEONE", "Sierra Leone"), SG("SG",
+				"SINGAPORE", "Singapore"), SX("SX", "SINT MAARTEN (DUTCH PART)", "Sint Maarten"), SK("SK", "SLOVAKIA", "Slovakia"), SI("SI", "SLOVENIA", "Slovenia"), SB("SB", "SOLOMON ISLANDS",
+				"Solomon Islands"), SO("SO", "SOMALIA", "Somalia"), ZA("ZA", "SOUTH AFRICA", "South Africa"), GS("GS", "SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS",
+				"South Georgia and the South Sandwich Islands"), SS("SS", "SOUTH SUDAN", "South Sudan"), ES("ES", "SPAIN", "Spain"), LK("LK", "SRI LANKA", "Sri Lanka"), SD("SD", "SUDAN", "Sudan"), SR(
+				"SR", "SURINAME", "Suriname"), SJ("SJ", "SVALBARD AND JAN MAYEN", "Svalbard and Jan Mayen"), SZ("SZ", "SWAZILAND", "Swaziland"), SE("SE", "SWEDEN", "Sweden"), CH("CH", "SWITZERLAND",
+				"Switzerland"), SY("SY", "SYRIAN ARAB REPUBLIC", "Syria"), TW("TW", "TAIWAN, PROVINCE OF CHINA", "Taiwan"), TJ("TJ", "TAJIKISTAN", "Tajikistan"), TZ("TZ",
+				"TANZANIA, UNITED REPUBLIC OF", "Tanzania, United Republic of"), TH("TH", "THAILAND", "Thailand"), TL("TL", "TIMOR-LESTE", "Timor-Leste"), TG("TG", "TOGO", "Togo"), TK("TK",
+				"TOKELAU", "Tokelau"), TO("TO", "TONGA", "Tonga"), TT("TT", "TRINIDAD AND TOBAGO", "Trinidad and Tobago"), TN("TN", "TUNISIA", "Tunisia"), TR("TR", "TURKEY", "Turkey"), TM("TM",
+				"TURKMENISTAN", "Turkmenistan"), TC("TC", "TURKS AND CAICOS ISLANDS", "Turks and Caicos Islands"), TV("TV", "TUVALU", "Tuvalu"), UG("UG", "UGANDA", "Uganda"), UA("UA", "UKRAINE",
+				"Ukraine"), AE("AE", "UNITED ARAB EMIRATES", "United Arab Emirates"), GB("GB", "UNITED KINGDOM", "United Kingdom"), US("US", "UNITED STATES", "United States"), UM("UM",
+				"UNITED STATES MINOR OUTLYING ISLANDS", "United States Minor Outlying Islands"), UY("UY", "URUGUAY", "Uruguay"), UZ("UZ", "UZBEKISTAN", "Uzbekistan"), VU("VU", "VANUATU", "Vanuatu"), VE(
+				"VE", "VENEZUELA, BOLIVARIAN REPUBLIC OF", "Venezuela"), VN("VN", "VIET NAM", "Vietnam"), VG("VG", "VIRGIN ISLANDS, BRITISH", "Virgin Islands, British"), VI("VI",
+				"VIRGIN ISLANDS, U.S.", "Virgin Islands, U.S."), WF("WF", "WALLIS AND FUTUNA", "Wallis and Futuna"), EH("EH", "WESTERN SAHARA", "Western Sahara"), YE("YE", "YEMEN", "Yemen"), ZM("ZM",
+				"ZAMBIA", "Zambia"), ZW("ZW", "ZIMBABWE", "Zimbabwe");
 
 		private static Map<String, CountryCode> names = new HashMap<String, CountryCode>();
 		private static Map<String, String> countryNames;
+		private static Map<String, String> softCountryNames;
 		private String code;
 		private String country;
+		private String softCountry;
 
-		private CountryCode(String code, String country) {
+		private CountryCode(String code, String country, String softCountry) {
 			this.code = code;
 			this.country = country;
-			addCountry(country, code);
+			this.softCountry = softCountry;
+			addCountry(country, softCountry, code);
 		}
 
 		static {
 			names = EnumUtils.createNames(values());
 		}
 
-		private static void addCountry(String country, String code) {
+		private static void addCountry(String country, String softCountry, String code) {
 			if (countryNames == null) {
 				countryNames = new HashMap<String, String>();
 			}
+			if (softCountryNames == null) {
+				softCountryNames = new HashMap<String, String>();
+			}
 			countryNames.put(country, code);
+			softCountryNames.put(softCountry, code);
 		}
 
 		public String getCountry() {
 			return country;
+		}
+
+		public String getSoftCountry() {
+			return softCountry;
 		}
 
 		@JsonValue
@@ -104,10 +136,14 @@ public class AddressInfo {
 
 		public static String getCodeFromCountryName(String name) {
 			try {
-				if (!countryNames.containsKey(name.trim().toUpperCase())) {
-					throw new NullPointerException();
+				String countryName = name.trim().toUpperCase();
+				if (!countryNames.containsKey(countryName)) {
+					if (!softCountryNames.containsKey(name.trim())) {
+						throw new NullPointerException();
+					}
+					return softCountryNames.get(name.trim());
 				}
-				return countryNames.get(name.trim().toUpperCase());
+				return countryNames.get(countryName);
 			} catch (Exception e) {
 				throw new IllegalArgumentException("Country name not recognised", e);
 			}
