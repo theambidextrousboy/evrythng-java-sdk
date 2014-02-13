@@ -9,6 +9,7 @@ import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.thng.resource.model.store.Product;
 import com.evrythng.thng.resource.model.store.Property;
+import com.evrythng.thng.resource.model.store.Redirector;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
@@ -23,6 +24,9 @@ public class ProductService extends EvrythngServiceBase {
 	public static final String PATH_PRODUCT = PATH_PRODUCTS + "/%s";
 	public static final String PATH_PRODUCT_PROPERTIES = PATH_PRODUCT + "/properties";
 	public static final String PATH_PRODUCT_PROPERTY = PATH_PRODUCT_PROPERTIES + "/%s";
+
+	public static final String PATH_PRODUCT_REDIRECTOR = PATH_PRODUCT + "/redirector";
+	public static final String PATH_PRODUCT_REDIRECTOR_QR = PATH_PRODUCT_REDIRECTOR + "/qr";
 
 	public ProductService(ApiManager apiManager) {
 		super(apiManager);
@@ -210,5 +214,46 @@ public class ProductService extends EvrythngServiceBase {
 	 */
 	public Builder<Boolean> propertyDeleter(String productId, String key) throws EvrythngClientException {
 		return delete(String.format(PATH_PRODUCT_PROPERTY, productId, key));
+	}
+
+	/* ***** /products/{id}/redirector ***** */
+
+	/**
+	 * POST {@value #PATH_PRODUCT_REDIRECTOR}
+	 * 
+	 * Creates a redirector for the Product.
+	 */
+	public Builder<Redirector> redirectorCreator(String productId, Redirector redirection) throws EvrythngClientException {
+		return post(String.format(PATH_PRODUCT_REDIRECTOR, productId), redirection, new TypeReference<Redirector>() {
+		});
+	}
+
+	/**
+	 * GET {@value #PATH_PRODUCT_REDIRECTOR}
+	 * 
+	 * Retrieves the redirector for the Product.
+	 */
+	public Builder<Redirector> redirectorReader(String productId) throws EvrythngClientException {
+		return get(String.format(PATH_PRODUCT_REDIRECTOR, productId), new TypeReference<Redirector>() {
+		});
+	}
+
+	/**
+	 * DELETE {@value #PATH_PRODUCT_REDIRECTOR}
+	 * 
+	 * Deletes the redirector for the Product.
+	 */
+	public Builder<Boolean> redirectorDeleter(String productId) throws EvrythngClientException {
+		return delete(String.format(PATH_PRODUCT_REDIRECTOR, productId));
+	}
+
+	/**
+	 * PUT {@value #PATH_PRODUCT_REDIRECTOR}
+	 * 
+	 * Updates the redirector for the Product.
+	 */
+	public Builder<Redirector> redirectorUpdater(String productId, Redirector redirection) throws EvrythngClientException {
+		return put(String.format(PATH_PRODUCT_REDIRECTOR, productId), redirection, new TypeReference<Redirector>() {
+		});
 	}
 }

@@ -13,6 +13,7 @@ import com.evrythng.thng.resource.model.core.DurableResourceModel;
  **/
 public class Redirector extends DurableResourceModel {
 
+	public static final String PRODUCTID_TAG = "{productId}";
 	public static final String THNGID_TAG = "{thngId}";
 	public static final String SHORTID_TAG = "{shortId}";
 
