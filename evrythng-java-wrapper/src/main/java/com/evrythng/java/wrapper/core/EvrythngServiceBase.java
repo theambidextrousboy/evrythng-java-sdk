@@ -42,6 +42,8 @@ public class EvrythngServiceBase {
 
 	/**
 	 * Returns a preconfigured {@link Builder} for executing POST requests.
+	 * Expects
+	 * 201 (created) return code
 	 * 
 	 * @see EvrythngApiBuilder#post(String, URI, Object, Status, TypeReference)
 	 * @param relativePath
@@ -57,7 +59,29 @@ public class EvrythngServiceBase {
 	 * @throws EvrythngClientException
 	 */
 	public <T> Builder<T> post(String relativePath, Object data, TypeReference<T> type) throws EvrythngClientException {
-		Builder<T> builder = EvrythngApiBuilder.post(config.getKey(), absoluteUri(relativePath), data, Status.CREATED, type);
+		return post(relativePath, data, Status.CREATED, type);
+	}
+
+	/**
+	 * Returns a preconfigured {@link Builder} for executing POST requests.
+	 * 
+	 * @see EvrythngApiBuilder#post(String, URI, Object, Status, TypeReference)
+	 * @param relativePath
+	 *            the relative path of the API endpoint. It will be appended to
+	 *            {@link ApiConfiguration#getUrl()} in
+	 *            order to build the absolute endpoint URL.
+	 * @param data
+	 *            the content data that will be associated with the POST request
+	 * @param expected
+	 *            The expected return status
+	 * @param type
+	 *            the {@link TypeReference} for mapping the {@link HttpResponse}
+	 *            entity.
+	 * @return a preconfigured {@link Builder} for executing POST requests
+	 * @throws EvrythngClientException
+	 */
+	public <T> Builder<T> post(String relativePath, Object data, Status expected, TypeReference<T> type) throws EvrythngClientException {
+		Builder<T> builder = EvrythngApiBuilder.post(config.getKey(), absoluteUri(relativePath), data, expected, type);
 		onBuilderCreated(builder);
 		return builder;
 	}
