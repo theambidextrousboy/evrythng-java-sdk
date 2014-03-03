@@ -33,10 +33,13 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	}
 
 	/**
-	 * Sets a query parameter or removes it if {@code value} equals {@code null}.
+	 * Sets a query parameter or removes it if {@code value} equals {@code null}
+	 * .
 	 * 
-	 * @param name the query parameter name
-	 * @param value the query parameter value
+	 * @param name
+	 *            the query parameter name
+	 * @param value
+	 *            the query parameter value
 	 * @return the current {@code B} instance
 	 */
 	@SuppressWarnings("unchecked")
@@ -50,7 +53,20 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	}
 
 	/**
-	 * Sets a multi-valued query parameter or removes it if {@code value} equals {@code null}.
+	 * Sets a query parameter or removes it if the {@code value} equals
+	 * {@code null}.
+	 * 
+	 * @param qpv
+	 *            the name and the value of the query parameter.
+	 * @return the current {@code B} instance
+	 */
+	public B queryParam(QueryParamValue qpv) {
+		return queryParam(qpv.getKey(), qpv.getValue());
+	}
+
+	/**
+	 * Sets a multi-valued query parameter or removes it if {@code value} equals
+	 * {@code null}.
 	 * */
 	@SuppressWarnings("unchecked")
 	public B queryParam(String name, List<String> value) {
@@ -66,7 +82,8 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	 * Sets the provided query parametes.
 	 * 
 	 * @see #queryParam(String, String)
-	 * @param params a map name/value entries
+	 * @param params
+	 *            a map name/value entries
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -80,8 +97,10 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	/**
 	 * Sets a request header or removes it if {@code value} equals {@code null}.
 	 * 
-	 * @param name request header name
-	 * @param value the request header value
+	 * @param name
+	 *            request header name
+	 * @param value
+	 *            the request header value
 	 * @return the current {@code B} instance
 	 */
 	@SuppressWarnings("unchecked")
@@ -97,7 +116,8 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	/**
 	 * Sets the value of the {@code Accept} HTTP header.
 	 * 
-	 * @param mediaType a valid media type for the {@code Accept} HTTP header
+	 * @param mediaType
+	 *            a valid media type for the {@code Accept} HTTP header
 	 * @return
 	 */
 	public B accept(String mediaType) {
@@ -105,8 +125,8 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	}
 
 	/**
-	 * Executes the current command and maps the {@link HttpResponse} entity to {@code T} specified by
-	 * {@link ApiCommand#responseType}.
+	 * Executes the current command and maps the {@link HttpResponse} entity to
+	 * {@code T} specified by {@link ApiCommand#responseType}.
 	 * 
 	 * @see ApiCommand#execute()
 	 * @return the {@link HttpResponse} entity mapped to {@code T}
@@ -117,7 +137,8 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	}
 
 	/**
-	 * Executes the current command and returns the {@link HttpResponse} entity content as {@link String}.
+	 * Executes the current command and returns the {@link HttpResponse} entity
+	 * content as {@link String}.
 	 * 
 	 * @see ApiCommand#content()
 	 * @return the {@link HttpResponse} entity content as {@link String}
@@ -139,7 +160,8 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	}
 
 	/**
-	 * Executes the current command and returns the {@link HttpResponse} content {@link InputStream}.
+	 * Executes the current command and returns the {@link HttpResponse} content
+	 * {@link InputStream}.
 	 * 
 	 * @see ApiCommand#stream()
 	 * @return the {@link InputStream} of the {@link HttpResponse}
