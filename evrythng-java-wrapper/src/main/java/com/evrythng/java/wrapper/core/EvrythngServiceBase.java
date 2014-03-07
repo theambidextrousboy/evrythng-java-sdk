@@ -4,10 +4,14 @@
  */
 package com.evrythng.java.wrapper.core;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 
 import com.evrythng.java.wrapper.ApiManager;
@@ -175,5 +179,17 @@ public class EvrythngServiceBase {
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@SuppressWarnings("restriction")
+	protected String encodeBase64(InputStream image, String mime) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		IOUtils.copy(image, baos);
+		byte[] data = baos.toByteArray();
+		IOUtils.closeQuietly(image);
+		IOUtils.closeQuietly(baos);
+
+		String b64 = new sun.misc.BASE64Encoder().encode(data);
+		return mime + "," + b64;
 	}
 }
