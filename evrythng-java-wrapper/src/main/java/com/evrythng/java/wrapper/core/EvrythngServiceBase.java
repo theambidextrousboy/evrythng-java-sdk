@@ -4,13 +4,14 @@
  */
 package com.evrythng.java.wrapper.core;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 
+import org.apache.commons.codec.binary.Base64InputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 
@@ -24,8 +25,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * Base definition for EVRYTHNG API services.
- * 
- * @author Pedro De Almeida (almeidap)
  **/
 public class EvrythngServiceBase {
 
@@ -181,15 +180,18 @@ public class EvrythngServiceBase {
 		}
 	}
 
-	@SuppressWarnings("restriction")
 	protected String encodeBase64(InputStream image, String mime) throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		IOUtils.copy(image, baos);
-		byte[] data = baos.toByteArray();
-		IOUtils.closeQuietly(image);
-		IOUtils.closeQuietly(baos);
 
-		String b64 = new sun.misc.BASE64Encoder().encode(data);
-		return mime + "," + b64;
+		Base64InputStream b64is = null;
+		StringWriter sw = null;
+		try {
+			b64is = new Base64InputStream(image, true);
+			sw = new StringWriter();
+			IOUtils.copy(b64is, sw);
+			return mime + "," + sw.toString();
+		} finally {
+			IOUtils.closeQuietly(b64is);
+			IOUtils.closeQuietly(sw);
+		}
 	}
 }
