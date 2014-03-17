@@ -7,18 +7,29 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum GeoJsonType {
-	POINT("Point"), MULTI_POINT("MultiPoint")/*
-											 * , LINE_STRING("LineString"),
-											 * MULTI_LINE_STRING
-											 * ("MultiLineString"),
-											 * POLYGON("Polygon"),
-											 * MULTI_POLYGON("MultiPolygon"),
-											 * GEOMETRY_COLLECTION(
-											 * "GeometryCollection"),
-											 * FEATURE("Feature"),
-											 * FEATURE_COLLECTION
-											 * ("FeatureCollection")
-											 */;
+	POINT("Point"), MULTI_POINT("MultiPoint"), POLYGON("Polygon")/*
+																 * ,
+																 * LINE_STRING(
+																 * "LineString"
+																 * ),
+																 * MULTI_LINE_STRING
+																 * (
+																 * "MultiLineString"
+																 * ),
+																 * MULTI_POLYGON(
+																 * "MultiPolygon"
+																 * ),
+																 * GEOMETRY_COLLECTION
+																 * (
+																 * "GeometryCollection"
+																 * ),
+																 * FEATURE("Feature"
+																 * ),
+																 * FEATURE_COLLECTION
+																 * (
+																 * "FeatureCollection"
+																 * )
+																 */;
 
 	private static Map<String, GeoJsonType> geoJSONTypeNames;
 	private String type;
