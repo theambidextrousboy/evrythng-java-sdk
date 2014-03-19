@@ -4,6 +4,8 @@
  */
 package com.evrythng.thng.resource.model.store;
 
+import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
+
 /**
  * Location to be used within a parent model.
  * 
@@ -15,6 +17,7 @@ public class EmbeddedLocationWithPlace implements ILocationWithPlace {
 
 	private Double latitude;
 	private Double longitude;
+	private GeoJsonPoint position;
 
 	public EmbeddedLocationWithPlace() {
 	}
@@ -22,6 +25,7 @@ public class EmbeddedLocationWithPlace implements ILocationWithPlace {
 	public EmbeddedLocationWithPlace(String place, Double latitude, Double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.setPosition(new GeoJsonPoint(latitude, longitude));
 		this.place = place;
 	}
 
@@ -47,6 +51,14 @@ public class EmbeddedLocationWithPlace implements ILocationWithPlace {
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
+	}
+
+	public GeoJsonPoint getPosition() {
+		return position;
+	}
+
+	public void setPosition(GeoJsonPoint position) {
+		this.position = position;
 	}
 
 	public static EmbeddedLocationWithPlace copyFrom(EmbeddedLocationWithPlace source) {

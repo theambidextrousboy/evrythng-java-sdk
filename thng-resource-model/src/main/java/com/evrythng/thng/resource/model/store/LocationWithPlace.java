@@ -1,6 +1,7 @@
 package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.TemporalResourceModel;
+import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
 
 /**
  * Model representation for <em>locations</em>.
@@ -13,13 +14,14 @@ public class LocationWithPlace extends TemporalResourceModel implements ILocatio
 
 	private Double latitude;
 	private Double longitude;
+	private GeoJsonPoint position;
 
 	public Double getLatitude() {
 		return latitude;
 	}
 
 	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
+		this.longitude = latitude;
 	}
 
 	public Double getLongitude() {
@@ -28,6 +30,14 @@ public class LocationWithPlace extends TemporalResourceModel implements ILocatio
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
+	}
+
+	public GeoJsonPoint getPosition() {
+		return position;
+	}
+
+	public void setPosition(GeoJsonPoint position) {
+		this.position = position;
 	}
 
 	public String getPlace() {

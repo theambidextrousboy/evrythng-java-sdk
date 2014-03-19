@@ -4,6 +4,7 @@
  */
 package com.evrythng.thng.resource.model.store;
 
+
 /**
  * Helper class for locations.
  * 
