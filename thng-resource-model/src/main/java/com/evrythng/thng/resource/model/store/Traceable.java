@@ -1,11 +1,12 @@
 package com.evrythng.thng.resource.model.store;
 
 /**
- * Interface for a location
- * @author colin
- *
+ * 
+ * Characterises the ability to be traceable within a geographical coordinate
+ * system.
+ * 
  */
-public interface ILocation {
+public interface Traceable {
 	static final int LON_IDX = 0;
 	static final int LAT_IDX = 1;
 
@@ -16,4 +17,5 @@ public interface ILocation {
 	public Double getLongitude();
 
 	public void setLongitude(Double longitude);
+
 }

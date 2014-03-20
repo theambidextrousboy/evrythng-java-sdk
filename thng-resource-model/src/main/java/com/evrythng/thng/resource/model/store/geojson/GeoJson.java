@@ -4,16 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Represents the characteristics of a GeoJSON coordinate
- * @author colin
- *
+ * 
  */
 public abstract class GeoJson {
-	
+
 	public static final String FIELD_TYPE = "type";
 	public static final String FIELD_COORDINATES = "coordinates";
-	
+
 	private GeoJsonType type;
-	
+
 	public GeoJson(GeoJsonType type) {
 		this.type = type;
 	}

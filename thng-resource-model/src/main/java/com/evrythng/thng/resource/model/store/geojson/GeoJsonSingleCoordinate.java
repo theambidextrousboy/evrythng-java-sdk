@@ -1,11 +1,11 @@
 package com.evrythng.thng.resource.model.store.geojson;
 
-import com.evrythng.thng.resource.model.store.ILocation;
 import com.evrythng.thng.resource.model.store.LocationHelper;
+import com.evrythng.thng.resource.model.store.Traceable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public abstract class GeoJsonSingleCoordinate extends GeoJson implements ILocation {
+public abstract class GeoJsonSingleCoordinate extends GeoJson implements Traceable {
 	private GeoJsonLocation coordinates;
 
 	protected GeoJsonSingleCoordinate(GeoJsonType type, GeoJsonLocation coordinates) {
@@ -20,7 +20,7 @@ public abstract class GeoJsonSingleCoordinate extends GeoJson implements ILocati
 	}
 
 	@JsonIgnore
-	public ILocation getCoordinates() {
+	public Traceable getCoordinates() {
 		return coordinates;
 	}
 
@@ -39,7 +39,7 @@ public abstract class GeoJsonSingleCoordinate extends GeoJson implements ILocati
 		this.coordinates.setCoordinates(coordinates);
 	}
 
-	public void copy(ILocation obj) {
+	public void copy(Traceable obj) {
 		LocationHelper.copy(obj, this);
 	}
 

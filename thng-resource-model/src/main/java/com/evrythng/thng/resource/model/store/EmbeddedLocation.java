@@ -4,25 +4,27 @@
  */
 package com.evrythng.thng.resource.model.store;
 
+import java.util.Map;
+
 import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
 
 /**
  * Location to be used within a parent model.
  * 
- * @author Michel Yerly (my)
  **/
-public class EmbeddedLocationWithPlace implements ILocationWithPlace {
+public class EmbeddedLocation implements Locatable {
 
 	private String place;
 
 	private Double latitude;
 	private Double longitude;
 	private GeoJsonPoint position;
+	private Map<String, String> customFields;
 
-	public EmbeddedLocationWithPlace() {
+	public EmbeddedLocation() {
 	}
 
-	public EmbeddedLocationWithPlace(String place, Double latitude, Double longitude) {
+	public EmbeddedLocation(String place, Double latitude, Double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.setPosition(new GeoJsonPoint(latitude, longitude));
@@ -61,16 +63,23 @@ public class EmbeddedLocationWithPlace implements ILocationWithPlace {
 		this.position = position;
 	}
 
-	public static EmbeddedLocationWithPlace copyFrom(EmbeddedLocationWithPlace source) {
-		return new EmbeddedLocationWithPlace(source.place, source.getLatitude(), source.getLongitude());
+	public Map<String, String> getCustomFields() {
+		return customFields;
 	}
 
-	public static EmbeddedLocationWithPlace copyFrom(ILocationWithPlace source) {
-		EmbeddedLocationWithPlace loc = new EmbeddedLocationWithPlace();
-		loc.setLatitude(source.getLatitude());
-		loc.setLongitude(source.getLongitude());
-		loc.setPlace(source.getPlace());
-		//LocationHelper.copy(source, loc);
+	public void setCustomFields(Map<String, String> customFields) {
+		this.customFields = customFields;
+	}
+
+	public static EmbeddedLocation copyFrom(Locatable source) {
+		EmbeddedLocation loc = new EmbeddedLocation();
+		LocationHelper.copy(source, loc);
 		return loc;
+	}
+
+	@Override
+	public String toString() {
+		return "EmbeddedLocation [place=" + place + ", latitude=" + latitude + ", longitude=" + longitude + ", position=" + position + ", customFields=" + customFields + ", getPlace()=" + getPlace()
+				+ ", getLatitude()=" + getLatitude() + ", getLongitude()=" + getLongitude() + ", getPosition()=" + getPosition() + ", getCustomFields()=" + getCustomFields() + "]";
 	}
 }

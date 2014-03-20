@@ -2,15 +2,12 @@ package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
-import com.evrythng.thng.resource.model.store.geojson.GeoJsonPolygon;
 
 /**
  * Model representation for a <em>place</em>
  * 
- * @author colin
- * 
  */
-public class Place extends DurableResourceModel {
+public class Place extends DurableResourceModel implements Positionable {
 
 	private String name;
 	private String description;
@@ -61,11 +58,27 @@ public class Place extends DurableResourceModel {
 		this.address = address;
 	}
 
-	/*public GeoJsonPolygon getArea() {
-		return area;
+	@Override
+	public Double getLatitude() {
+		return position == null ? null : position.getLatitude();
 	}
 
-	public void setArea(GeoJsonPolygon area) {
-		this.area = area;
-	}*/
+	@Override
+	public void setLatitude(Double latitude) {
+		if (position != null) {
+			position.setLatitude(latitude);
+		}
+	}
+
+	@Override
+	public Double getLongitude() {
+		return position == null ? null : position.getLongitude();
+	}
+
+	@Override
+	public void setLongitude(Double longitude) {
+		if (position != null) {
+			position.setLongitude(longitude);
+		}
+	}
 }
