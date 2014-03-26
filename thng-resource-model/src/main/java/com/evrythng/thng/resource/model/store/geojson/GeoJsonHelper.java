@@ -1,5 +1,6 @@
 package com.evrythng.thng.resource.model.store.geojson;
 
+import com.evrythng.thng.resource.model.store.LocationHelper;
 import com.evrythng.thng.resource.model.store.Traceable;
 
 /**
@@ -34,6 +35,10 @@ public class GeoJsonHelper {
 				coordinates[Traceable.LON_IDX] = longitude;
 			}
 		}
+	}
+
+	public static GeoJsonPoint createRandomGeoJsonPoint() {
+		return new GeoJsonPoint(LocationHelper.randomLatitude(), LocationHelper.randomLongitude());
 	}
 
 }

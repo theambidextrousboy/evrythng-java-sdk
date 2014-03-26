@@ -21,7 +21,7 @@ public class Location extends TemporalResourceModel implements Locatable {
 	}
 
 	public void setLatitude(Double latitude) {
-		this.longitude = latitude;
+		this.latitude = latitude;
 	}
 
 	public Double getLongitude() {

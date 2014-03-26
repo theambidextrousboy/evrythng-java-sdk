@@ -5,6 +5,7 @@
 package com.evrythng.thng.resource.model.store;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
 
@@ -13,6 +14,8 @@ import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
  * 
  **/
 public class LocationHelper {
+
+	public static Random random = new Random();
 
 	public static void copy(Locatable from, Locatable to) {
 		copy((Positionable) from, (Positionable) to);
@@ -76,5 +79,13 @@ public class LocationHelper {
 			lon = Math.abs(a.getLongitude() - b.getLongitude()) < TOLERANCE;
 		}
 		return lon;
+	}
+
+	public static double randomLatitude() {
+		return (-90) + (random.nextDouble() * (90 - (-90)));
+	}
+
+	public static double randomLongitude() {
+		return (-180) + (random.nextDouble() * (180 - (-180)));
 	}
 }
