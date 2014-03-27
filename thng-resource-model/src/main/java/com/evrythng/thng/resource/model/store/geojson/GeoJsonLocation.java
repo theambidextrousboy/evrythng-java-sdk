@@ -6,15 +6,15 @@ package com.evrythng.thng.resource.model.store.geojson;
 
 import java.util.Arrays;
 
-import com.evrythng.thng.resource.model.store.ILocation;
 import com.evrythng.thng.resource.model.store.LocationHelper;
+import com.evrythng.thng.resource.model.store.Traceable;
 
 /**
- * Geo JSON position to be used within a parent model.
+ * Geo JSON location to be used within a parent model.
  * 
  * @author colin
  **/
-public class GeoJsonLocation implements ILocation {
+public class GeoJsonLocation implements Traceable {
 
 	private double[] coordinates;
 
@@ -23,33 +23,33 @@ public class GeoJsonLocation implements ILocation {
 	}
 
 	public GeoJsonLocation(double latitude, double longitude) {
-		this.coordinates = new double[] {longitude, latitude};
+		this.coordinates = new double[] { longitude, latitude };
 	}
 
 	@Override
 	public Double getLatitude() {
-		return coordinates[LAT_IDX];
+		return coordinates[GeoJson.LAT_IDX];
 	}
 
 	@Override
 	public void setLatitude(Double latitude) {
-		coordinates[LAT_IDX] = latitude;
+		coordinates[GeoJson.LAT_IDX] = latitude;
 	}
 
 	@Override
 	public Double getLongitude() {
-		return coordinates[LON_IDX];
+		return coordinates[GeoJson.LON_IDX];
 	}
 
 	@Override
 	public void setLongitude(Double longitude) {
-		coordinates[LON_IDX] = longitude;
+		coordinates[GeoJson.LON_IDX] = longitude;
 	}
-	
+
 	public double[] getCoordinates() {
 		return coordinates;
 	}
-	
+
 	public void setCoordinates(double[] coordinates) {
 		this.coordinates = coordinates;
 	}
@@ -58,7 +58,7 @@ public class GeoJsonLocation implements ILocation {
 		return new GeoJsonLocation(source.getLatitude(), source.getLongitude());
 	}
 
-	public static GeoJsonLocation copyFrom(ILocation source) {
+	public static GeoJsonLocation copyFrom(Traceable source) {
 		GeoJsonLocation loc = new GeoJsonLocation();
 		LocationHelper.copy(source, loc);
 		return loc;
@@ -66,7 +66,6 @@ public class GeoJsonLocation implements ILocation {
 
 	@Override
 	public String toString() {
-		return "EmbeddedGeoJSONLocation [coordinates="
-				+ Arrays.toString(coordinates) + "]";
+		return "GeoJsonLocation [coordinates=" + Arrays.toString(coordinates) + "]";
 	}
 }

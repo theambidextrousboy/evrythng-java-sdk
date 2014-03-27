@@ -15,7 +15,7 @@ import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.service.CollectionService;
 import com.evrythng.java.wrapper.service.ThngService;
 import com.evrythng.thng.resource.model.store.Collection;
-import com.evrythng.thng.resource.model.store.LocationWithPlace;
+import com.evrythng.thng.resource.model.store.Location;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.Thng;
 
@@ -27,7 +27,7 @@ import com.evrythng.thng.resource.model.store.Thng;
  * <li>Create a {@link Collection}</li>
  * <li>Create a {@link Thng}</li>
  * <li>Add a {@link Thng} to an existing {@link Collection}</li>
- * <li>Update the {@link LocationWithPlace} of an existing {@link Thng}</li>
+ * <li>Update the {@link Location} of an existing {@link Thng}</li>
  * <li>Update an existing {@link Thng} with multiple {@link Property} elements.</li>
  * <li>Retrieve an existing {@link Thng}</li>
  * </ul>
@@ -99,13 +99,13 @@ public class SimpleExample extends ExampleRunner {
 		echo("Collection updated: [output={}]", thngReferences);
 
 		// Now update Thng location:
-		LocationWithPlace locationData = new LocationWithPlace();
+		Location locationData = new Location();
 		locationData.setLatitude(47.3839);
 		locationData.setLongitude(8.5281);
 
 		// Retrieve a Location updater builder and execute it:
 		echo("Updating Thng Location: [input={}]", locationData);
-		List<LocationWithPlace> lastLocations = thngService.locationUpdater(thng.getId(), locationData).execute();
+		List<Location> lastLocations = thngService.locationUpdater(thng.getId(), locationData).execute();
 		echo("Thng Location updated: [output={}]", lastLocations);
 
 		// Let's create some properties:

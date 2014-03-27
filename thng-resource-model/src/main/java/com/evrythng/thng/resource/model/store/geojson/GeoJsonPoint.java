@@ -2,7 +2,7 @@ package com.evrythng.thng.resource.model.store.geojson;
 
 
 public class GeoJsonPoint extends GeoJsonSingleCoordinate {
-	
+
 	public GeoJsonPoint() {
 		this(0d, 0d);
 	}
@@ -17,7 +17,6 @@ public class GeoJsonPoint extends GeoJsonSingleCoordinate {
 
 	@Override
 	public String toString() {
-		return "GeoJSONPoint [getCoordinate()=" + getCoordinates()
-				+ ", getType()=" + getType() + "]";
+		return "GeoJSONPoint [getCoordinate()=" + getCoordinates() + ", getType()=" + getType() + "]";
 	}
 }

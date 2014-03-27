@@ -4,19 +4,33 @@
  */
 package com.evrythng.thng.resource.model.store;
 
+import java.util.HashMap;
+import java.util.Random;
+
+import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
+
 /**
  * Helper class for locations.
  * 
- * @author Michel Yerly (my)
  **/
 public class LocationHelper {
 
-	public static void copy(ILocation from, ILocation to) {
+	public static Random random = new Random();
+
+	public static void copy(Locatable from, Locatable to) {
+		copy((Positionable) from, (Positionable) to);
+		to.setPlace(from.getPlace());
+		to.setCustomFields(new HashMap<String, String>(from.getCustomFields()));
+	}
+
+	public static void copy(Positionable from, Positionable to) {
+		copy((Traceable) from, (Traceable) to);
+		to.setPosition(new GeoJsonPoint(from.getLatitude(), from.getLongitude()));
+	}
+
+	public static void copy(Traceable from, Traceable to) {
 		to.setLatitude(from.getLatitude());
 		to.setLongitude(from.getLongitude());
-		if (from instanceof ILocationWithPlace && to instanceof ILocationWithPlace) {
-			((ILocationWithPlace) to).setPlace(((ILocationWithPlace) from).getPlace());
-		}
 	}
 
 	/**
@@ -25,7 +39,7 @@ public class LocationHelper {
 	 * @return true if loc is null or if both coordinates are null or if the
 	 *         location is valid; false otherwise.
 	 */
-	public static boolean isGeoValid(ILocation loc) {
+	public static boolean isGeoValid(Traceable loc) {
 		if (loc == null) {
 			return true;
 		}
@@ -38,7 +52,7 @@ public class LocationHelper {
 		}
 	}
 
-	public static boolean coordinatesEqual(ILocation a, ILocation b) {
+	public static boolean coordinatesEqual(Traceable a, Traceable b) {
 		if (a == b) {
 			return true;
 		}
@@ -65,5 +79,13 @@ public class LocationHelper {
 			lon = Math.abs(a.getLongitude() - b.getLongitude()) < TOLERANCE;
 		}
 		return lon;
+	}
+
+	public static double randomLatitude() {
+		return (-90) + (random.nextDouble() * (90 - (-90)));
+	}
+
+	public static double randomLongitude() {
+		return (-180) + (random.nextDouble() * (180 - (-180)));
 	}
 }
