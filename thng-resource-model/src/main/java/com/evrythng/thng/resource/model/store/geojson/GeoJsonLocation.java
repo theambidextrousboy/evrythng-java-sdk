@@ -28,22 +28,22 @@ public class GeoJsonLocation implements Traceable {
 
 	@Override
 	public Double getLatitude() {
-		return coordinates[LAT_IDX];
+		return coordinates[GeoJson.LAT_IDX];
 	}
 
 	@Override
 	public void setLatitude(Double latitude) {
-		coordinates[LAT_IDX] = latitude;
+		coordinates[GeoJson.LAT_IDX] = latitude;
 	}
 
 	@Override
 	public Double getLongitude() {
-		return coordinates[LON_IDX];
+		return coordinates[GeoJson.LON_IDX];
 	}
 
 	@Override
 	public void setLongitude(Double longitude) {
-		coordinates[LON_IDX] = longitude;
+		coordinates[GeoJson.LON_IDX] = longitude;
 	}
 
 	public double[] getCoordinates() {

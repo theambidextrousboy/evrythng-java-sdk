@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class GeoJsonSingleCoordinate extends GeoJson implements Traceable {
+
 	private GeoJsonLocation coordinates;
 
 	protected GeoJsonSingleCoordinate(GeoJsonType type, GeoJsonLocation coordinates) {
@@ -24,13 +25,13 @@ public abstract class GeoJsonSingleCoordinate extends GeoJson implements Traceab
 		return coordinates;
 	}
 
-	@JsonProperty(value = "coordinates")
+	@JsonProperty(value = FIELD_COORDINATES)
 	public double[] getCoordinatesArr() {
 		return coordinates.getCoordinates();
 	}
 
 	@JsonIgnore
-	@JsonProperty(value = "coordinates")
+	@JsonProperty(value = FIELD_COORDINATES)
 	public void setCoordinates(GeoJsonLocation coordinates) {
 		this.coordinates = coordinates;
 	}

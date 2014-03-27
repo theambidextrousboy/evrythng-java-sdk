@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * 
  */
 public abstract class GeoJson {
+	static final int LON_IDX = 0;
+	static final int LAT_IDX = 1;
 
 	public static final String FIELD_TYPE = "type";
 	public static final String FIELD_COORDINATES = "coordinates";

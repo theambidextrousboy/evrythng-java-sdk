@@ -7,8 +7,6 @@ package com.evrythng.thng.resource.model.store;
  * 
  */
 public interface Traceable {
-	static final int LON_IDX = 0;
-	static final int LAT_IDX = 1;
 
 	public Double getLatitude();
 

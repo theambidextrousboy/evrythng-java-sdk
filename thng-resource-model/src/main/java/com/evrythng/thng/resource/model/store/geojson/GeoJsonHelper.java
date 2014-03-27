@@ -1,7 +1,6 @@
 package com.evrythng.thng.resource.model.store.geojson;
 
 import com.evrythng.thng.resource.model.store.LocationHelper;
-import com.evrythng.thng.resource.model.store.Traceable;
 
 /**
  * Helper class for GeoJson
@@ -11,12 +10,12 @@ public class GeoJsonHelper {
 
 	public static Double getLatitude(GeoJsonPoint loc) {
 		double[] coordinates = loc.getCoordinatesArr();
-		return coordinates == null ? null : loc.getCoordinatesArr()[Traceable.LAT_IDX];
+		return coordinates == null ? null : loc.getCoordinatesArr()[GeoJson.LAT_IDX];
 	}
 
 	public static Double getLongitude(GeoJsonPoint loc) {
 		double[] coordinates = loc.getCoordinatesArr();
-		return coordinates == null ? null : loc.getCoordinatesArr()[Traceable.LON_IDX];
+		return coordinates == null ? null : loc.getCoordinatesArr()[GeoJson.LON_IDX];
 	}
 
 	public static void setPosition(GeoJsonPoint loc, Double latitude, Double longitude) {
@@ -31,8 +30,8 @@ public class GeoJsonHelper {
 			if (coordinates == null) {
 				loc.setCoordinatesArr(new double[] { longitude, latitude });
 			} else {
-				coordinates[Traceable.LAT_IDX] = latitude;
-				coordinates[Traceable.LON_IDX] = longitude;
+				coordinates[GeoJson.LAT_IDX] = latitude;
+				coordinates[GeoJson.LON_IDX] = longitude;
 			}
 		}
 	}
