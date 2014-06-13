@@ -23,9 +23,11 @@ public class SocialNetwork {
 	 */
 	public SocialNetwork(String appId) {
 		this.appId = appId;
+		this.appSecret = null;
 	}
 
 	private String appId;
+	private String appSecret;
 
 	/**
 	 * 
@@ -44,6 +46,21 @@ public class SocialNetwork {
 	}
 
 	/**
+	 * @return the appSecret
+	 */
+	public String getAppSecret() {
+		return appSecret;
+	}
+
+	/**
+	 * @param appSecret
+	 *            the appSecret to set
+	 */
+	public void setAppSecret(String appSecret) {
+		this.appSecret = appSecret;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -51,6 +68,7 @@ public class SocialNetwork {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((appId == null) ? 0 : appId.hashCode());
+		result = prime * result + ((appSecret == null) ? 0 : appSecret.hashCode());
 		return result;
 	}
 
@@ -70,6 +88,11 @@ public class SocialNetwork {
 			if (other.appId != null)
 				return false;
 		} else if (!appId.equals(other.appId))
+			return false;
+		if (appSecret == null) {
+			if (other.appSecret != null)
+				return false;
+		} else if (!appSecret.equals(other.appSecret))
 			return false;
 		return true;
 	}
