@@ -5,16 +5,16 @@
  */
 package com.evrythng.java.wrapper.examples;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.ExampleRunner;
 import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.service.ThngService;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Thng;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -46,12 +46,8 @@ public class ThngApiExample extends ExampleRunner {
 
 	public static void main(String[] args) throws EvrythngException {
 
-		if (args.length <= 1) {
-			usage();
-			return;
-		}
 
-		ApiConfiguration config = extractConfig(args);
+		ApiConfiguration config = extractConfig();
 
 		// Run example:
 		new ThngApiExample(config).run();
@@ -113,8 +109,8 @@ public class ThngApiExample extends ExampleRunner {
 		echo("Results: {}", results);
 
 		// Retrieve a specific Thng using a thngReader builder:
-		echo("Retrieving Thng by ID: {}", thngs.get(0).getId());
-		Thng retrieved = thngService.thngReader(thngs.get(0).getId()).execute();
+		echo("Retrieving Thng by ID: {}", results.get(0).getId());
+		Thng retrieved = thngService.thngReader(results.get(0).getId()).execute();
 		echo("Thng retrieved: {}", retrieved);
 
 		// Update a specific Thng using a thngUpdater builder:
