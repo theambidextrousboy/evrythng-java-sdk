@@ -5,16 +5,16 @@
  */
 package com.evrythng.java.wrapper.examples;
 
+import java.util.ArrayList;
+import java.util.List; 
+
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.ExampleRunner;
 import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.service.ThngService;
-import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Thng;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>
@@ -46,8 +46,12 @@ public class ThngApiExample extends ExampleRunner {
 
 	public static void main(String[] args) throws EvrythngException {
 
+                if (args.length <= 1) {
+                    usage();
+		    return;
+		}
 
-		ApiConfiguration config = extractConfig();
+		ApiConfiguration config = extractConfig(args);
 
 		// Run example:
 		new ThngApiExample(config).run();
