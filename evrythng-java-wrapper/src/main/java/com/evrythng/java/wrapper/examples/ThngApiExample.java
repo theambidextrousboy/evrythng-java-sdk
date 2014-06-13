@@ -6,7 +6,7 @@
 package com.evrythng.java.wrapper.examples;
 
 import java.util.ArrayList;
-import java.util.List; 
+import java.util.List;
 
 import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
@@ -47,8 +47,8 @@ public class ThngApiExample extends ExampleRunner {
 	public static void main(String[] args) throws EvrythngException {
 
                 if (args.length <= 1) {
-                    usage();
-		    return;
+                	usage();
+			return;
 		}
 
 		ApiConfiguration config = extractConfig(args);
