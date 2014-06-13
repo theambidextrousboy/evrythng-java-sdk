@@ -46,8 +46,8 @@ public class ThngApiExample extends ExampleRunner {
 
 	public static void main(String[] args) throws EvrythngException {
 
-                if (args.length <= 1) {
-                	usage();
+		if (args.length <= 1) {
+			usage();
 			return;
 		}
 
