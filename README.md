@@ -34,7 +34,7 @@ the repository:
 
 #### Hello world!
 
-Then you should look at the [examples](https://github.com/evrythng/evrythng-java-sdk/tree/master/evrythng-java-wrapper/src/main/java/com/evrythng/java/wrapper/examples) or, if you are impatient, get started with the snippet below:
+Then you should look at the [examples](https://github.com/evrythng/evrythng-java-wrapper/tree/master/src/main/java/com/evrythng/java/wrapper/examples) or, if you are impatient, get started with the snippet below:
 
     import com.evrythng.java.wrapper.ApiConfiguration;
     import com.evrythng.java.wrapper.ApiManager;
