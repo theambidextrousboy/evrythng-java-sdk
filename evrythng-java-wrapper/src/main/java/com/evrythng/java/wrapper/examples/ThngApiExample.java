@@ -113,8 +113,8 @@ public class ThngApiExample extends ExampleRunner {
 		echo("Results: {}", results);
 
 		// Retrieve a specific Thng using a thngReader builder:
-		echo("Retrieving Thng by ID: {}", results.get(0).getId());
-		Thng retrieved = thngService.thngReader(results.get(0).getId()).execute();
+		echo("Retrieving Thng by ID: {}", thngs.get(0).getId());
+		Thng retrieved = thngService.thngReader(thngs.get(0).getId()).execute();
 		echo("Thng retrieved: {}", retrieved);
 
 		// Update a specific Thng using a thngUpdater builder:
