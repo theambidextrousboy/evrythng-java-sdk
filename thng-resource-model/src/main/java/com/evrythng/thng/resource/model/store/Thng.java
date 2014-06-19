@@ -10,8 +10,6 @@ import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
 /**
  * Model representation for <em>thngs</em>.
- * 
- * @author Pedro De Almeida (almeidap)
  **/
 public class Thng extends DurableResourceModel implements ResourceWithProperties {
 
@@ -74,6 +72,6 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 	 */
 	@Override
 	public String toString() {
-		return "Thng [name=" + name + ", description=" + description + ", location=" + location + ", product=" + product + ", properties=" + properties + ", id=" + id + "]";
+		return "Thng [name=" + name + ", description=" + description + ", location=" + location + ", product=" + product + ", properties=" + properties + ", id=" + getId() + "]";
 	}
 }

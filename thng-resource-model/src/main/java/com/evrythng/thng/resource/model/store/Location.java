@@ -50,7 +50,7 @@ public class Location extends TemporalResourceModel implements Locatable {
 
 	@Override
 	public String toString() {
-		return "Location [place=" + place + ", latitude=" + latitude + ", longitude=" + longitude + ", position=" + position + ", id=" + id + ", createdAt=" + createdAt + ", customFields="
-				+ customFields + "]";
+		return "Location [place=" + place + ", latitude=" + latitude + ", longitude=" + longitude + ", position=" + position + ", id=" + getId() + ", createdAt=" + getCreatedAt() + ", customFields="
+				+ getCustomFields() + "]";
 	}
 }
