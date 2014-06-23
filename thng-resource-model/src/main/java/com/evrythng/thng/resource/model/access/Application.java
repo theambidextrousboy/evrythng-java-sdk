@@ -22,7 +22,6 @@ public class Application extends DurableResourceModel {
 
 	private String name;
 	private String description;
-	private String customer;
 
 	private String appApiKey;
 
@@ -59,18 +58,23 @@ public class Application extends DurableResourceModel {
 	}
 
 	/**
-	 * @return the customer
+	 * @deprecated There is not cutomer in Application since 1.12.
+	 * 
+	 * @return null
 	 */
+	@Deprecated
 	public String getCustomer() {
-		return customer;
+		return null;
 	}
 
 	/**
-	 * @param customer
-	 *            the customer to set
+	 * Does not set anything.
+	 * 
+	 * @deprecated There is not cutomer in Application since 1.12.
+	 * 
 	 */
 	public void setCustomer(String customer) {
-		this.customer = customer;
+		// NOP
 	}
 
 	/**
@@ -95,28 +99,52 @@ public class Application extends DurableResourceModel {
 		return appApiKey;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
+		if (obj == null)
 			return false;
-		}
-
-		Application that = (Application) o;
-
-		return !(description != null ? !description.equals(that.description) : that.description != null) && customer.equals(that.customer) && appApiKey.equals(that.appApiKey)
-				&& socialNetworks.equals(that.socialNetworks) && name.equals(that.name);
+		if (getClass() != obj.getClass())
+			return false;
+		Application other = (Application) obj;
+		if (appApiKey == null) {
+			if (other.appApiKey != null)
+				return false;
+		} else if (!appApiKey.equals(other.appApiKey))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (socialNetworks == null) {
+			if (other.socialNetworks != null)
+				return false;
+		} else if (!socialNetworks.equals(other.socialNetworks))
+			return false;
+		return true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
-		int result = customer.hashCode();
-		result = 31 * result + (description != null ? description.hashCode() : 0);
-		result = 31 * result + (appApiKey != null ? appApiKey.hashCode() : 0);
-		result = 31 * result + (socialNetworks != null ? socialNetworks.hashCode() : 0);
-		result = 31 * result + (name != null ? name.hashCode() : 0);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((appApiKey == null) ? 0 : appApiKey.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((socialNetworks == null) ? 0 : socialNetworks.hashCode());
 		return result;
 	}
 
@@ -125,7 +153,7 @@ public class Application extends DurableResourceModel {
 	 */
 	@Override
 	public String toString() {
-		return "Application [name=" + name + ", description=" + description + ", customer=" + customer + ", appApiKey=" + appApiKey + "]";
+		return "Application [name=" + name + ", description=" + description + ", appApiKey=" + appApiKey + "]";
 	}
 
 	// === helpers methods ================================================= //
