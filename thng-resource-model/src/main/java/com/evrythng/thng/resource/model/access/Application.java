@@ -27,6 +27,9 @@ public class Application extends DurableResourceModel {
 
 	private Map<String, SocialNetwork> socialNetworks;
 
+	private Long startAt;
+	private Long endAt;
+
 	/**
 	 * @return the name
 	 */
@@ -100,6 +103,36 @@ public class Application extends DurableResourceModel {
 	}
 
 	/**
+	 * @return the startAt
+	 */
+	public Long getStartAt() {
+		return startAt;
+	}
+
+	/**
+	 * @param startAt
+	 *            the startAt to set
+	 */
+	public void setStartAt(Long startAt) {
+		this.startAt = startAt;
+	}
+
+	/**
+	 * @return the endAt
+	 */
+	public Long getEndAt() {
+		return endAt;
+	}
+
+	/**
+	 * @param endAt
+	 *            the endAt to set
+	 */
+	public void setEndAt(Long endAt) {
+		this.endAt = endAt;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -121,6 +154,11 @@ public class Application extends DurableResourceModel {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
+		if (endAt == null) {
+			if (other.endAt != null)
+				return false;
+		} else if (!endAt.equals(other.endAt))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -130,6 +168,11 @@ public class Application extends DurableResourceModel {
 			if (other.socialNetworks != null)
 				return false;
 		} else if (!socialNetworks.equals(other.socialNetworks))
+			return false;
+		if (startAt == null) {
+			if (other.startAt != null)
+				return false;
+		} else if (!startAt.equals(other.startAt))
 			return false;
 		return true;
 	}
@@ -143,8 +186,10 @@ public class Application extends DurableResourceModel {
 		int result = 1;
 		result = prime * result + ((appApiKey == null) ? 0 : appApiKey.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((endAt == null) ? 0 : endAt.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((socialNetworks == null) ? 0 : socialNetworks.hashCode());
+		result = prime * result + ((startAt == null) ? 0 : startAt.hashCode());
 		return result;
 	}
 
@@ -153,7 +198,7 @@ public class Application extends DurableResourceModel {
 	 */
 	@Override
 	public String toString() {
-		return "Application [name=" + name + ", description=" + description + ", appApiKey=" + appApiKey + "]";
+		return "Application [name=" + name + ", description=" + description + ", appApiKey=" + appApiKey + ", startAt=" + startAt + ", endAt=" + endAt + "]";
 	}
 
 	// === helpers methods ================================================= //
