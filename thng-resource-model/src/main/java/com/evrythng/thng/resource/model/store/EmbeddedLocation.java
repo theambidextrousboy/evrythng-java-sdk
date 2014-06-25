@@ -7,6 +7,7 @@ package com.evrythng.thng.resource.model.store;
 import java.util.Map;
 
 import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Location to be used within a parent model.
@@ -39,24 +40,45 @@ public class EmbeddedLocation implements Locatable {
 		this.place = place;
 	}
 
+	/**
+	 * TODO For API backward compatibility. Once compatibility is not needed
+	 * anymore, use {@link JsonIgnore}.
+	 */
 	public Double getLatitude() {
 		return latitude;
 	}
 
+	/**
+	 * TODO For API backward compatibility. Once compatibility is not needed
+	 * anymore, use {@link JsonIgnore}.
+	 */
 	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
+	/**
+	 * TODO For API backward compatibility. Once compatibility is not needed
+	 * anymore, use {@link JsonIgnore}.
+	 */
 	public Double getLongitude() {
 		return longitude;
 	}
 
+	/**
+	 * TODO For API backward compatibility. Once compatibility is not needed
+	 * anymore, use {@link JsonIgnore}.
+	 */
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 
 	public GeoJsonPoint getPosition() {
 		return position;
+	}
+
+	@JsonIgnore
+	public boolean hasPosition() {
+		return position != null && position.getLatitude() != null && position.getLongitude() != null;
 	}
 
 	public void setPosition(GeoJsonPoint position) {
