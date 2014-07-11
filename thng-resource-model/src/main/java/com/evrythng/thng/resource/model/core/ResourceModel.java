@@ -5,22 +5,20 @@
 package com.evrythng.thng.resource.model.core;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Abstract model representation for resources.
- * 
- * @author Pedro De Almeida (almeidap)
- * @author Dominique Guinard (domguinard)
- * 
  */
 public abstract class ResourceModel {
 
 	public static final String FIELD_ID = "id";
-	protected String id;
+	private String id;
 
-	protected Long createdAt;
-	protected Map<String, String> customFields;
+	private Long createdAt;
+	private Map<String, String> customFields;
+	private List<String> tags;
 
 	public String getId() {
 		return id;
@@ -52,4 +50,13 @@ public abstract class ResourceModel {
 		}
 		customFields.put(key, value);
 	}
+
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
+
 }

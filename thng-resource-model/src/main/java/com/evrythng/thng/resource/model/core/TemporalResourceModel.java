@@ -8,10 +8,6 @@ import java.util.Comparator;
 
 /**
  * Abstract model representation for temporal resources.
- * 
- * @author Pedro De Almeida (almeidap)
- * @author Michel Yerly (my)
- * 
  **/
 public abstract class TemporalResourceModel extends ResourceModel {
 
