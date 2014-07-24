@@ -27,6 +27,8 @@ public class Application extends DurableResourceModel {
 
 	private Map<String, SocialNetwork> socialNetworks;
 
+	private String defaultUrl;
+
 	private Long startAt;
 	private Long endAt;
 
@@ -133,6 +135,21 @@ public class Application extends DurableResourceModel {
 	}
 
 	/**
+	 * @return the defaultUrl
+	 */
+	public String getDefaultUrl() {
+		return defaultUrl;
+	}
+
+	/**
+	 * @param defaultUrl
+	 *            the defaultUrl to set
+	 */
+	public void setDefaultUrl(String defaultUrl) {
+		this.defaultUrl = defaultUrl;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -148,6 +165,11 @@ public class Application extends DurableResourceModel {
 			if (other.appApiKey != null)
 				return false;
 		} else if (!appApiKey.equals(other.appApiKey))
+			return false;
+		if (defaultUrl == null) {
+			if (other.defaultUrl != null)
+				return false;
+		} else if (!defaultUrl.equals(other.defaultUrl))
 			return false;
 		if (description == null) {
 			if (other.description != null)
@@ -185,6 +207,7 @@ public class Application extends DurableResourceModel {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((appApiKey == null) ? 0 : appApiKey.hashCode());
+		result = prime * result + ((defaultUrl == null) ? 0 : defaultUrl.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((endAt == null) ? 0 : endAt.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
