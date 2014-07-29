@@ -82,17 +82,13 @@ To get you started with Android and EVRYTHNG have a look at the [FreezeMe](https
 
 ### Extending the wrapper
 
-#### Cloning the repository
-
-  git clone git@github.com:evrythng/evrythng-java-sdk.git
-
 #### Compiling the wrapper and resource models
 
     mvn clean install
 
 You should now find a `.jar` file in the `target/` directory.
 
-To build the `.jar` with all dependencies run:
+To build the `.jar` with all dependencies (e.g., for inclusion in and Adroid app) run:
 
     cd evrythng-java-wrapper/
     mvn assembly:single
