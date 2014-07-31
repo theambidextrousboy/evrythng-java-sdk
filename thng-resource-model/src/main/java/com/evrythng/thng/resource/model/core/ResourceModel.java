@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.evrythng.commons.annotations.csv.CsvTransient;
+
 /**
  * Abstract model representation for resources.
  */
@@ -36,6 +38,7 @@ public abstract class ResourceModel {
 		this.createdAt = createdAt;
 	}
 
+	@CsvTransient
 	public Map<String, String> getCustomFields() {
 		return customFields;
 	}

@@ -6,6 +6,7 @@ package com.evrythng.thng.resource.model.store;
 
 import java.util.Map;
 
+import com.evrythng.commons.annotations.csv.CsvSerializer;
 import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * Location to be used within a parent model.
  * 
  **/
+@CsvSerializer("toCsvString")
 public class EmbeddedLocation implements Locatable {
 
 	private String place;
@@ -104,4 +106,9 @@ public class EmbeddedLocation implements Locatable {
 		return "EmbeddedLocation [place=" + place + ", latitude=" + latitude + ", longitude=" + longitude + ", position=" + position + ", customFields=" + customFields + ", getPlace()=" + getPlace()
 				+ ", getLatitude()=" + getLatitude() + ", getLongitude()=" + getLongitude() + ", getPosition()=" + getPosition() + ", getCustomFields()=" + getCustomFields() + "]";
 	}
+
+	public String toCsvString() {
+		return String.format("(%.4f;%.4f)", getLatitude(), getLongitude());
+	}
+
 }
