@@ -15,9 +15,7 @@ import com.evrythng.thng.resource.model.core.DurableResourceModel;
  * directly complying with the hProduct microformat.
  * 
  * @see <a href="http://microformats.org/wiki/hproduct">hProduct</a>, and
- *      flexible fields, in the form of a key/values map. </p>
- * 
- * @author Dominique Guinard (domguinard)
+ *      flexible fields, in the form of a key/values map.
  */
 public class Product extends DurableResourceModel implements ResourceWithProperties {
 
