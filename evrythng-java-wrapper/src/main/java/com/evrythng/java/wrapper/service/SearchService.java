@@ -22,7 +22,7 @@ public class SearchService extends EvrythngServiceBase {
 	public static final String QP_SEARCH_ALL = "q";
 	public static final String QP_TYPES = "types";
 
-	public static final String QP_PRODUCT_IDENTIFIERS = "identifiers";
+	public static final String QP_IDENTIFIERS = "identifiers";
 	public static final String QP_CUSTOM_FIELDS = "customFields";
 	public static final String QP_TAGS = "tags";
 	public static final String QP_PROPERTIES = "properties";
@@ -112,14 +112,14 @@ public class SearchService extends EvrythngServiceBase {
 	}
 
 	/**
-	 * Creates the query parameter name for a product identifier.
+	 * Creates the query parameter name for an identifier.
 	 * 
 	 * @param identifierName
 	 *            The identifier name, for example "ean" or "upc".
 	 * @return The query parameter name.
 	 */
-	public static String qpProductIdentifier(String identifierName) {
-		return QP_PRODUCT_IDENTIFIERS + "." + identifierName;
+	public static String qpIdentifier(String identifierName) {
+		return QP_IDENTIFIERS + "." + identifierName;
 	}
 
 	/**
