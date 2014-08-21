@@ -7,7 +7,6 @@ import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
-import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Location;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.Redirector;
@@ -93,6 +92,22 @@ public class ThngService extends EvrythngServiceBase {
 	 */
 	public Builder<Thng> thngUpdater(String thngId, Thng thng) throws EvrythngClientException {
 		return put(String.format(PATH_THNG, thngId), thng, new TypeReference<Thng>() {
+		});
+	}
+
+	/**
+	 * Batch update a list of {@link Thng}. Select the {@Thng}s to update
+	 * using query parameters
+	 * ?ids or ?filter.
+	 * 
+	 * PUT {@value #PATH_THNGS}
+	 * 
+	 * @param thng
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public Builder<List<Thng>> thngsUpdater(Thng thng) throws EvrythngClientException {
+		return put(String.format(PATH_THNGS), thng, new TypeReference<List<Thng>>() {
 		});
 	}
 

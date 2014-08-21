@@ -225,8 +225,8 @@ public final class EvrythngApiBuilder {
 		 */
 		public Result<T> list() throws EvrythngException {
 
-			if (getCommand().getMethod() != Method.GET) {
-				throw new EvrythngClientException("The list() method is only available for GET requests.");
+			if (getCommand().getMethod() != Method.GET && getCommand().getMethod() != Method.PUT) {
+				throw new EvrythngClientException("The list() method is only available for GET / PUT requests.");
 			}
 
 			logger.debug("Call list. For type : {}", getCommand().getResponseType().getType());

@@ -72,6 +72,22 @@ public class ProductService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Batch update a list of {@link Product}. Select the {Product}s to update
+	 * using query parameters
+	 * ?ids or ?filter.
+	 * 
+	 * PUT {@value #PATH_PRODUCTS}
+	 * 
+	 * @param product
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public Builder<List<Product>> productsUpdater(Product product) throws EvrythngClientException {
+		return put(String.format(PATH_PRODUCTS), product, new TypeReference<List<Product>>() {
+		});
+	}
+
+	/**
 	 * PUT {@value #PATH_PRODUCT}
 	 * 
 	 * @param productId
