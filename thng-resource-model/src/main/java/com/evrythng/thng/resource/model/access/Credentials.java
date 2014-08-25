@@ -13,6 +13,7 @@ public class Credentials {
 	/** Value of getStatus() */
 	public static final String STATUS_ACTIVE = "active";
 	public static final String STATUS_INACTIVE = "inactive";
+	public static final String STATUS_ANONYMOUS = "anonymous";
 
 	private String evrythngUser;
 	private String activationCode;
