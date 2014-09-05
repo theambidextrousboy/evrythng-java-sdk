@@ -107,7 +107,7 @@ public class ThngService extends EvrythngServiceBase {
 	 * @throws EvrythngClientException
 	 */
 	public Builder<List<Thng>> thngsUpdater(Thng thng) throws EvrythngClientException {
-		return put(String.format(PATH_THNGS), thng, new TypeReference<List<Thng>>() {
+		return put(PATH_THNGS, thng, new TypeReference<List<Thng>>() {
 		});
 	}
 
@@ -122,6 +122,19 @@ public class ThngService extends EvrythngServiceBase {
 	 */
 	public Builder<Boolean> thngDeleter(String thngId) throws EvrythngClientException {
 		return delete(String.format(PATH_THNG, thngId));
+	}
+
+	/**
+	 * Bulk delete some thngs. Select the {@Thng}s to delete using query
+	 * parameters ?ids or ?filter.
+	 * 
+	 * DELETE {@value #PATH_THNGS}
+	 * 
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public Builder<Integer> thngsDeleter() throws EvrythngClientException {
+		return deleteMultiple(PATH_THNGS);
 	}
 
 	/* ***** /thngs/{id}/properties ***** */

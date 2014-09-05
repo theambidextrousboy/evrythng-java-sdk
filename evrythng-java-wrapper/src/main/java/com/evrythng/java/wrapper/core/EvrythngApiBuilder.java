@@ -129,6 +129,40 @@ public final class EvrythngApiBuilder {
 	}
 
 	/**
+	 * Creates a {@link Builder} for executing a bulk {@code DELETE} request,
+	 * and wrap the X-result-count header as a integer response.
+	 * 
+	 * @param apiKey
+	 *            the authorization token for accessing the EVRYTHNG API
+	 * @param uri
+	 *            the {@link URI} holding the absolute URL
+	 * @param responseStatus
+	 *            the expected {@link HttpResponse} status
+	 * @return an EVRYTHNG API-ready {@link Builder}
+	 */
+	public static Builder<Integer> deleteMultiple(String apiKey, URI uri, Status responseStatus) {
+		return new Builder<Integer>(apiKey, HttpMethodBuilder.httpDelete(), uri, responseStatus, new TypeReference<Integer>() {
+		}) {
+
+			@Override
+			public Integer execute() throws EvrythngException {
+				// Perform request (response status code will be automatically checked):
+				HttpResponse response = request();
+				Header header = response.getFirstHeader(ApiConfiguration.HTTP_HEADER_RESULT_COUNT);
+				Integer result = null;
+				if (header != null) {
+					try {
+						result = Integer.parseInt(header.getValue());
+					} catch (NumberFormatException ex) {
+						logger.warn("Invalid numeric value in header {} : {}", ApiConfiguration.HTTP_HEADER_RESULT_COUNT, header.getValue());
+					}
+				}
+				return result;
+			};
+		};
+	}
+
+	/**
 	 * Default command builder for the EVRYTHNG API.
 	 * 
 	 * @author Pedro De Almeida (almeidap)
