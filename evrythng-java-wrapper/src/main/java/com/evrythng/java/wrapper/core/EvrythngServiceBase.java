@@ -149,6 +149,25 @@ public class EvrythngServiceBase {
 	}
 
 	/**
+	 * Returns a preconfigured {@link Builder} for executing bulk DELETE
+	 * requests.
+	 * 
+	 * @see EvrythngApiBuilder#deleteMultiple(String, URI, Object, Status,
+	 *      TypeReference)
+	 * @param relativePath
+	 *            the relative path of the API endpoint. It will be appended to
+	 *            {@link ApiConfiguration#getUrl()} in
+	 *            order to build the absolute endpoint URL.
+	 * @return a preconfigured {@link Builder} for executing DELETE requests
+	 * @throws EvrythngClientException
+	 */
+	public Builder<Integer> deleteMultiple(String relativePath) throws EvrythngClientException {
+		Builder<Integer> builder = EvrythngApiBuilder.deleteMultiple(config.getKey(), absoluteUri(relativePath), Status.OK);
+		onBuilderCreated(builder);
+		return builder;
+	}
+
+	/**
 	 * Builds an absolute {@link URI} using the provided {@code relativePath}
 	 * and the predefined {@link ApiConfiguration#getUrl()}.
 	 * 
