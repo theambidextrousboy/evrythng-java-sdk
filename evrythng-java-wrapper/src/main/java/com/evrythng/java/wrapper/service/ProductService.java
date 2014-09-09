@@ -83,7 +83,7 @@ public class ProductService extends EvrythngServiceBase {
 	 * @throws EvrythngClientException
 	 */
 	public Builder<List<Product>> productsUpdater(Product product) throws EvrythngClientException {
-		return put(String.format(PATH_PRODUCTS), product, new TypeReference<List<Product>>() {
+		return put(PATH_PRODUCTS, product, new TypeReference<List<Product>>() {
 		});
 	}
 
@@ -109,6 +109,19 @@ public class ProductService extends EvrythngServiceBase {
 	 */
 	public Builder<Boolean> productDeleter(String productId) throws EvrythngClientException {
 		return delete(String.format(PATH_PRODUCT, productId));
+	}
+
+	/**
+	 * Bulk delete some products. Select the {Product}s to delete
+	 * using query parameters ?ids or ?filter.
+	 * 
+	 * DELETE {@value #PATH_PRODUCTS}
+	 *
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public Builder<Integer> productsDeleter() throws EvrythngClientException {
+		return deleteMultiple(PATH_PRODUCTS);
 	}
 
 	/* ***** /products/{id}/properties ***** */
