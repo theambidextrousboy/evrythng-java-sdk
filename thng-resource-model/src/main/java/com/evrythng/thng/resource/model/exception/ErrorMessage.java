@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * This defines the format of an error message as sent by the API. E.g., in JSON
- * such a message looks like: <code>{"status": 201, "type": "error_type", "errors":["message", "...", "moreInfo" : URL]}</code>
+ * such a message looks like: <code>{"status": 201, "errors":["message", "...", "moreInfo" : URL]}</code>
  * 
  * @author Dominique Guinard (domguinard)
  **/
@@ -24,8 +24,6 @@ public class ErrorMessage {
 	private List<String> errors = new ArrayList<String>();
 	private String moreInfo = MORE_INFO_ROOT;
 
-	/** Additional Developer-friendly type, default empty*/
-	private String type = "";
 	/**
 	 * Creates a new ErrorMessage.
 	 */
@@ -108,13 +106,4 @@ public class ErrorMessage {
 	public void setErrors(List<String> errors) {
 		this.errors = errors;
 	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-	
 }
