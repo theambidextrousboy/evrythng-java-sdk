@@ -46,7 +46,9 @@ public class Utils {
 		K result = null;
 
 		logger.debug("Performing conversion: [type={}]", type.getType());
-		if (type.getType().equals(InputStream.class)) {
+		if (type.getType().equals(Void.class)) {
+			return null;
+		} else if (type.getType().equals(InputStream.class)) {
 			try {
 				// Retrieve response content stream and buffer data as connection may be closed before input is handled:
 				result = (K) IOUtils.toBufferedInputStream(entityStream(response));

@@ -25,8 +25,13 @@ public enum Status {
 	 */
 	CREATED(201, "Created"),
 	/**
+	 * 204 No Content, see
+	 * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.5">HTTP/1.1 documentation</a>}
+	 */
+	NO_CONTENT(204, "No Content"),
+	/**
 	 * 301 Moved Permanently, see
-	 * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.2">HTTP/1.1 documentation</a>}.
+	 * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.2">HTTP/1.1 documentation</a>}
 	 */
 	MOVED_PERMANENTLY(301, "Moved Permanently"),
 	/**
