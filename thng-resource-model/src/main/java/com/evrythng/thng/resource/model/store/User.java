@@ -153,6 +153,20 @@ public class User extends DurableResourceModel {
 	private Gender gender;
 	private Integer numberOfFriends;
 
+	private final String app;
+
+	public User() {
+		this(null);
+	}
+
+	public User(final String app) {
+		this.app = app;
+	}
+
+	public String getApp() {
+		return app;
+	}
+
 	public String getEmail() {
 		return email;
 	}
