@@ -79,6 +79,33 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	}
 
 	/**
+	 * Sets a multi-valued query parameter or removes it if {@code value} equals
+	 * {@code null}.
+	 * */
+	@SuppressWarnings("unchecked")
+	public B queryParamList(String name, List<String> values) {
+		if (values != null) {
+			command.setQueryParam(name, concatenateList(values));
+		} else {
+			command.removeQueryParam(name);
+		}
+		return (B) this;
+	}
+
+	private String concatenateList(final List<String> values) {
+
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < values.size(); i++) {
+			String value = values.get(i);
+			builder.append(value);
+			if (i < values.size() - 1) {
+				builder.append(",");
+			}
+		}
+		return builder.toString();
+	}
+
+	/**
 	 * Sets the provided query parametes.
 	 * 
 	 * @see #queryParam(String, String)
