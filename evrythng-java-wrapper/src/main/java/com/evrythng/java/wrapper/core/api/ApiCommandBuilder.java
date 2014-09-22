@@ -6,6 +6,7 @@ package com.evrythng.java.wrapper.core.api;
 
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,9 +21,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * Generic API command builder.
- * 
- * @author Pedro De Almeida (almeidap)
- **/
+ *
+ */
 @SuppressWarnings("rawtypes")
 public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 
@@ -35,7 +35,7 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	/**
 	 * Sets a query parameter or removes it if {@code value} equals {@code null}
 	 * .
-	 * 
+	 *
 	 * @param name
 	 *            the query parameter name
 	 * @param value
@@ -55,7 +55,7 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	/**
 	 * Sets a query parameter or removes it if the {@code value} equals
 	 * {@code null}.
-	 * 
+	 *
 	 * @param qpv
 	 *            the name and the value of the query parameter.
 	 * @return the current {@code B} instance
@@ -67,7 +67,7 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	/**
 	 * Sets a multi-valued query parameter or removes it if {@code value} equals
 	 * {@code null}.
-	 * */
+	 */
 	@SuppressWarnings("unchecked")
 	public B queryParam(String name, List<String> value) {
 		if (value != null) {
@@ -79,12 +79,46 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	}
 
 	/**
+	 * Sets a multi-valued query parameter or removes it if {@code value} equals
+	 * {@code null}.
+	 */
+	@SuppressWarnings("unchecked")
+	public B queryParamList(String name, List<String> values) {
+		if (values != null) {
+			command.setQueryParam(name, concatenateList(values));
+		} else {
+			command.removeQueryParam(name);
+		}
+		return (B) this;
+	}
+
+	/**
+	 * Sets a multi-valued query parameter or removes it if {@code value} equals
+	 * {@code null}.
+	 */
+	@SuppressWarnings("unchecked")
+	public B queryParamList(String name, String... values) {
+		return queryParamList(name, Arrays.asList(values));
+	}
+
+	private String concatenateList(final List<String> values) {
+
+		StringBuilder builder = new StringBuilder();
+		for (String value : values) {
+			builder.append(value);
+			builder.append(",");
+		}
+		builder.setLength(Math.max(builder.length() - 1, 0));
+		return builder.toString();
+	}
+
+	/**
 	 * Sets the provided query parametes.
-	 * 
-	 * @see #queryParam(String, String)
+	 *
 	 * @param params
 	 *            a map name/value entries
 	 * @return
+	 * @see #queryParam(String, String)
 	 */
 	@SuppressWarnings("unchecked")
 	public B queryParams(Map<String, String> params) {
@@ -96,7 +130,7 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 
 	/**
 	 * Sets a request header or removes it if {@code value} equals {@code null}.
-	 * 
+	 *
 	 * @param name
 	 *            request header name
 	 * @param value
@@ -115,7 +149,7 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 
 	/**
 	 * Sets the value of the {@code Accept} HTTP header.
-	 * 
+	 *
 	 * @param mediaType
 	 *            a valid media type for the {@code Accept} HTTP header
 	 * @return
@@ -127,10 +161,10 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	/**
 	 * Executes the current command and maps the {@link HttpResponse} entity to
 	 * {@code T} specified by {@link ApiCommand#responseType}.
-	 * 
-	 * @see ApiCommand#execute()
+	 *
 	 * @return the {@link HttpResponse} entity mapped to {@code T}
 	 * @throws EvrythngException
+	 * @see ApiCommand#execute()
 	 */
 	public T execute() throws EvrythngException {
 		return command.execute();
@@ -139,10 +173,10 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	/**
 	 * Executes the current command and returns the {@link HttpResponse} entity
 	 * content as {@link String}.
-	 * 
-	 * @see ApiCommand#content()
+	 *
 	 * @return the {@link HttpResponse} entity content as {@link String}
 	 * @throws EvrythngException
+	 * @see ApiCommand#content()
 	 */
 	public String content() throws EvrythngException {
 		return command.content();
@@ -150,10 +184,10 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 
 	/**
 	 * Executes the current command and returns the native {@link HttpResponse}.
-	 * 
-	 * @see ApiCommand#request()
+	 *
 	 * @return the {@link HttpResponse} resulting from the request
 	 * @throws EvrythngException
+	 * @see ApiCommand#request()
 	 */
 	public HttpResponse request() throws EvrythngException {
 		return command.request();
@@ -162,10 +196,10 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	/**
 	 * Executes the current command and returns the {@link HttpResponse} content
 	 * {@link InputStream}.
-	 * 
-	 * @see ApiCommand#stream()
+	 *
 	 * @return the {@link InputStream} of the {@link HttpResponse}
 	 * @throws EvrythngException
+	 * @see ApiCommand#stream()
 	 */
 	public InputStream stream() throws EvrythngException {
 		return command.stream();
