@@ -22,7 +22,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 /**
  * Generic API command builder.
  *
- * @author Pedro De Almeida (almeidap)
  */
 @SuppressWarnings("rawtypes")
 public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
@@ -37,8 +36,10 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	 * Sets a query parameter or removes it if {@code value} equals {@code null}
 	 * .
 	 *
-	 * @param name  the query parameter name
-	 * @param value the query parameter value
+	 * @param name
+	 *            the query parameter name
+	 * @param value
+	 *            the query parameter value
 	 * @return the current {@code B} instance
 	 */
 	@SuppressWarnings("unchecked")
@@ -55,7 +56,8 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	 * Sets a query parameter or removes it if the {@code value} equals
 	 * {@code null}.
 	 *
-	 * @param qpv the name and the value of the query parameter.
+	 * @param qpv
+	 *            the name and the value of the query parameter.
 	 * @return the current {@code B} instance
 	 */
 	public B queryParam(QueryParamValue qpv) {
@@ -113,7 +115,8 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	/**
 	 * Sets the provided query parametes.
 	 *
-	 * @param params a map name/value entries
+	 * @param params
+	 *            a map name/value entries
 	 * @return
 	 * @see #queryParam(String, String)
 	 */
@@ -128,8 +131,10 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	/**
 	 * Sets a request header or removes it if {@code value} equals {@code null}.
 	 *
-	 * @param name  request header name
-	 * @param value the request header value
+	 * @param name
+	 *            request header name
+	 * @param value
+	 *            the request header value
 	 * @return the current {@code B} instance
 	 */
 	@SuppressWarnings("unchecked")
@@ -145,7 +150,8 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	/**
 	 * Sets the value of the {@code Accept} HTTP header.
 	 *
-	 * @param mediaType a valid media type for the {@code Accept} HTTP header
+	 * @param mediaType
+	 *            a valid media type for the {@code Accept} HTTP header
 	 * @return
 	 */
 	public B accept(String mediaType) {
