@@ -8,10 +8,10 @@ import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
 /**
  * Represents a redirector.
- * 
- * @author Michel Yerly (my)
  **/
 public class Redirector extends DurableResourceModel {
+
+	private static final long serialVersionUID = 1118559810507335113L;
 
 	public static final String PRODUCTID_TAG = "{productId}";
 	public static final String THNGID_TAG = "{thngId}";

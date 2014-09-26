@@ -4,6 +4,7 @@
  */
 package com.evrythng.thng.resource.model.store.geojson;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import com.evrythng.thng.resource.model.store.LocationHelper;
@@ -11,10 +12,10 @@ import com.evrythng.thng.resource.model.store.Traceable;
 
 /**
  * Geo JSON location to be used within a parent model.
- * 
- * @author colin
  **/
-public class GeoJsonLocation implements Traceable {
+public class GeoJsonLocation implements Traceable, Serializable {
+
+	private static final long serialVersionUID = -2750554873532665915L;
 
 	private double[] coordinates;
 

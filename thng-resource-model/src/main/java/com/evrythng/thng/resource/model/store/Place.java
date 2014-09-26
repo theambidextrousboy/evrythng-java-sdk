@@ -9,6 +9,8 @@ import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
  */
 public class Place extends DurableResourceModel implements Positionable {
 
+	private static final long serialVersionUID = 6579445453253811614L;
+
 	private String name;
 	private String description;
 	private String icon;

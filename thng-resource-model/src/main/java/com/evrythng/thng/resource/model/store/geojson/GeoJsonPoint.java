@@ -1,7 +1,8 @@
 package com.evrythng.thng.resource.model.store.geojson;
 
-
 public class GeoJsonPoint extends GeoJsonSingleCoordinate {
+
+	private static final long serialVersionUID = -8762410528305978101L;
 
 	public GeoJsonPoint() {
 		this(0d, 0d);

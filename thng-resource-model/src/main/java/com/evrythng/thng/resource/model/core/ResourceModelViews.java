@@ -6,9 +6,8 @@ package com.evrythng.thng.resource.model.core;
 
 /**
  * Views definition for model serialization.
- * 
- * @author Pedro De Almeida (almeidap)
  **/
+@Deprecated
 public class ResourceModelViews {
 
 	public static class Public {

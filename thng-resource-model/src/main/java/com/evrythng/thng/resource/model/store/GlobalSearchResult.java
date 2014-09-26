@@ -1,14 +1,14 @@
 package com.evrythng.thng.resource.model.store;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Search results.
- * 
- * @author Victor Sergienko (victor)
- * @author Michel Yerly (my)
  */
-public class GlobalSearchResult {
+public class GlobalSearchResult implements Serializable {
+
+	private static final long serialVersionUID = 2580537661302182631L;
 
 	/**
 	 * Found thngs

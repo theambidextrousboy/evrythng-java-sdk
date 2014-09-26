@@ -4,6 +4,8 @@ import java.util.List;
 
 public abstract class GeoJsonMultiCoordinate extends GeoJson {
 
+	private static final long serialVersionUID = 8060290621322654662L;
+
 	private List<GeoJsonLocation> coordinates;
 
 	protected GeoJsonMultiCoordinate(GeoJsonType type) {

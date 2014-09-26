@@ -4,6 +4,7 @@
  */
 package com.evrythng.thng.resource.model.store;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +17,10 @@ import com.evrythng.thng.resource.model.core.DurableResourceModel;
  * 
  * @see <a href="http://microformats.org/wiki/hproduct">hProduct</a>, and
  *      flexible fields, in the form of a key/values map. </p>
- * 
- * @author Dominique Guinard (domguinard)
  */
-public class Product extends DurableResourceModel implements ResourceWithProperties {
+public class Product extends DurableResourceModel implements ResourceWithProperties, Serializable {
+
+	private static final long serialVersionUID = -6201425043153000867L;
 
 	private String brand;
 	private List<String> categories;

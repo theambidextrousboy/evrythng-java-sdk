@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  **/
 public class Application extends DurableResourceModel {
 
-	// === some useful keys ================================================ //
+	private static final long serialVersionUID = -5251229000992852717L;
 
 	public static final String SN_FACEBOOK = "facebook";
 

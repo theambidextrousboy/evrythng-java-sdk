@@ -10,11 +10,10 @@ import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
 /**
  * Model representation for <em>collections</em>.
- * 
- * @author Pedro De Almeida (almeidap)
- * @author Michel Yerly (my)
  **/
 public class Collection extends DurableResourceModel {
+
+	private static final long serialVersionUID = -2064399431964890923L;
 
 	private String name;
 

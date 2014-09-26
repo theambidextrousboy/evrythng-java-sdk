@@ -13,8 +13,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Enumearates Evrythng's object types.
- * 
- * @author Michel Yerly (my)
  **/
 public enum EvrythngType {
 
