@@ -19,4 +19,9 @@ public class UpdatedResourcesCount {
 		}
 		this.updatedCount = updatedCount;
 	}
+
+	public UpdatedResourcesCount() {
+
+		updatedCount = 0;
+	}
 }
