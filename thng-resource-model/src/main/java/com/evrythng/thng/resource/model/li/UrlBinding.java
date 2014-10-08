@@ -18,6 +18,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_DEFAULT)
 public class UrlBinding extends AbstractUrlBinding {
 
+	private static final long serialVersionUID = -9060081991227729859L;
+
 	private String shortId;
 	private String evrythngId;
 	private Integer hits;
@@ -97,7 +99,6 @@ public class UrlBinding extends AbstractUrlBinding {
 		this.data = data;
 	}
 
-	
 	/**
 	 * @return the short URI (e.g., http://tn.gg/Gar554U78)
 	 */

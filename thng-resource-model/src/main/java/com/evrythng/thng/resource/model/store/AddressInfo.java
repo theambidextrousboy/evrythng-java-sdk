@@ -1,5 +1,6 @@
 package com.evrythng.thng.resource.model.store;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,11 +13,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * This format of addressing is deemed to have provisions for the majority of
  * global addresses.
  * Modelled from Location API for J2ME - javax.microedition.location.AddressInfo
- * 
- * @author colin
- * 
  */
-public class AddressInfo {
+public class AddressInfo implements Serializable {
+
+	private static final long serialVersionUID = -5588745503687191817L;
 
 	/**
 	 * Represents two-letter country codes

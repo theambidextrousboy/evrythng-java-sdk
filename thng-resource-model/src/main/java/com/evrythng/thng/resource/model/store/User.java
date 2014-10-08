@@ -4,6 +4,7 @@
  */
 package com.evrythng.thng.resource.model.store;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +19,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public class User extends DurableResourceModel {
 
-	public static class Birthday {
+	private static final long serialVersionUID = -1452057625044137170L;
+
+	public static class Birthday implements Serializable {
+
+		private static final long serialVersionUID = -5028876391961121928L;
 
 		private Integer day;
 		private Integer month;

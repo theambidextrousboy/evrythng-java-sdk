@@ -4,6 +4,7 @@
  */
 package com.evrythng.thng.resource.model.core;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,9 @@ import com.evrythng.commons.annotations.csv.CsvTransient;
 /**
  * Abstract model representation for resources.
  */
-public abstract class ResourceModel {
+public abstract class ResourceModel implements Serializable {
+
+	private static final long serialVersionUID = -2842591513551534611L;
 
 	public static final String FIELD_ID = "id";
 	private String id;

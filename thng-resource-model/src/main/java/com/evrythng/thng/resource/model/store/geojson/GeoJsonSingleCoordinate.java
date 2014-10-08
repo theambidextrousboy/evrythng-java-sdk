@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class GeoJsonSingleCoordinate extends GeoJson implements Traceable {
 
+	private static final long serialVersionUID = -1353734859418227063L;
+
 	private GeoJsonLocation coordinates;
 
 	protected GeoJsonSingleCoordinate(GeoJsonType type, GeoJsonLocation coordinates) {

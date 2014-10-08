@@ -4,6 +4,7 @@
  */
 package com.evrythng.thng.resource.model.store;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import com.evrythng.commons.annotations.csv.CsvSerializer;
@@ -15,7 +16,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * 
  **/
 @CsvSerializer("toCsvString")
-public class EmbeddedLocation implements Locatable {
+public class EmbeddedLocation implements Locatable, Serializable {
+
+	private static final long serialVersionUID = 3095613094764949496L;
 
 	private String place;
 

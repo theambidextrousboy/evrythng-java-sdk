@@ -1,10 +1,8 @@
 package com.evrythng.thng.resource.model.store;
 
 /**
- * 
- * Characterises the ability to be traceable within a geographical coordinate
+ * Characterizes the ability to be traceable within a geographical coordinate
  * system.
- * 
  */
 public interface Traceable {
 

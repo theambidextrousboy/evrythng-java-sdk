@@ -96,7 +96,6 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	 * Sets a multi-valued query parameter or removes it if {@code value} equals
 	 * {@code null}.
 	 */
-	@SuppressWarnings("unchecked")
 	public B queryParamList(String name, String... values) {
 		return queryParamList(name, Arrays.asList(values));
 	}

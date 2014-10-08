@@ -7,7 +7,6 @@ package com.evrythng.thng.resource.model.store;
 /**
  * Model representation for product identifiers.
  * 
- * @author Dominique Guinard (domguinard)
  * @deprecated Use Map(String,String) instead. Use something for a single entry.
  */
 @Deprecated

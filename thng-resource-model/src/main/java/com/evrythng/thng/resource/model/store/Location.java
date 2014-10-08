@@ -10,6 +10,8 @@ import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
  **/
 public class Location extends TemporalResourceModel implements Locatable {
 
+	private static final long serialVersionUID = 1126006191180696211L;
+
 	private String place;
 
 	private Double latitude;

@@ -13,6 +13,8 @@ import com.evrythng.thng.resource.model.core.EvrythngType;
  */
 public abstract class AbstractUrlBinding extends DurableResourceModel {
 
+	private static final long serialVersionUID = 8831270162102743074L;
+
 	public static final String EVRYTHNGID_TAG = "{evrythngId}";
 	public static final String SHORTID_TAG = "{shortId}";
 	private String shortDomain;

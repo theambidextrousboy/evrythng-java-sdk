@@ -8,8 +8,6 @@ import java.util.Map;
 
 /**
  * Interface for a resource model with properties.
- * 
- * @author Michel Yerly (my)
  **/
 public interface ResourceWithProperties {
 

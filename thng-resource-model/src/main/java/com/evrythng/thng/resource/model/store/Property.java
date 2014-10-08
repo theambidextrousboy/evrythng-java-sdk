@@ -8,10 +8,10 @@ import com.evrythng.thng.resource.model.core.TemporalResourceModel;
 
 /**
  * Model representation for <em>properties</em>.
- * 
- * @author Michel Yerly (my)
  **/
 public class Property extends TemporalResourceModel {
+
+	private static final long serialVersionUID = 795449469216913053L;
 
 	private String key;
 

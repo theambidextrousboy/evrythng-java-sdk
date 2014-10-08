@@ -4,6 +4,8 @@ import java.util.List;
 
 public abstract class GeoJsonPolygon extends GeoJson {
 
+	private static final long serialVersionUID = 6352106353615096344L;
+
 	private List<List<GeoJsonLocation>> coordinates;
 
 	protected GeoJsonPolygon() {
