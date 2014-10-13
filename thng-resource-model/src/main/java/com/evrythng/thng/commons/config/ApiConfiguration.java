@@ -6,51 +6,152 @@ package com.evrythng.thng.commons.config;
 
 /**
  * Parameters and values for the EVRYTHNG API configuration.
- * 
- * @author Pedro De Almeida (almeidap)
  */
 public class ApiConfiguration {
 
-	/*
-	 * EVRYTHNG API
-	 */
+	// EVRYTHNG API
+
 	private String url = "https://api.evrythng.com";
 	private String key = null;
 
-	/*
-	 * HTTP
+	// HTTP
+
+	/**
+	 * @deprecated 1.15
 	 */
+	@Deprecated
 	public static final String HTTP_ACCEPT_TYPE = "application/json";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String HTTP_CONTENT_TYPE = "application/json";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String HTTP_HEADER_RESULT_COUNT = "x-result-count";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String HTTP_HEADER_AUTHORIZATION = "Authorization";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String HTTP_HEADER_ACCEPT = "Accept";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String HTTP_HEADER_CONTENT_TYPE = "Content-Type";
 
-	/*
-	 * Query Parameters
-	 */
+	// Query Parameters
 
-	/* Authorization */
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_ACCESS_TOKEN = "access_token";
 
 	/* Common */
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_SEARCH = "q";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_PAGE = "page";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_PER_PAGE = "perPage";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_FROM = "from";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_TO = "to";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_CALLBACK = "callback";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_APP = "app";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_USER_SCOPE = "userScope";
 
 	/* thng-li */
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_WIDTH = "w";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_HEIGHT = "h";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_ECL = "ecl";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_FONT = "font";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_TEMPLATE = "tpl";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final String QUERY_PARAM_REVERSE_LOOKUP = "evrythngId";
+
+	/**
+	 * @deprecated 1.15
+	 */
+	@Deprecated
 	public static final int SHORT_ID_LENGTH = 8;
 
 	public enum QueryKeyword {
