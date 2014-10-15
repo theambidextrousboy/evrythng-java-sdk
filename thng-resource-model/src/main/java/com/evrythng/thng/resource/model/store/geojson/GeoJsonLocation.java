@@ -4,11 +4,11 @@
  */
 package com.evrythng.thng.resource.model.store.geojson;
 
-import java.io.Serializable;
-import java.util.Arrays;
-
 import com.evrythng.thng.resource.model.store.LocationHelper;
 import com.evrythng.thng.resource.model.store.Traceable;
+
+import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Geo JSON location to be used within a parent model.
@@ -63,6 +63,28 @@ public class GeoJsonLocation implements Traceable, Serializable {
 		GeoJsonLocation loc = new GeoJsonLocation();
 		LocationHelper.copy(source, loc);
 		return loc;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		GeoJsonLocation that = (GeoJsonLocation) o;
+		if (!Arrays.equals(coordinates, that.coordinates)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+
+		return coordinates != null ? Arrays.hashCode(coordinates) : 0;
 	}
 
 	@Override
