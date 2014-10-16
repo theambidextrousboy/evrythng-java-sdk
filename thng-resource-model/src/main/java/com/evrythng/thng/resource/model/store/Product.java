@@ -4,19 +4,15 @@
  */
 package com.evrythng.thng.resource.model.store;
 
+import com.evrythng.thng.resource.model.core.DurableResourceModel;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.evrythng.thng.resource.model.core.DurableResourceModel;
-
 /**
- * This represents a Product POJO. It is composed of defined fields,
- * directly complying with the hProduct microformat.
- * 
- * @see <a href="http://microformats.org/wiki/hproduct">hProduct</a>, and
- *      flexible fields, in the form of a key/values map. </p>
+ * Class for a product.
  */
 public class Product extends DurableResourceModel implements ResourceWithProperties, Serializable {
 
@@ -134,78 +130,4 @@ public class Product extends DurableResourceModel implements ResourceWithPropert
 	public void setProperties(Map<String, String> properties) {
 		this.properties = properties;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((brand == null) ? 0 : brand.hashCode());
-		result = prime * result + ((categories == null) ? 0 : categories.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((fn == null) ? 0 : fn.hashCode());
-		result = prime * result + ((identifiers == null) ? 0 : identifiers.hashCode());
-		result = prime * result + ((photos == null) ? 0 : photos.hashCode());
-		result = prime * result + ((properties == null) ? 0 : properties.hashCode());
-		result = prime * result + ((url == null) ? 0 : url.hashCode());
-		return result;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Product other = (Product) obj;
-		if (brand == null) {
-			if (other.brand != null)
-				return false;
-		} else if (!brand.equals(other.brand))
-			return false;
-		if (categories == null) {
-			if (other.categories != null)
-				return false;
-		} else if (!categories.equals(other.categories))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (fn == null) {
-			if (other.fn != null)
-				return false;
-		} else if (!fn.equals(other.fn))
-			return false;
-		if (identifiers == null) {
-			if (other.identifiers != null)
-				return false;
-		} else if (!identifiers.equals(other.identifiers))
-			return false;
-		if (photos == null) {
-			if (other.photos != null)
-				return false;
-		} else if (!photos.equals(other.photos))
-			return false;
-		if (properties == null) {
-			if (other.properties != null)
-				return false;
-		} else if (!properties.equals(other.properties))
-			return false;
-		if (url == null) {
-			if (other.url != null)
-				return false;
-		} else if (!url.equals(other.url))
-			return false;
-		return true;
-	}
-
 }

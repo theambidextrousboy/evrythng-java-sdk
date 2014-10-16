@@ -4,13 +4,6 @@
  */
 package com.evrythng.java.wrapper.util;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import com.evrythng.java.wrapper.exception.WrappedRuntimeException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -24,12 +17,16 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * JSON utilities based on Jackson {@link ObjectMapper}.
- * 
- * @author Dominique Guinard (dom)
- * @author Pedro De Almeida (almeidap)
- **/
+ */
 public final class JSONUtils {
 
 	/**
@@ -44,14 +41,12 @@ public final class JSONUtils {
 	/**
 	 * Deserializes the provided {@code json} {@link String} to a native
 	 * {@code type} representation.
-	 * 
-	 * @param json
-	 * @param type
+	 *
 	 * @return Deserialized native instance
-	 * @throws IOException
-	 * @throws JsonMappingException
-	 * @throws JsonParseException
+	 *
+	 * @deprecated since 1.15
 	 */
+	@Deprecated
 	public static <T> T read(String json, Class<T> type) throws JsonParseException, JsonMappingException, IOException {
 		try {
 			return OBJECT_MAPPER.readValue(json, type);
@@ -64,9 +59,7 @@ public final class JSONUtils {
 	/**
 	 * Deserializes the provided {@code json} {@link String} to a native
 	 * {@code type} representation.
-	 * 
-	 * @param json
-	 * @param type
+	 *
 	 * @return Deserialized native instance
 	 */
 	public static <T> T read(String json, TypeReference<T> type) {
@@ -82,11 +75,12 @@ public final class JSONUtils {
 	/**
 	 * Deserializes the provided {@link InputStream} to a native {@code type}
 	 * representation.
-	 * 
-	 * @param inputStream
-	 * @param type
+	 *
 	 * @return Deserialized native instance
+	 *
+	 * @deprecated since 1.15
 	 */
+	@Deprecated
 	public static <T> T read(InputStream inputStream, TypeReference<T> type) throws JsonParseException, JsonMappingException, IOException {
 		try {
 			return OBJECT_MAPPER.readValue(inputStream, type);
@@ -99,11 +93,12 @@ public final class JSONUtils {
 	/**
 	 * Deserializes the provided {@link InputStream} to a native
 	 * {@code valueType} representation.
-	 * 
-	 * @param inputStream
-	 * @param type
+	 *
 	 * @return Deserialized native instance
+	 *
+	 * @deprecated since 1.15
 	 */
+	@Deprecated
 	public static <T> T read(InputStream inputStream, Class<T> valueType) {
 		try {
 			return OBJECT_MAPPER.readValue(inputStream, valueType);
@@ -115,9 +110,6 @@ public final class JSONUtils {
 
 	/**
 	 * Converts the provided {@code object} to an JSON {@link String}.
-	 * 
-	 * @param object
-	 * @return
 	 */
 	public static String write(Object object) {
 		try {
@@ -130,8 +122,6 @@ public final class JSONUtils {
 
 	/**
 	 * Creates a preconfigured {@link ObjectMapper}.
-	 * 
-	 * @return
 	 */
 	private static ObjectMapper createObjectMapper() {
 
