@@ -19,7 +19,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 /** 
  * 
  **/
-public class ScanThngService extends EvrythngServiceBase {
+public class ScanService extends EvrythngServiceBase {
 
 	public static final String PATH_SCAN = "/scan";
 
@@ -46,7 +46,7 @@ public class ScanThngService extends EvrythngServiceBase {
 	/**
 	 * @param api
 	 */
-	public ScanThngService(ApiManager api) {
+	public ScanService(ApiManager api) {
 		super(api);
 	}
 	

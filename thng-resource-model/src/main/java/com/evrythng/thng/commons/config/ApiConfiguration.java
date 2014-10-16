@@ -43,6 +43,7 @@ public class ApiConfiguration {
 	public static final String QUERY_PARAM_CALLBACK = "callback";
 	public static final String QUERY_PARAM_APP = "app";
 	public static final String QUERY_PARAM_USER_SCOPE = "userScope";
+	public static final String QUERY_PARAM_MOCKUP = "mockup";
 
 	/* thng-li */
 	public static final String QUERY_PARAM_WIDTH = "w";
