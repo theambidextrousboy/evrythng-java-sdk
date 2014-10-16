@@ -1,7 +1,5 @@
 package com.evrythng.java.wrapper.service;
 
-import java.util.EnumSet;
-
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
@@ -9,6 +7,8 @@ import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.thng.resource.model.core.EvrythngType;
 import com.evrythng.thng.resource.model.store.GlobalSearchResult;
 import com.fasterxml.jackson.core.type.TypeReference;
+
+import java.util.EnumSet;
 
 /**
  * Service wrapper for the {@code /search} endpoints of the EVRYTHNG Engine API.
@@ -57,15 +57,21 @@ public class SearchService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * @see {@link #search(EnumSet, String)}
+	 */
+	public Builder<GlobalSearchResult> search(EvrythngType type) throws EvrythngClientException {
+
+		return search(EnumSet.of(type), "");
+	}
+
+	/**
 	 * Searches evrythng entities using criteria for specific fields. Use query
 	 * params to specify the fields.
 	 * 
 	 * @see #QP_CUSTOM_FIELDS
-	 * @see #QP_PRODUCT_IDENTIFIERS
 	 * @see #QP_PROPERTIES
 	 * @see #QP_TAGS
 	 * @see #qpCustomField(String)
-	 * @see #qpProductIdentifier(String)
 	 * @see #qpProperty(String)
 	 * 
 	 * @param types
