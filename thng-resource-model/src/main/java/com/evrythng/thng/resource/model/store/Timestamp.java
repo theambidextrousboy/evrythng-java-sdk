@@ -4,13 +4,16 @@
  */
 package com.evrythng.thng.resource.model.store;
 
+import java.io.Serializable;
+
 /**
  * Model class for a timestamp.
- * 
- * @author Michel Yerly (my)
  **/
-public class Timestamp {
-	Long timestamp;
+public class Timestamp implements Serializable {
+
+	private static final long serialVersionUID = -2460519576290598569L;
+
+	private Long timestamp;
 
 	/**
 	 * @return the timestamp

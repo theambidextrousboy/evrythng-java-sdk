@@ -8,8 +8,6 @@ import java.util.Comparator;
 
 /**
  * Provides utility method for objects.
- * 
- * @author Michel Yerly (my)
  **/
 public class ObjectUtils {
 

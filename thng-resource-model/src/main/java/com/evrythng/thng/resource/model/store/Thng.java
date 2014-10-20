@@ -14,6 +14,8 @@ import com.evrythng.thng.resource.model.core.DurableResourceModel;
  **/
 public class Thng extends DurableResourceModel implements ResourceWithProperties {
 
+	private static final long serialVersionUID = -5495600871904690325L;
+
 	private String name;
 	public final static String FIELD_NAME = "name";
 
@@ -32,7 +34,7 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 	 * An array of global identifiers for this thng
 	 */
 	private Map<String, String> identifiers;
-	
+
 	public String getName() {
 		return name;
 	}
@@ -72,13 +74,14 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 	public void setProperties(Map<String, String> properties) {
 		this.properties = properties;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
-		return "Thng [name=" + name + ", description=" + description + ", location=" + location + ", product=" + product + ", properties=" + properties + ", id=" + getId() + ", identifiers=" + identifiers + "]";
+		return "Thng [name=" + name + ", description=" + description + ", location=" + location + ", product=" + product + ", properties=" + properties + ", id=" + getId() + ", identifiers="
+				+ identifiers + "]";
 	}
 
 	public void addIdentifier(String type, String value) {
@@ -91,11 +94,11 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 	public Map<String, String> getIdentifiers() {
 		return identifiers;
 	}
-	
+
 	public void setIdentifiers(Map<String, String> identifiers) {
 		this.identifiers = identifiers;
 	}
-	
+
 	public String firstIdentifier() {
 		return identifiers.values().iterator().next();
 	}

@@ -9,6 +9,8 @@ package com.evrythng.thng.resource.model.core;
  **/
 public abstract class DurableResourceModel extends ResourceModel {
 
+	private static final long serialVersionUID = -7896990713808718154L;
+
 	protected Long updatedAt;
 
 	public Long getUpdatedAt() {

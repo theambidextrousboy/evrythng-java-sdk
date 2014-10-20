@@ -11,6 +11,8 @@ import java.util.Comparator;
  **/
 public abstract class TemporalResourceModel extends ResourceModel {
 
+	private static final long serialVersionUID = 7353110026977836985L;
+
 	public static final Comparator<TemporalResourceModel> REVERSE_TIME_COMPARATOR = new Comparator<TemporalResourceModel>() {
 
 		@Override
