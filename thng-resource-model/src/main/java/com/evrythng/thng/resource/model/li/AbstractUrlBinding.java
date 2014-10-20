@@ -9,7 +9,6 @@ import com.evrythng.thng.resource.model.core.EvrythngType;
 
 /**
  * URL binding model.
- * 
  */
 public abstract class AbstractUrlBinding extends DurableResourceModel {
 
@@ -19,17 +18,19 @@ public abstract class AbstractUrlBinding extends DurableResourceModel {
 	public static final String SHORTID_TAG = "{shortId}";
 	private String shortDomain;
 	private String defaultRedirectUrl;
+	private String customRedirectUrl;
 	private EvrythngType type;
 	private String evrythngUrl;
 
-	public AbstractUrlBinding() {
+	protected AbstractUrlBinding() {
 	}
 
-	public AbstractUrlBinding(String shortDomain) {
+	protected AbstractUrlBinding(final String shortDomain) {
 		this.shortDomain = shortDomain;
 	}
 
-	protected AbstractUrlBinding(AbstractUrlBinding that) {
+	protected AbstractUrlBinding(final AbstractUrlBinding that) {
+
 		this(that.shortDomain);
 		this.setDefaultRedirectUrl(that.getDefaultRedirectUrl());
 		this.setEvrythngUrl(that.getEvrythngUrl());
@@ -45,15 +46,28 @@ public abstract class AbstractUrlBinding extends DurableResourceModel {
 		return defaultRedirectUrl;
 	}
 
-	public void setDefaultRedirectUrl(String defaultRedirectUrl) {
+	public void setDefaultRedirectUrl(final String defaultRedirectUrl) {
 		this.defaultRedirectUrl = defaultRedirectUrl;
+	}
+
+	public String getCustomRedirectUrl() {
+		return customRedirectUrl;
+	}
+
+	public void setCustomRedirectUrl(final String customRedirectUrl) {
+		this.customRedirectUrl = customRedirectUrl;
+	}
+
+	public String getRedirectUrl() {
+
+		return (customRedirectUrl != null) ? customRedirectUrl : defaultRedirectUrl;
 	}
 
 	public String getShortDomain() {
 		return shortDomain;
 	}
 
-	public void setShortDomain(String shortDomain) {
+	public void setShortDomain(final String shortDomain) {
 		this.shortDomain = shortDomain;
 	}
 
@@ -68,7 +82,7 @@ public abstract class AbstractUrlBinding extends DurableResourceModel {
 	 * @param type
 	 *            the type to set
 	 */
-	public void setType(EvrythngType type) {
+	public void setType(final EvrythngType type) {
 		this.type = type;
 	}
 
@@ -83,7 +97,7 @@ public abstract class AbstractUrlBinding extends DurableResourceModel {
 	 * @param evrythngUrl
 	 *            the evrythngUrl to set
 	 */
-	public void setEvrythngUrl(String evrythngUrl) {
+	public void setEvrythngUrl(final String evrythngUrl) {
 		this.evrythngUrl = evrythngUrl;
 	}
 }

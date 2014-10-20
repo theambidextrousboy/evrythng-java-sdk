@@ -4,11 +4,11 @@
  */
 package com.evrythng.thng.resource.model.access;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A registered Application in the EVRYTHNG engine.
@@ -75,7 +75,7 @@ public class Application extends DurableResourceModel {
 	/**
 	 * Does not set anything.
 	 * 
-	 * @deprecated There is not cutomer in Application since 1.12.
+	 * @deprecated There is not customer in Application since 1.12.
 	 * 
 	 */
 	public void setCustomer(String customer) {
