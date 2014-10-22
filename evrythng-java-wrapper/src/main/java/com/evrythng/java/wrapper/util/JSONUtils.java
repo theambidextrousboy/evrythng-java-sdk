@@ -5,6 +5,7 @@
 package com.evrythng.java.wrapper.util;
 
 import com.evrythng.java.wrapper.exception.WrappedRuntimeException;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -146,6 +147,7 @@ public final class JSONUtils {
 
 		// Serialization/deserialization configuration:
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
 		return mapper;
 	}
