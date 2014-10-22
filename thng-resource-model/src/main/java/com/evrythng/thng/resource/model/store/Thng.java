@@ -4,10 +4,10 @@
  */
 package com.evrythng.thng.resource.model.store;
 
+import com.evrythng.thng.resource.model.core.DurableResourceModel;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
 /**
  * Model representation for <em>thngs</em>.
@@ -102,4 +102,5 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 	public String firstIdentifier() {
 		return identifiers.values().iterator().next();
 	}
+
 }
