@@ -4,6 +4,7 @@
  */
 package com.evrythng.java.wrapper.core;
 
+import java.io.File;
 import java.net.URI;
 
 import org.apache.commons.lang3.StringUtils;
@@ -61,6 +62,21 @@ public final class EvrythngApiBuilder {
 	 */
 	public static <T> Builder<T> post(String apiKey, URI uri, Object data, Status responseStatus, TypeReference<T> responseType) {
 		return new Builder<T>(apiKey, HttpMethodBuilder.httpPost(data), uri, responseStatus, responseType);
+	}
+
+	/**
+	 * Creates a {@link Builder} for executing a file upload via a {@code POST}
+	 * request.
+	 * 
+	 * @param apiKey
+	 * @param uri
+	 * @param file
+	 * @param responseStatus
+	 * @param responseType
+	 * @return
+	 */
+	public static <T> Builder<T> postMultipart(String apiKey, URI uri, File file, Status responseStatus, TypeReference<T> responseType) {
+		return new Builder<T>(apiKey, HttpMethodBuilder.httpPostMultipart(file), uri, responseStatus, responseType, null);
 	}
 
 	/**
@@ -213,10 +229,21 @@ public final class EvrythngApiBuilder {
 		 * for creating a {@link Builder}.
 		 */
 		private Builder(String apiKey, MethodBuilder<?> methodBuilder, URI uri, Status responseStatus, TypeReference<T> responseType) {
+			this(apiKey, methodBuilder, uri, responseStatus, responseType, ApiConfiguration.HTTP_CONTENT_TYPE);
+		}
+
+		/**
+		 * Private constructor, use {@link EvrythngApiBuilder} static methods
+		 * for creating a {@link Builder}.
+		 */
+		private Builder(String apiKey, MethodBuilder<?> methodBuilder, URI uri, Status responseStatus, TypeReference<T> responseType, String contentType) {
 			super(methodBuilder, uri, responseStatus, responseType);
 
 			// Define required API metainformation:
-			header("Content-Type", ApiConfiguration.HTTP_CONTENT_TYPE);
+			// header("Content-Type", ApiConfiguration.HTTP_CONTENT_TYPE);
+			if (contentType != null) {
+				header("Content-Type", contentType);
+			}
 			header("Accept", ApiConfiguration.HTTP_ACCEPT_TYPE);
 			apiKey(apiKey);
 		}

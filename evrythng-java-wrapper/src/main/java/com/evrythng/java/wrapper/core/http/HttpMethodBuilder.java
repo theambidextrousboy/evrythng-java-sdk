@@ -4,6 +4,8 @@
  */
 package com.evrythng.java.wrapper.core.http;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 
 import org.apache.commons.lang3.CharEncoding;
@@ -15,6 +17,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.java.wrapper.util.JSONUtils;
@@ -49,6 +54,33 @@ public final class HttpMethodBuilder {
 			public HttpPost build(URI uri) throws EvrythngClientException {
 				HttpPost request = new HttpPost(uri);
 				entity(request, data);
+				return request;
+			}
+		};
+	}
+
+	public static MethodBuilder<HttpPost> httpPostMultipart(final File file) {
+		return new EntityMethodBuilder<HttpPost>(Method.POST) {
+			@Override
+			public HttpPost build(URI uri) throws EvrythngClientException {
+				HttpPost request = new HttpPost(uri);
+				MultipartEntity reqEntity = new MultipartEntity();
+
+				try {
+					// Name of the file
+					StringBody strBody = new StringBody(file.getName());
+					reqEntity.addPart("filename", strBody);
+
+					// File attachment
+					FileBody fileBody = new FileBody(file);
+					reqEntity.addPart("file", fileBody);
+
+					request.setEntity(reqEntity);
+
+				} catch (UnsupportedEncodingException ex) {
+					throw new EvrythngClientException("Unable to build the multipart post request", ex);
+				}
+
 				return request;
 			}
 		};

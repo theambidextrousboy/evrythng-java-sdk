@@ -4,6 +4,7 @@
  */
 package com.evrythng.java.wrapper.core;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -85,6 +86,36 @@ public class EvrythngServiceBase {
 	 */
 	public <T> Builder<T> post(String relativePath, Object data, Status expected, TypeReference<T> type) throws EvrythngClientException {
 		Builder<T> builder = EvrythngApiBuilder.post(config.getKey(), absoluteUri(relativePath), data, expected, type);
+		onBuilderCreated(builder);
+		return builder;
+	}
+
+	/**
+	 * Returns a preconfigured {@link Builder} for uploading file via POST
+	 * requests
+	 * 
+	 * @param relativePath
+	 * @param file
+	 * @param type
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public <T> Builder<T> postMultipart(String relativePath, File file, TypeReference<T> type) throws EvrythngClientException {
+		return postMultipart(relativePath, file, Status.CREATED, type);
+	}
+
+	/**
+	 * Returns a preconfigured {@link Builder} for uploading file via POST
+	 * requests
+	 * 
+	 * @param relativePath
+	 * @param file
+	 * @param type
+	 * @return
+	 * @throws EvrythngClientException
+	 */
+	public <T> Builder<T> postMultipart(String relativePath, File file, Status expected, TypeReference<T> type) throws EvrythngClientException {
+		Builder<T> builder = EvrythngApiBuilder.postMultipart(config.getKey(), absoluteUri(relativePath), file, expected, type);
 		onBuilderCreated(builder);
 		return builder;
 	}
