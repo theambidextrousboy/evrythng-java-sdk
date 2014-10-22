@@ -18,7 +18,7 @@ public abstract class AbstractUrlBinding extends DurableResourceModel {
 	public static final String SHORTID_TAG = "{shortId}";
 	private String shortDomain;
 	private String defaultRedirectUrl;
-	private String customRedirectUrl;
+	private String redirectUrl;
 	private EvrythngType type;
 	private String evrythngUrl;
 
@@ -50,17 +50,13 @@ public abstract class AbstractUrlBinding extends DurableResourceModel {
 		this.defaultRedirectUrl = defaultRedirectUrl;
 	}
 
-	public String getCustomRedirectUrl() {
-		return customRedirectUrl;
-	}
-
-	public void setCustomRedirectUrl(final String customRedirectUrl) {
-		this.customRedirectUrl = customRedirectUrl;
+	public void setRedirectUrl(final String redirectUrl) {
+		this.redirectUrl = redirectUrl;
 	}
 
 	public String getRedirectUrl() {
 
-		return (customRedirectUrl != null) ? customRedirectUrl : defaultRedirectUrl;
+		return (redirectUrl != null) ? redirectUrl : defaultRedirectUrl;
 	}
 
 	public String getShortDomain() {
