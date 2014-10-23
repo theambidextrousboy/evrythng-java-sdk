@@ -4,9 +4,9 @@
  */
 package com.evrythng.thng.resource.model.store;
 
-import java.util.LinkedHashSet;
-
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
+
+import java.util.LinkedHashSet;
 
 /**
  * Model representation for <em>collections</em>.
@@ -72,6 +72,6 @@ public class Collection extends DurableResourceModel {
 
 	@Override
 	public String toString() {
-		return "Collection{" + "name='" + name + '\'' + ", description='" + description + '\'' + ", thngs=" + thngs + '}';
+		return "Collection{" + "name='" + name + "\'" + ", description='" + description + "\'" + ", thngs=" + thngs + "}";
 	}
 }
