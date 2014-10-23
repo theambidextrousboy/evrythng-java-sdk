@@ -300,10 +300,6 @@ public final class EvrythngApiBuilder {
 			return queryParam(ApiConfiguration.QUERY_PARAM_USER_SCOPE, QueryKeyword.ALL.toString());
 		}
 
-		public Builder<T> mockup() {
-			return queryParam(ApiConfiguration.QUERY_PARAM_MOCKUP, "true");
-		}
-
 		/**
 		 * Counts the <strong>total</strong> number of elements if the current
 		 * command was executed as a {@code HEAD} request.
