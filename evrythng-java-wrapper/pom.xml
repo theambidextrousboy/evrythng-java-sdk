@@ -70,6 +70,11 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>1.6.6</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>${version.httpclient}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -11,7 +11,7 @@ import com.evrythng.java.wrapper.service.ApplicationService;
 import com.evrythng.java.wrapper.service.AuthService;
 import com.evrythng.java.wrapper.service.CollectionService;
 import com.evrythng.java.wrapper.service.ProductService;
-import com.evrythng.java.wrapper.service.ScanThngService;
+import com.evrythng.java.wrapper.service.ScanService;
 import com.evrythng.java.wrapper.service.SearchService;
 import com.evrythng.java.wrapper.service.ThngService;
 import com.evrythng.thng.commons.config.ApiConfiguration;
@@ -32,7 +32,7 @@ public class ApiManager {
 	private SearchService searchService;
 	private ApplicationService applicationService;
 	private AuthService authService;
-	private ScanThngService scanThngService;
+	private ScanService scanThngService;
 
 	/**
 	 * Creates a new {@link ApiManager} instance using the provided
@@ -47,7 +47,7 @@ public class ApiManager {
 		this.searchService = new SearchService(this);
 		this.applicationService = new ApplicationService(this);
 		this.authService = new AuthService(this);
-		this.scanThngService = new ScanThngService(this);
+		this.scanThngService = new ScanService(this);
 	}
 
 	/**
@@ -144,9 +144,9 @@ public class ApiManager {
 	/**
 	 * Returns a preconfigured EVRYTHNG service for accessing the ScanThng API.
 	 * 
-	 * @see ScanThngService
+	 * @see ScanService
 	 */
-	public ScanThngService scanThngService(){
+	public ScanService scanThngService(){
 		return scanThngService;
 	}
 
