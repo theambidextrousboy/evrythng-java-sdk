@@ -65,6 +65,13 @@ public abstract class ResourceModel implements Serializable {
 		this.tags = tags;
 	}
 
+	/**
+	 * Indicates whether some other object is "equal to" this one.
+	 *
+	 * @param o the ResourceModel subclass object with which to compare.
+	 * @return {@code true} if this object is the same as the argument
+	 *         or they both have not-null equal id's; {@code false} otherwise.
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
