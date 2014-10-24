@@ -65,4 +65,22 @@ public abstract class ResourceModel implements Serializable {
 		this.tags = tags;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		ResourceModel that = (ResourceModel) o;
+
+		return id != null && that.id != null && id.equals(that.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return id != null ? id.hashCode() : 0;
+	}
 }

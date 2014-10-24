@@ -49,28 +49,6 @@ public class Collection extends DurableResourceModel {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-
-		Collection that = (Collection) o;
-
-		return !(description != null ? !description.equals(that.description) : that.description != null) && name.equals(that.name) && !(thngs != null ? !thngs.equals(that.thngs) : that.thngs != null);
-	}
-
-	@Override
-	public int hashCode() {
-		int result = name.hashCode();
-		result = 31 * result + (description != null ? description.hashCode() : 0);
-		result = 31 * result + (thngs != null ? thngs.hashCode() : 0);
-		return result;
-	}
-
-	@Override
 	public String toString() {
 		return "Collection{" + "name='" + name + "\'" + ", description='" + description + "\'" + ", thngs=" + thngs + "}";
 	}
