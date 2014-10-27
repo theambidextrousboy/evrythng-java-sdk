@@ -18,6 +18,7 @@ import com.evrythng.java.wrapper.core.api.ApiCommand;
 import com.evrythng.java.wrapper.core.api.ApiCommandBuilder;
 import com.evrythng.java.wrapper.core.api.TypedResponseWithEntity;
 import com.evrythng.java.wrapper.core.api.Utils;
+import com.evrythng.java.wrapper.core.api.param.AppQueryParamValue;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.Method;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
@@ -289,7 +290,7 @@ public final class EvrythngApiBuilder {
 		}
 
 		public Builder<T> app(String appId) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_APP, appId);
+			return queryParam(AppQueryParamValue.appId(appId));
 		}
 
 		public Builder<T> userScope(Iterable<String> userScope) {
