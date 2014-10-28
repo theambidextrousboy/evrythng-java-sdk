@@ -19,6 +19,7 @@ import com.evrythng.java.wrapper.core.api.ApiCommandBuilder;
 import com.evrythng.java.wrapper.core.api.TypedResponseWithEntity;
 import com.evrythng.java.wrapper.core.api.Utils;
 import com.evrythng.java.wrapper.core.api.param.AppQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.PageQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.SearchQueryParamValue;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.Method;
@@ -259,7 +260,7 @@ public final class EvrythngApiBuilder {
 		}
 
 		public Builder<T> page(int page) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_PAGE, String.valueOf(page));
+			return queryParam(PageQueryParamValue.page(page));
 		}
 
 		public Builder<T> perPage(int perPage) {
