@@ -19,6 +19,7 @@ import com.evrythng.java.wrapper.core.api.ApiCommandBuilder;
 import com.evrythng.java.wrapper.core.api.TypedResponseWithEntity;
 import com.evrythng.java.wrapper.core.api.Utils;
 import com.evrythng.java.wrapper.core.api.param.AppQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.CallbackQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.FromQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.PageQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.PerPageQueryParamValue;
@@ -373,13 +374,13 @@ public final class EvrythngApiBuilder {
 		 */
 		public String jsonp(String callback) throws EvrythngException {
 			// Add JSONP callback to query parameters list:
-			queryParam(ApiConfiguration.QUERY_PARAM_CALLBACK, callback);
+			queryParam(CallbackQueryParamValue.callback(callback));
 
 			// Retrieve response entity content:
 			String jsonp = getCommand().content();
 
 			// Remove callback to avoid conflicts on future requests:
-			queryParam(ApiConfiguration.QUERY_PARAM_CALLBACK, (String) null);
+			queryParam(CallbackQueryParamValue.empty());
 
 			return jsonp;
 		}
