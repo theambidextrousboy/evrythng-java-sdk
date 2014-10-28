@@ -19,9 +19,11 @@ import com.evrythng.java.wrapper.core.api.ApiCommandBuilder;
 import com.evrythng.java.wrapper.core.api.TypedResponseWithEntity;
 import com.evrythng.java.wrapper.core.api.Utils;
 import com.evrythng.java.wrapper.core.api.param.AppQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.FromQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.PageQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.PerPageQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.SearchQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.ToQueryParamValue;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.Method;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
@@ -269,27 +271,27 @@ public final class EvrythngApiBuilder {
 		}
 
 		public Builder<T> from(long from) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_FROM, String.valueOf(from));
+			return queryParam(FromQueryParamValue.from(String.valueOf(from)));
 		}
 
 		public Builder<T> from(String from) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_FROM, from);
+			return queryParam(FromQueryParamValue.from(from));
 		}
 
 		public Builder<T> from(QueryKeyword queryKeyword) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_FROM, queryKeyword.toString());
+			return queryParam(FromQueryParamValue.from(queryKeyword.toString()));
 		}
 
 		public Builder<T> to(long to) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_TO, String.valueOf(to));
+			return queryParam(ToQueryParamValue.to(String.valueOf(to)));
 		}
 
 		public Builder<T> to(String to) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_TO, to);
+			return queryParam(ToQueryParamValue.to(to));
 		}
 
 		public Builder<T> to(QueryKeyword queryKeyword) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_TO, queryKeyword.toString());
+			return queryParam(ToQueryParamValue.to(queryKeyword.toString()));
 		}
 
 		public Builder<T> app(String appId) {
