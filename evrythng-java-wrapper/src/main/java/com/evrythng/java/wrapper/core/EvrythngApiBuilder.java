@@ -24,6 +24,7 @@ import com.evrythng.java.wrapper.core.api.param.PageQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.PerPageQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.SearchQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.ToQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.UserScopeQueryParamValue;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.Method;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
@@ -299,11 +300,11 @@ public final class EvrythngApiBuilder {
 		}
 
 		public Builder<T> userScope(Iterable<String> userScope) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_USER_SCOPE, StringUtils.join(userScope, ','));
+			return queryParam(UserScopeQueryParamValue.userScope(StringUtils.join(userScope, ',')));
 		}
 
 		public Builder<T> userScopeAll() {
-			return queryParam(ApiConfiguration.QUERY_PARAM_USER_SCOPE, QueryKeyword.ALL.toString());
+			return queryParam(UserScopeQueryParamValue.userScope(QueryKeyword.ALL.toString()));
 		}
 
 		/**
