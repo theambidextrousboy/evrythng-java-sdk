@@ -3,6 +3,7 @@ package com.evrythng.java.wrapper.service;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
+import com.evrythng.java.wrapper.core.api.param.SearchQueryParamValue;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.thng.resource.model.core.EvrythngType;
 import com.evrythng.thng.resource.model.store.GlobalSearchResult;
@@ -19,6 +20,12 @@ public class SearchService extends EvrythngServiceBase {
 
 	public static final String PATH_SEARCH = "/search";
 
+	/**
+	 * @deprecated since 1.16 - use
+	 *             {@link com.evrythng.java.wrapper.core.api.param.SearchQueryParamValue}
+	 *             instead.
+	 */
+	@Deprecated
 	public static final String QP_SEARCH_ALL = "q";
 	public static final String QP_TYPES = "types";
 
@@ -45,7 +52,7 @@ public class SearchService extends EvrythngServiceBase {
 	 */
 	public Builder<GlobalSearchResult> search(EnumSet<EvrythngType> types, String searchText) throws EvrythngClientException {
 
-		return createBuilder(types).queryParam(QP_SEARCH_ALL, searchText);
+		return createBuilder(types).queryParam(SearchQueryParamValue.pattern(searchText));
 	}
 
 	/**
