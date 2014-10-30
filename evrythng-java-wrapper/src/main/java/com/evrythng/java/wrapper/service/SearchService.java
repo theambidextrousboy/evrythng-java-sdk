@@ -3,6 +3,9 @@ package com.evrythng.java.wrapper.service;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
+import com.evrythng.java.wrapper.core.api.param.LatQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.LonQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.MaxDistQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.SearchQueryParamValue;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.thng.resource.model.core.EvrythngType;
@@ -33,8 +36,29 @@ public class SearchService extends EvrythngServiceBase {
 	public static final String QP_CUSTOM_FIELDS = "customFields";
 	public static final String QP_TAGS = "tags";
 	public static final String QP_PROPERTIES = "properties";
+
+	/**
+	 * @deprecated since 1.16 - use
+	 *             {@link com.evrythng.java.wrapper.core.api.param.LatQueryParamValue}
+	 *             instead
+	 */
+	@Deprecated
 	public static final String QP_LATITUDE = "lat";
+
+	/**
+	 * @deprecated since 1.16 - use
+	 *             {@link com.evrythng.java.wrapper.core.api.param.LonQueryParamValue}
+	 *             instead
+	 */
+	@Deprecated
 	public static final String QP_LONGITUDE = "lon";
+
+	/**
+	 * @deprecated since 1.16 - use
+	 *             {@link com.evrythng.java.wrapper.core.api.param.MaxDistQueryParamValue}
+	 *             instead
+	 */
+	@Deprecated
 	public static final String QP_MAX_DISTANCE = "maxDist";
 
 	public SearchService(ApiManager apiManager) {
@@ -113,7 +137,7 @@ public class SearchService extends EvrythngServiceBase {
 	 */
 	public Builder<GlobalSearchResult> geoSearch(EnumSet<EvrythngType> types, double latitude, double longitude, double maxDistance) throws EvrythngClientException {
 
-		return createBuilder(types).queryParam(QP_LATITUDE, String.valueOf(latitude)).queryParam(QP_LONGITUDE, String.valueOf(longitude)).queryParam(QP_MAX_DISTANCE, String.valueOf(maxDistance));
+		return createBuilder(types).queryParam(LatQueryParamValue.lat(latitude)).queryParam(LonQueryParamValue.lon(longitude)).queryParam(MaxDistQueryParamValue.maxDist(maxDistance));
 	}
 
 	/**
