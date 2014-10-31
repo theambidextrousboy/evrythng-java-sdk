@@ -7,6 +7,7 @@ import com.evrythng.java.wrapper.core.api.param.LatQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.LonQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.MaxDistQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.QSearchQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.TypesQueryParamValue;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.thng.resource.model.core.EvrythngType;
 import com.evrythng.thng.resource.model.store.GlobalSearchResult;
@@ -30,6 +31,13 @@ public class SearchService extends EvrythngServiceBase {
 	 */
 	@Deprecated
 	public static final String QP_SEARCH_ALL = "q";
+
+	/**
+	 * @deprecated since 1.16 - use
+	 *             {@link com.evrythng.java.wrapper.core.api.param.TypesQueryParamValue}
+	 *             instead.
+	 */
+	@Deprecated
 	public static final String QP_TYPES = "types";
 
 	public static final String QP_IDENTIFIERS = "identifiers";
@@ -200,7 +208,7 @@ public class SearchService extends EvrythngServiceBase {
 				sb.append(type.getJsonValue()).append(',');
 			}
 			sb.delete(sb.length() - 1, sb.length());
-			b = b.queryParam(QP_TYPES, sb.toString());
+			b = b.queryParam(TypesQueryParamValue.types(sb.toString()));
 		}
 
 		return b;
