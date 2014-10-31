@@ -23,7 +23,7 @@ import com.evrythng.java.wrapper.core.api.param.CallbackQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.FromQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.PageQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.PerPageQueryParamValue;
-import com.evrythng.java.wrapper.core.api.param.SearchQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.QSearchQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.ToQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.UserScopeQueryParamValue;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
@@ -261,7 +261,7 @@ public final class EvrythngApiBuilder {
 		}
 
 		public Builder<T> search(String pattern) {
-			return queryParam(SearchQueryParamValue.pattern(pattern));
+			return queryParam(QSearchQueryParamValue.pattern(pattern));
 		}
 
 		public Builder<T> page(int page) {

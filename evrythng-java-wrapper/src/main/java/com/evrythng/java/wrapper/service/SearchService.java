@@ -6,7 +6,7 @@ import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.core.api.param.LatQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.LonQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.MaxDistQueryParamValue;
-import com.evrythng.java.wrapper.core.api.param.SearchQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.QSearchQueryParamValue;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.thng.resource.model.core.EvrythngType;
 import com.evrythng.thng.resource.model.store.GlobalSearchResult;
@@ -25,7 +25,7 @@ public class SearchService extends EvrythngServiceBase {
 
 	/**
 	 * @deprecated since 1.16 - use
-	 *             {@link com.evrythng.java.wrapper.core.api.param.SearchQueryParamValue}
+	 *             {@link com.evrythng.java.wrapper.core.api.param.QSearchQueryParamValue}
 	 *             instead.
 	 */
 	@Deprecated
@@ -83,7 +83,7 @@ public class SearchService extends EvrythngServiceBase {
 	 */
 	public Builder<GlobalSearchResult> search(EnumSet<EvrythngType> types, String searchText) throws EvrythngClientException {
 
-		return createBuilder(types).queryParam(SearchQueryParamValue.pattern(searchText));
+		return createBuilder(types).queryParam(QSearchQueryParamValue.pattern(searchText));
 	}
 
 	/**
