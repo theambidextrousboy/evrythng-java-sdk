@@ -34,6 +34,13 @@ public class SearchService extends EvrythngServiceBase {
 
 	public static final String QP_IDENTIFIERS = "identifiers";
 	public static final String QP_CUSTOM_FIELDS = "customFields";
+
+	/**
+	 * @deprecated since 1.16 - use
+	 *             {@link com.evrythng.java.wrapper.core.api.param.TagsQueryParamValue}
+	 *             instead.
+	 */
+	@Deprecated
 	public static final String QP_TAGS = "tags";
 	public static final String QP_PROPERTIES = "properties";
 
