@@ -4,6 +4,7 @@
 .project
 .settings
 .idea
+!.idea/codeStyleSettings.xml
 nb-configuration.xml
 .DS_Store
 /thng-resource-model/target/
