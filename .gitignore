@@ -3,8 +3,12 @@
 .classpath
 .project
 .settings
-.idea
-!.idea/codeStyleSettings.xml
+
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries/
+.idea/libraries/
+
 nb-configuration.xml
 .DS_Store
 /thng-resource-model/target/

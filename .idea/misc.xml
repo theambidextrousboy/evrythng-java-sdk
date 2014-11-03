@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="EclipseCodeFormatter">
+    <option name="defaultSettings" value="true" />
+    <option name="disabledFileTypes" value="html; css; js;" />
+    <option name="formatSeletedTextInAllFileTypes" value="false" />
+    <option name="formatter" value="ECLIPSE" />
+    <option name="id" value="1411400115667" />
+    <option name="name" value="Evrythng" />
+    <option name="optimizeImports" value="false" />
+    <option name="pathToConfigFileJava" value="$USER_HOME$/configs/code_format.xml" />
+    <option name="selectedJavaProfile" value="Evrythng" />
+  </component>
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+    <list size="4">
+      <item index="0" class="java.lang.String" itemvalue="javax.annotation.PostConstruct" />
+      <item index="1" class="java.lang.String" itemvalue="javax.annotation.PreDestroy" />
+      <item index="2" class="java.lang.String" itemvalue="javax.inject.Inject" />
+      <item index="3" class="java.lang.String" itemvalue="org.junit.Test" />
+    </list>
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/evrythng-java-sdk/pom.xml" />
+        <option value="$PROJECT_DIR$/thng-engine/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+</project>
+
