@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/thng-engine/evrythng-java-wrapper-internal" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/thng-engine/thng-api-test" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/thng-engine/thng-commons-internal" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/thng-engine/thng-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/thng-engine/thng-cron" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/thng-engine/thng-data-seeding" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/thng-engine/thng-integration-tests" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/thng-engine/thng-li" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/thng-engine/thng-resource-model-internal" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/thng-engine/thng-store" charset="UTF-8" />
+  </component>
+</project>
+
