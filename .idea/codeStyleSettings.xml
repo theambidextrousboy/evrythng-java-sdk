@@ -21,7 +21,7 @@
         <option name="PACKAGES_TO_USE_IMPORT_ON_DEMAND">
           <value />
         </option>
-        <option name="RIGHT_MARGIN" value="200" />
+        <option name="RIGHT_MARGIN" value="250" />
         <option name="JD_KEEP_INVALID_TAGS" value="false" />
         <option name="JD_KEEP_EMPTY_PARAMETER" value="false" />
         <option name="JD_KEEP_EMPTY_EXCEPTION" value="false" />
@@ -87,7 +87,6 @@
         </codeStyleSettings>
       </value>
     </option>
-    <option name="PREFERRED_PROJECT_CODE_STYLE" value="Evrythng" />
   </component>
 </project>
 
