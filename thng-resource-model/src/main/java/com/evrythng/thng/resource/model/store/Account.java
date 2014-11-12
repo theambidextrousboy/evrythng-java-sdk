@@ -26,4 +26,14 @@ public class Account extends DurableResourceModel {
 
 		this.name = name;
 	}
+
+	@Override
+	public String toString() {
+
+		StringBuilder sb = new StringBuilder("Account{");
+		sb.append("id='").append(getId()).append("\', ");
+		sb.append("name='").append(name).append("\'");
+		sb.append('}');
+		return sb.toString();
+	}
 }
