@@ -20,6 +20,10 @@ public class User extends AbstractUser {
 
 	private static final long serialVersionUID = -1452057625044137170L;
 
+	/**
+	 * @deprecated since 1.16 - use {@link AbstractUser.Birthday} instead
+	 */
+	@Deprecated
 	public static class Birthday implements Serializable {
 
 		private static final long serialVersionUID = -5028876391961121928L;
@@ -72,6 +76,10 @@ public class User extends AbstractUser {
 		}
 	}
 
+	/**
+	 * @deprecated since 1.16 - use {@link AbstractUser.Gender} instead
+	 */
+	@Deprecated
 	public enum Gender {
 
 		MALE("male"), FEMALE("female");
@@ -108,11 +116,8 @@ public class User extends AbstractUser {
 	@JsonIgnore
 	private Boolean canLogin;
 
-	private Birthday birthday;
-
-	private Gender gender;
-
 	private final String app;
+	private Integer  numberOfFriends;
 
 	public User() {
 		this(null);
@@ -143,22 +148,6 @@ public class User extends AbstractUser {
 		this.canLogin = canLogin;
 	}
 
-	public Birthday getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(Birthday birthday) {
-		this.birthday = birthday;
-	}
-
-	public Gender getGender() {
-		return gender;
-	}
-
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
-
 	public SocialNetwork getPrimarySocialNetwork() {
 		return primarySocialNetwork;
 	}
@@ -173,6 +162,16 @@ public class User extends AbstractUser {
 
 	public void setSocialProfileLastSync(Long socialProfileLastSync) {
 		this.socialProfileLastSync = socialProfileLastSync;
+	}
+
+	public Integer getNumberOfFriends() {
+
+		return numberOfFriends;
+	}
+
+	public void setNumberOfFriends(final Integer numberOfFriends) {
+
+		this.numberOfFriends = numberOfFriends;
 	}
 
 }
