@@ -1,0 +1,42 @@
+/*
+ * (c) Copyright 2013 EVRYTHNG Ltd London / Zurich
+ * www.evrythng.com
+ */
+package com.evrythng.java.wrapper.core.api.param;
+
+import com.evrythng.java.wrapper.core.api.QueryParamValue;
+import com.evrythng.thng.commons.config.ApiConfiguration;
+
+/**
+ * Provides support for the {@code "from"} query param.
+ */
+public class FromQueryParamValue extends QueryParamValue {
+
+	public static final String NAME = "from";
+
+	public FromQueryParamValue(String value) {
+		super(NAME, value);
+	}
+
+	/**
+	 * @param from
+	 *            from value
+	 * @return query parameter for this from value
+	 */
+	public static FromQueryParamValue from(String from) {
+		return new FromQueryParamValue(from);
+	}
+
+	public static FromQueryParamValue zero() {
+		return new FromQueryParamValue("0");
+	}
+	/**
+	 * 
+	 * @param from
+	 *            from value
+	 * @return true if value equals {@code "latest"}
+	 */
+	public static boolean isLatest(String from) {
+		return ApiConfiguration.QueryKeyword.LATEST.toString().equals(from);
+	}
+}

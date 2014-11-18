@@ -3,6 +3,11 @@ package com.evrythng.java.wrapper.service;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
+import com.evrythng.java.wrapper.core.api.param.LatQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.LonQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.MaxDistQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.QSearchQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.TypesQueryParamValue;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.thng.resource.model.core.EvrythngType;
 import com.evrythng.thng.resource.model.store.GlobalSearchResult;
@@ -19,15 +24,56 @@ public class SearchService extends EvrythngServiceBase {
 
 	public static final String PATH_SEARCH = "/search";
 
+	/**
+	 * @deprecated since 1.16 - use
+	 *             {@link com.evrythng.java.wrapper.core.api.param.QSearchQueryParamValue}
+	 *             instead.
+	 */
+	@Deprecated
 	public static final String QP_SEARCH_ALL = "q";
+
+	/**
+	 * @deprecated since 1.16 - use
+	 *             {@link com.evrythng.java.wrapper.core.api.param.TypesQueryParamValue}
+	 *             instead.
+	 */
+	@Deprecated
 	public static final String QP_TYPES = "types";
 
 	public static final String QP_IDENTIFIERS = "identifiers";
 	public static final String QP_CUSTOM_FIELDS = "customFields";
+
+	/**
+	 * @deprecated since 1.16 - use
+	 *             {@link com.evrythng.java.wrapper.core.api.param.TagsQueryParamValue}
+	 *             instead.
+	 */
+	@Deprecated
 	public static final String QP_TAGS = "tags";
 	public static final String QP_PROPERTIES = "properties";
+
+	/**
+	 * @deprecated since 1.16 - use
+	 *             {@link com.evrythng.java.wrapper.core.api.param.LatQueryParamValue}
+	 *             instead
+	 */
+	@Deprecated
 	public static final String QP_LATITUDE = "lat";
+
+	/**
+	 * @deprecated since 1.16 - use
+	 *             {@link com.evrythng.java.wrapper.core.api.param.LonQueryParamValue}
+	 *             instead
+	 */
+	@Deprecated
 	public static final String QP_LONGITUDE = "lon";
+
+	/**
+	 * @deprecated since 1.16 - use
+	 *             {@link com.evrythng.java.wrapper.core.api.param.MaxDistQueryParamValue}
+	 *             instead
+	 */
+	@Deprecated
 	public static final String QP_MAX_DISTANCE = "maxDist";
 
 	public SearchService(ApiManager apiManager) {
@@ -45,7 +91,7 @@ public class SearchService extends EvrythngServiceBase {
 	 */
 	public Builder<GlobalSearchResult> search(EnumSet<EvrythngType> types, String searchText) throws EvrythngClientException {
 
-		return createBuilder(types).queryParam(QP_SEARCH_ALL, searchText);
+		return createBuilder(types).queryParam(QSearchQueryParamValue.pattern(searchText));
 	}
 
 	/**
@@ -106,7 +152,7 @@ public class SearchService extends EvrythngServiceBase {
 	 */
 	public Builder<GlobalSearchResult> geoSearch(EnumSet<EvrythngType> types, double latitude, double longitude, double maxDistance) throws EvrythngClientException {
 
-		return createBuilder(types).queryParam(QP_LATITUDE, String.valueOf(latitude)).queryParam(QP_LONGITUDE, String.valueOf(longitude)).queryParam(QP_MAX_DISTANCE, String.valueOf(maxDistance));
+		return createBuilder(types).queryParam(LatQueryParamValue.lat(latitude)).queryParam(LonQueryParamValue.lon(longitude)).queryParam(MaxDistQueryParamValue.maxDist(maxDistance));
 	}
 
 	/**
@@ -162,7 +208,7 @@ public class SearchService extends EvrythngServiceBase {
 				sb.append(type.getJsonValue()).append(',');
 			}
 			sb.delete(sb.length() - 1, sb.length());
-			b = b.queryParam(QP_TYPES, sb.toString());
+			b = b.queryParam(TypesQueryParamValue.types(sb.toString()));
 		}
 
 		return b;
