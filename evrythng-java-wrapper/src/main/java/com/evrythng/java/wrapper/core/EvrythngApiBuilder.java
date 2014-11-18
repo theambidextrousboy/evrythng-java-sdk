@@ -18,6 +18,14 @@ import com.evrythng.java.wrapper.core.api.ApiCommand;
 import com.evrythng.java.wrapper.core.api.ApiCommandBuilder;
 import com.evrythng.java.wrapper.core.api.TypedResponseWithEntity;
 import com.evrythng.java.wrapper.core.api.Utils;
+import com.evrythng.java.wrapper.core.api.param.AppQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.CallbackQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.FromQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.PageQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.PerPageQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.QSearchQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.ToQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.UserScopeQueryParamValue;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.Method;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
@@ -253,51 +261,51 @@ public final class EvrythngApiBuilder {
 		}
 
 		public Builder<T> search(String pattern) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_SEARCH, pattern);
+			return queryParam(QSearchQueryParamValue.pattern(pattern));
 		}
 
 		public Builder<T> page(int page) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_PAGE, String.valueOf(page));
+			return queryParam(PageQueryParamValue.page(page));
 		}
 
 		public Builder<T> perPage(int perPage) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_PER_PAGE, String.valueOf(perPage));
+			return queryParam(PerPageQueryParamValue.perPage(perPage));
 		}
 
 		public Builder<T> from(long from) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_FROM, String.valueOf(from));
+			return queryParam(FromQueryParamValue.from(String.valueOf(from)));
 		}
 
 		public Builder<T> from(String from) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_FROM, from);
+			return queryParam(FromQueryParamValue.from(from));
 		}
 
 		public Builder<T> from(QueryKeyword queryKeyword) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_FROM, queryKeyword.toString());
+			return queryParam(FromQueryParamValue.from(queryKeyword.toString()));
 		}
 
 		public Builder<T> to(long to) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_TO, String.valueOf(to));
+			return queryParam(ToQueryParamValue.to(String.valueOf(to)));
 		}
 
 		public Builder<T> to(String to) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_TO, to);
+			return queryParam(ToQueryParamValue.to(to));
 		}
 
 		public Builder<T> to(QueryKeyword queryKeyword) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_TO, queryKeyword.toString());
+			return queryParam(ToQueryParamValue.to(queryKeyword.toString()));
 		}
 
 		public Builder<T> app(String appId) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_APP, appId);
+			return queryParam(AppQueryParamValue.appId(appId));
 		}
 
 		public Builder<T> userScope(Iterable<String> userScope) {
-			return queryParam(ApiConfiguration.QUERY_PARAM_USER_SCOPE, StringUtils.join(userScope, ','));
+			return queryParam(UserScopeQueryParamValue.userScope(StringUtils.join(userScope, ',')));
 		}
 
 		public Builder<T> userScopeAll() {
-			return queryParam(ApiConfiguration.QUERY_PARAM_USER_SCOPE, QueryKeyword.ALL.toString());
+			return queryParam(UserScopeQueryParamValue.userScope(QueryKeyword.ALL.toString()));
 		}
 
 		/**
@@ -366,13 +374,13 @@ public final class EvrythngApiBuilder {
 		 */
 		public String jsonp(String callback) throws EvrythngException {
 			// Add JSONP callback to query parameters list:
-			queryParam(ApiConfiguration.QUERY_PARAM_CALLBACK, callback);
+			queryParam(CallbackQueryParamValue.callback(callback));
 
 			// Retrieve response entity content:
 			String jsonp = getCommand().content();
 
 			// Remove callback to avoid conflicts on future requests:
-			queryParam(ApiConfiguration.QUERY_PARAM_CALLBACK, (String) null);
+			queryParam(CallbackQueryParamValue.empty());
 
 			return jsonp;
 		}
