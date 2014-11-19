@@ -13,8 +13,8 @@ public class Project extends DurableResourceModel {
 
 	private static final long serialVersionUID = -2362864476419100132L;
 	private String name;
-	private Long startAt;
-	private Long endAt;
+	private Long startsAt;
+	private Long endsAt;
 
 	/**
 	 * @return the name
@@ -33,35 +33,35 @@ public class Project extends DurableResourceModel {
 	}
 
 	/**
-	 * @return the startAt
+	 * @return the startsAt
 	 */
-	public Long getStartAt() {
+	public Long getStartsAt() {
 
-		return startAt;
+		return startsAt;
 	}
 
 	/**
-	 * @param startAt the startAt to set
+	 * @param startsAt the startsAt to set
 	 */
-	public void setStartAt(final Long startAt) {
+	public void setStartsAt(final Long startsAt) {
 
-		this.startAt = startAt;
+		this.startsAt = startsAt;
 	}
 
 	/**
-	 * @return the endAt
+	 * @return the endsAt
 	 */
-	public Long getEndAt() {
+	public Long getEndsAt() {
 
-		return endAt;
+		return endsAt;
 	}
 
 	/**
-	 * @param endAt the endAt to set
+	 * @param endsAt the endsAt to set
 	 */
-	public void setEndAt(final Long endAt) {
+	public void setEndsAt(final Long endsAt) {
 
-		this.endAt = endAt;
+		this.endsAt = endsAt;
 	}
 
 	@Override
@@ -69,8 +69,8 @@ public class Project extends DurableResourceModel {
 
 		StringBuilder sb = new StringBuilder("Project{");
 		sb.append("name='").append(name).append('\'');
-		sb.append(", startAt=").append(startAt);
-		sb.append(", endAt=").append(endAt);
+		sb.append(", startsAt=").append(startsAt);
+		sb.append(", endsAt=").append(endsAt);
 		sb.append('}');
 		return sb.toString();
 	}
