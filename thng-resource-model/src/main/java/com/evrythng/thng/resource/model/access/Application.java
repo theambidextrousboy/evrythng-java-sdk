@@ -12,23 +12,17 @@ import java.util.Map;
 
 /**
  * A registered Application in the EVRYTHNG engine.
- * 
- **/
+ */
 public class Application extends DurableResourceModel {
 
 	private static final long serialVersionUID = -5251229000992852717L;
-
 	public static final String SN_FACEBOOK = "facebook";
-
 	private String name;
 	private String description;
-
+	private String project;
 	private String appApiKey;
-
 	private Map<String, SocialNetwork> socialNetworks;
-
 	private String defaultUrl;
-
 	private Long startAt;
 	private Long endAt;
 
@@ -36,14 +30,15 @@ public class Application extends DurableResourceModel {
 	 * @return the name
 	 */
 	public String getName() {
+
 		return name;
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
+
 		this.name = name;
 	}
 
@@ -51,49 +46,31 @@ public class Application extends DurableResourceModel {
 	 * @return the description
 	 */
 	public String getDescription() {
+
 		return description;
 	}
 
 	/**
-	 * @param description
-	 *            the description to set
+	 * @param description the description to set
 	 */
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
+
 		this.description = description;
-	}
-
-	/**
-	 * @deprecated There is not cutomer in Application since 1.12.
-	 * 
-	 * @return null
-	 */
-	@Deprecated
-	public String getCustomer() {
-		return null;
-	}
-
-	/**
-	 * Does not set anything.
-	 * 
-	 * @deprecated There is not customer in Application since 1.12.
-	 * 
-	 */
-	public void setCustomer(String customer) {
-		// NOP
 	}
 
 	/**
 	 * @return the socialNetworks
 	 */
 	public Map<String, SocialNetwork> getSocialNetworks() {
+
 		return socialNetworks;
 	}
 
 	/**
-	 * @param socialNetworks
-	 *            the socialNetworks to set
+	 * @param socialNetworks the socialNetworks to set
 	 */
-	public void setSocialNetworks(Map<String, SocialNetwork> socialNetworks) {
+	public void setSocialNetworks(final Map<String, SocialNetwork> socialNetworks) {
+
 		this.socialNetworks = socialNetworks;
 	}
 
@@ -101,6 +78,7 @@ public class Application extends DurableResourceModel {
 	 * @return the appApiKey
 	 */
 	public String getAppApiKey() {
+
 		return appApiKey;
 	}
 
@@ -108,14 +86,15 @@ public class Application extends DurableResourceModel {
 	 * @return the startAt
 	 */
 	public Long getStartAt() {
+
 		return startAt;
 	}
 
 	/**
-	 * @param startAt
-	 *            the startAt to set
+	 * @param startAt the startAt to set
 	 */
-	public void setStartAt(Long startAt) {
+	public void setStartAt(final Long startAt) {
+
 		this.startAt = startAt;
 	}
 
@@ -123,14 +102,15 @@ public class Application extends DurableResourceModel {
 	 * @return the endAt
 	 */
 	public Long getEndAt() {
+
 		return endAt;
 	}
 
 	/**
-	 * @param endAt
-	 *            the endAt to set
+	 * @param endAt the endAt to set
 	 */
-	public void setEndAt(Long endAt) {
+	public void setEndAt(final Long endAt) {
+
 		this.endAt = endAt;
 	}
 
@@ -138,39 +118,44 @@ public class Application extends DurableResourceModel {
 	 * @return the defaultUrl
 	 */
 	public String getDefaultUrl() {
+
 		return defaultUrl;
 	}
 
 	/**
-	 * @param defaultUrl
-	 *            the defaultUrl to set
+	 * @param defaultUrl the defaultUrl to set
 	 */
-	public void setDefaultUrl(String defaultUrl) {
+	public void setDefaultUrl(final String defaultUrl) {
+
 		this.defaultUrl = defaultUrl;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	public String getProject() {
+
+		return project;
+	}
+
+	public void setProject(final String project) {
+
+		this.project = project;
+	}
+
 	@Override
 	public String toString() {
+
 		return "Application [name=" + name + ", description=" + description + ", appApiKey=" + appApiKey + ", startAt=" + startAt + ", endAt=" + endAt + "]";
 	}
 
 	// === helpers methods ================================================= //
 
 	/**
-	 * This convinience method set / replace the {@link SocialNetwork} object in
-	 * the
-	 * socialnetworks map. It creates the map if necessary.
-	 * 
-	 * @param snName
-	 * @param socialNetwork
+	 * This convenience method set / replace the {@link SocialNetwork} object in the social networks map. It creates the map if necessary.
 	 */
 	@JsonIgnore
-	public void defineSocialNetwork(String snName, SocialNetwork socialNetwork) {
+	public void defineSocialNetwork(final String snName, final SocialNetwork socialNetwork) {
+
 		if (socialNetworks == null) {
-			socialNetworks = new HashMap<String, SocialNetwork>();
+			socialNetworks = new HashMap<>();
 		}
 
 		socialNetworks.put(snName, socialNetwork);
@@ -178,11 +163,10 @@ public class Application extends DurableResourceModel {
 
 	/**
 	 * Set the Facebook social network (key {@value SN_FACEBOOK})
-	 * 
-	 * @param socialNetwork
 	 */
 	@JsonIgnore
-	public void defineFacebook(SocialNetwork socialNetwork) {
+	public void defineFacebook(final SocialNetwork socialNetwork) {
+
 		defineSocialNetwork(SN_FACEBOOK, socialNetwork);
 	}
 }
