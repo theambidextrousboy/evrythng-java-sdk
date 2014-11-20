@@ -20,10 +20,10 @@ import java.util.List;
  */
 public class ApplicationService extends EvrythngServiceBase {
 
-	public static final String QP_SOCIAL_NETWORK_NAME   = "socialNetworkName";
+	public static final String QP_SOCIAL_NETWORK_NAME = "socialNetworkName";
 	public static final String QP_SOCIAL_NETWORK_APP_ID = "socialNetworkAppId";
-	public static final String PATH_APPLICATIONS        = "/applications";
-	public static final String PATH_APPLICATION         = PATH_APPLICATIONS + "/%s";
+	public static final String PATH_APPLICATIONS = "/applications";
+	public static final String PATH_APPLICATION = PATH_APPLICATIONS + "/%s";
 
 	public ApplicationService(final ApiManager apiManager) {
 
@@ -99,7 +99,7 @@ public class ApplicationService extends EvrythngServiceBase {
 	}
 
 	/**
-	 * Delete a single {@link Application}. All application users are also
+	 * Delete multiple {@link Application}s. All application users are also
 	 * removed from
 	 * the system.
 	 */
