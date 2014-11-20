@@ -52,10 +52,10 @@ public class OperatorStatus implements Serializable {
 
 	private static final long serialVersionUID = 7677492009804434412L;
 	private Status status;
-	public static String FIELD_STATUS = "status";
+	public static final String FIELD_STATUS = "status";
 	private Long   activationDate;
 	private String activationCode;
-	public static String FIELD_ACTIVATION_CODE = "activationCode";
+	public static final String FIELD_ACTIVATION_CODE = "activationCode";
 
 	public Status getStatus() {
 
