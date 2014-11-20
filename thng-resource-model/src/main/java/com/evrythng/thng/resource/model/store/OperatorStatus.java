@@ -1,0 +1,89 @@
+/*
+ * (c) Copyright 2014 EVRYTHNG Ltd London / Zurich
+ * www.evrythng.com
+ */
+package com.evrythng.thng.resource.model.store;
+
+import com.evrythng.commons.EnumUtils;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.io.Serializable;
+import java.util.Map;
+
+/**
+ * This document represents the status of an operator.
+ */
+public class OperatorStatus implements Serializable {
+
+	public enum Status {
+		ACTIVE("active"), INACTIVE("inactive"), BLOCKED("blocked");
+		private final        String              value;
+		private static final Map<String, Status> byValue;
+
+		static {
+			byValue = EnumUtils.createNames(values());
+		}
+
+		Status(final String value) {
+
+			this.value = value;
+		}
+
+		@JsonValue
+		@Override
+		public String toString() {
+
+			return value;
+		}
+
+		/**
+		 * Search for {@code Status} by value.
+		 *
+		 * @param value status value
+		 * @return {@code Status} or {@code null} if value is {@code null}
+		 * @throws IllegalArgumentException if no enum found for the specified value
+		 */
+		@JsonCreator
+		public static Status fromString(final String value) {
+			return EnumUtils.fromString(byValue, value);
+		}
+	}
+
+	private static final long serialVersionUID = 7677492009804434412L;
+	private Status status;
+	public static String FIELD_STATUS = "status";
+	private Long   activationDate;
+	private String activationCode;
+	public static String FIELD_ACTIVATION_CODE = "activationCode";
+
+	public Status getStatus() {
+
+		return status;
+	}
+
+	public void setStatus(final Status status) {
+
+		this.status = status;
+	}
+
+	public Long getActivationDate() {
+
+		return activationDate;
+	}
+
+	public void setActivationDate(final Long activationDate) {
+
+		this.activationDate = activationDate;
+	}
+
+	public String getActivationCode() {
+
+		return activationCode;
+	}
+
+	public void setActivationCode(final String activationCode) {
+
+		this.activationCode = activationCode;
+	}
+}

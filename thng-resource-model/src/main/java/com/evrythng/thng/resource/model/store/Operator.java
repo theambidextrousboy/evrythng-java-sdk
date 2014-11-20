@@ -10,4 +10,15 @@ package com.evrythng.thng.resource.model.store;
 public class Operator extends AbstractUser {
 
 	private static final long serialVersionUID = 2282241536928517609L;
+	private OperatorStatus operatorStatus;
+
+	public OperatorStatus getOperatorStatus() {
+
+		return operatorStatus;
+	}
+
+	public void setOperatorStatus(final OperatorStatus operatorStatus) {
+
+		this.operatorStatus = operatorStatus;
+	}
 }
