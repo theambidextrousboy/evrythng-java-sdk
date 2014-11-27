@@ -14,15 +14,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.List;
 
 /**
- * Methods for the application service
- * "/applications" endpoint. Api is implemented
- * in thng-access
+ * Methods for the application service "/applications" endpoint. Api is implemented in thng-access
  */
 public class ApplicationService extends EvrythngServiceBase {
 
 	public static final String QP_SOCIAL_NETWORK_NAME = "socialNetworkName";
 	public static final String QP_SOCIAL_NETWORK_APP_ID = "socialNetworkAppId";
-	public static final String PATH_APPLICATIONS = "/applications";
+	public static final String PATH_APPLICATIONS = "/projects/%s/applications";
 	public static final String PATH_APPLICATION = PATH_APPLICATIONS + "/%s";
 
 	public ApplicationService(final ApiManager apiManager) {
@@ -36,13 +34,11 @@ public class ApplicationService extends EvrythngServiceBase {
 	 * POST {@value #PATH_APPLICATIONS}
 	 *
 	 * @param app : App to create. Customer and Description are mandatory.
-	 * @return the app created, including its brand-new "appApiKey" and its id
-	 * to
-	 * be used for further call of the service.
+	 * @return the app created, including its brand-new "appApiKey" and its id to be used for further call of the service.
 	 */
-	public Builder<Application> applicationCreator(final Application app) throws EvrythngClientException {
+	public Builder<Application> applicationCreator(final String projectId, final Application app) throws EvrythngClientException {
 
-		return post(PATH_APPLICATIONS, app, new TypeReference<Application>() {
+		return post(projectApplications(projectId), app, new TypeReference<Application>() {
 
 		});
 	}
@@ -52,9 +48,9 @@ public class ApplicationService extends EvrythngServiceBase {
 	 * <p>
 	 * GET {@value #PATH_APPLICATIONS}
 	 */
-	public Builder<List<Application>> applicationsReader() throws EvrythngClientException {
+	public Builder<List<Application>> applicationsReader(final String projectId) throws EvrythngClientException {
 
-		return get(PATH_APPLICATIONS, new TypeReference<List<Application>>() {
+		return get(projectApplications(projectId), new TypeReference<List<Application>>() {
 
 		});
 	}
@@ -64,9 +60,9 @@ public class ApplicationService extends EvrythngServiceBase {
 	 * <p>
 	 * GET {@value #PATH_APPLICATION}/:appId
 	 */
-	public Builder<Application> applicationReader(final String applicationId) throws EvrythngClientException {
+	public Builder<Application> applicationReader(final String projectId, final String appId) throws EvrythngClientException {
 
-		return get(String.format(PATH_APPLICATION, applicationId), new TypeReference<Application>() {
+		return get(projectApplication(projectId, appId), new TypeReference<Application>() {
 
 		});
 	}
@@ -76,37 +72,41 @@ public class ApplicationService extends EvrythngServiceBase {
 	 * <p>
 	 * PUT {@value #PATH_APPLICATION}/:appId
 	 *
-	 * @param app : input for field update. Will currently update the fields
-	 *            description,
-	 *            customer, and social networks.
+	 * @param app : input for field update. Will currently update the fields description, customer, and social networks.
 	 * @return the updated data.
 	 */
-	public Builder<Application> applicationUpdater(final String appId, final Application app) throws EvrythngClientException {
+	public Builder<Application> applicationUpdater(final String projectId, final String appId, final Application app) throws EvrythngClientException {
 
-		return put(String.format(PATH_APPLICATION, appId), app, new TypeReference<Application>() {
+		return put(projectApplication(projectId, appId), app, new TypeReference<Application>() {
 
 		});
 	}
 
 	/**
-	 * Delete a single {@link Application}. All application users are also
-	 * removed from
-	 * the system.
+	 * Delete a single {@link Application}. All application users are also removed from the system.
 	 */
-	public Builder<Boolean> applicationDeleter(final String appId) throws EvrythngClientException {
+	public Builder<Boolean> applicationDeleter(final String projectId, final String appId) throws EvrythngClientException {
 
-		return delete(String.format(PATH_APPLICATION, appId));
+		return delete(projectApplication(projectId, appId));
 	}
 
 	/**
-	 * Delete multiple {@link Application}s. All application users are also
-	 * removed from
-	 * the system.
+	 * Delete multiple {@link Application}s. All application users are also removed from the system.
 	 */
-	public Builder<List<Application>> applicationsReader(final String socialNetworkName, final String socialNetworkAppId) throws EvrythngClientException {
+	public Builder<List<Application>> applicationsReader(final String projectId, final String socialNetworkName, final String socialNetworkAppId) throws EvrythngClientException {
 
-		return get(PATH_APPLICATIONS, new TypeReference<List<Application>>() {
+		return get(projectApplications(projectId), new TypeReference<List<Application>>() {
 
 		}).queryParam(QP_SOCIAL_NETWORK_NAME, socialNetworkName).queryParam(QP_SOCIAL_NETWORK_APP_ID, socialNetworkAppId);
+	}
+
+	private String projectApplications(final String projectId) {
+
+		return String.format(PATH_APPLICATIONS, projectId);
+	}
+
+	private String projectApplication(final String projectId, final String appId) {
+
+		return String.format(PATH_APPLICATION, projectId, appId);
 	}
 }
