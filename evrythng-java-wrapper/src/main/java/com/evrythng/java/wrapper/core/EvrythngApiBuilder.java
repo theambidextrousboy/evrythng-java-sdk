@@ -4,15 +4,6 @@
  */
 package com.evrythng.java.wrapper.core;
 
-import java.io.File;
-import java.net.URI;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.evrythng.commons.Ref;
 import com.evrythng.java.wrapper.core.api.ApiCommand;
 import com.evrythng.java.wrapper.core.api.ApiCommandBuilder;
@@ -24,8 +15,8 @@ import com.evrythng.java.wrapper.core.api.param.FromQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.PageQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.PerPageQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.QSearchQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.ScopeQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.ToQueryParamValue;
-import com.evrythng.java.wrapper.core.api.param.UserScopeQueryParamValue;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.Method;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
@@ -35,6 +26,14 @@ import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.commons.config.ApiConfiguration.QueryKeyword;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.net.URI;
 
 /**
  * Entry-point command builder for the EVRYTHNG API.
@@ -301,11 +300,13 @@ public final class EvrythngApiBuilder {
 		}
 
 		public Builder<T> userScope(Iterable<String> userScope) {
-			return queryParam(UserScopeQueryParamValue.userScope(StringUtils.join(userScope, ',')));
+
+			return queryParam(ScopeQueryParamValue.valueOf(StringUtils.join(userScope, ',')));
 		}
 
 		public Builder<T> userScopeAll() {
-			return queryParam(UserScopeQueryParamValue.userScope(QueryKeyword.ALL.toString()));
+
+			return queryParam(ScopeQueryParamValue.valueOf(QueryKeyword.ALL.toString()));
 		}
 
 		/**
