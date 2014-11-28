@@ -13,6 +13,8 @@ public class Project extends DurableResourceModel {
 
 	private static final long serialVersionUID = -2362864476419100132L;
 	private String name;
+	private String description;
+	private String imageUrl;
 	private Long startsAt;
 	private Long endsAt;
 
@@ -30,6 +32,38 @@ public class Project extends DurableResourceModel {
 	public void setName(final String name) {
 
 		this.name = name;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(final String description) {
+
+		this.description = description;
+	}
+
+	/**
+	 * @return the url of the image
+	 */
+	public String getImageUrl() {
+
+		return imageUrl;
+	}
+
+	/**
+	 * @param imageUrl the url of the image to set
+	 */
+	public void setImageUrl(final String imageUrl) {
+
+		this.imageUrl = imageUrl;
 	}
 
 	/**
@@ -69,6 +103,8 @@ public class Project extends DurableResourceModel {
 
 		StringBuilder sb = new StringBuilder("Project{");
 		sb.append("name='").append(name).append('\'');
+		sb.append(", description='").append(description).append('\'');
+		sb.append(", imageUrl='").append(imageUrl).append('\'');
 		sb.append(", startsAt=").append(startsAt);
 		sb.append(", endsAt=").append(endsAt);
 		sb.append('}');
