@@ -8,8 +8,7 @@ package com.evrythng.thng.resource.model.access;
  * SocialNetwork access of an {@link Application}. Contains the appId, e.g.
  * facebook application id.
  * As defined on the social network side.
- * 
- **/
+ */
 public class SocialNetwork {
 
 	public SocialNetwork() {
@@ -18,10 +17,9 @@ public class SocialNetwork {
 
 	/**
 	 * Create a SocialNetwork having the give appId set
-	 * 
-	 * @param appId
 	 */
-	public SocialNetwork(String appId) {
+	public SocialNetwork(final String appId) {
+
 		this.appId = appId;
 		this.appSecret = null;
 	}
@@ -30,18 +28,18 @@ public class SocialNetwork {
 	private String appSecret;
 
 	/**
-	 * 
 	 * @return the appId
 	 */
 	public String getAppId() {
+
 		return appId;
 	}
 
 	/**
-	 * @param appId
-	 *            the appId to set
+	 * @param appId the appId to set
 	 */
-	public void setAppId(String appId) {
+	public void setAppId(final String appId) {
+
 		this.appId = appId;
 	}
 
@@ -49,14 +47,15 @@ public class SocialNetwork {
 	 * @return the appSecret
 	 */
 	public String getAppSecret() {
+
 		return appSecret;
 	}
 
 	/**
-	 * @param appSecret
-	 *            the appSecret to set
+	 * @param appSecret the appSecret to set
 	 */
-	public void setAppSecret(String appSecret) {
+	public void setAppSecret(final String appSecret) {
+
 		this.appSecret = appSecret;
 	}
 
@@ -65,10 +64,11 @@ public class SocialNetwork {
 	 */
 	@Override
 	public int hashCode() {
+
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((appId == null) ? 0 : appId.hashCode());
-		result = prime * result + ((appSecret == null) ? 0 : appSecret.hashCode());
+		result = prime * result + (appId == null ? 0 : appId.hashCode());
+		result = prime * result + (appSecret == null ? 0 : appSecret.hashCode());
 		return result;
 	}
 
@@ -76,24 +76,32 @@ public class SocialNetwork {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(final Object obj) {
+
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		SocialNetwork other = (SocialNetwork) obj;
 		if (appId == null) {
-			if (other.appId != null)
+			if (other.appId != null) {
 				return false;
-		} else if (!appId.equals(other.appId))
+			}
+		} else if (!appId.equals(other.appId)) {
 			return false;
+		}
 		if (appSecret == null) {
-			if (other.appSecret != null)
+			if (other.appSecret != null) {
 				return false;
-		} else if (!appSecret.equals(other.appSecret))
+			}
+		} else if (!appSecret.equals(other.appSecret)) {
 			return false;
+		}
 		return true;
 	}
 
@@ -102,7 +110,7 @@ public class SocialNetwork {
 	 */
 	@Override
 	public String toString() {
+
 		return "[appId=" + appId + "]";
 	}
-
 }

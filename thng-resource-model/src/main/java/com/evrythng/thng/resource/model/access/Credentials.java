@@ -6,15 +6,15 @@ package com.evrythng.thng.resource.model.access;
 
 /**
  * Exchanged information during registration / validation / authentication
- * 
- **/
+ */
 public class Credentials {
 
-	/** Value of getStatus() */
+	/**
+	 * Value of getStatus()
+	 */
 	public static final String STATUS_ACTIVE = "active";
 	public static final String STATUS_INACTIVE = "inactive";
 	public static final String STATUS_ANONYMOUS = "anonymous";
-
 	private String evrythngUser;
 	private String activationCode;
 	private String email;
@@ -26,7 +26,8 @@ public class Credentials {
 		// nop
 	}
 
-	public Credentials(String email, String password) {
+	public Credentials(final String email, final String password) {
+
 		this.email = email;
 		this.password = password;
 	}
@@ -35,14 +36,15 @@ public class Credentials {
 	 * @return the evrythngUser (userId)
 	 */
 	public String getEvrythngUser() {
+
 		return evrythngUser;
 	}
 
 	/**
-	 * @param evrythngUser
-	 *            the evrythngUser (userId) to set
+	 * @param evrythngUser the evrythngUser (userId) to set
 	 */
-	public void setEvrythngUser(String evrythngUser) {
+	public void setEvrythngUser(final String evrythngUser) {
+
 		this.evrythngUser = evrythngUser;
 	}
 
@@ -50,14 +52,15 @@ public class Credentials {
 	 * @return the activationCode
 	 */
 	public String getActivationCode() {
+
 		return activationCode;
 	}
 
 	/**
-	 * @param activationCode
-	 *            the activationCode to set
+	 * @param activationCode the activationCode to set
 	 */
-	public void setActivationCode(String activationCode) {
+	public void setActivationCode(final String activationCode) {
+
 		this.activationCode = activationCode;
 	}
 
@@ -65,14 +68,15 @@ public class Credentials {
 	 * @return the email
 	 */
 	public String getEmail() {
+
 		return email;
 	}
 
 	/**
-	 * @param email
-	 *            the email to set
+	 * @param email the email to set
 	 */
-	public void setEmail(String email) {
+	public void setEmail(final String email) {
+
 		this.email = email;
 	}
 
@@ -80,14 +84,15 @@ public class Credentials {
 	 * @return the password
 	 */
 	public String getPassword() {
+
 		return password;
 	}
 
 	/**
-	 * @param password
-	 *            the password to set
+	 * @param password the password to set
 	 */
-	public void setPassword(String password) {
+	public void setPassword(final String password) {
+
 		this.password = password;
 	}
 
@@ -95,30 +100,31 @@ public class Credentials {
 	 * @return the status
 	 */
 	public String getStatus() {
+
 		return status;
 	}
 
 	/**
-	 * @param status
-	 *            the status to set
+	 * @param status the status to set
 	 */
-	public void setStatus(String status) {
+	public void setStatus(final String status) {
+
 		this.status = status;
 	}
-	
+
 	/**
 	 * @return the evrythngApiKey
 	 */
 	public String getEvrythngApiKey() {
+
 		return evrythngApiKey;
 	}
 
 	/**
-	 * @param evrythngApiKey
-	 *            the evrythngApiKey to set
+	 * @param evrythngApiKey the evrythngApiKey to set
 	 */
-	public void setEvrythngApiKey(String evrythngApiKey) {
+	public void setEvrythngApiKey(final String evrythngApiKey) {
+
 		this.evrythngApiKey = evrythngApiKey;
 	}
-
 }

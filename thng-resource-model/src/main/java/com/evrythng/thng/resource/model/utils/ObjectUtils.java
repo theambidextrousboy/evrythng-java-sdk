@@ -8,23 +8,22 @@ import java.util.Comparator;
 
 /**
  * Provides utility method for objects.
- **/
+ */
 public class ObjectUtils {
 
-	public static boolean nullSafeEquals(Object a, Object b) {
+	public static boolean nullSafeEquals(final Object a, final Object b) {
+
 		if (a == null && b == null) {
 			return true;
 		}
-		if (a == null || b == null) {
-			return false;
-		}
-		return a.equals(b);
+		return !(a == null || b == null) && a.equals(b);
 	}
 
 	/**
-	 * NOTE: <code>null</code> is treated as the smallest value.
+	 * NOTE: {@code null} is treated as the smallest value.
 	 */
-	public static <T> int nullSafeCompare(T a, T b, Comparator<? super T> comp) {
+	public static <T> int nullSafeCompare(final T a, final T b, final Comparator<? super T> comp) {
+
 		if (a == null && b == null) {
 			return 0;
 		}
@@ -38,9 +37,10 @@ public class ObjectUtils {
 	}
 
 	/**
-	 * NOTE: <code>null</code> is treated as the smallest value.
+	 * NOTE: {@code null} is treated as the smallest value.
 	 */
-	public static <T extends Comparable<T>> int nullSafeCompare(T a, T b) {
+	public static <T extends Comparable<T>> int nullSafeCompare(final T a, final T b) {
+
 		if (a == null && b == null) {
 			return 0;
 		}
@@ -53,7 +53,8 @@ public class ObjectUtils {
 		return normalizeCompareResult(a.compareTo(b));
 	}
 
-	private static int normalizeCompareResult(int x) {
-		return x > 0 ? 1 : (x < 0 ? -1 : 0);
+	private static int normalizeCompareResult(final int x) {
+
+		return x > 0 ? 1 : x < 0 ? -1 : 0;
 	}
 }

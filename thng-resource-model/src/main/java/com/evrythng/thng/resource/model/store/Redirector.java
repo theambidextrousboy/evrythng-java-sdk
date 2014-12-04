@@ -8,15 +8,13 @@ import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
 /**
  * Represents a redirector.
- **/
+ */
 public class Redirector extends DurableResourceModel {
 
 	private static final long serialVersionUID = 1118559810507335113L;
-
 	public static final String PRODUCTID_TAG = "{productId}";
 	public static final String THNGID_TAG = "{thngId}";
 	public static final String SHORTID_TAG = "{shortId}";
-
 	private String defaultRedirectUrl; //http://example.com/{thngId}
 	private String evrythngUrl;
 	private String shortDomain; //tn.gg
@@ -27,14 +25,15 @@ public class Redirector extends DurableResourceModel {
 	 * @return the defaultRedirectUrl
 	 */
 	public String getDefaultRedirectUrl() {
+
 		return defaultRedirectUrl;
 	}
 
 	/**
-	 * @param defaultRedirectUrl
-	 *            the defaultRedirectUrl to set
+	 * @param defaultRedirectUrl the defaultRedirectUrl to set
 	 */
-	public void setDefaultRedirectUrl(String defaultRedirectUrl) {
+	public void setDefaultRedirectUrl(final String defaultRedirectUrl) {
+
 		this.defaultRedirectUrl = defaultRedirectUrl;
 	}
 
@@ -42,14 +41,15 @@ public class Redirector extends DurableResourceModel {
 	 * @return the shortDomain
 	 */
 	public String getShortDomain() {
+
 		return shortDomain;
 	}
 
 	/**
-	 * @param shortDomain
-	 *            the shortDomain to set
+	 * @param shortDomain the shortDomain to set
 	 */
-	public void setShortDomain(String shortDomain) {
+	public void setShortDomain(final String shortDomain) {
+
 		this.shortDomain = shortDomain;
 	}
 
@@ -57,14 +57,15 @@ public class Redirector extends DurableResourceModel {
 	 * @return the shortId
 	 */
 	public String getShortId() {
+
 		return shortId;
 	}
 
 	/**
-	 * @param shortId
-	 *            the shortId to set
+	 * @param shortId the shortId to set
 	 */
-	public void setShortId(String shortId) {
+	public void setShortId(final String shortId) {
+
 		this.shortId = shortId;
 	}
 
@@ -72,14 +73,15 @@ public class Redirector extends DurableResourceModel {
 	 * @return the hits
 	 */
 	public Integer getHits() {
+
 		return hits;
 	}
 
 	/**
-	 * @param hits
-	 *            the hits to set
+	 * @param hits the hits to set
 	 */
-	public void setHits(Integer hits) {
+	public void setHits(final Integer hits) {
+
 		this.hits = hits;
 	}
 
@@ -87,15 +89,15 @@ public class Redirector extends DurableResourceModel {
 	 * @return the evrythngUrl
 	 */
 	public String getEvrythngUrl() {
+
 		return evrythngUrl;
 	}
 
 	/**
-	 * @param evrythngUrl
-	 *            the evrythngUrl to set
+	 * @param evrythngUrl the evrythngUrl to set
 	 */
-	public void setEvrythngUrl(String evrythngUrl) {
+	public void setEvrythngUrl(final String evrythngUrl) {
+
 		this.evrythngUrl = evrythngUrl;
 	}
-
 }

@@ -1,10 +1,10 @@
 package com.evrythng.thng.resource.model.store.geojson;
 
-import java.util.Map;
-
 import com.evrythng.commons.EnumUtils;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.util.Map;
 
 public enum GeoJsonType {
 	POINT("Point"), MULTI_POINT("MultiPoint"), POLYGON("Polygon")/*
@@ -30,11 +30,11 @@ public enum GeoJsonType {
 																 * "FeatureCollection"
 																 * )
 																 */;
+	private static final Map<String, GeoJsonType> geoJSONTypeNames;
+	private final String type;
 
-	private static Map<String, GeoJsonType> geoJSONTypeNames;
-	private String type;
+	GeoJsonType(final String type) {
 
-	private GeoJsonType(String type) {
 		this.type = type;
 	}
 
@@ -44,11 +44,13 @@ public enum GeoJsonType {
 
 	@JsonValue
 	public String toString() {
+
 		return type;
 	}
 
 	@JsonCreator
-	public static GeoJsonType fromString(String typeName) {
+	public static GeoJsonType fromString(final String typeName) {
+
 		return EnumUtils.fromString(geoJSONTypeNames, typeName);
 	}
 }

@@ -4,22 +4,20 @@
  */
 package com.evrythng.thng.resource.model.li;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 /**
  * URL binding model.
- * 
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_DEFAULT)
 public class UrlBinding extends AbstractUrlBinding {
 
 	private static final long serialVersionUID = -9060081991227729859L;
-
 	private String shortId;
 	private String evrythngId;
 	private Integer hits;
@@ -33,18 +31,22 @@ public class UrlBinding extends AbstractUrlBinding {
 	private String data;
 
 	public UrlBinding() {
+
 	}
 
-	public UrlBinding(String shortId) {
+	public UrlBinding(final String shortId) {
+
 		this.shortId = shortId;
 	}
 
-	public UrlBinding(String shortId, String shortDomain) {
+	public UrlBinding(final String shortId, final String shortDomain) {
+
 		super(shortDomain);
 		this.shortId = shortId;
 	}
 
-	public UrlBinding(UrlBinding that) {
+	public UrlBinding(final UrlBinding that) {
+
 		super(that);
 		this.setEvrythngId(that.getEvrythngId());
 		this.setShortId(that.getShortId());
@@ -52,50 +54,62 @@ public class UrlBinding extends AbstractUrlBinding {
 	}
 
 	public String getShortId() {
+
 		return shortId;
 	}
 
-	public void setShortId(String shortId) {
+	public void setShortId(final String shortId) {
+
 		this.shortId = shortId;
 	}
 
 	public String getEvrythngId() {
+
 		return evrythngId;
 	}
 
-	public void setEvrythngId(String evrythngId) {
+	public void setEvrythngId(final String evrythngId) {
+
 		this.evrythngId = evrythngId;
 	}
 
 	public Integer getHits() {
+
 		return hits;
 	}
 
-	public void setHits(Integer hits) {
+	public void setHits(final Integer hits) {
+
 		this.hits = hits;
 	}
 
 	public String getImage() {
+
 		return image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(final String image) {
+
 		this.image = image;
 	}
 
 	public String getFormat() {
+
 		return format;
 	}
 
-	public void setFormat(String format) {
+	public void setFormat(final String format) {
+
 		this.format = format;
 	}
 
 	public String getData() {
+
 		return data;
 	}
 
-	public void setData(String data) {
+	public void setData(final String data) {
+
 		this.data = data;
 	}
 
@@ -121,14 +135,13 @@ public class UrlBinding extends AbstractUrlBinding {
 	 * splits the value every 4th character and joins the resulting parts with
 	 * dashes (-).
 	 * </p>
-	 * 
+	 * <p>
 	 * <strong>Examples:</strong>
 	 * <ul>
 	 * <li>{@code DxprepcR} becomes {@code Dxpr-epcR}</li>
 	 * <li>{@code hZ74nMh1Pl35} becomes {@code hZ74-nMh1-Pl35}</li>
 	 * <li>{@code fVg0TCOlws} becomes {@code fVg0-TCOl-ws}</li>
 	 * </ul>
-	 * 
 	 */
 	public String toFormattedShortId() {
 

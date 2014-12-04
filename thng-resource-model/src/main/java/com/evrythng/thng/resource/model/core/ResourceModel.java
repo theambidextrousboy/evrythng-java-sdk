@@ -4,65 +4,85 @@
  */
 package com.evrythng.thng.resource.model.core;
 
+import com.evrythng.commons.annotations.csv.CsvTransient;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.evrythng.commons.annotations.csv.CsvTransient;
-
 /**
  * Abstract model representation for resources.
  */
-public abstract class ResourceModel implements Serializable {
+public abstract class ResourceModel implements Serializable, WithScopeResource {
 
 	private static final long serialVersionUID = -2842591513551534611L;
-
 	public static final String FIELD_ID = "id";
 	private String id;
-
 	private Long createdAt;
 	private Map<String, String> customFields;
 	private List<String> tags;
+	private ScopeResource scopes;
 
 	public String getId() {
+
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(final String id) {
+
 		this.id = id;
 	}
 
 	public Long getCreatedAt() {
+
 		return createdAt;
 	}
 
-	public void setCreatedAt(Long createdAt) {
+	public void setCreatedAt(final Long createdAt) {
+
 		this.createdAt = createdAt;
 	}
 
 	@CsvTransient
 	public Map<String, String> getCustomFields() {
+
 		return customFields;
 	}
 
-	public void setCustomFields(Map<String, String> customFields) {
+	public void setCustomFields(final Map<String, String> customFields) {
+
 		this.customFields = customFields;
 	}
 
-	public void addCustomFields(String key, String value) {
+	public void addCustomFields(final String key, final String value) {
+
 		if (customFields == null) {
-			customFields = new HashMap<String, String>();
+			customFields = new HashMap<>();
 		}
 		customFields.put(key, value);
 	}
 
 	public List<String> getTags() {
+
 		return tags;
 	}
 
-	public void setTags(List<String> tags) {
+	public void setTags(final List<String> tags) {
+
 		this.tags = tags;
+	}
+
+	@Override
+	public ScopeResource getScopes() {
+
+		return scopes;
+	}
+
+	@Override
+	public void setScopes(final ScopeResource scopes) {
+
+		this.scopes = scopes;
 	}
 
 	/**
@@ -70,10 +90,11 @@ public abstract class ResourceModel implements Serializable {
 	 *
 	 * @param o the ResourceModel subclass object with which to compare.
 	 * @return {@code true} if this object is the same as the argument
-	 *         or they both have not-null equal id's; {@code false} otherwise.
+	 * or they both have not-null equal id's; {@code false} otherwise.
 	 */
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
+
 		if (this == o) {
 			return true;
 		}
@@ -88,6 +109,7 @@ public abstract class ResourceModel implements Serializable {
 
 	@Override
 	public int hashCode() {
+
 		return id != null ? id.hashCode() : 0;
 	}
 }
