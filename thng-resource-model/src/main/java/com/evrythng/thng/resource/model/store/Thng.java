@@ -5,7 +5,6 @@
 package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
-import com.evrythng.thng.resource.model.core.WithScopeResource;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +12,7 @@ import java.util.Map;
 /**
  * Model representation for <em>thngs</em>.
  */
-public class Thng extends DurableResourceModel implements ResourceWithProperties, WithScopeResource {
+public class Thng extends DurableResourceModel implements ResourceWithProperties {
 
 	private static final long serialVersionUID = -5495600871904690325L;
 	private String name;

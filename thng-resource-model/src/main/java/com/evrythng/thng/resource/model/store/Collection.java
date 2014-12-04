@@ -6,14 +6,13 @@ package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 import com.evrythng.thng.resource.model.core.ScopeResource;
-import com.evrythng.thng.resource.model.core.WithScopeResource;
 
 import java.util.LinkedHashSet;
 
 /**
  * Model representation for <em>collections</em>.
  */
-public class Collection extends DurableResourceModel implements WithScopeResource {
+public class Collection extends DurableResourceModel {
 
 	private static final long serialVersionUID = -2064399431964890923L;
 	private String name;
@@ -22,7 +21,6 @@ public class Collection extends DurableResourceModel implements WithScopeResourc
 	 * Collection of {@link Thng#id} references.
 	 */
 	private LinkedHashSet<String> thngs;
-	private ScopeResource scopes;
 
 	public String getName() {
 

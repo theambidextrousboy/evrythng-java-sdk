@@ -2,13 +2,12 @@ package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 import com.evrythng.thng.resource.model.core.ScopeResource;
-import com.evrythng.thng.resource.model.core.WithScopeResource;
 import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
 
 /**
  * Model representation for a <em>place</em>
  */
-public class Place extends DurableResourceModel implements Positionable, WithScopeResource {
+public class Place extends DurableResourceModel implements Positionable {
 
 	private static final long serialVersionUID = 6579445453253811614L;
 	private String name;
@@ -16,7 +15,6 @@ public class Place extends DurableResourceModel implements Positionable, WithSco
 	private String icon;
 	private GeoJsonPoint position;
 	private AddressInfo address;
-	private ScopeResource scopes;
 
 	//TODO: Implement 'area' in client-side at a later date
 	//private GeoJsonPolygon area;

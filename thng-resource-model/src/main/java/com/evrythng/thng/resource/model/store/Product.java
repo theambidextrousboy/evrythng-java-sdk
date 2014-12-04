@@ -6,7 +6,6 @@ package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 import com.evrythng.thng.resource.model.core.ScopeResource;
-import com.evrythng.thng.resource.model.core.WithScopeResource;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.Map;
 /**
  * Class for a product.
  */
-public class Product extends DurableResourceModel implements ResourceWithProperties, WithScopeResource {
+public class Product extends DurableResourceModel implements ResourceWithProperties {
 
 	private static final long serialVersionUID = -6201425043153000867L;
 	private String brand;

@@ -23,7 +23,9 @@ public class Application extends DurableResourceModel {
 	private String appApiKey;
 	private Map<String, SocialNetwork> socialNetworks;
 	private String defaultUrl;
+	// TODO __MS__ remove!
 	private Long startAt;
+	// TODO __MS__ remove!no pro
 	private Long endAt;
 
 	/**
