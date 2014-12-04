@@ -22,23 +22,23 @@ public abstract class AbstractUser extends DurableResourceModel {
 	/**
 	 * The user's unique email address.
 	 */
-	private String   email;
-	private String   password;
+	private String email;
+	private String password;
 	/**
 	 * The user's first name.
 	 */
-	private String   firstName;
+	private String firstName;
 	/**
 	 * The user's last name.
 	 */
-	private String   lastName;
+	private String lastName;
 	/**
 	 * The user's timezone offset from <strong>UTC</strong>.
 	 *
 	 * @see <a
 	 * href="http://en.wikipedia.org/wiki/Time_zones#List_of_UTC_offsets">http://en.wikipedia.org/wiki/Time_zones#List_of_UTC_offsets</a>
 	 */
-	private String   timezone;
+	private String timezone;
 	/**
 	 * The user's locale.
 	 * The basic format is ''ll_CC'', where ''ll'' is a two-letter language
@@ -49,14 +49,14 @@ public abstract class AbstractUser extends DurableResourceModel {
 	 * @see <a
 	 * href="https://developers.facebook.com/docs/internationalization/">https://developers.facebook.com/docs/internationalization/</a>
 	 */
-	private String   locale;
+	private String locale;
 	/**
 	 * A picture of the user encoded in a Base64 string.
 	 * TODO: Test this with base 64 strings!
 	 */
-	private String   photo;
+	private String photo;
 	private Birthday birthday;
-	private Gender   gender;
+	private Gender gender;
 
 	public String getEmail() {
 
@@ -213,7 +213,7 @@ public abstract class AbstractUser extends DurableResourceModel {
 
 		MALE("male"), FEMALE("female");
 		private static final Map<String, Gender> names;
-		private final        String              name;
+		private final String name;
 
 		Gender(final String name) {
 

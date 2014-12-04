@@ -1,7 +1,6 @@
 package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
-import com.evrythng.thng.resource.model.core.ScopeResource;
 import com.evrythng.thng.resource.model.store.geojson.GeoJsonPoint;
 
 /**

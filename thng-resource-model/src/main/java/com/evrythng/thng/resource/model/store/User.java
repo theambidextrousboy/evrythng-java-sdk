@@ -126,7 +126,7 @@ public class User extends AbstractUser {
 	private Boolean canLogin;
 
 	private final String app;
-	private Integer  numberOfFriends;
+	private Integer numberOfFriends;
 
 	public User() {
 
