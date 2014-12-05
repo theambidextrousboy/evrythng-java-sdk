@@ -5,7 +5,6 @@
 package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
-import com.evrythng.thng.resource.model.core.ScopeResource;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +37,6 @@ public class Product extends DurableResourceModel implements ResourceWithPropert
 	 * An array of global identifiers for this product
 	 */
 	private Map<String, String> identifiers;
-	private ScopeResource scopes;
 
 	public Product() {
 

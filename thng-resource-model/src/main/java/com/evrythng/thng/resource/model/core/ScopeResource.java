@@ -15,6 +15,10 @@ import java.util.Set;
  */
 public class ScopeResource implements Serializable {
 
+	public static final String ALL_USERS = "allU";
+	public static final String ALL_PROJECTS = "allP";
+	public static final String ALL_DEVICES = "allD";
+
 	private static final long serialVersionUID = -1514722768762632206L;
 	private String[] users;
 	private String[] projects;
