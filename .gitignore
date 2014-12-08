@@ -18,3 +18,4 @@ target
 .idea/compiler.xml
 .idea/java.iml
 .idea/misc.xml
+.idea/mongoSettings.xml
