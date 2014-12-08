@@ -299,9 +299,9 @@ public final class EvrythngApiBuilder {
 			return queryParam(AppQueryParamValue.appId(appId));
 		}
 
-		public Builder<T> userScope(Iterable<String> userScope) {
+		public Builder<T> creationScopes(Iterable<String> scope) {
 
-			return queryParam(ScopeQueryParamValue.valueOf(StringUtils.join(userScope, ',')));
+			return queryParam(ScopeQueryParamValue.valueOf(StringUtils.join(scope, ',')));
 		}
 
 		public Builder<T> userScopeAll() {
