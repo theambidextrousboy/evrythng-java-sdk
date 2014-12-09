@@ -125,7 +125,7 @@ public class User extends AbstractUser {
 	@JsonIgnore
 	private Boolean canLogin;
 
-	private final String app;
+	private String app;
 	private Integer numberOfFriends;
 
 	public User() {
@@ -134,6 +134,11 @@ public class User extends AbstractUser {
 	}
 
 	public User(final String app) {
+
+		this.app = app;
+	}
+
+	public void setApp(final String app){
 
 		this.app = app;
 	}
