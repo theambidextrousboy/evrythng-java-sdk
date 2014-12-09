@@ -15,8 +15,8 @@ public class Project extends DurableResourceModel {
 	private String name;
 	private String description;
 	private String imageUrl;
-	private Long startsAt;
-	private Long endsAt;
+	private Long startAt;
+	private Long endAt;
 
 	/**
 	 * @return the name
@@ -67,35 +67,35 @@ public class Project extends DurableResourceModel {
 	}
 
 	/**
-	 * @return the startsAt
+	 * @return the startAt
 	 */
-	public Long getStartsAt() {
+	public Long getStartAt() {
 
-		return startsAt;
+		return startAt;
 	}
 
 	/**
-	 * @param startsAt the startsAt to set
+	 * @param startAt the startAt to set
 	 */
-	public void setStartsAt(final Long startsAt) {
+	public void setStartAt(final Long startAt) {
 
-		this.startsAt = startsAt;
+		this.startAt = startAt;
 	}
 
 	/**
-	 * @return the endsAt
+	 * @return the endAt
 	 */
-	public Long getEndsAt() {
+	public Long getEndAt() {
 
-		return endsAt;
+		return endAt;
 	}
 
 	/**
-	 * @param endsAt the endsAt to set
+	 * @param endAt the endAt to set
 	 */
-	public void setEndsAt(final Long endsAt) {
+	public void setEndAt(final Long endAt) {
 
-		this.endsAt = endsAt;
+		this.endAt = endAt;
 	}
 
 	@Override
@@ -105,8 +105,8 @@ public class Project extends DurableResourceModel {
 		sb.append("name='").append(name).append('\'');
 		sb.append(", description='").append(description).append('\'');
 		sb.append(", imageUrl='").append(imageUrl).append('\'');
-		sb.append(", startsAt=").append(startsAt);
-		sb.append(", endsAt=").append(endsAt);
+		sb.append(", startAt=").append(startAt);
+		sb.append(", endAt=").append(endAt);
 		sb.append('}');
 		return sb.toString();
 	}
