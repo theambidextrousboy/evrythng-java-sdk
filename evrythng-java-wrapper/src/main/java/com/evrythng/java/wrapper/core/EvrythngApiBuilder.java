@@ -11,12 +11,14 @@ import com.evrythng.java.wrapper.core.api.TypedResponseWithEntity;
 import com.evrythng.java.wrapper.core.api.Utils;
 import com.evrythng.java.wrapper.core.api.param.AppQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.CallbackQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.CreationScopeQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.FromQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.PageQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.PerPageQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.QSearchQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.ScopeQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.ToQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.UserScopeQueryParamValue;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.Method;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
@@ -301,7 +303,12 @@ public final class EvrythngApiBuilder {
 
 		public Builder<T> creationScopes(Iterable<String> scope) {
 
-			return queryParam(ScopeQueryParamValue.valueOf(StringUtils.join(scope, ',')));
+			return queryParam(CreationScopeQueryParamValue.valueOf(StringUtils.join(scope, ',')));
+		}
+
+		public Builder<T> userScope(Iterable<String> scope) {
+
+			return queryParam(UserScopeQueryParamValue.valueOf(StringUtils.join(scope, ',')));
 		}
 
 		public Builder<T> userScopeAll() {
