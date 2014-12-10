@@ -15,7 +15,6 @@ public class ScopeResource implements Serializable {
 
 	public static final String ALL_USERS = "allU";
 	public static final String ALL_PROJECTS = "allP";
-
 	private static final long serialVersionUID = -1514722768762632206L;
 	private List<String> users;
 	private List<String> projects;
@@ -51,5 +50,35 @@ public class ScopeResource implements Serializable {
 	public void setProjects(final List<String> projects) {
 
 		this.projects = projects;
+	}
+
+	@Override
+	public boolean equals(final Object other) {
+
+		if (this == other) {
+			return true;
+		}
+		if (other == null || getClass() != other.getClass()) {
+			return false;
+		}
+
+		ScopeResource that = (ScopeResource) other;
+
+		if (projects != null ? !projects.equals(that.projects) : that.projects != null) {
+			return false;
+		}
+		if (users != null ? !users.equals(that.users) : that.users != null) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+
+		int result = users != null ? users.hashCode() : 0;
+		result = 31 * result + (projects != null ? projects.hashCode() : 0);
+		return result;
 	}
 }
