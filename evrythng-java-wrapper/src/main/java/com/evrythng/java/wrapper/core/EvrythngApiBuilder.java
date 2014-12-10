@@ -301,11 +301,6 @@ public final class EvrythngApiBuilder {
 			return queryParam(AppQueryParamValue.appId(appId));
 		}
 
-		public Builder<T> creationScope(Iterable<String> scope) {
-
-			return queryParam(CreationScopeQueryParamValue.valueOf(StringUtils.join(scope, ',')));
-		}
-
 		public Builder<T> userScope(Iterable<String> scope) {
 
 			return queryParam(UserScopeQueryParamValue.valueOf(StringUtils.join(scope, ',')));
