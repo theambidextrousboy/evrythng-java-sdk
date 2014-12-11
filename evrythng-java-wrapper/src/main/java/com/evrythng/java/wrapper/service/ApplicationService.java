@@ -22,6 +22,8 @@ public class ApplicationService extends EvrythngServiceBase {
 	public static final String QP_SOCIAL_NETWORK_APP_ID = "socialNetworkAppId";
 	public static final String PATH_APPLICATIONS = "/projects/%s/applications";
 	public static final String PATH_APPLICATION = PATH_APPLICATIONS + "/%s";
+	public static final String PATH_APPLICATIONS_LEGACY = "/applications";
+	public static final String PATH_APPLICATION_LEGACY = PATH_APPLICATIONS_LEGACY + "/%s";
 
 	public ApplicationService(final ApiManager apiManager) {
 
@@ -109,4 +111,29 @@ public class ApplicationService extends EvrythngServiceBase {
 
 		return String.format(PATH_APPLICATION, projectId, appId);
 	}
+
+	/**
+	 * List all {@link Application} from project scope.
+	 * <p>
+	 * GET {@value #PATH_APPLICATIONS_LEGACY}
+	 */
+	public Builder<List<Application>> applicationsReader() throws EvrythngClientException {
+
+		return get(PATH_APPLICATIONS_LEGACY, new TypeReference<List<Application>>() {
+
+		});
+	}
+
+	/**
+	 * Load a single {@link Application} from project scope.
+	 * <p>
+	 * GET {@value #PATH_APPLICATION_LEGACY}/:appId
+	 */
+	public Builder<Application> applicationReader(final String appId) throws EvrythngClientException {
+
+		return get(String.format(PATH_APPLICATION_LEGACY, appId), new TypeReference<Application>() {
+
+		});
+	}
+
 }
