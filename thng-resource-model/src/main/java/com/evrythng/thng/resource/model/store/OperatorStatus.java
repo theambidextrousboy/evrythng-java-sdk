@@ -18,7 +18,7 @@ public class OperatorStatus implements Serializable {
 
 	public enum Status {
 		ACTIVE("active"), INACTIVE("inactive"), BLOCKED("blocked");
-		private final        String              value;
+		private final String value;
 		private static final Map<String, Status> byValue;
 
 		static {
@@ -46,6 +46,7 @@ public class OperatorStatus implements Serializable {
 		 */
 		@JsonCreator
 		public static Status fromString(final String value) {
+
 			return EnumUtils.fromString(byValue, value);
 		}
 	}
@@ -53,7 +54,7 @@ public class OperatorStatus implements Serializable {
 	private static final long serialVersionUID = 7677492009804434412L;
 	private Status status;
 	public static final String FIELD_STATUS = "status";
-	private Long   activationDate;
+	private Long activationDate;
 	private String activationCode;
 	public static final String FIELD_ACTIVATION_CODE = "activationCode";
 

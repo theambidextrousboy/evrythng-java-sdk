@@ -12,61 +12,70 @@ import java.util.Arrays;
 
 /**
  * Geo JSON location to be used within a parent model.
- **/
+ */
 public class GeoJsonLocation implements Traceable, Serializable {
 
 	private static final long serialVersionUID = -2750554873532665915L;
-
 	private double[] coordinates;
 
 	public GeoJsonLocation() {
+
 		this(0, 0);
 	}
 
-	public GeoJsonLocation(double latitude, double longitude) {
+	public GeoJsonLocation(final double latitude, final double longitude) {
+
 		this.coordinates = new double[] { longitude, latitude };
 	}
 
 	@Override
 	public Double getLatitude() {
+
 		return coordinates[GeoJson.LAT_IDX];
 	}
 
 	@Override
-	public void setLatitude(Double latitude) {
+	public void setLatitude(final Double latitude) {
+
 		coordinates[GeoJson.LAT_IDX] = latitude;
 	}
 
 	@Override
 	public Double getLongitude() {
+
 		return coordinates[GeoJson.LON_IDX];
 	}
 
 	@Override
-	public void setLongitude(Double longitude) {
+	public void setLongitude(final Double longitude) {
+
 		coordinates[GeoJson.LON_IDX] = longitude;
 	}
 
 	public double[] getCoordinates() {
+
 		return coordinates;
 	}
 
-	public void setCoordinates(double[] coordinates) {
+	public void setCoordinates(final double... coordinates) {
+
 		this.coordinates = coordinates;
 	}
 
-	public static GeoJsonLocation copyFrom(GeoJsonLocation source) {
+	public static GeoJsonLocation copyFrom(final GeoJsonLocation source) {
+
 		return new GeoJsonLocation(source.getLatitude(), source.getLongitude());
 	}
 
-	public static GeoJsonLocation copyFrom(Traceable source) {
+	public static GeoJsonLocation copyFrom(final Traceable source) {
+
 		GeoJsonLocation loc = new GeoJsonLocation();
 		LocationHelper.copy(source, loc);
 		return loc;
 	}
 
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
 
 		if (this == o) {
 			return true;
@@ -75,10 +84,7 @@ public class GeoJsonLocation implements Traceable, Serializable {
 			return false;
 		}
 		GeoJsonLocation that = (GeoJsonLocation) o;
-		if (!Arrays.equals(coordinates, that.coordinates)) {
-			return false;
-		}
-		return true;
+		return Arrays.equals(coordinates, that.coordinates);
 	}
 
 	@Override
@@ -89,6 +95,7 @@ public class GeoJsonLocation implements Traceable, Serializable {
 
 	@Override
 	public String toString() {
+
 		return "GeoJsonLocation [coordinates=" + Arrays.toString(coordinates) + "]";
 	}
 }

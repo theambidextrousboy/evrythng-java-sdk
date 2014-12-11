@@ -21,7 +21,6 @@ public class ProjectQueryParamValue extends QueryParamValue {
 
 	/**
 	 * @param project project id
-	 *
 	 * @return query parameter for this app id
 	 */
 	public static ProjectQueryParamValue project(final String project) {
@@ -31,7 +30,6 @@ public class ProjectQueryParamValue extends QueryParamValue {
 
 	/**
 	 * @param project project id
-	 *
 	 * @return true if the project is null or empty.
 	 */
 	public static boolean isNoProject(final String project) {

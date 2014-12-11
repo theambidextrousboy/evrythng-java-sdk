@@ -8,25 +8,25 @@ import java.io.Serializable;
 
 /**
  * Model class for a timestamp.
- **/
+ */
 public class Timestamp implements Serializable {
 
 	private static final long serialVersionUID = -2460519576290598569L;
-
 	private Long timestamp;
 
 	/**
 	 * @return the timestamp
 	 */
 	public Long getTimestamp() {
+
 		return timestamp;
 	}
 
 	/**
-	 * @param timestamp
-	 *            the timestamp to set
+	 * @param timestamp the timestamp to set
 	 */
-	public void setTimestamp(Long timestamp) {
+	public void setTimestamp(final Long timestamp) {
+
 		this.timestamp = timestamp;
 	}
 }

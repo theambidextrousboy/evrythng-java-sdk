@@ -1,8 +1,5 @@
 package com.evrythng.java.wrapper.service;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
@@ -10,6 +7,9 @@ import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.thng.resource.model.store.Collection;
 import com.evrythng.thng.resource.model.store.Thng;
 import com.fasterxml.jackson.core.type.TypeReference;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Service wrapper for the {@code /collections} endpoint of the EVRYTHNG API.

@@ -4,21 +4,21 @@
  */
 package com.evrythng.thng.resource.model.store;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum SocialNetwork {
 	FACEBOOK("facebook", "fb"), EVRYONE("evryone", "evo");
+	private static final Map<String, SocialNetwork> serNames = new HashMap<>();
+	private static final Map<String, SocialNetwork> prefixes = new HashMap<>();
+	private final String serName;
+	private final String prefix;
 
-	private static Map<String, SocialNetwork> serNames = new HashMap<String, SocialNetwork>();
-	private static Map<String, SocialNetwork> prefixes = new HashMap<String, SocialNetwork>();
-	private String serName;
-	private String prefix;
+	SocialNetwork(final String serName, final String prefix) {
 
-	SocialNetwork(String serName, String prefix) {
 		this.serName = serName;
 		this.prefix = prefix;
 	}
@@ -32,11 +32,13 @@ public enum SocialNetwork {
 
 	@JsonValue
 	public String toString() {
+
 		return serName;
 	}
 
 	@JsonCreator
-	public static SocialNetwork fromString(String serName) {
+	public static SocialNetwork fromString(final String serName) {
+
 		if (serName == null) {
 			return null;
 		}
@@ -48,10 +50,12 @@ public enum SocialNetwork {
 	}
 
 	public String getPrefix() {
+
 		return prefix;
 	}
 
-	public static SocialNetwork fromPrefix(String prefix) {
+	public static SocialNetwork fromPrefix(final String prefix) {
+
 		SocialNetwork t = prefixes.get(prefix);
 		if (t == null) {
 			throw new IllegalArgumentException("Invalid prefix.");

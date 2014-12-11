@@ -8,15 +8,14 @@ import java.util.Map;
 
 /**
  * Interface for a location model with a position, place and custom fields
- * 
- **/
+ */
 public interface Locatable extends Positionable {
 
-	public String getPlace();
+	String getPlace();
 
-	public void setPlace(String place);
+	void setPlace(String place);
 
-	public Map<String, String> getCustomFields();
+	Map<String, String> getCustomFields();
 
-	public void setCustomFields(Map<String, String> customFields);
+	void setCustomFields(Map<String, String> customFields);
 }

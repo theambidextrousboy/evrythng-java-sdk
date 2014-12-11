@@ -4,21 +4,23 @@ import com.evrythng.thng.resource.model.store.LocationHelper;
 
 /**
  * Helper class for GeoJson
- * 
  */
 public class GeoJsonHelper {
 
-	public static Double getLatitude(GeoJsonPoint loc) {
+	public static Double getLatitude(final GeoJsonPoint loc) {
+
 		double[] coordinates = loc.getCoordinatesArr();
 		return coordinates == null ? null : loc.getCoordinatesArr()[GeoJson.LAT_IDX];
 	}
 
-	public static Double getLongitude(GeoJsonPoint loc) {
+	public static Double getLongitude(final GeoJsonPoint loc) {
+
 		double[] coordinates = loc.getCoordinatesArr();
 		return coordinates == null ? null : loc.getCoordinatesArr()[GeoJson.LON_IDX];
 	}
 
-	public static void setPosition(GeoJsonPoint loc, Double latitude, Double longitude) {
+	public static void setPosition(final GeoJsonPoint loc, final Double latitude, final Double longitude) {
+
 		if (latitude == null || longitude == null) {
 			if (latitude == null && longitude == null) {
 				loc.setCoordinates(null);
@@ -28,7 +30,7 @@ public class GeoJsonHelper {
 		} else {
 			double[] coordinates = loc.getCoordinatesArr();
 			if (coordinates == null) {
-				loc.setCoordinatesArr(new double[] { longitude, latitude });
+				loc.setCoordinatesArr(longitude, latitude);
 			} else {
 				coordinates[GeoJson.LAT_IDX] = latitude;
 				coordinates[GeoJson.LON_IDX] = longitude;
@@ -37,7 +39,7 @@ public class GeoJsonHelper {
 	}
 
 	public static GeoJsonPoint createRandomGeoJsonPoint() {
+
 		return new GeoJsonPoint(LocationHelper.randomLatitude(), LocationHelper.randomLongitude());
 	}
-
 }

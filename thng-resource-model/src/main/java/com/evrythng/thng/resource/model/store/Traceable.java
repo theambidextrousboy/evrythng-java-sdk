@@ -6,12 +6,11 @@ package com.evrythng.thng.resource.model.store;
  */
 public interface Traceable {
 
-	public Double getLatitude();
+	Double getLatitude();
 
-	public void setLatitude(Double latitude);
+	void setLatitude(Double latitude);
 
-	public Double getLongitude();
+	Double getLongitude();
 
-	public void setLongitude(Double longitude);
-
+	void setLongitude(Double longitude);
 }

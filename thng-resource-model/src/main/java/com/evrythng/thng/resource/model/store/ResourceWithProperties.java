@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * Interface for a resource model with properties.
- **/
+ */
 public interface ResourceWithProperties {
 
 	/**
