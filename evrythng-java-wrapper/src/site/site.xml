@@ -27,7 +27,7 @@
             <topBarIcon>
                 <name>EVRYTHNG Java Wrapper</name>
                 <alt>EVRYTHNG</alt>
-                <src>https://dashboard.evrythng.com/developers/assets/images/layout/logo-dev.png</src>
+                <src>https://dev.evrythng.com/assets/images/layout/logo-dev.png</src>
                 <href>https://dashboard.evrythng.com/developers/</href>
             </topBarIcon>
             <sideBarEnabled>false</sideBarEnabled>
