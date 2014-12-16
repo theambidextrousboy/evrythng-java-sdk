@@ -5,10 +5,6 @@
  */
 package com.evrythng.java.wrapper.examples;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.ExampleRunner;
@@ -16,12 +12,16 @@ import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.service.CollectionService;
 import com.evrythng.java.wrapper.service.ThngService;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Collection;
 import com.evrythng.thng.resource.model.store.Thng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Usage example of the EVRYTHNG Java Wrapper for accessing the <a
- * href="https://dev.evrythng.com/documentation/api#collections">Collection</a> API. In this example, you will learn how to:
+ * href="https://dashboard.evrythng.com/developers/apidoc#collections">Collection</a> API. In this example, you will learn how to:
  * <ul>
  * <li>Initialize the {@link ApiManager}</li>
  * <li>Retrieve the {@link CollectionService} through the {@link ApiManager}</li>

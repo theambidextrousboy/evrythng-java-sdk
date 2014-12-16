@@ -5,21 +5,21 @@
  */
 package com.evrythng.java.wrapper.examples;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.ExampleRunner;
 import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.service.ThngService;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Thng;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
  * Usage example of the EVRYTHNG Java Wrapper for accessing the <a
- * href="https://dev.evrythng.com/documentation/api#thngs">Thngs</a> API.
+ * href="https://dashboard.evrythng.com/developers/apidoc#thngs">Thngs</a> API.
  * </p>
  * 
  * <p>
