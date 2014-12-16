@@ -4,6 +4,7 @@
  */
 package com.evrythng.java.wrapper.core;
 
+import com.evrythng.api.wrapper.param.WithScopesQueryParamValue;
 import com.evrythng.java.wrapper.core.api.ApiCommand;
 import com.evrythng.java.wrapper.core.api.ApiCommandBuilder;
 import com.evrythng.java.wrapper.core.api.TypedResponseWithEntity;
@@ -246,6 +247,11 @@ public final class EvrythngApiBuilder {
 		public Builder<T> search(final String pattern) {
 
 			return queryParam(QSearchQueryParamValue.pattern(pattern));
+		}
+
+		public Builder<T> withScopes(final boolean withScopes) {
+
+			return queryParam(WithScopesQueryParamValue.NAME, String.valueOf(withScopes));
 		}
 
 		public Builder<T> page(final int page) {
