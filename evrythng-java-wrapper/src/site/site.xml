@@ -13,7 +13,7 @@
 
     <body>
         <breadcrumbs>
-            <item name="Developer's Portal" href="https://dev.evrythng.com" />
+            <item name="Developer's Portal" href="https://dashboard.evrythng.com/developers"/>
         </breadcrumbs>
 
         <menu ref="modules" inherit="top" />
@@ -27,8 +27,8 @@
             <topBarIcon>
                 <name>EVRYTHNG Java Wrapper</name>
                 <alt>EVRYTHNG</alt>
-                <src>https://dev.evrythng.com/assets/images/layout/logo-dev.png</src>
-                <href>https://dev.evrythng.com/</href>
+                <src>https://dashboard.evrythng.com/developers/assets/images/layout/logo-dev.png</src>
+                <href>https://dashboard.evrythng.com/developers/</href>
             </topBarIcon>
             <sideBarEnabled>false</sideBarEnabled>
             <gitHub>

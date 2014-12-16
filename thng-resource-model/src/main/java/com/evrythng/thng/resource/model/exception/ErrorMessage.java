@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ErrorMessage {
 
-	private static final String MORE_INFO_ROOT = "https://dev.evrythng.com/documentation/api";
+	private static final String MORE_INFO_ROOT = "https://dashboard.evrythng.com/developers/apidoc";
 	/**
 	 * HTTP status
 	 */
