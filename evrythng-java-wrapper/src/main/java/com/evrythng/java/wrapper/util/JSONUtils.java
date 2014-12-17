@@ -7,23 +7,17 @@ package com.evrythng.java.wrapper.util;
 import com.evrythng.java.wrapper.exception.WrappedRuntimeException;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 /**
  * JSON utilities based on Jackson {@link ObjectMapper}.
@@ -48,7 +42,7 @@ public final class JSONUtils {
 	 * @deprecated since 1.15
 	 */
 	@Deprecated
-	public static <T> T read(String json, Class<T> type) throws JsonParseException, JsonMappingException, IOException {
+	public static <T> T read(String json, Class<T> type) {
 		try {
 			return OBJECT_MAPPER.readValue(json, type);
 		} catch (Exception e) {
@@ -127,27 +121,13 @@ public final class JSONUtils {
 	private static ObjectMapper createObjectMapper() {
 
 		ObjectMapper mapper = new ObjectMapper();
-		SimpleModule evrythngModule = new SimpleModule("evrythng", new Version(3, 0, 0, "SNAPSHOT", "com.evrythng", "evrythng-java-wrapper"));
 
-		final DateFormat dateFormat = new SimpleDateFormat("SSSSSS"); // milliseconds
-		evrythngModule.addDeserializer(Calendar.class, new JsonDeserializer<Calendar>() {
-			@Override
-			public Calendar deserialize(JsonParser arg0, DeserializationContext arg1) throws IOException, JsonProcessingException {
-				try {
-					Calendar c = Calendar.getInstance();
-					c.setTime(dateFormat.parse(arg0.getText()));
-					return c;
-				} catch (ParseException e) {
-					return null;
-				}
-			}
-		});
-
-		mapper.registerModule(evrythngModule);
-
-		// Serialization/deserialization configuration:
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+		mapper.setDateFormat(new ISO8601DateFormat());
 
 		return mapper;
 	}
