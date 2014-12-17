@@ -148,9 +148,9 @@ public class ApiCommand<T> {
 
 	/**
 	 * Execute the current command and returns both {@link HttpResponse} and
-	 * the entity typed. Bundeled in a {@link TypedResponseWithEntity} object
+	 * the entity typed. Bundled in a {@link TypedResponseWithEntity} object
 	 * 
-	 * @return
+	 * @return {@link HttpResponse} bundled with entity
 	 * @throws EvrythngException
 	 */
 	public TypedResponseWithEntity<T> bundle() throws EvrythngException {

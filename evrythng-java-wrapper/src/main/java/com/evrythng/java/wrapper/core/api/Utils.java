@@ -40,6 +40,14 @@ public class Utils {
 		throw new IllegalStateException("This class is static.");
 	}
 
+	/**
+	 * Converts http response into entity
+	 * @param response {@link HttpResponse} instance
+	 * @param type {@link TypeReference} instance
+	 * @param <K>
+	 * @return
+	 * @throws EvrythngException
+	 */
 	@SuppressWarnings("unchecked")
 	public static <K> K convert(HttpResponse response, TypeReference<K> type) throws EvrythngException {
 
@@ -80,7 +88,7 @@ public class Utils {
 	/**
 	 * Reads entity content stream from the provided {@link HttpResponse}.
 	 * 
-	 * @param response
+	 * @param response {@link HttpResponse} instance
 	 * 
 	 * @return the {@link HttpResponse} entity content as {@link InputStream}
 	 * 

@@ -116,7 +116,7 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	 *
 	 * @param params
 	 *            a map name/value entries
-	 * @return
+	 * @return the current {@code B} instance
 	 * @see #queryParam(String, String)
 	 */
 	@SuppressWarnings("unchecked")
@@ -151,7 +151,7 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 	 *
 	 * @param mediaType
 	 *            a valid media type for the {@code Accept} HTTP header
-	 * @return
+	 * @return the current {@code B} instance
 	 */
 	public B accept(String mediaType) {
 		return header(ApiConfiguration.HTTP_HEADER_ACCEPT, mediaType);

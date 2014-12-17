@@ -28,9 +28,9 @@ public abstract class ExampleRunner {
 	/**
 	 * Creates a new instance of {@link ExampleRunner} using the provided {@link ApiConfiguration}.
 	 * 
-	 * @param config
+	 * @param config {@link ApiConfiguration} instance
 	 */
-	public ExampleRunner(ApiConfiguration config) {
+	protected ExampleRunner(final ApiConfiguration config) {
 		this.config = config;
 	}
 
@@ -55,15 +55,15 @@ public abstract class ExampleRunner {
 	 * 
 	 * @throws EvrythngException
 	 */
-	abstract protected void doRun() throws EvrythngException;
+	protected abstract void doRun() throws EvrythngException;
 
 	/**
 	 * Extracts required parameters from program {@code args}.
 	 * 
-	 * @param args
-	 * @return
+	 * @param args    program arguments
+	 * @return {@link ApiConfiguration} instance
 	 */
-	public static ApiConfiguration extractConfig(String[] args) {
+	public static ApiConfiguration extractConfig(final String[] args) {
 		ApiConfiguration config = new ApiConfiguration();
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].equals("--key") && i + 1 < args.length) {
@@ -87,9 +87,9 @@ public abstract class ExampleRunner {
 	/**
 	 * Logs the provided message.
 	 * 
-	 * @param message
+	 * @param message message
 	 */
-	public static void echo(String message) {
+	public static void echo(final String message) {
 		logger.info("[ECHO] {}", message);
 	}
 
@@ -97,12 +97,12 @@ public abstract class ExampleRunner {
 	 * Logs an INFO message according to the specified format and arguments. Arguments will be jsonified before string
 	 * replacement.
 	 * 
-	 * @param format
-	 * @param args
+	 * @param format format
+	 * @param args arguments
 	 */
-	public static void echo(String format, Object... args) {
+	public static void echo(final String format, final Object... args) {
 		// Jsonify data objects:
-		List<Object> argsAsJson = new ArrayList<Object>();
+		List<Object> argsAsJson = new ArrayList<>();
 		for (Object arg : args) {
 			argsAsJson.add(JSONUtils.write(arg));
 		}

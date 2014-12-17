@@ -87,7 +87,7 @@ public final class EvrythngApiBuilder {
 	 * @param apiKey         the authorization token for accessing the EVRYTHNG API
 	 * @param uri            the {@link URI} holding the absolute URL
 	 * @param responseStatus the expected {@link HttpResponse} status
-	 * @param responseType   the native type to which the {@link HttpResponse} will be
+	 * @param returnType     the native type to which the {@link HttpResponse} will be
 	 *                       mapped to
 	 * @return an EVRYTHNG API-ready {@link Builder}
 	 */
@@ -103,7 +103,7 @@ public final class EvrythngApiBuilder {
 	 * @param uri            the {@link URI} holding the absolute URL
 	 * @param data           the content data that will be associated with the POST request
 	 * @param responseStatus the expected {@link HttpResponse} status
-	 * @param responseType   the native type to which the {@link HttpResponse} will be
+	 * @param returnType     the native type to which the {@link HttpResponse} will be
 	 *                       mapped to
 	 * @return an EVRYTHNG API-ready {@link Builder}
 	 */
