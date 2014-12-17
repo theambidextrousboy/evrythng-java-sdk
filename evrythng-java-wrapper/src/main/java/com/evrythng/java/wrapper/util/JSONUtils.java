@@ -124,7 +124,6 @@ public final class JSONUtils {
 
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
-		mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
 
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
