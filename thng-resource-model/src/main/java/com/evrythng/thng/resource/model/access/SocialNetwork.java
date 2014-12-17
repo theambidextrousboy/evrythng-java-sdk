@@ -5,7 +5,7 @@
 package com.evrythng.thng.resource.model.access;
 
 /**
- * SocialNetwork access of an {@link Application}. Contains the appId, e.g.
+ * SocialNetwork access of an {@link com.evrythng.thng.resource.model.store.Application}. Contains the appId, e.g.
  * facebook application id.
  * As defined on the social network side.
  */
