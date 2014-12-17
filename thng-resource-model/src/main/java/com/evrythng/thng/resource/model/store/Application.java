@@ -2,8 +2,9 @@
  * (c) Copyright 2012 EVRYTHNG Ltd London / Zurich
  * www.evrythng.com
  */
-package com.evrythng.thng.resource.model.access;
+package com.evrythng.thng.resource.model.store;
 
+import com.evrythng.thng.resource.model.access.SocialNetwork;
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,10 +24,6 @@ public class Application extends DurableResourceModel {
 	private String appApiKey;
 	private Map<String, SocialNetwork> socialNetworks;
 	private String defaultUrl;
-	// TODO __MS__ remove!
-	private Long startAt;
-	// TODO __MS__ remove!no pro
-	private Long endAt;
 
 	/**
 	 * @return the name
@@ -85,38 +82,6 @@ public class Application extends DurableResourceModel {
 	}
 
 	/**
-	 * @return the startAt
-	 */
-	public Long getStartAt() {
-
-		return startAt;
-	}
-
-	/**
-	 * @param startAt the startAt to set
-	 */
-	public void setStartAt(final Long startAt) {
-
-		this.startAt = startAt;
-	}
-
-	/**
-	 * @return the endAt
-	 */
-	public Long getEndAt() {
-
-		return endAt;
-	}
-
-	/**
-	 * @param endAt the endAt to set
-	 */
-	public void setEndAt(final Long endAt) {
-
-		this.endAt = endAt;
-	}
-
-	/**
 	 * @return the defaultUrl
 	 */
 	public String getDefaultUrl() {
@@ -145,7 +110,7 @@ public class Application extends DurableResourceModel {
 	@Override
 	public String toString() {
 
-		return "Application [name=" + name + ", description=" + description + ", appApiKey=" + appApiKey + ", startAt=" + startAt + ", endAt=" + endAt + "]";
+		return "Application [name=" + name + ", description=" + description + ", appApiKey=" + appApiKey + "]";
 	}
 
 	// === helpers methods ================================================= //
@@ -164,7 +129,7 @@ public class Application extends DurableResourceModel {
 	}
 
 	/**
-	 * Set the Facebook social network (key {@value SN_FACEBOOK})
+	 * Set the Facebook social network to the given value.
 	 */
 	@JsonIgnore
 	public void defineFacebook(final SocialNetwork socialNetwork) {
