@@ -4,8 +4,6 @@
  */
 package com.evrythng.java.wrapper;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.service.ApplicationService;
 import com.evrythng.java.wrapper.service.AuthService;
@@ -15,6 +13,7 @@ import com.evrythng.java.wrapper.service.ScanService;
 import com.evrythng.java.wrapper.service.SearchService;
 import com.evrythng.java.wrapper.service.ThngService;
 import com.evrythng.thng.commons.config.ApiConfiguration;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Manager for the EVRYTHNG API.
@@ -80,7 +79,7 @@ public class ApiManager {
 
 	/**
 	 * Returns a preconfigured EVRYTHNG service for accessing the <a
-	 * href="https://dev.evrythng.com/documentation/api#thngs">Thngs</a> API.
+	 * href="https://dashboard.evrythng.com/developers/apidoc#thngs">Thngs</a> API.
 	 * 
 	 * @see ThngService
 	 */
@@ -90,7 +89,7 @@ public class ApiManager {
 
 	/**
 	 * Returns a preconfigured EVRYTHNG service for accessing the <a
-	 * href="https://dev.evrythng.com/documentation/api#collections">Collections
+	 * href="https://dashboard.evrythng.com/developers/apidoc#collections">Collections
 	 * </a> API.
 	 * 
 	 * @see CollectionService
@@ -101,7 +100,7 @@ public class ApiManager {
 
 	/**
 	 * Returns a preconfigured EVRYTHNG service for accessing the <a
-	 * href="https://dev.evrythng.com/documentation/api#products">Products</a>
+	 * href="https://dashboard.evrythng.com/developers/apidoc#products">Products</a>
 	 * API.
 	 * 
 	 * @see ProductService
@@ -112,7 +111,7 @@ public class ApiManager {
 
 	/**
 	 * Returns a preconfigured EVRYTHNG service for accessing the <a
-	 * href="https://dev.evrythng.com/documentation/api#search">Search</a>
+	 * href="https://dashboard.evrythng.com/developers/apidoc#search">Search</a>
 	 * API.
 	 * 
 	 * @see SearchService
@@ -123,7 +122,7 @@ public class ApiManager {
 
 	/**
 	 * Returns a preconfigures EVRYTHNG service for accessing the <a
-	 * href="https://dev.evrythng.com/documentation/api#applications">
+	 * href="https://dashboard.evrythng.com/developers/apidoc#applications">
 	 * Applications</a>
 	 * API.
 	 * 

@@ -8,7 +8,7 @@ import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
-import com.evrythng.thng.resource.model.access.Application;
+import com.evrythng.thng.resource.model.store.Application;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.List;

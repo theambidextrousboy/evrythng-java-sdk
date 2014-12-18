@@ -4,6 +4,8 @@
  */
 package com.evrythng.java.wrapper.core;
 
+import com.evrythng.api.wrapper.param.FilterQueryParamValue;
+import com.evrythng.api.wrapper.param.IdsQueryParamValue;
 import com.evrythng.api.wrapper.param.WithScopesQueryParamValue;
 import com.evrythng.java.wrapper.core.api.ApiCommand;
 import com.evrythng.java.wrapper.core.api.ApiCommandBuilder;
@@ -36,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URI;
+import java.util.List;
 
 /**
  * Entry-point command builder for the EVRYTHNG API.
@@ -307,6 +310,16 @@ public final class EvrythngApiBuilder {
 		public Builder<T> userScopeAll() {
 
 			return queryParam(ScopeQueryParamValue.valueOf(QueryKeyword.ALL.toString()));
+		}
+
+		public Builder<T> ids(final List<String> ids) {
+
+			return queryParamList(IdsQueryParamValue.NAME, ids);
+		}
+
+		public Builder<T> filter(final String filter) {
+
+			return queryParam(FilterQueryParamValue.NAME, filter);
 		}
 
 		public Builder<T> project(final String projectId) {
