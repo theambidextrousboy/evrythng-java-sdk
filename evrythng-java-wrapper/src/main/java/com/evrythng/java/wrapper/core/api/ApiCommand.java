@@ -25,7 +25,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.Method;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
@@ -51,19 +50,16 @@ public class ApiCommand<T> {
 
 	/**
 	 * Creates a new instance of {@link ApiCommand}.
-	 * 
-	 * @param methodBuilder
-	 *            the {@link MethodBuilder} used for creating the
-	 *            request
-	 * @param uri
-	 *            the {@link URI} holding the absolute URL
-	 * @param responseStatus
-	 *            the expected {@link HttpResponse} status
-	 * @param responseType
-	 *            the native type to which the {@link HttpResponse} will be
-	 *            mapped to
+	 *
+	 * @param methodBuilder  the {@link MethodBuilder} used for creating the
+	 *                       request
+	 * @param uri            the {@link URI} holding the absolute URL
+	 * @param responseStatus the expected {@link HttpResponse} status
+	 * @param responseType   the native type to which the {@link HttpResponse} will be
+	 *                       mapped to
 	 */
-	public ApiCommand(MethodBuilder<?> methodBuilder, URI uri, Status responseStatus, TypeReference<T> responseType) {
+	public ApiCommand(final MethodBuilder<?> methodBuilder, final URI uri, final Status responseStatus, final TypeReference<T> responseType) {
+
 		this.methodBuilder = methodBuilder;
 		this.uri = uri;
 		this.responseStatus = responseStatus;
@@ -72,94 +68,101 @@ public class ApiCommand<T> {
 
 	/**
 	 * Gets the expected response status.
+	 *
+	 * @return {@link Status} instance
 	 */
 	public Status getExpectedResponseStatus() {
+
 		return responseStatus;
 	}
 
 	/**
 	 * Gets the response type.
+	 *
+	 * @return {@link TypeReference} instance
 	 */
 	public TypeReference<T> getResponseType() {
+
 		return responseType;
 	}
 
 	/**
 	 * Gets the HTTP method.
+	 *
+	 * @return {@link Method} type
 	 */
 	public Method getMethod() {
+
 		return methodBuilder.getMethod();
 	}
 
 	/**
 	 * Executes the current command and maps the {@link HttpResponse} entity to
 	 * {@code T} specified by {@link ApiCommand#responseType}.
-	 * 
-	 * @see #execute(TypeReference)
+	 *
 	 * @return the {@link HttpResponse} entity mapped to {@code T}
-	 * 
-	 * @throws EvrythngException
+	 * @see #execute(TypeReference)
 	 */
 	public T execute() throws EvrythngException {
+
 		return execute(responseType);
 	}
 
 	/**
 	 * Executes the current command and returns the {@link HttpResponse} entity
 	 * content as {@link String}.
-	 * 
-	 * @see #execute(TypeReference)
+	 *
 	 * @return the {@link HttpResponse} entity content as {@link String}
-	 * 
-	 * @throws EvrythngException
+	 * @see #execute(TypeReference)
 	 */
 	public String content() throws EvrythngException {
+
 		return execute(new TypeReference<String>() {
+
 		});
 	}
 
 	/**
 	 * Executes the current command and returns the native {@link HttpResponse}.
-	 * 
-	 * @see #execute(TypeReference)
+	 *
 	 * @return the {@link HttpResponse} implied by the request
-	 * 
-	 * @throws EvrythngException
+	 * @see #execute(TypeReference)
 	 */
 	public HttpResponse request() throws EvrythngException {
+
 		return execute(new TypeReference<HttpResponse>() {
+
 		});
 	}
-
 
 	/**
 	 * Executes the current command and returns the {@link HttpResponse} entity
 	 * body as {@link InputStream}.
-	 * 
-	 * @see #execute(TypeReference)
+	 *
 	 * @return the {@link HttpResponse} entity as {@link InputStream}
-	 * 
-	 * @throws EvrythngException
+	 * @see #execute(TypeReference)
 	 */
 	public InputStream stream() throws EvrythngException {
+
 		return execute(new TypeReference<InputStream>() {
+
 		});
 	}
 
 	/**
 	 * Execute the current command and returns both {@link HttpResponse} and
 	 * the entity typed. Bundled in a {@link TypedResponseWithEntity} object
-	 * 
+	 *
 	 * @return {@link HttpResponse} bundled with entity
-	 * @throws EvrythngException
 	 */
 	public TypedResponseWithEntity<T> bundle() throws EvrythngException {
+
 		HttpClient client = httpParams == null ? new DefaultHttpClient() : new DefaultHttpClient(httpParams);
 		client = wrapClient(client);
 		try {
 			HttpResponse response = performRequest(client, methodBuilder, responseStatus);
 			T entity = Utils.convert(response, responseType);
-			return new TypedResponseWithEntity<T>(response, entity);
+			return new TypedResponseWithEntity<>(response, entity);
 		} finally {
 			shutdown(client);
 		}
@@ -172,21 +175,18 @@ public class ApiCommand<T> {
 	 * method is usefull for obtaining
 	 * metainformation about the {@link HttpResponse} implied by the request
 	 * without transferring the entity-body.
-	 * 
+	 * <p>
 	 * FIXME: HEAD not supported for now, using GET instead
-	 * 
-	 * @see HttpResponse#getFirstHeader(String)
-	 * 
-	 * @param headerName
-	 *            the {@link HttpResponse} header to be retrieved
-	 * 
+	 *
+	 * @param headerName the {@link HttpResponse} header to be retrieved
 	 * @return the value of the first retrieved {@link HttpResponse} header or
-	 *         null if no such header could be found.
-	 * 
-	 * @throws EvrythngException
+	 * null if no such header could be found.
+	 * @see HttpResponse#getFirstHeader(String)
 	 */
-	public Header head(String headerName) throws EvrythngException {
+	public Header head(final String headerName) throws EvrythngException {
+
 		HttpResponse response = execute(HttpMethodBuilder.httpGet(), new TypeReference<HttpResponse>() {
+
 		});
 		logger.debug("Retrieving first header: [name={}]", headerName);
 		return response.getFirstHeader(headerName);
@@ -194,37 +194,34 @@ public class ApiCommand<T> {
 
 	/**
 	 * Sets (adds or overwrittes) the specified request header.
-	 * 
-	 * @param name
-	 *            the request header name
-	 * @param value
-	 *            the request header value
+	 *
+	 * @param name  the request header name
+	 * @param value the request header value
 	 */
-	public void setHeader(String name, String value) {
+	public void setHeader(final String name, final String value) {
+
 		logger.debug("Setting header: [name={}, value={}]", name, value);
 		headers.put(name, value);
 	}
 
 	/**
 	 * Removes the specified request header.
-	 * 
-	 * @param name
-	 *            the name of the request header to be removed
+	 *
+	 * @param name the name of the request header to be removed
 	 */
-	public void removeHeader(String name) {
+	public void removeHeader(final String name) {
+
 		logger.debug("Removing header: [name={}]", name);
 		headers.remove(name);
 	}
 
 	/**
 	 * Sets (adds or overwrittes) the specified query parameter.
-	 * 
-	 * @param name
-	 *            the query parameter name
-	 * @param value
-	 *            the query parameter value
+	 *
+	 * @param name  the query parameter name
+	 * @param value the query parameter value
 	 */
-	public void setQueryParam(String name, String value) {
+	public void setQueryParam(final String name, final String value) {
 		// Ensure unicity of parameter:
 		queryParams.remove(name);
 
@@ -234,49 +231,51 @@ public class ApiCommand<T> {
 
 	/**
 	 * Sets (adds or overwrittes) the multi-value of specified query parameter.
-	 * 
-	 * @param name
-	 *            the query parameter name
-	 * @param value
-	 *            the query parameter values list
+	 *
+	 * @param name  the query parameter name
+	 * @param value the query parameter values list
 	 */
-	public void setQueryParam(String name, List<String> value) {
+	public void setQueryParam(final String name, final List<String> value) {
+
 		logger.debug("Setting query parameter: [name={}, value={}]", name, value);
 		queryParams.putAll(name, value);
 	}
 
 	/**
 	 * Removes the specified query parameter.
-	 * 
-	 * @param name
-	 *            the name of the query parameter to be removed
+	 *
+	 * @param name the name of the query parameter to be removed
 	 */
-	public void removeQueryParam(String name) {
+	public void removeQueryParam(final String name) {
+
 		logger.debug("Removing query parameter: [name={}]", name);
 		queryParams.remove(name);
 	}
 
 	/**
 	 * Sets HTTP-specific params, {
-	 * 
+	 *
+	 * @param params {@link HttpParams} instance
 	 * @see HttpClient
 	 */
-	public void setHttpParams(HttpParams params) {
+	public void setHttpParams(final HttpParams params) {
+
 		logger.debug("Setting HttpParams: [{}]", params);
 		this.httpParams = params;
 	}
 
-	private <K> K execute(TypeReference<K> type) throws EvrythngException {
+	private <K> K execute(final TypeReference<K> type) throws EvrythngException {
 		// Delegate:
 		return execute(methodBuilder, type);
 	}
 
-	private <K> K execute(MethodBuilder<?> method, TypeReference<K> type) throws EvrythngException {
+	private <K> K execute(final MethodBuilder<?> method, final TypeReference<K> type) throws EvrythngException {
 		// Delegate:
 		return execute(method, responseStatus, type);
 	}
 
-	private <K> K execute(MethodBuilder<?> method, Status expectedStatus, TypeReference<K> type) throws EvrythngException {
+	private <K> K execute(final MethodBuilder<?> method, final Status expectedStatus, final TypeReference<K> type) throws EvrythngException {
+
 		HttpClient client = httpParams == null ? new DefaultHttpClient() : new DefaultHttpClient(httpParams);
 		client = wrapClient(client);
 		try {
@@ -287,9 +286,9 @@ public class ApiCommand<T> {
 		}
 	}
 
-	private HttpResponse performRequest(HttpClient client, MethodBuilder<?> method, Status expectedStatus) throws EvrythngException {
+	private HttpResponse performRequest(final HttpClient client, final MethodBuilder<?> method, final Status expectedStatus) throws EvrythngException {
 
-		HttpResponse response = null;
+		HttpResponse response;
 		HttpUriRequest request = buildRequest(method);
 		try {
 			logger.debug(">> Executing request: [method={}, url={}]", request.getMethod(), request.getURI().toString());
@@ -304,10 +303,10 @@ public class ApiCommand<T> {
 		Utils.assertStatus(response, expectedStatus);
 
 		return response;
-
 	}
 
-	private static HttpClient wrapClient(HttpClient base) {
+	private static HttpClient wrapClient(final HttpClient base) {
+
 		try {
 			KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
 			trustStore.load(null, null);
@@ -324,15 +323,11 @@ public class ApiCommand<T> {
 
 	/**
 	 * Builds and prepares the {@link HttpUriRequest}.
-	 * 
-	 * @param method
-	 *            the {@link MethodBuilder} used to build the request
-	 * 
+	 *
+	 * @param method the {@link MethodBuilder} used to build the request
 	 * @return the prepared {@link HttpUriRequest} for execution
-	 * 
-	 * @throws EvrythngClientException
 	 */
-	private HttpUriRequest buildRequest(MethodBuilder<?> method) throws EvrythngClientException {
+	private HttpUriRequest buildRequest(final MethodBuilder<?> method) throws EvrythngClientException {
 
 		// Build request method:
 		HttpUriRequest request = method.build(buildUri());
@@ -348,23 +343,22 @@ public class ApiCommand<T> {
 	/**
 	 * Builds the final {@link URI} using {@link ApiCommand#uri} as base URL and
 	 * all defined {@link ApiCommand#queryParams} as query parameters.
-	 * 
+	 *
 	 * @return the absolute URI
-	 * 
-	 * @throws EvrythngClientException
 	 */
 	private URI buildUri() throws EvrythngClientException {
+
 		return URIBuilder.fromUri(uri.toString()).queryParams(queryParams).build();
 	}
 
 	/**
 	 * Shuts down the connection manager to ensure immediate deallocation of all
 	 * system resources.
-	 * 
-	 * @param client
-	 *            the {@link HttpClient} to shut down
+	 *
+	 * @param client the {@link HttpClient} to shut down
 	 */
-	protected void shutdown(HttpClient client) {
+	protected void shutdown(final HttpClient client) {
+
 		client.getConnectionManager().shutdown();
 	}
 }
