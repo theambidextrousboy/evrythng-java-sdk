@@ -2,7 +2,7 @@
  * (c) Copyright 2014 EVRYTHNG Ltd London / Zurich
  * www.evrythng.com
  */
-package com.evrythng.api.wrapper.param;
+package com.evrythng.java.wrapper.core.api.param;
 
 import com.evrythng.java.wrapper.core.api.QueryParamValue;
 

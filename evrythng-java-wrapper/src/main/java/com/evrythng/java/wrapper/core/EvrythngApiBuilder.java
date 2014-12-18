@@ -6,7 +6,6 @@ package com.evrythng.java.wrapper.core;
 
 import com.evrythng.api.wrapper.param.FilterQueryParamValue;
 import com.evrythng.api.wrapper.param.IdsQueryParamValue;
-import com.evrythng.api.wrapper.param.WithScopesQueryParamValue;
 import com.evrythng.java.wrapper.core.api.ApiCommand;
 import com.evrythng.java.wrapper.core.api.ApiCommandBuilder;
 import com.evrythng.java.wrapper.core.api.TypedResponseWithEntity;
@@ -21,6 +20,7 @@ import com.evrythng.java.wrapper.core.api.param.QSearchQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.ScopeQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.ToQueryParamValue;
 import com.evrythng.java.wrapper.core.api.param.UserScopeQueryParamValue;
+import com.evrythng.java.wrapper.core.api.param.WithScopesQueryParamValue;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.Method;
 import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
@@ -88,8 +88,6 @@ public final class EvrythngApiBuilder {
 	 * @param apiKey         the authorization token for accessing the EVRYTHNG API
 	 * @param uri            the {@link URI} holding the absolute URL
 	 * @param responseStatus the expected {@link HttpResponse} status
-	 * @param responseType   the native type to which the {@link HttpResponse} will be
-	 *                       mapped to
 	 * @return an EVRYTHNG API-ready {@link Builder}
 	 */
 	public static <T> Builder<T> get(final String apiKey, final URI uri, final Status responseStatus, final TypeReference<T> returnType) {
@@ -104,8 +102,6 @@ public final class EvrythngApiBuilder {
 	 * @param uri            the {@link URI} holding the absolute URL
 	 * @param data           the content data that will be associated with the POST request
 	 * @param responseStatus the expected {@link HttpResponse} status
-	 * @param responseType   the native type to which the {@link HttpResponse} will be
-	 *                       mapped to
 	 * @return an EVRYTHNG API-ready {@link Builder}
 	 */
 	public static <T> Builder<T> put(final String apiKey, final URI uri, final Object data, final Status responseStatus, final TypeReference<T> returnType) {
