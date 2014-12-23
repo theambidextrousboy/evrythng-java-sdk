@@ -21,7 +21,7 @@ The project is also available in our maven repository:
     <dependency>
      <groupId>com.evrythng</groupId>
      <artifactId>evrythng-java-wrapper</artifactId>
-     <version>1.14.0</version>
+     <version>1.16.0</version>
     </dependency>
 
 the repository:
