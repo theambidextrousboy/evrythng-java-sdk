@@ -6,17 +6,12 @@ package com.evrythng.java.wrapper.util;
 
 import com.evrythng.java.wrapper.exception.WrappedRuntimeException;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -62,7 +57,6 @@ public final class JSONUtils {
 			return OBJECT_MAPPER.readValue(json, type);
 		} catch (Exception e) {
 			// Wrap into unchecked exception:
-			System.out.println(e);
 			throw new WrappedRuntimeException(e);
 		}
 	}
@@ -76,7 +70,7 @@ public final class JSONUtils {
 	 * @deprecated since 1.15
 	 */
 	@Deprecated
-	public static <T> T read(InputStream inputStream, TypeReference<T> type) throws JsonParseException, JsonMappingException, IOException {
+	public static <T> T read(InputStream inputStream, TypeReference<T> type) {
 		try {
 			return OBJECT_MAPPER.readValue(inputStream, type);
 		} catch (Exception e) {

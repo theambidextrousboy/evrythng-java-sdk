@@ -90,7 +90,7 @@ public class ThngPropertyApiExample extends ExampleRunner {
 		echo("Thng created: [output={}]", thng);
 
 		// Build some sample data for creating new Property resources:
-		List<Property> properties = new ArrayList<Property>();
+		List<Property> properties = new ArrayList<>();
 		properties.add(new Property("temperature", String.valueOf(Math.random())));
 		properties.add(new Property("altitude", String.valueOf(Math.random())));
 

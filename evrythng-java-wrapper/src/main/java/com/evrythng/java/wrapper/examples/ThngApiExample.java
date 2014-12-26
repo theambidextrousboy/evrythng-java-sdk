@@ -73,7 +73,7 @@ public class ThngApiExample extends ExampleRunner {
 		ThngService thngService = apiManager.thngService();
 
 		echo("Creating 5 Thng resources...");
-		List<Thng> thngs = new ArrayList<Thng>();
+		List<Thng> thngs = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
 			// Build data for a new Thng:
 			Thng data = new Thng();

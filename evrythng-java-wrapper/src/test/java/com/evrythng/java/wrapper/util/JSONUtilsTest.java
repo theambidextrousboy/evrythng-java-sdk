@@ -77,7 +77,7 @@ public class JSONUtilsTest {
 		Assert.assertEquals("1", o.getMyProp());
 		Assert.assertEquals(Integer.valueOf(2), o.getB());
 		Assert.assertNotNull(o.getSub());
-		Assert.assertEquals(MySubObject.class, o.getSub().getClass());
+		Assert.assertSame(MySubObject.class, o.getSub().getClass());
 		Assert.assertEquals(Integer.valueOf(14), o.getSub().getX());
 		Assert.assertEquals(Integer.valueOf(33), o.getSub().getY());
 	}
@@ -106,7 +106,7 @@ public class JSONUtilsTest {
 		Assert.assertEquals("1", o.getMyProp());
 		Assert.assertEquals(Integer.valueOf(2), o.getB());
 		Assert.assertNotNull(o.getSub());
-		Assert.assertEquals(MySubObject.class, o.getSub().getClass());
+		Assert.assertSame(MySubObject.class, o.getSub().getClass());
 		Assert.assertNull(o.getSub().getX());
 		Assert.assertEquals(Integer.valueOf(33), o.getSub().getY());
 	}
@@ -122,7 +122,7 @@ public class JSONUtilsTest {
 		Assert.assertEquals("1", o.getMyProp());
 		Assert.assertEquals(Integer.valueOf(2), o.getB());
 		Assert.assertNotNull(o.getSub());
-		Assert.assertEquals(MySubObject.class, o.getSub().getClass());
+		Assert.assertSame(MySubObject.class, o.getSub().getClass());
 		Assert.assertNull(o.getSub().getX());
 		Assert.assertNull(o.getSub().getY());
 	}
@@ -138,7 +138,7 @@ public class JSONUtilsTest {
 		Assert.assertEquals("1", o.getMyProp());
 		Assert.assertEquals(Integer.valueOf(2), o.getB());
 		Assert.assertNotNull(o.getSub());
-		Assert.assertEquals(MySubObject.class, o.getSub().getClass());
+		Assert.assertSame(MySubObject.class, o.getSub().getClass());
 		Assert.assertEquals(Integer.valueOf(14), o.getSub().getX());
 		Assert.assertEquals(Integer.valueOf(33), o.getSub().getY());
 	}
@@ -154,7 +154,7 @@ public class JSONUtilsTest {
 		Assert.assertEquals("1", o.getMyProp());
 		Assert.assertEquals(Integer.valueOf(2), o.getB());
 		Assert.assertNotNull(o.getSub());
-		Assert.assertEquals(MySubObject.class, o.getSub().getClass());
+		Assert.assertSame(MySubObject.class, o.getSub().getClass());
 		Assert.assertEquals(Integer.valueOf(14), o.getSub().getX());
 		Assert.assertEquals(Integer.valueOf(33), o.getSub().getY());
 	}

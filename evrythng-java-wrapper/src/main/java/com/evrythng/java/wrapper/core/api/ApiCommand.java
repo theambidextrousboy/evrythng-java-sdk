@@ -41,7 +41,7 @@ public class ApiCommand<T> {
 
 	private static final Logger logger = LoggerFactory.getLogger(ApiCommand.class);
 	private MultiValueMap queryParams = new MultiValueMap();
-	private Map<String, String> headers = new LinkedHashMap<String, String>();
+	private Map<String, String> headers = new LinkedHashMap<>();
 	private HttpParams httpParams = null;
 	private MethodBuilder<?> methodBuilder;
 	private URI uri;

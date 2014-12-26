@@ -93,6 +93,7 @@ public final class HttpMethodBuilder {
 				return new HttpGet(uri);
 			}
 
+			@Override
 			public Method getMethod() {
 				return Method.GET;
 			}
@@ -117,17 +118,18 @@ public final class HttpMethodBuilder {
 				return new HttpDelete(uri);
 			}
 
+			@Override
 			public Method getMethod() {
 				return Method.DELETE;
 			}
 		};
 	}
 
-	protected static abstract class EntityMethodBuilder<E extends HttpEntityEnclosingRequestBase> implements MethodBuilder<E> {
+	protected abstract static class EntityMethodBuilder<E extends HttpEntityEnclosingRequestBase> implements MethodBuilder<E> {
 
 		private Method method;
 
-		public EntityMethodBuilder(Method method) {
+		protected EntityMethodBuilder(Method method) {
 			this.method = method;
 		}
 

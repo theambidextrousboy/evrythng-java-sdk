@@ -5,7 +5,6 @@
 package com.evrythng.java.wrapper.core.api.param;
 
 import com.evrythng.java.wrapper.core.api.QueryParamValue;
-import com.evrythng.thng.commons.config.ApiConfiguration;
 
 /**
  * Provides support for the {@code "to"} query param.
