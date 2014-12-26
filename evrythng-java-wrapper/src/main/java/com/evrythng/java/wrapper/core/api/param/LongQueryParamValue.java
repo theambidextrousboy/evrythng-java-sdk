@@ -11,7 +11,7 @@ import com.evrythng.java.wrapper.core.api.QueryParamValue;
  */
 public class LongQueryParamValue extends QueryParamValue {
 
-	public LongQueryParamValue(String key, long value) {
+	public LongQueryParamValue(final String key, final long value) {
 		super(key, Long.toString(value));
 	}
 }

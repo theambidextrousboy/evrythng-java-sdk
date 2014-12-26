@@ -40,11 +40,11 @@ import java.util.List;
  */
 public class ThngApiExample extends ExampleRunner {
 
-	public ThngApiExample(ApiConfiguration config) {
+	public ThngApiExample(final ApiConfiguration config) {
 		super(config);
 	}
 
-	public static void main(String[] args) throws EvrythngException {
+	public static void main(final String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
 			usage();

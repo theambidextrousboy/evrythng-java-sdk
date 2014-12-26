@@ -11,7 +11,7 @@ public class PageQueryParamValue extends IntegerQueryParamValue {
 
 	public static final String NAME = "page";
 
-	public PageQueryParamValue(int value) {
+	public PageQueryParamValue(final int value) {
 		super(NAME, value);
 	}
 
@@ -21,7 +21,7 @@ public class PageQueryParamValue extends IntegerQueryParamValue {
 	 *            page number
 	 * @return query parameter for this page number
 	 */
-	public static PageQueryParamValue page(int page) {
+	public static PageQueryParamValue page(final int page) {
 		return new PageQueryParamValue(page);
 	}
 }

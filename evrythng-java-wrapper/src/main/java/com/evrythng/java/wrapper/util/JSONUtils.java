@@ -37,7 +37,7 @@ public final class JSONUtils {
 	 * @deprecated since 1.15
 	 */
 	@Deprecated
-	public static <T> T read(String json, Class<T> type) {
+	public static <T> T read(final String json, final Class<T> type) {
 		try {
 			return OBJECT_MAPPER.readValue(json, type);
 		} catch (Exception e) {
@@ -52,7 +52,7 @@ public final class JSONUtils {
 	 *
 	 * @return Deserialized native instance
 	 */
-	public static <T> T read(String json, TypeReference<T> type) {
+	public static <T> T read(final String json, final TypeReference<T> type) {
 		try {
 			return OBJECT_MAPPER.readValue(json, type);
 		} catch (Exception e) {
@@ -70,7 +70,7 @@ public final class JSONUtils {
 	 * @deprecated since 1.15
 	 */
 	@Deprecated
-	public static <T> T read(InputStream inputStream, TypeReference<T> type) {
+	public static <T> T read(final InputStream inputStream, final TypeReference<T> type) {
 		try {
 			return OBJECT_MAPPER.readValue(inputStream, type);
 		} catch (Exception e) {
@@ -88,7 +88,7 @@ public final class JSONUtils {
 	 * @deprecated since 1.15
 	 */
 	@Deprecated
-	public static <T> T read(InputStream inputStream, Class<T> valueType) {
+	public static <T> T read(final InputStream inputStream, final Class<T> valueType) {
 		try {
 			return OBJECT_MAPPER.readValue(inputStream, valueType);
 		} catch (Exception e) {
@@ -100,7 +100,7 @@ public final class JSONUtils {
 	/**
 	 * Converts the provided {@code object} to an JSON {@link String}.
 	 */
-	public static String write(Object object) {
+	public static String write(final Object object) {
 		try {
 			return OBJECT_MAPPER.writeValueAsString(object);
 		} catch (Exception e) {

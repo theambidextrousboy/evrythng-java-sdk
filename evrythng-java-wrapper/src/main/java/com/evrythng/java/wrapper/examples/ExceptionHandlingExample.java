@@ -35,11 +35,11 @@ import com.evrythng.thng.resource.model.store.Thng;
  */
 public class ExceptionHandlingExample extends ExampleRunner {
 
-	public ExceptionHandlingExample(ApiConfiguration config) {
+	public ExceptionHandlingExample(final ApiConfiguration config) {
 		super(config);
 	}
 
-	public static void main(String[] args) throws EvrythngException {
+	public static void main(final String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
 			usage();

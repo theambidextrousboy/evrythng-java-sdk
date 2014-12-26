@@ -11,7 +11,7 @@ public class PerPageQueryParamValue extends IntegerQueryParamValue {
 
 	public static final String NAME = "perPage";
 
-	public PerPageQueryParamValue(int value) {
+	public PerPageQueryParamValue(final int value) {
 		super(NAME, value);
 	}
 
@@ -21,7 +21,7 @@ public class PerPageQueryParamValue extends IntegerQueryParamValue {
 	 *            items per page
 	 * @return query parameter for this items per page count
 	 */
-	public static PerPageQueryParamValue perPage(int perPage) {
+	public static PerPageQueryParamValue perPage(final int perPage) {
 		return new PerPageQueryParamValue(perPage);
 	}
 }

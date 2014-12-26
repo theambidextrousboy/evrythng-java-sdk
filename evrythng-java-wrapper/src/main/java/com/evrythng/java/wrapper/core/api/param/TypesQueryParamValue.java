@@ -13,7 +13,7 @@ public class TypesQueryParamValue extends QueryParamValue {
 
 	public static final String NAME = "types";
 
-	public TypesQueryParamValue(String value) {
+	public TypesQueryParamValue(final String value) {
 		super(NAME, value);
 	}
 
@@ -22,7 +22,7 @@ public class TypesQueryParamValue extends QueryParamValue {
 	 *            comma separated types
 	 * @return query parameter for this types
 	 */
-	public static TypesQueryParamValue types(String types) {
+	public static TypesQueryParamValue types(final String types) {
 		return new TypesQueryParamValue(types);
 	}
 }

@@ -15,11 +15,11 @@ public class InternalErrorException extends EvrythngErrorException {
 
 	private static final long serialVersionUID = 1L;
 
-	public InternalErrorException(ErrorMessage message) {
+	public InternalErrorException(final ErrorMessage message) {
 		super(message);
 	}
 
-	public InternalErrorException(ErrorMessage message, Throwable cause) {
+	public InternalErrorException(final ErrorMessage message, final Throwable cause) {
 		super(message, cause);
 	}
 }

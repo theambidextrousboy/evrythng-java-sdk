@@ -14,7 +14,7 @@ public class IdsQueryParamValue extends QueryParamValue {
 
 	public static final String NAME = "ids";
 
-	public IdsQueryParamValue(String value) {
+	public IdsQueryParamValue(final String value) {
 
 		super(NAME, value);
 	}
@@ -23,7 +23,7 @@ public class IdsQueryParamValue extends QueryParamValue {
 	 * @param ids comma separated ids
 	 * @return query parameter for this ids
 	 */
-	public static IdsQueryParamValue ids(String ids) {
+	public static IdsQueryParamValue ids(final String ids) {
 
 		return new IdsQueryParamValue(ids);
 	}
@@ -32,7 +32,7 @@ public class IdsQueryParamValue extends QueryParamValue {
 	 * @param ids collection of ids
 	 * @return query parameter for this ids
 	 */
-	public static IdsQueryParamValue ids(Iterable<String> ids) {
+	public static IdsQueryParamValue ids(final Iterable<String> ids) {
 
 		return new IdsQueryParamValue(StringUtils.join(ids, ","));
 	}

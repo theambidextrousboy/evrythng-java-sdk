@@ -36,11 +36,11 @@ import com.evrythng.thng.resource.model.store.Thng;
  */
 public class SimpleExample extends ExampleRunner {
 
-	public SimpleExample(ApiConfiguration config) {
+	public SimpleExample(final ApiConfiguration config) {
 		super(config);
 	}
 
-	public static void main(String[] args) throws EvrythngException {
+	public static void main(final String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
 			usage();

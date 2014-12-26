@@ -18,11 +18,11 @@ public class NotFoundException extends EvrythngErrorException {
 
 	private static final long serialVersionUID = 1L;
 
-	public NotFoundException(ErrorMessage message) {
+	public NotFoundException(final ErrorMessage message) {
 		super(message);
 	}
 
-	public NotFoundException(ErrorMessage message, Throwable cause) {
+	public NotFoundException(final ErrorMessage message, final Throwable cause) {
 		super(message, cause);
 	}
 }

@@ -13,7 +13,7 @@ public class ToQueryParamValue extends QueryParamValue {
 
 	public static final String NAME = "to";
 
-	public ToQueryParamValue(String value) {
+	public ToQueryParamValue(final String value) {
 		super(NAME, value);
 	}
 
@@ -22,7 +22,7 @@ public class ToQueryParamValue extends QueryParamValue {
 	 *            from value
 	 * @return query parameter for this from value
 	 */
-	public static ToQueryParamValue to(String to) {
+	public static ToQueryParamValue to(final String to) {
 		return new ToQueryParamValue(to);
 	}
 }

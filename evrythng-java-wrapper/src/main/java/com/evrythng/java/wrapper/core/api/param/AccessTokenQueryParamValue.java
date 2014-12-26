@@ -13,7 +13,7 @@ public class AccessTokenQueryParamValue extends QueryParamValue {
 
 	public static final String NAME = "access_token";
 
-	public AccessTokenQueryParamValue(String value) {
+	public AccessTokenQueryParamValue(final String value) {
 		super(NAME, value);
 	}
 
@@ -22,7 +22,7 @@ public class AccessTokenQueryParamValue extends QueryParamValue {
 	 *            access token
 	 * @return query parameter for this access token
 	 */
-	public static AccessTokenQueryParamValue key(String key) {
+	public static AccessTokenQueryParamValue key(final String key) {
 		return new AccessTokenQueryParamValue(key);
 	}
 

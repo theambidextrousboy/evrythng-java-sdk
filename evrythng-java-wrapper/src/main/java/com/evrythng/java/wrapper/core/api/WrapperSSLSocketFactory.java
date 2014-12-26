@@ -39,16 +39,16 @@ import java.security.cert.X509Certificate;
 public class WrapperSSLSocketFactory extends SSLSocketFactory {
     SSLContext sslContext = SSLContext.getInstance("TLS");
 
-    public WrapperSSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
+    public WrapperSSLSocketFactory(final KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
         super(truststore);
 
         TrustManager tm = new X509TrustManager() {
             @Override
-            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+            public void checkClientTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
             }
 
             @Override
-            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+            public void checkServerTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
             }
 
             @Override
@@ -60,7 +60,7 @@ public class WrapperSSLSocketFactory extends SSLSocketFactory {
     }
 
     @Override
-    public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException, UnknownHostException {
+    public Socket createSocket(final Socket socket, final String host, final int port, final boolean autoClose) throws IOException, UnknownHostException {
         return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
     }
 

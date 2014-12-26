@@ -44,11 +44,11 @@ import java.util.List;
  */
 public class ThngPropertyApiExample extends ExampleRunner {
 
-	public ThngPropertyApiExample(ApiConfiguration config) {
+	public ThngPropertyApiExample(final ApiConfiguration config) {
 		super(config);
 	}
 
-	public static void main(String[] args) throws EvrythngException {
+	public static void main(final String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
 			usage();

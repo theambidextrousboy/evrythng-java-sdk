@@ -16,7 +16,7 @@ public class TplQueryParamValue extends QueryParamValue {
 	private static final String DEFAULT = "default";
 	private static final String DEMO_EVRYTHNG = "demo-evrythng";
 
-	public TplQueryParamValue(String value) {
+	public TplQueryParamValue(final String value) {
 		super(NAME, value);
 	}
 
@@ -25,7 +25,7 @@ public class TplQueryParamValue extends QueryParamValue {
 	 *            template
 	 * @return query parameter for this template
 	 */
-	public static TplQueryParamValue template(String template) {
+	public static TplQueryParamValue template(final String template) {
 		return new TplQueryParamValue(template);
 	}
 
@@ -34,7 +34,7 @@ public class TplQueryParamValue extends QueryParamValue {
 	 *            template
 	 * @return true if app id equals {@code "default-shortid"}
 	 */
-	public static boolean isDefaultShortId(String template) {
+	public static boolean isDefaultShortId(final String template) {
 		return DEFAULT_SHORTID.equals(template);
 	}
 
@@ -43,7 +43,7 @@ public class TplQueryParamValue extends QueryParamValue {
 	 *            template
 	 * @return true if app id equals {@code "default"}
 	 */
-	public static boolean isDefault(String template) {
+	public static boolean isDefault(final String template) {
 		return DEFAULT.equals(template);
 	}
 
@@ -52,7 +52,7 @@ public class TplQueryParamValue extends QueryParamValue {
 	 *            template
 	 * @return true if app id equals {@code "demo-evrythng"}
 	 */
-	public static boolean isDemoEvrythng(String template) {
+	public static boolean isDemoEvrythng(final String template) {
 		return DEMO_EVRYTHNG.equals(template);
 	}
 }

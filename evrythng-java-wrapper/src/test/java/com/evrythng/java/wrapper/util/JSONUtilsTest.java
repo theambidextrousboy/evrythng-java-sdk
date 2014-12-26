@@ -23,7 +23,7 @@ public class JSONUtilsTest {
 			return myProp;
 		}
 
-		public void setMyProp(String myProp) {
+		public void setMyProp(final String myProp) {
 			this.myProp = myProp;
 		}
 
@@ -31,7 +31,7 @@ public class JSONUtilsTest {
 			return b;
 		}
 
-		public void setB(Integer b) {
+		public void setB(final Integer b) {
 			this.b = b;
 		}
 
@@ -39,7 +39,7 @@ public class JSONUtilsTest {
 			return sub;
 		}
 
-		public void setSub(MySubObject sub) {
+		public void setSub(final MySubObject sub) {
 			this.sub = sub;
 		}
 	}
@@ -53,7 +53,7 @@ public class JSONUtilsTest {
 			return x;
 		}
 
-		public void setX(Integer x) {
+		public void setX(final Integer x) {
 			this.x = x;
 		}
 
@@ -61,7 +61,7 @@ public class JSONUtilsTest {
 			return y;
 		}
 
-		public void setY(Integer y) {
+		public void setY(final Integer y) {
 			this.y = y;
 		}
 	}
