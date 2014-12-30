@@ -75,6 +75,11 @@ public enum Status {
 	 */
 	CONFLICT(409, "Conflict"),
 	/**
+	 * 429 Too Many Requests, see
+	 * {@link <a href="http://tools.ietf.org/html/rfc6585#section-4">Additional HTTP Status Codes</a>}.
+	 */
+	TOO_MANY_REQUESTS(429, "Too Many Requests"),
+	/**
 	 * 500 Internal Server Error, see
 	 * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.5.1">HTTP/1.1 documentation</a>}.
 	 */
