@@ -29,21 +29,21 @@ public final class URIBuilder {
 
 	private MultiValueMap parameters = new MultiValueMap();
 
-	private URIBuilder(String baseUri) {
+	private URIBuilder(final String baseUri) {
 		this.baseUri = baseUri;
 	}
 
 	/**
 	 * Creates a URIBuilder with a base URI string as the starting point
 	 */
-	public static URIBuilder fromUri(String baseUri) {
+	public static URIBuilder fromUri(final String baseUri) {
 		return new URIBuilder(baseUri);
 	}
 
 	/**
 	 * Adds a query parameter to the URI
 	 */
-	public URIBuilder queryParam(String name, String value) {
+	public URIBuilder queryParam(final String name, final String value) {
 		parameters.put(name, value);
 		return this;
 	}
@@ -51,7 +51,7 @@ public final class URIBuilder {
 	/**
 	 * Adds a query parameters to the URI
 	 */
-	public URIBuilder queryParams(MultiValueMap params) {
+	public URIBuilder queryParams(final MultiValueMap params) {
 		parameters.putAll(params);
 		return this;
 	}
@@ -96,7 +96,7 @@ public final class URIBuilder {
 		}
 	}
 
-	private String formEncode(String data) {
+	private String formEncode(final String data) {
 		try {
 			return URLEncoder.encode(data, "UTF-8");
 		} catch (UnsupportedEncodingException wontHappen) {

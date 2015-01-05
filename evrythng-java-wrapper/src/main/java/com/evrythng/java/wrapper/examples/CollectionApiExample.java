@@ -37,11 +37,11 @@ import java.util.List;
  */
 public class CollectionApiExample extends ExampleRunner {
 
-	public CollectionApiExample(ApiConfiguration config) {
+	public CollectionApiExample(final ApiConfiguration config) {
 		super(config);
 	}
 
-	public static void main(String[] args) throws EvrythngException {
+	public static void main(final String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
 			usage();
@@ -70,7 +70,7 @@ public class CollectionApiExample extends ExampleRunner {
 		CollectionService collectionService = apiManager.collectionService();
 
 		echo("Creating 5 Collection resources...");
-		List<Collection> collections = new ArrayList<Collection>();
+		List<Collection> collections = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
 			// Build data for a new Collection:
 			Collection data = new Collection();
@@ -144,10 +144,10 @@ public class CollectionApiExample extends ExampleRunner {
 	 * @throws EvrythngException
 	 * @throws EvrythngClientException
 	 */
-	protected List<String> createThngReferences(ApiManager apiManager, int count) throws EvrythngException, EvrythngClientException {
+	protected List<String> createThngReferences(final ApiManager apiManager, final int count) throws EvrythngException {
 		echo("Creating {} Thng resources...", count);
 		ThngService thngService = apiManager.thngService();
-		List<String> references = new ArrayList<String>();
+		List<String> references = new ArrayList<>();
 		for (int i = 0; i < count; i++) {
 			// Build data for a new Thng:
 			Thng data = new Thng();

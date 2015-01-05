@@ -11,7 +11,7 @@ public class LatQueryParamValue extends DoubleQueryParamValue {
 
 	public static final String NAME = "lat";
 
-	public LatQueryParamValue(double value) {
+	public LatQueryParamValue(final double value) {
 		super(NAME, value);
 	}
 
@@ -20,7 +20,7 @@ public class LatQueryParamValue extends DoubleQueryParamValue {
 	 *            latitude
 	 * @return query parameter for this latitude
 	 */
-	public static LatQueryParamValue lat(double latitude) {
+	public static LatQueryParamValue lat(final double latitude) {
 		return new LatQueryParamValue(latitude);
 	}
 }

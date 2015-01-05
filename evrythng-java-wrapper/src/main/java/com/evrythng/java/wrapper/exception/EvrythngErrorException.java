@@ -18,11 +18,11 @@ public abstract class EvrythngErrorException extends EvrythngException {
 	private static final long serialVersionUID = 1L;
 	private final ErrorMessage errorMessage;
 
-	public EvrythngErrorException(ErrorMessage message) {
+	protected EvrythngErrorException(final ErrorMessage message) {
 		this(message, null);
 	}
 
-	public EvrythngErrorException(ErrorMessage message, Throwable cause) {
+	protected EvrythngErrorException(final ErrorMessage message, final Throwable cause) {
 		super(JSONUtils.write(message), cause);
 		this.errorMessage = message;
 	}

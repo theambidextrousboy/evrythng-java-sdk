@@ -76,6 +76,14 @@ public final class EvrythngApiBuilder {
 	/**
 	 * Creates a {@link Builder} for executing a file upload via a {@code POST}
 	 * request.
+	 *
+	 * @param apiKey         the authorization token for accessing the EVRYTHNG API
+	 * @param uri            the {@link URI} holding the absolute URL
+	 * @param file           file
+	 * @param responseStatus the expected response {@link Status}
+	 * @param responseType   the native type to which the {@link HttpResponse} will be
+	 *                       mapped to
+	 * @return an EVRYTHNG API-ready {@link Builder}
 	 */
 	public static <T> Builder<T> postMultipart(final String apiKey, final URI uri, final File file, final Status responseStatus, final TypeReference<T> responseType) {
 
@@ -88,6 +96,8 @@ public final class EvrythngApiBuilder {
 	 * @param apiKey         the authorization token for accessing the EVRYTHNG API
 	 * @param uri            the {@link URI} holding the absolute URL
 	 * @param responseStatus the expected {@link HttpResponse} status
+	 * @param returnType     the native type to which the {@link HttpResponse} will be
+	 *                       mapped to
 	 * @return an EVRYTHNG API-ready {@link Builder}
 	 */
 	public static <T> Builder<T> get(final String apiKey, final URI uri, final Status responseStatus, final TypeReference<T> returnType) {
@@ -102,6 +112,8 @@ public final class EvrythngApiBuilder {
 	 * @param uri            the {@link URI} holding the absolute URL
 	 * @param data           the content data that will be associated with the POST request
 	 * @param responseStatus the expected {@link HttpResponse} status
+	 * @param returnType     the native type to which the {@link HttpResponse} will be
+	 *                       mapped to
 	 * @return an EVRYTHNG API-ready {@link Builder}
 	 */
 	public static <T> Builder<T> put(final String apiKey, final URI uri, final Object data, final Status responseStatus, final TypeReference<T> returnType) {
@@ -112,7 +124,7 @@ public final class EvrythngApiBuilder {
 	/**
 	 * Create a {@link Builder} for executing a {@code PUT} request, expecting
 	 * no result payload. But a
-	 * {@link ApiConfiguration.HTTP_HEADER_RESULT_COUNT} header which
+	 * {@link ApiConfiguration#HTTP_HEADER_RESULT_COUNT} header which
 	 * contains the amount of document updated.
 	 *
 	 * @param apiKey         the authorization token for accessing the EVRYTHNG API
@@ -120,6 +132,7 @@ public final class EvrythngApiBuilder {
 	 * @param data           the content data that will be associated with the PUT request
 	 * @param responseStatus the expected {@link HttpResponse} status. More likely 204 No
 	 *                       Content
+	 * @return an EVRYTHNG API-ready {@link Builder}
 	 */
 	public static Builder<Long> putMultiple(final String apiKey, final URI uri, final Object data, final Status responseStatus) {
 
@@ -215,6 +228,14 @@ public final class EvrythngApiBuilder {
 		/**
 		 * Private constructor, use {@link EvrythngApiBuilder} static methods
 		 * for creating a {@link Builder}.
+		 *
+		 * @param apiKey         the authorization token for accessing the EVRYTHNG API
+		 * @param methodBuilder  the {@link MethodBuilder} used for creating the
+		 *                       request
+		 * @param uri            the {@link URI} holding the absolute URL
+		 * @param responseStatus the expected response {@link Status}
+		 * @param responseType   the native type to which the {@link HttpResponse} will be
+		 *                       mapped to
 		 */
 		private Builder(final String apiKey, final MethodBuilder<?> methodBuilder, final URI uri, final Status responseStatus, final TypeReference<T> responseType) {
 
@@ -224,6 +245,15 @@ public final class EvrythngApiBuilder {
 		/**
 		 * Private constructor, use {@link EvrythngApiBuilder} static methods
 		 * for creating a {@link Builder}.
+		 *
+		 * @param apiKey         the authorization token for accessing the EVRYTHNG API
+		 * @param methodBuilder  the {@link MethodBuilder} used for creating the
+		 *                       request
+		 * @param uri            the {@link URI} holding the absolute URL
+		 * @param responseStatus the expected response {@link Status}
+		 * @param responseType   the native type to which the {@link HttpResponse} will be
+		 *                       mapped to
+		 * @param contentType    content type
 		 */
 		private Builder(final String apiKey, final MethodBuilder<?> methodBuilder, final URI uri, final Status responseStatus, final TypeReference<T> responseType, final String contentType) {
 
@@ -238,86 +268,157 @@ public final class EvrythngApiBuilder {
 			apiKey(apiKey);
 		}
 
+		/**
+		 * @param apiKey the authorization token for accessing the EVRYTHNG API
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> apiKey(final String apiKey) {
 
 			return header(ApiConfiguration.HTTP_HEADER_AUTHORIZATION, apiKey);
 		}
 
+		/**
+		 * @param pattern "{@value QSearchQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 * @see QSearchQueryParamValue
+		 */
 		public Builder<T> search(final String pattern) {
 
 			return queryParam(QSearchQueryParamValue.pattern(pattern));
 		}
 
+		/**
+		 * @param withScopes "{@value WithScopesQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 * @see WithScopesQueryParamValue
+		 */
 		public Builder<T> withScopes(final boolean withScopes) {
 
 			return queryParam(WithScopesQueryParamValue.NAME, String.valueOf(withScopes));
 		}
 
+		/**
+		 * @param page "{@value PageQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> page(final int page) {
 
 			return queryParam(PageQueryParamValue.page(page));
 		}
 
+		/**
+		 * @param perPage "{@value PerPageQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> perPage(final int perPage) {
 
 			return queryParam(PerPageQueryParamValue.perPage(perPage));
 		}
 
+		/**
+		 * @param from "{@value FromQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> from(final long from) {
 
 			return queryParam(FromQueryParamValue.from(String.valueOf(from)));
 		}
 
+		/**
+		 * @param from "{@value FromQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> from(final String from) {
 
 			return queryParam(FromQueryParamValue.from(from));
 		}
 
+		/**
+		 * @param queryKeyword "{@value FromQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> from(final QueryKeyword queryKeyword) {
 
 			return queryParam(FromQueryParamValue.from(queryKeyword.toString()));
 		}
 
+		/**
+		 * @param to "{@value ToQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> to(final long to) {
 
 			return queryParam(ToQueryParamValue.to(String.valueOf(to)));
 		}
 
+		/**
+		 * @param to "{@value ToQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> to(final String to) {
 
 			return queryParam(ToQueryParamValue.to(to));
 		}
 
+		/**
+		 * @param queryKeyword "{@value ToQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> to(final QueryKeyword queryKeyword) {
 
 			return queryParam(ToQueryParamValue.to(queryKeyword.toString()));
 		}
 
+		/**
+		 * @param appId "{@value AppQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> app(final String appId) {
 
 			return queryParam(AppQueryParamValue.appId(appId));
 		}
 
-		public Builder<T> userScope(Iterable<String> scope) {
+		/**
+		 * @param scope "{@value UserScopeQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
+		public Builder<T> userScope(final Iterable<String> scope) {
 
 			return queryParam(UserScopeQueryParamValue.valueOf(StringUtils.join(scope, ',')));
 		}
 
+		/**
+		 * Adds "{@value ScopeQueryParamValue#NAME}" query param with value {@link QueryKeyword#ALL}
+		 *
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> userScopeAll() {
 
 			return queryParam(ScopeQueryParamValue.valueOf(QueryKeyword.ALL.toString()));
 		}
 
+		/**
+		 * @param ids "{@value IdsQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> ids(final List<String> ids) {
 
 			return queryParamList(IdsQueryParamValue.NAME, ids);
 		}
 
+		/**
+		 * @param filter "{@value FilterQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> filter(final String filter) {
 
 			return queryParam(FilterQueryParamValue.NAME, filter);
 		}
 
+		/**
+		 * @param projectId "{@value ProjectQueryParamValue#NAME}" query parameter value
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
 		public Builder<T> project(final String projectId) {
 
 			return queryParam(ProjectQueryParamValue.project(projectId));
@@ -344,6 +445,8 @@ public final class EvrythngApiBuilder {
 		 * contains the actual object and the total count for the paginated
 		 * list. This method can only be used in the context of a paginated
 		 * result set, otherwise an exception is thrown.
+		 *
+		 * @return result object
 		 */
 		public Result<T> list() throws EvrythngException {
 

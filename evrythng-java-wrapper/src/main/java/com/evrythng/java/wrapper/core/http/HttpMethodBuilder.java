@@ -37,6 +37,9 @@ public final class HttpMethodBuilder {
 		Method getMethod();
 	}
 
+	/**
+	 * Enum containing Http methods
+	 */
 	public enum Method {
 		GET, POST, PUT, DELETE
 	}
@@ -48,10 +51,15 @@ public final class HttpMethodBuilder {
 	private HttpMethodBuilder() {
 	}
 
+	/**
+	 * Creates {@link MethodBuilder} for POST request
+	 * @param data the content data that will be associated with the POST request
+	 * @return the {@link MethodBuilder} instance
+	 */
 	public static MethodBuilder<HttpPost> httpPost(final Object data) {
 		return new EntityMethodBuilder<HttpPost>(Method.POST) {
 			@Override
-			public HttpPost build(URI uri) throws EvrythngClientException {
+			public HttpPost build(final URI uri) throws EvrythngClientException {
 				HttpPost request = new HttpPost(uri);
 				entity(request, data);
 				return request;
@@ -59,10 +67,15 @@ public final class HttpMethodBuilder {
 		};
 	}
 
+	/**
+	 * Creates {@link MethodBuilder} for multipart POST request
+	 * @param file file
+	 * @return the {@link MethodBuilder} instance
+	 */
 	public static MethodBuilder<HttpPost> httpPostMultipart(final File file) {
 		return new EntityMethodBuilder<HttpPost>(Method.POST) {
 			@Override
-			public HttpPost build(URI uri) throws EvrythngClientException {
+			public HttpPost build(final URI uri) throws EvrythngClientException {
 				HttpPost request = new HttpPost(uri);
 				MultipartEntity reqEntity = new MultipartEntity();
 
@@ -86,23 +99,33 @@ public final class HttpMethodBuilder {
 		};
 	}
 
+	/**
+	 * Creates {@link MethodBuilder} for GET request
+	 * @return the {@link MethodBuilder} instance
+	 */
 	public static MethodBuilder<HttpGet> httpGet() {
 		return new MethodBuilder<HttpGet>() {
 			@Override
-			public HttpGet build(URI uri) {
+			public HttpGet build(final URI uri) {
 				return new HttpGet(uri);
 			}
 
+			@Override
 			public Method getMethod() {
 				return Method.GET;
 			}
 		};
 	}
 
+	/**
+	 * Creates {@link MethodBuilder} for PUT request
+	 * @param data the content data that will be associated with the PUT request
+	 * @return the {@link MethodBuilder} instance
+	 */
 	public static MethodBuilder<HttpPut> httpPut(final Object data) {
 		return new EntityMethodBuilder<HttpPut>(Method.PUT) {
 			@Override
-			public HttpPut build(URI uri) throws EvrythngClientException {
+			public HttpPut build(final URI uri) throws EvrythngClientException {
 				HttpPut request = new HttpPut(uri);
 				entity(request, data);
 				return request;
@@ -110,28 +133,33 @@ public final class HttpMethodBuilder {
 		};
 	}
 
+	/**
+	 * Creates {@link MethodBuilder} for DELETE request
+	 * @return the {@link MethodBuilder} instance
+	 */
 	public static MethodBuilder<HttpDelete> httpDelete() {
 		return new MethodBuilder<HttpDelete>() {
 			@Override
-			public HttpDelete build(URI uri) {
+			public HttpDelete build(final URI uri) {
 				return new HttpDelete(uri);
 			}
 
+			@Override
 			public Method getMethod() {
 				return Method.DELETE;
 			}
 		};
 	}
 
-	protected static abstract class EntityMethodBuilder<E extends HttpEntityEnclosingRequestBase> implements MethodBuilder<E> {
+	protected abstract static class EntityMethodBuilder<E extends HttpEntityEnclosingRequestBase> implements MethodBuilder<E> {
 
 		private Method method;
 
-		public EntityMethodBuilder(Method method) {
+		protected EntityMethodBuilder(final Method method) {
 			this.method = method;
 		}
 
-		protected void entity(E request, final Object data) throws EvrythngClientException {
+		protected void entity(final E request, final Object data) throws EvrythngClientException {
 			try {
 				request.setEntity(new StringEntity(JSONUtils.write(data), CharEncoding.UTF_8));
 			} catch (Exception e) {

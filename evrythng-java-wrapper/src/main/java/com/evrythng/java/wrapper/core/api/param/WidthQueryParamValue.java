@@ -11,7 +11,7 @@ public class WidthQueryParamValue extends IntegerQueryParamValue {
 
 	public static final String NAME = "w";
 
-	public WidthQueryParamValue(int value) {
+	public WidthQueryParamValue(final int value) {
 		super(NAME, value);
 	}
 
@@ -21,7 +21,7 @@ public class WidthQueryParamValue extends IntegerQueryParamValue {
 	 *            width
 	 * @return query parameter for width
 	 */
-	public static WidthQueryParamValue width(int width) {
+	public static WidthQueryParamValue width(final int width) {
 		return new WidthQueryParamValue(width);
 	}
 }

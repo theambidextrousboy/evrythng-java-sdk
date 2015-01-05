@@ -11,7 +11,7 @@ public class HeightQueryParamValue extends IntegerQueryParamValue {
 
 	public static final String NAME = "h";
 
-	public HeightQueryParamValue(int value) {
+	public HeightQueryParamValue(final int value) {
 		super(NAME, value);
 	}
 
@@ -21,7 +21,7 @@ public class HeightQueryParamValue extends IntegerQueryParamValue {
 	 *            height
 	 * @return query parameter for height
 	 */
-	public static HeightQueryParamValue height(int height) {
+	public static HeightQueryParamValue height(final int height) {
 		return new HeightQueryParamValue(height);
 	}
 }

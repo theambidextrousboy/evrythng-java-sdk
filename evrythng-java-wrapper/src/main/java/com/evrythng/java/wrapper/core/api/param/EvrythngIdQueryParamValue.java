@@ -13,7 +13,7 @@ public class EvrythngIdQueryParamValue extends QueryParamValue {
 
 	public static final String NAME = "evrythngId";
 
-	public EvrythngIdQueryParamValue(String value) {
+	public EvrythngIdQueryParamValue(final String value) {
 		super(NAME, value);
 	}
 
@@ -22,7 +22,7 @@ public class EvrythngIdQueryParamValue extends QueryParamValue {
 	 *            evrythng id
 	 * @return query parameter for this evrythng id
 	 */
-	public static EvrythngIdQueryParamValue id(String id) {
+	public static EvrythngIdQueryParamValue id(final String id) {
 		return new EvrythngIdQueryParamValue(id);
 	}
 }

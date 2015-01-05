@@ -15,7 +15,7 @@ public class WrappedRuntimeException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public WrappedRuntimeException(Exception e) {
+	public WrappedRuntimeException(final Exception e) {
 		super(e);
 	}
 

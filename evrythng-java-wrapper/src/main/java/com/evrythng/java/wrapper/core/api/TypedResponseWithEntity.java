@@ -16,7 +16,7 @@ public class TypedResponseWithEntity<T> {
 
 	public final T entity;
 
-	public TypedResponseWithEntity(HttpResponse httpResponse, T entity) {
+	public TypedResponseWithEntity(final HttpResponse httpResponse, final T entity) {
 		this.httpResponse = httpResponse;
 		this.entity = entity;
 	}

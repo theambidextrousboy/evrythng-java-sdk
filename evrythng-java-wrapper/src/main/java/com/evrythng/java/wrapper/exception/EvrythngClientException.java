@@ -15,11 +15,11 @@ public class EvrythngClientException extends EvrythngException {
 
 	private static final long serialVersionUID = 1L;
 
-	public EvrythngClientException(String message) {
+	public EvrythngClientException(final String message) {
 		super(message);
 	}
 
-	public EvrythngClientException(String message, Throwable cause) {
+	public EvrythngClientException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 }

@@ -16,7 +16,7 @@ import com.evrythng.thng.commons.config.ApiConfiguration;
  */
 public class ApiExamples {
 
-	public static void main(String[] args) throws EvrythngException {
+	public static void main(final String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
 			ExampleRunner.usage();

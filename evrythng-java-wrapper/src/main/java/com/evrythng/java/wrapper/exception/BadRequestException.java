@@ -17,11 +17,11 @@ public class BadRequestException extends EvrythngErrorException {
 
 	private static final long serialVersionUID = 1L;
 
-	public BadRequestException(ErrorMessage message) {
+	public BadRequestException(final ErrorMessage message) {
 		super(message);
 	}
 
-	public BadRequestException(ErrorMessage message, Throwable cause) {
+	public BadRequestException(final ErrorMessage message, final Throwable cause) {
 		super(message, cause);
 	}
 }

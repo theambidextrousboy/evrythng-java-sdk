@@ -87,7 +87,7 @@ public enum Status {
 
 	private final int code;
 	private final String reason;
-	private Family family;
+	private final Family family;
 
 	/**
 	 * An enumeration representing the class of status code. Family is used

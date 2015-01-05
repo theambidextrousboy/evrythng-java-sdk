@@ -11,7 +11,7 @@ import com.evrythng.java.wrapper.core.api.QueryParamValue;
  */
 public class IntegerQueryParamValue extends QueryParamValue {
 
-	public IntegerQueryParamValue(String key, int value) {
+	public IntegerQueryParamValue(final String key, final int value) {
 		super(key, Integer.toString(value));
 	}
 }

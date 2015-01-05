@@ -13,7 +13,7 @@ public class FilterQueryParamValue extends QueryParamValue {
 
 	public static final String NAME = "filter";
 
-	public FilterQueryParamValue(String value) {
+	public FilterQueryParamValue(final String value) {
 
 		super(NAME, value);
 	}
@@ -22,7 +22,7 @@ public class FilterQueryParamValue extends QueryParamValue {
 	 * @param filter filter
 	 * @return query parameter for this filter
 	 */
-	public static FilterQueryParamValue filter(String filter) {
+	public static FilterQueryParamValue filter(final String filter) {
 
 		return new FilterQueryParamValue(filter);
 	}
