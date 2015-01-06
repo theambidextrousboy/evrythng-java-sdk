@@ -298,6 +298,15 @@ public final class EvrythngApiBuilder {
 		}
 
 		/**
+		 * Combines page and perPage methods.
+		 * @return an EVRYTHNG API-ready {@link Builder}
+		 */
+		public Builder<T> withPagination(final int page, final int perPage) {
+
+			return page(page).perPage(perPage);
+		}
+
+		/**
 		 * @param page "{@value PageQueryParamValue#NAME}" query parameter value
 		 * @return an EVRYTHNG API-ready {@link Builder}
 		 */
