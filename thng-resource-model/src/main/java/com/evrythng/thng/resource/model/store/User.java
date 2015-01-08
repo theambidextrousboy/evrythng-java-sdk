@@ -117,6 +117,7 @@ public class User extends AbstractUser {
 			return EnumUtils.fromString(names, name);
 		}
 	}
+
 	private SocialNetwork primarySocialNetwork;
 	private Long socialProfileLastSync;
 	/**
@@ -124,7 +125,7 @@ public class User extends AbstractUser {
 	 */
 	@JsonIgnore
 	private Boolean canLogin;
-
+	private String project;
 	private String app;
 	private Integer numberOfFriends;
 
@@ -138,7 +139,17 @@ public class User extends AbstractUser {
 		this.app = app;
 	}
 
-	public void setApp(final String app){
+	public String getProject() {
+
+		return project;
+	}
+
+	public void setProject(final String project) {
+
+		this.project = project;
+	}
+
+	public void setApp(final String app) {
 
 		this.app = app;
 	}
@@ -151,8 +162,6 @@ public class User extends AbstractUser {
 	/**
 	 * Engine returns true. This canLogin is not used anymore
 	 * MOCDTW-385
-	 *
-	 * @return
 	 */
 	@Deprecated
 	@JsonIgnore
