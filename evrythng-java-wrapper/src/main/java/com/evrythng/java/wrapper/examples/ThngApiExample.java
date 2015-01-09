@@ -40,11 +40,11 @@ import java.util.List;
  */
 public class ThngApiExample extends ExampleRunner {
 
-	public ThngApiExample(ApiConfiguration config) {
+	public ThngApiExample(final ApiConfiguration config) {
 		super(config);
 	}
 
-	public static void main(String[] args) throws EvrythngException {
+	public static void main(final String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
 			usage();
@@ -73,7 +73,7 @@ public class ThngApiExample extends ExampleRunner {
 		ThngService thngService = apiManager.thngService();
 
 		echo("Creating 5 Thng resources...");
-		List<Thng> thngs = new ArrayList<Thng>();
+		List<Thng> thngs = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
 			// Build data for a new Thng:
 			Thng data = new Thng();

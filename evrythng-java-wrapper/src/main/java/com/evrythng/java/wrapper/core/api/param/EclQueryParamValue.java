@@ -13,7 +13,7 @@ public class EclQueryParamValue extends QueryParamValue {
 
 	public static final String NAME = "ecl";
 
-	public EclQueryParamValue(String value) {
+	public EclQueryParamValue(final String value) {
 		super(NAME, value);
 	}
 
@@ -22,7 +22,7 @@ public class EclQueryParamValue extends QueryParamValue {
 	 *            error correction level
 	 * @return query parameter for this error correction level
 	 */
-	public static EclQueryParamValue ecl(String ecl) {
+	public static EclQueryParamValue ecl(final String ecl) {
 		return new EclQueryParamValue(ecl);
 	}
 }

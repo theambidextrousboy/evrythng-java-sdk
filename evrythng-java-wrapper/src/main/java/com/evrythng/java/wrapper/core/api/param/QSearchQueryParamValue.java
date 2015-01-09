@@ -13,7 +13,7 @@ public class QSearchQueryParamValue extends QueryParamValue {
 
 	public static final String NAME = "q";
 
-	public QSearchQueryParamValue(String value) {
+	public QSearchQueryParamValue(final String value) {
 		super(NAME, value);
 	}
 
@@ -22,7 +22,7 @@ public class QSearchQueryParamValue extends QueryParamValue {
 	 *            search pattern
 	 * @return query parameter for this search pattern
 	 */
-	public static QSearchQueryParamValue pattern(String pattern) {
+	public static QSearchQueryParamValue pattern(final String pattern) {
 		return new QSearchQueryParamValue(pattern);
 	}
 }

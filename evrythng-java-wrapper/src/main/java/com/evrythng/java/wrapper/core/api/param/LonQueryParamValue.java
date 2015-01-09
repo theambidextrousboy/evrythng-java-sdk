@@ -11,7 +11,7 @@ public class LonQueryParamValue extends DoubleQueryParamValue {
 
 	public static final String NAME = "lon";
 
-	public LonQueryParamValue(double value) {
+	public LonQueryParamValue(final double value) {
 		super(NAME, value);
 	}
 
@@ -20,7 +20,7 @@ public class LonQueryParamValue extends DoubleQueryParamValue {
 	 *            longitude
 	 * @return query parameter for this longitude
 	 */
-	public static LonQueryParamValue lon(double longitude) {
+	public static LonQueryParamValue lon(final double longitude) {
 		return new LonQueryParamValue(longitude);
 	}
 }

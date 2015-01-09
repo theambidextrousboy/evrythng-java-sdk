@@ -11,7 +11,7 @@ import com.evrythng.java.wrapper.core.api.QueryParamValue;
  */
 public class BooleanQueryParamValue extends QueryParamValue {
 
-	public BooleanQueryParamValue(String key, boolean value) {
+	public BooleanQueryParamValue(final String key, final boolean value) {
 		super(key, Boolean.valueOf(value).toString());
 	}
 
@@ -23,7 +23,7 @@ public class BooleanQueryParamValue extends QueryParamValue {
 	 *            query parameter
 	 * @return boolean value
 	 */
-	public static boolean parse(String value) {
+	public static boolean parse(final String value) {
 		return Boolean.parseBoolean(value);
 	}
 }

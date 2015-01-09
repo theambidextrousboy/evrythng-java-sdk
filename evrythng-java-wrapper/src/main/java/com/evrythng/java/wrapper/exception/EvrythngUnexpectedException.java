@@ -16,11 +16,11 @@ public class EvrythngUnexpectedException extends EvrythngErrorException {
 
 	private static final long serialVersionUID = 1L;
 
-	public EvrythngUnexpectedException(ErrorMessage message) {
+	public EvrythngUnexpectedException(final ErrorMessage message) {
 		super(message);
 	}
 
-	public EvrythngUnexpectedException(ErrorMessage message, Throwable cause) {
+	public EvrythngUnexpectedException(final ErrorMessage message, final Throwable cause) {
 		super(message, cause);
 	}
 }

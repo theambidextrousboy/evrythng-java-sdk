@@ -35,7 +35,8 @@ public class ApplicationService extends EvrythngServiceBase {
 	 * <p>
 	 * POST {@value #PATH_APPLICATIONS}
 	 *
-	 * @param app : App to create. Customer and Description are mandatory.
+	 * @param projectId project id
+	 * @param app       : App to create. Customer and Description are mandatory.
 	 * @return the app created, including its brand-new "appApiKey" and its id to be used for further call of the service.
 	 */
 	public Builder<Application> applicationCreator(final String projectId, final Application app) throws EvrythngClientException {
@@ -49,6 +50,9 @@ public class ApplicationService extends EvrythngServiceBase {
 	 * List all {@link Application}.
 	 * <p>
 	 * GET {@value #PATH_APPLICATIONS}
+	 *
+	 * @param projectId project id
+	 * @return a preconfigured {@link Builder}
 	 */
 	public Builder<List<Application>> applicationsReader(final String projectId) throws EvrythngClientException {
 
@@ -61,6 +65,10 @@ public class ApplicationService extends EvrythngServiceBase {
 	 * Load a single {@link Application}.
 	 * <p>
 	 * GET {@value #PATH_APPLICATION}/:appId
+	 *
+	 * @param projectId project id
+	 * @param appId     app id
+	 * @return a preconfigured {@link Builder}
 	 */
 	public Builder<Application> applicationReader(final String projectId, final String appId) throws EvrythngClientException {
 
@@ -74,7 +82,9 @@ public class ApplicationService extends EvrythngServiceBase {
 	 * <p>
 	 * PUT {@value #PATH_APPLICATION}/:appId
 	 *
-	 * @param app : input for field update. Will currently update the fields description, customer, and social networks.
+	 * @param projectId project id
+	 * @param appId     app id
+	 * @param app       : input for field update. Will currently update the fields description, customer, and social networks.
 	 * @return the updated data.
 	 */
 	public Builder<Application> applicationUpdater(final String projectId, final String appId, final Application app) throws EvrythngClientException {
@@ -86,6 +96,10 @@ public class ApplicationService extends EvrythngServiceBase {
 
 	/**
 	 * Delete a single {@link Application}. All application users are also removed from the system.
+	 *
+	 * @param projectId project id
+	 * @param appId     app id
+	 * @return a preconfigured {@link Builder}
 	 */
 	public Builder<Boolean> applicationDeleter(final String projectId, final String appId) throws EvrythngClientException {
 
@@ -94,6 +108,11 @@ public class ApplicationService extends EvrythngServiceBase {
 
 	/**
 	 * Delete multiple {@link Application}s. All application users are also removed from the system.
+	 *
+	 * @param projectId          project id
+	 * @param socialNetworkName  social network name
+	 * @param socialNetworkAppId social network app id
+	 * @return a preconfigured {@link Builder}
 	 */
 	public Builder<List<Application>> applicationsReader(final String projectId, final String socialNetworkName, final String socialNetworkAppId) throws EvrythngClientException {
 
@@ -116,6 +135,8 @@ public class ApplicationService extends EvrythngServiceBase {
 	 * List all {@link Application} from project scope.
 	 * <p>
 	 * GET {@value #PATH_APPLICATIONS_LEGACY}
+	 *
+	 * @return a preconfigured {@link Builder}
 	 */
 	public Builder<List<Application>> applicationsReader() throws EvrythngClientException {
 
@@ -128,6 +149,9 @@ public class ApplicationService extends EvrythngServiceBase {
 	 * Load a single {@link Application} from project scope.
 	 * <p>
 	 * GET {@value #PATH_APPLICATION_LEGACY}/:appId
+	 *
+	 * @param appId app id
+	 * @return a preconfigured {@link Builder}
 	 */
 	public Builder<Application> applicationReader(final String appId) throws EvrythngClientException {
 
@@ -135,5 +159,4 @@ public class ApplicationService extends EvrythngServiceBase {
 
 		});
 	}
-
 }

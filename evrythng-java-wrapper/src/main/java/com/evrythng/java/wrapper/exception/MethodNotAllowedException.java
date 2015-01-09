@@ -17,11 +17,11 @@ public class MethodNotAllowedException extends EvrythngErrorException {
 
 	private static final long serialVersionUID = 1L;
 
-	public MethodNotAllowedException(ErrorMessage message) {
+	public MethodNotAllowedException(final ErrorMessage message) {
 		super(message);
 	}
 
-	public MethodNotAllowedException(ErrorMessage message, Throwable cause) {
+	public MethodNotAllowedException(final ErrorMessage message, final Throwable cause) {
 		super(message, cause);
 	}
 }

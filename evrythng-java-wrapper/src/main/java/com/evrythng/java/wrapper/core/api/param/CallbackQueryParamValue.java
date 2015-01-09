@@ -13,7 +13,7 @@ public class CallbackQueryParamValue extends QueryParamValue {
 
 	public static final String NAME = "callback";
 
-	public CallbackQueryParamValue(String value) {
+	public CallbackQueryParamValue(final String value) {
 		super(NAME, value);
 	}
 
@@ -22,7 +22,7 @@ public class CallbackQueryParamValue extends QueryParamValue {
 	 *            callback value
 	 * @return query parameter for this callback value
 	 */
-	public static CallbackQueryParamValue callback(String callback) {
+	public static CallbackQueryParamValue callback(final String callback) {
 		return new CallbackQueryParamValue(callback);
 	}
 

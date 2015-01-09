@@ -13,7 +13,7 @@ public class TagsQueryParamValue extends QueryParamValue {
 
 	public static final String NAME = "tags";
 
-	public TagsQueryParamValue(String value) {
+	public TagsQueryParamValue(final String value) {
 		super(NAME, value);
 	}
 
@@ -22,7 +22,7 @@ public class TagsQueryParamValue extends QueryParamValue {
 	 *            tags
 	 * @return query parameter for this tags
 	 */
-	public static TagsQueryParamValue tags(String tags) {
+	public static TagsQueryParamValue tags(final String tags) {
 		return new TagsQueryParamValue(tags);
 	}
 }

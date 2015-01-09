@@ -11,7 +11,7 @@ import com.evrythng.java.wrapper.core.api.QueryParamValue;
  */
 public class DoubleQueryParamValue extends QueryParamValue {
 
-	public DoubleQueryParamValue(String key, double value) {
+	public DoubleQueryParamValue(final String key, final double value) {
 		super(key, Double.toString(value));
 	}
 }

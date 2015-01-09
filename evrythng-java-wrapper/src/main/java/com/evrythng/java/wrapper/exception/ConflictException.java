@@ -17,11 +17,11 @@ public class ConflictException extends EvrythngErrorException {
 
 	private static final long serialVersionUID = 1L;
 
-	public ConflictException(ErrorMessage message) {
+	public ConflictException(final ErrorMessage message) {
 		super(message);
 	}
 
-	public ConflictException(ErrorMessage message, Throwable cause) {
+	public ConflictException(final ErrorMessage message, final Throwable cause) {
 		super(message, cause);
 	}
 }

@@ -44,11 +44,11 @@ import java.util.List;
  */
 public class ThngPropertyApiExample extends ExampleRunner {
 
-	public ThngPropertyApiExample(ApiConfiguration config) {
+	public ThngPropertyApiExample(final ApiConfiguration config) {
 		super(config);
 	}
 
-	public static void main(String[] args) throws EvrythngException {
+	public static void main(final String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
 			usage();
@@ -90,7 +90,7 @@ public class ThngPropertyApiExample extends ExampleRunner {
 		echo("Thng created: [output={}]", thng);
 
 		// Build some sample data for creating new Property resources:
-		List<Property> properties = new ArrayList<Property>();
+		List<Property> properties = new ArrayList<>();
 		properties.add(new Property("temperature", String.valueOf(Math.random())));
 		properties.add(new Property("altitude", String.valueOf(Math.random())));
 

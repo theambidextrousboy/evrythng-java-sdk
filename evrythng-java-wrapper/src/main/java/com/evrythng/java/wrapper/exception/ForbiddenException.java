@@ -15,11 +15,11 @@ public class ForbiddenException extends EvrythngErrorException {
 
 	private static final long serialVersionUID = 1L;
 
-	public ForbiddenException(ErrorMessage message) {
+	public ForbiddenException(final ErrorMessage message) {
 		super(message);
 	}
 
-	public ForbiddenException(ErrorMessage message, Throwable cause) {
+	public ForbiddenException(final ErrorMessage message, final Throwable cause) {
 		super(message, cause);
 	}
 }

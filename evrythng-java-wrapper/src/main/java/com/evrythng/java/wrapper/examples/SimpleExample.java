@@ -36,11 +36,11 @@ import com.evrythng.thng.resource.model.store.Thng;
  */
 public class SimpleExample extends ExampleRunner {
 
-	public SimpleExample(ApiConfiguration config) {
+	public SimpleExample(final ApiConfiguration config) {
 		super(config);
 	}
 
-	public static void main(String[] args) throws EvrythngException {
+	public static void main(final String[] args) throws EvrythngException {
 
 		if (args.length <= 1) {
 			usage();
@@ -109,7 +109,7 @@ public class SimpleExample extends ExampleRunner {
 		echo("Thng Location updated: [output={}]", lastLocations);
 
 		// Let's create some properties:
-		List<Property> propertyData = new ArrayList<Property>();
+		List<Property> propertyData = new ArrayList<>();
 		propertyData.add(new Property("Type", "Digital Single Lens Mirrorless camera"));
 		propertyData.add(new Property("Lens Mount", "Micro Four Thirds mount"));
 		propertyData.add(new Property("Camera Effective Pixels", "12.10 Megapixels"));

@@ -11,7 +11,7 @@ public class MaxDistQueryParamValue extends DoubleQueryParamValue {
 
 	public static final String NAME = "maxDist";
 
-	public MaxDistQueryParamValue(double value) {
+	public MaxDistQueryParamValue(final double value) {
 		super(NAME, value);
 	}
 
@@ -20,7 +20,7 @@ public class MaxDistQueryParamValue extends DoubleQueryParamValue {
 	 *            maxDist
 	 * @return query parameter for this maxDist
 	 */
-	public static MaxDistQueryParamValue maxDist(double maxDist) {
+	public static MaxDistQueryParamValue maxDist(final double maxDist) {
 		return new MaxDistQueryParamValue(maxDist);
 	}
 }

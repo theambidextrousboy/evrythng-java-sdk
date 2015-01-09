@@ -11,7 +11,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.evrythng.java.wrapper.core.http.Status;
 import com.evrythng.java.wrapper.exception.BadRequestException;
 import com.evrythng.java.wrapper.exception.ConflictException;
@@ -29,26 +28,36 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * Class that contains static utility methods.
- * 
+ *
  * @author Michel Yerly (my)
- **/
+ */
 public class Utils {
 
 	private static final Logger logger = LoggerFactory.getLogger(Utils.class);
 
 	private Utils() {
+
 		throw new IllegalStateException("This class is static.");
 	}
 
+	/**
+	 * Converts http response into entity
+	 *
+	 * @param response {@link HttpResponse} instance
+	 * @param type     {@link TypeReference} instance
+	 * @param <K>      entity type
+	 * @return entity
+	 */
 	@SuppressWarnings("unchecked")
-	public static <K> K convert(HttpResponse response, TypeReference<K> type) throws EvrythngException {
+	public static <K> K convert(final HttpResponse response, final TypeReference<K> type) throws EvrythngException {
 
-		K result = null;
+		K result;
 
 		logger.debug("Performing conversion: [type={}]", type.getType());
 		if (type.getType().equals(Void.class)) {
 			return null;
-		} else if (type.getType().equals(InputStream.class)) {
+		}
+		if (type.getType().equals(InputStream.class)) {
 			try {
 				// Retrieve response content stream and buffer data as connection may be closed before input is handled:
 				result = (K) IOUtils.toBufferedInputStream(entityStream(response));
@@ -79,17 +88,15 @@ public class Utils {
 
 	/**
 	 * Reads entity content stream from the provided {@link HttpResponse}.
-	 * 
-	 * @param response
-	 * 
+	 *
+	 * @param response {@link HttpResponse} instance
 	 * @return the {@link HttpResponse} entity content as {@link InputStream}
-	 * 
-	 * @throws EvrythngClientException
 	 */
-	private static InputStream entityStream(HttpResponse response) throws EvrythngClientException {
+	private static InputStream entityStream(final HttpResponse response) throws EvrythngClientException {
+
 		logger.debug("Reading response content stream...");
 
-		InputStream result = null;
+		InputStream result;
 		try {
 			HttpEntity entity = response.getEntity();
 			result = entity.getContent();
@@ -102,17 +109,15 @@ public class Utils {
 
 	/**
 	 * Reads entity content from the provided {@link HttpResponse}.
-	 * 
-	 * @param response
-	 * 
+	 *
+	 * @param response {@link HttpResponse} instance
 	 * @return the {@link HttpResponse} entity content as {@link String}
-	 * 
-	 * @throws EvrythngClientException
 	 */
-	private static String entityString(HttpResponse response) throws EvrythngClientException {
+	private static String entityString(final HttpResponse response) throws EvrythngClientException {
+
 		logger.debug("Reading response entity...");
 
-		String result = null;
+		String result;
 		try {
 			result = IOUtils.toString(entityStream(response));
 		} catch (Exception e) {
@@ -128,33 +133,31 @@ public class Utils {
 	 * match {@code expected} one, then response entity
 	 * will be mapped to an {@link ErrorMessage} instance and an exception will
 	 * be thrown.
-	 * 
-	 * @param response
-	 *            the {@link HttpResponse} holding a valid status code
-	 * @param expected
-	 *            the expected response status code
-	 * 
-	 * @throws EvrythngException
-	 *             if provided {@code response} {@link Status} does not match
-	 *             {@code expected} one
+	 *
+	 * @param response the {@link HttpResponse} holding a valid status code
+	 * @param expected the expected response status code
+	 * @throws EvrythngException if provided {@code response} {@link Status} does not match
+	 *                           {@code expected} one
 	 */
-	public static void assertStatus(HttpResponse response, Status expected) throws EvrythngException {
+	public static void assertStatus(final HttpResponse response, final Status expected) throws EvrythngException {
+
 		Status actual = Status.fromStatusCode(response.getStatusLine().getStatusCode());
 		if (actual == null) {
 			throw new EvrythngUnexpectedException(new ErrorMessage(Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Unknown status code " + response.getStatusLine().getStatusCode()));
 		}
 		logger.debug("Checking response status: [expected={}, actual={}]", expected.getStatusCode(), actual.getStatusCode());
 
-		if (!actual.equals(expected)) {
+		if (actual != expected) {
 			logger.debug("Unexpected response status!");
 
 			// Map entity to ErrorMessage:
 			String entity = entityString(response);
-			ErrorMessage message = null;
+			ErrorMessage message;
 			try {
 				logger.debug("Mapping response to ErrorMessage: [entity={}]", entity);
 				// API should always return an ErrorMessage as JSON:
 				message = JSONUtils.read(entity, new TypeReference<ErrorMessage>() {
+
 				});
 			} catch (Exception e) {
 				throw new EvrythngClientException("Unable to retrieve ErrorMessage from response!", e);

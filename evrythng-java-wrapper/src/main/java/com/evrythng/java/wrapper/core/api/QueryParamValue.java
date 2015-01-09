@@ -13,7 +13,7 @@ public class QueryParamValue {
 	private final String key;
 	private final String value;
 
-	public QueryParamValue(String key, String value) {
+	public QueryParamValue(final String key, final String value) {
 		super();
 		this.key = key;
 		this.value = value;

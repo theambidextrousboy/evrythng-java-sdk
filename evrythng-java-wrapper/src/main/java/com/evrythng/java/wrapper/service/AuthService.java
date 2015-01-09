@@ -33,23 +33,24 @@ public class AuthService extends EvrythngServiceBase {
 
 	// ==== structor ======================================================= //
 
-	public AuthService(ApiManager apiManager) {
+	public AuthService(final ApiManager apiManager) {
 		super(apiManager);
 	}
 	
 	// === requests ======================================================== //
-	
+
 	/**
 	 * Register a new {@link User} in the system.
-	 * 
+	 * <p>
 	 * POST {@value #PATH_AUTH_EVRYTHNG_USERS}
-	 * 
-	 * @param user
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param user {@link User} instance
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Credentials> evrythngUserCreator(User user) throws EvrythngClientException {
+	public Builder<Credentials> evrythngUserCreator(final User user) throws EvrythngClientException {
+
 		return post(PATH_AUTH_EVRYTHNG_USERS, user, new TypeReference<Credentials>() {
+
 		});
 	}
 
@@ -57,47 +58,50 @@ public class AuthService extends EvrythngServiceBase {
 	 * Activate a user.
 	 * The activation code must match the one received during the registration
 	 * process.
-	 * 
+	 * <p>
 	 * POST {@value #PATH_AUTH_EVRYTHNG_USER_VALIDATE}
-	 * 
-	 * @param userId
-	 * @param activationCode
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param userId         user id
+	 * @param activationCode activation code
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Credentials> evrythngUserValidator(String userId, String activationCode) throws EvrythngClientException {
+	public Builder<Credentials> evrythngUserValidator(final String userId, final String activationCode) throws EvrythngClientException {
+
 		Credentials validator = new Credentials();
 		validator.setActivationCode(activationCode);
 		return post(String.format(PATH_AUTH_EVRYTHNG_USER_VALIDATE, userId), validator, new TypeReference<Credentials>() {
+
 		});
 	}
 
 	/**
 	 * Authenticate a user.
 	 * Based on the email + password pair.
-	 * Engine provides the ApiKey of a successfuly authenticated user.
-	 * 
+	 * Engine provides the ApiKey of a successfully authenticated user.
+	 * <p>
 	 * POST {@value #PATH_AUTH_EVRYTHNG}
-	 * 
-	 * @param credentials
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param credentials {@link Credentials} instance
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Credentials> evrythngUserAuthenticator(Credentials credentials) throws EvrythngClientException {
+	public Builder<Credentials> evrythngUserAuthenticator(final Credentials credentials) throws EvrythngClientException {
+
 		return post(PATH_AUTH_EVRYTHNG, credentials, new TypeReference<Credentials>() {
+
 		});
 	}
 
 	/**
 	 * Logout. Invalidate user's key.
-	 * 
+	 * <p>
 	 * POST {@value #PATH_AUTH_ALL_LOGOUT}
-	 * 
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @return a preconfigured {@link Builder}
 	 */
 	public Builder<Map<String, String>> authLogouter() throws EvrythngClientException {
+
 		return post(PATH_AUTH_ALL_LOGOUT, null, new TypeReference<Map<String, String>>() {
+
 		});
 	}
 }

@@ -17,11 +17,11 @@ public class UnauthorizedException extends EvrythngErrorException {
 
 	private static final long serialVersionUID = 1L;
 
-	public UnauthorizedException(ErrorMessage message) {
+	public UnauthorizedException(final ErrorMessage message) {
 		super(message);
 	}
 
-	public UnauthorizedException(ErrorMessage message, Throwable cause) {
+	public UnauthorizedException(final ErrorMessage message, final Throwable cause) {
 		super(message, cause);
 	}
 }

@@ -1,6 +1,6 @@
 package com.evrythng.java.wrapper.service;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.evrythng.java.wrapper.ApiManager;
@@ -15,7 +15,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 /**
  * Service wrapper for the {@code /products} endpoint of the EVRYTHNG Engine
  * API.
- * 
+ *
  * @author Pedro De Almeida (almeidap)
  */
 public class ProductService extends EvrythngServiceBase {
@@ -24,11 +24,11 @@ public class ProductService extends EvrythngServiceBase {
 	public static final String PATH_PRODUCT = PATH_PRODUCTS + "/%s";
 	public static final String PATH_PRODUCT_PROPERTIES = PATH_PRODUCT + "/properties";
 	public static final String PATH_PRODUCT_PROPERTY = PATH_PRODUCT_PROPERTIES + "/%s";
-
 	public static final String PATH_PRODUCT_REDIRECTOR = PATH_PRODUCT + "/redirector";
 	public static final String PATH_PRODUCT_REDIRECTOR_QR = PATH_PRODUCT_REDIRECTOR + "/qr";
 
-	public ProductService(ApiManager apiManager) {
+	public ProductService(final ApiManager apiManager) {
+
 		super(apiManager);
 	}
 
@@ -36,24 +36,26 @@ public class ProductService extends EvrythngServiceBase {
 
 	/**
 	 * POST {@value #PATH_PRODUCTS}
-	 * 
-	 * @param product
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param product {@link Product} instance
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Product> productCreator(Product product) throws EvrythngClientException {
+	public Builder<Product> productCreator(final Product product) throws EvrythngClientException {
+
 		return post(PATH_PRODUCTS, product, new TypeReference<Product>() {
+
 		});
 	}
 
 	/**
 	 * GET {@value #PATH_PRODUCTS}
-	 * 
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @return a preconfigured {@link Builder}
 	 */
 	public Builder<List<Product>> productsReader() throws EvrythngClientException {
+
 		return get(PATH_PRODUCTS, new TypeReference<List<Product>>() {
+
 		});
 	}
 
@@ -61,13 +63,14 @@ public class ProductService extends EvrythngServiceBase {
 
 	/**
 	 * GET {@value #PATH_PRODUCT}
-	 * 
-	 * @param productId
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param productId product id
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Product> productReader(String productId) throws EvrythngClientException {
+	public Builder<Product> productReader(final String productId) throws EvrythngClientException {
+
 		return get(String.format(PATH_PRODUCT, productId), new TypeReference<Product>() {
+
 		});
 	}
 
@@ -75,51 +78,52 @@ public class ProductService extends EvrythngServiceBase {
 	 * Batch update a list of {@link Product}. Select the {Product}s to update
 	 * using query parameters
 	 * ?ids or ?filter.
-	 * 
+	 * <p>
 	 * PUT {@value #PATH_PRODUCTS}
-	 * 
-	 * @param product
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param product {@link Product} instance
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Long> productsUpdater(Product product) throws EvrythngClientException {
+	public Builder<Long> productsUpdater(final Product product) throws EvrythngClientException {
+
 		return putMultiple(PATH_PRODUCTS, product);
 	}
 
 	/**
 	 * PUT {@value #PATH_PRODUCT}
-	 * 
-	 * @param productId
-	 * @param product
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param productId product id
+	 * @param product   {@link Product} instance
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Product> productUpdater(String productId, Product product) throws EvrythngClientException {
+	public Builder<Product> productUpdater(final String productId, final Product product) throws EvrythngClientException {
+
 		return put(String.format(PATH_PRODUCT, productId), product, new TypeReference<Product>() {
+
 		});
 	}
 
 	/**
 	 * DELETE {@value #PATH_PRODUCT}
-	 * 
-	 * @param productId
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param productId product id
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Boolean> productDeleter(String productId) throws EvrythngClientException {
+	public Builder<Boolean> productDeleter(final String productId) throws EvrythngClientException {
+
 		return delete(String.format(PATH_PRODUCT, productId));
 	}
 
 	/**
 	 * Bulk delete some products. Select the {Product}s to delete
 	 * using query parameters ?ids or ?filter.
-	 * 
+	 * <p>
 	 * DELETE {@value #PATH_PRODUCTS}
 	 *
-	 * @return
-	 * @throws EvrythngClientException
+	 * @return a preconfigured {@link Builder}
 	 */
 	public Builder<Long> productsDeleter() throws EvrythngClientException {
+
 		return deleteMultiple(PATH_PRODUCTS);
 	}
 
@@ -127,50 +131,52 @@ public class ProductService extends EvrythngServiceBase {
 
 	/**
 	 * PUT {@value #PATH_PRODUCT_PROPERTIES}
-	 * 
-	 * @see #productsCreator(List)
-	 * @param productId
-	 * @param property
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param productId product id
+	 * @param property  {@link Property} instance
+	 * @return a preconfigured {@link Builder}
+	 * @see #propertiesCreator(String, List)
 	 */
-	public Builder<List<Property>> propertiesCreator(String productId, Property property) throws EvrythngClientException {
-		return propertiesCreator(productId, Arrays.asList(property));
+	public Builder<List<Property>> propertiesCreator(final String productId, final Property property) throws EvrythngClientException {
+
+		return propertiesCreator(productId, Collections.singletonList(property));
 	}
 
 	/**
 	 * PUT {@value #PATH_PRODUCT_PROPERTIES}
-	 * 
-	 * @param productId
-	 * @param properties
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param productId  product id
+	 * @param properties list of {@link Property}
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<List<Property>> propertiesCreator(String productId, List<Property> properties) throws EvrythngClientException {
+	public Builder<List<Property>> propertiesCreator(final String productId, final List<Property> properties) throws EvrythngClientException {
+
 		return put(String.format(PATH_PRODUCT_PROPERTIES, productId), properties, new TypeReference<List<Property>>() {
+
 		});
 	}
 
 	/**
 	 * GET {@value #PATH_PRODUCT_PROPERTIES}
-	 * 
-	 * @param productId
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param productId product id
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<List<Property>> propertiesReader(String productId) throws EvrythngClientException {
+	public Builder<List<Property>> propertiesReader(final String productId) throws EvrythngClientException {
+
 		return get(String.format(PATH_PRODUCT_PROPERTIES, productId), new TypeReference<List<Property>>() {
+
 		});
 	}
 
 	/**
 	 * DELETE {@value #PATH_PRODUCT_PROPERTIES}
-	 * 
-	 * @param productId
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param productId product id
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Boolean> propertiesDeleter(String productId) throws EvrythngClientException {
+	public Builder<Boolean> propertiesDeleter(final String productId) throws EvrythngClientException {
+
 		return delete(String.format(PATH_PRODUCT_PROPERTIES, productId));
 	}
 
@@ -178,69 +184,71 @@ public class ProductService extends EvrythngServiceBase {
 
 	/**
 	 * GET {@value #PATH_PRODUCT_PROPERTY}
-	 * 
-	 * @param productId
-	 * @param key
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param productId product id
+	 * @param key       key
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<List<Property>> propertyReader(String productId, String key) throws EvrythngClientException {
+	public Builder<List<Property>> propertyReader(final String productId, final String key) throws EvrythngClientException {
+
 		return get(String.format(PATH_PRODUCT_PROPERTY, productId, key), new TypeReference<List<Property>>() {
+
 		});
 	}
 
 	/**
 	 * PUT {@value #PATH_PRODUCT_PROPERTY}
-	 * 
+	 *
+	 * @param productId product id
+	 * @param key       key
+	 * @param value     value
+	 * @return a preconfigured {@link Builder}
 	 * @see #propertiesCreator(String, Property)
-	 * @param productId
-	 * @param key
-	 * @param value
-	 * @return
-	 * @throws EvrythngClientException
 	 */
-	public Builder<List<Property>> propertyUpdater(String productId, String key, String value) throws EvrythngClientException {
+	public Builder<List<Property>> propertyUpdater(final String productId, final String key, final String value) throws EvrythngClientException {
+
 		return propertyUpdater(productId, key, new Property(null, value));
 	}
 
 	/**
 	 * PUT {@value #PATH_PRODUCT_PROPERTY}
-	 * 
+	 *
+	 * @param productId product id
+	 * @param key       key
+	 * @param value     value
+	 * @param timestamp timestamp
+	 * @return a preconfigured {@link Builder}
 	 * @see #propertiesCreator(String, Property)
-	 * @param productId
-	 * @param key
-	 * @param value
-	 * @param timestamp
-	 * @return
-	 * @throws EvrythngClientException
 	 */
-	public Builder<List<Property>> propertyUpdater(String productId, String key, String value, long timestamp) throws EvrythngClientException {
+	public Builder<List<Property>> propertyUpdater(final String productId, final String key, final String value, final long timestamp) throws EvrythngClientException {
+
 		return propertyUpdater(productId, key, new Property(null, value, timestamp));
 	}
 
 	/**
 	 * PUT {@value #PATH_PRODUCT_PROPERTY}
-	 * 
-	 * @param productId
-	 * @param key
-	 * @param value
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param productId product id
+	 * @param key       key
+	 * @param value     value
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<List<Property>> propertyUpdater(String productId, String key, Property value) throws EvrythngClientException {
-		return put(String.format(PATH_PRODUCT_PROPERTY, productId, key), Arrays.asList(value), new TypeReference<List<Property>>() {
+	public Builder<List<Property>> propertyUpdater(final String productId, final String key, final Property value) throws EvrythngClientException {
+
+		return put(String.format(PATH_PRODUCT_PROPERTY, productId, key), Collections.singletonList(value), new TypeReference<List<Property>>() {
+
 		});
 	}
 
 	/**
 	 * DELETE {@value #PATH_PRODUCT_PROPERTY}
-	 * 
-	 * @param productId
-	 * @param key
-	 * @return
-	 * @throws EvrythngClientException
+	 *
+	 * @param productId product id
+	 * @param key       key
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Boolean> propertyDeleter(String productId, String key) throws EvrythngClientException {
+	public Builder<Boolean> propertyDeleter(final String productId, final String key) throws EvrythngClientException {
+
 		return delete(String.format(PATH_PRODUCT_PROPERTY, productId, key));
 	}
 
@@ -248,40 +256,61 @@ public class ProductService extends EvrythngServiceBase {
 
 	/**
 	 * POST {@value #PATH_PRODUCT_REDIRECTOR}
-	 * 
+	 * <p>
 	 * Creates a redirector for the Product.
+	 *
+	 * @param productId   product id
+	 * @param redirection {@link Redirector} instance
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Redirector> redirectorCreator(String productId, Redirector redirection) throws EvrythngClientException {
+	public Builder<Redirector> redirectorCreator(final String productId, final Redirector redirection) throws EvrythngClientException {
+
 		return post(String.format(PATH_PRODUCT_REDIRECTOR, productId), redirection, new TypeReference<Redirector>() {
+
 		});
 	}
 
 	/**
 	 * GET {@value #PATH_PRODUCT_REDIRECTOR}
-	 * 
+	 * <p>
 	 * Retrieves the redirector for the Product.
+	 *
+	 * @param productId product id
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Redirector> redirectorReader(String productId) throws EvrythngClientException {
+	public Builder<Redirector> redirectorReader(final String productId) throws EvrythngClientException {
+
 		return get(String.format(PATH_PRODUCT_REDIRECTOR, productId), new TypeReference<Redirector>() {
+
 		});
 	}
 
 	/**
 	 * DELETE {@value #PATH_PRODUCT_REDIRECTOR}
-	 * 
+	 * <p>
 	 * Deletes the redirector for the Product.
+	 *
+	 * @param productId product id
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Boolean> redirectorDeleter(String productId) throws EvrythngClientException {
+	public Builder<Boolean> redirectorDeleter(final String productId) throws EvrythngClientException {
+
 		return delete(String.format(PATH_PRODUCT_REDIRECTOR, productId));
 	}
 
 	/**
 	 * PUT {@value #PATH_PRODUCT_REDIRECTOR}
-	 * 
+	 * <p>
 	 * Updates the redirector for the Product.
+	 *
+	 * @param productId   product id
+	 * @param redirection {@link Redirector} instance
+	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<Redirector> redirectorUpdater(String productId, Redirector redirection) throws EvrythngClientException {
+	public Builder<Redirector> redirectorUpdater(final String productId, final Redirector redirection) throws EvrythngClientException {
+
 		return put(String.format(PATH_PRODUCT_REDIRECTOR, productId), redirection, new TypeReference<Redirector>() {
+
 		});
 	}
 }

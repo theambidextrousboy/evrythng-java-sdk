@@ -37,7 +37,7 @@ public class ApiManager {
 	 * Creates a new {@link ApiManager} instance using the provided
 	 * {@link ApiConfiguration}.
 	 */
-	public ApiManager(ApiConfiguration config) {
+	public ApiManager(final ApiConfiguration config) {
 		checkConfiguration(config);
 		this.config = config;
 		this.thngService = new ThngService(this);
@@ -57,7 +57,7 @@ public class ApiManager {
 	 * @param apiKey
 	 *            the API key for authorization
 	 */
-	public ApiManager(String apiKey) {
+	public ApiManager(final String apiKey) {
 		this(new ApiConfiguration(apiKey));
 	}
 
@@ -67,7 +67,7 @@ public class ApiManager {
 	 * @param apiConfiguration
 	 *            the {@link ApiConfiguration} to be verified
 	 */
-	protected void checkConfiguration(ApiConfiguration apiConfiguration) {
+	protected void checkConfiguration(final ApiConfiguration apiConfiguration) {
 		if (StringUtils.isBlank(apiConfiguration.getUrl())) {
 			throw new IllegalStateException(String.format("URL of provided API configuration is invalid: [url=%s]", apiConfiguration.getUrl()));
 		}
@@ -149,6 +149,6 @@ public class ApiManager {
 		return scanThngService;
 	}
 
-	public void onBuilderCreated(Builder<?> builder) {
+	public void onBuilderCreated(final Builder<?> builder) {
 	}
 }

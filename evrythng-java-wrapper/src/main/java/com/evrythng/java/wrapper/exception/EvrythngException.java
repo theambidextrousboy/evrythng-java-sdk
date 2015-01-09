@@ -12,11 +12,11 @@ public abstract class EvrythngException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public EvrythngException(String message) {
+	protected EvrythngException(final String message) {
 		super(message);
 	}
 
-	public EvrythngException(String message, Throwable cause) {
+	protected EvrythngException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 }

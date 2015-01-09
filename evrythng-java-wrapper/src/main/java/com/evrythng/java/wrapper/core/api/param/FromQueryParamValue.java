@@ -14,7 +14,7 @@ public class FromQueryParamValue extends QueryParamValue {
 
 	public static final String NAME = "from";
 
-	public FromQueryParamValue(String value) {
+	public FromQueryParamValue(final String value) {
 		super(NAME, value);
 	}
 
@@ -23,7 +23,7 @@ public class FromQueryParamValue extends QueryParamValue {
 	 *            from value
 	 * @return query parameter for this from value
 	 */
-	public static FromQueryParamValue from(String from) {
+	public static FromQueryParamValue from(final String from) {
 		return new FromQueryParamValue(from);
 	}
 
@@ -36,7 +36,7 @@ public class FromQueryParamValue extends QueryParamValue {
 	 *            from value
 	 * @return true if value equals {@code "latest"}
 	 */
-	public static boolean isLatest(String from) {
+	public static boolean isLatest(final String from) {
 		return ApiConfiguration.QueryKeyword.LATEST.toString().equals(from);
 	}
 }
