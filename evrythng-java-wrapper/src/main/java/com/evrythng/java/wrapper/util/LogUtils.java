@@ -13,17 +13,15 @@ public class LogUtils {
 	 * Masks api key. Example output {@code 'JbXptr...9Ixpze'}
 	 *
 	 * @param key api key
-	 *
 	 * @return masked api key
 	 */
 	public static String maskApiKey(final String key) {
 
-		if (key.length() <= 12) {
-			return key;
-		} else {
-			String beginning = key.substring(0, 6);
-			String end = key.substring(key.length() - 6);
-			return beginning + "..." + end;
-		}
+		int visibleChars = (int) (0.1 * key.length());
+		int right = visibleChars / 2;
+		int left = visibleChars - right; // left >= right
+		String beginning = key.substring(0, left);
+		String end = key.substring(key.length() - right);
+		return beginning + "..." + end;
 	}
 }
