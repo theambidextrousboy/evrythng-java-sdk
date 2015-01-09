@@ -200,7 +200,7 @@ public class ApiCommand<T> {
 	 * @param name  the request header name
 	 * @param value the request header value
 	 */
-	public void setHeader(String name, String value) {
+	public void setHeader(final String name, final String value) {
 
 		logger.debug("Setting header: [name={}, value={}]", name,
 		             ApiConfiguration.HTTP_HEADER_AUTHORIZATION.equals(name) ? LogUtils.maskApiKey(value) : value);
