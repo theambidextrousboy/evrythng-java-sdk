@@ -58,6 +58,15 @@ public class OperatorStatus implements Serializable {
 	private String activationCode;
 	public static final String FIELD_ACTIVATION_CODE = "activationCode";
 
+	public OperatorStatus(final String activationCode) {
+
+		this.activationCode = activationCode;
+	}
+
+	public OperatorStatus() {
+
+	}
+
 	public Status getStatus() {
 
 		return status;
