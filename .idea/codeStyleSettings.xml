@@ -21,11 +21,15 @@
         <option name="PACKAGES_TO_USE_IMPORT_ON_DEMAND">
           <value />
         </option>
-        <option name="RIGHT_MARGIN" value="250" />
+        <option name="RIGHT_MARGIN" value="130" />
+        <option name="JD_ADD_BLANK_AFTER_PARM_COMMENTS" value="true" />
+        <option name="JD_ADD_BLANK_AFTER_RETURN" value="true" />
         <option name="JD_KEEP_INVALID_TAGS" value="false" />
         <option name="JD_KEEP_EMPTY_PARAMETER" value="false" />
         <option name="JD_KEEP_EMPTY_EXCEPTION" value="false" />
         <option name="JD_KEEP_EMPTY_RETURN" value="false" />
+        <option name="FORMATTER_TAGS_ENABLED" value="true" />
+        <option name="WRAP_COMMENTS" value="true" />
         <XML>
           <option name="XML_KEEP_BLANK_LINES" value="1" />
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
@@ -41,7 +45,7 @@
           <option name="KEEP_CONTROL_STATEMENT_IN_ONE_LINE" value="false" />
           <option name="KEEP_BLANK_LINES_IN_DECLARATIONS" value="0" />
           <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
-          <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="0" />
+          <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="1" />
           <option name="BLANK_LINES_BEFORE_METHOD_BODY" value="1" />
           <option name="BLANK_LINES_AFTER_CLASS_HEADER" value="1" />
           <option name="BLANK_LINES_AFTER_ANONYMOUS_CLASS_HEADER" value="1" />
@@ -70,6 +74,7 @@
           <option name="DOWHILE_BRACE_FORCE" value="3" />
           <option name="WHILE_BRACE_FORCE" value="3" />
           <option name="FOR_BRACE_FORCE" value="3" />
+          <option name="WRAP_LONG_LINES" value="true" />
           <indentOptions>
             <option name="USE_TAB_CHARACTER" value="true" />
             <option name="SMART_TABS" value="true" />
