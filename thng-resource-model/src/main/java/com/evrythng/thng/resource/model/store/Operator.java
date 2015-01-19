@@ -11,6 +11,7 @@ public class Operator extends AbstractUser {
 
 	private static final long serialVersionUID = 2282241536928517609L;
 	private OperatorStatus operatorStatus;
+	private String registrationCode;
 
 	public OperatorStatus getOperatorStatus() {
 
@@ -20,5 +21,15 @@ public class Operator extends AbstractUser {
 	public void setOperatorStatus(final OperatorStatus operatorStatus) {
 
 		this.operatorStatus = operatorStatus;
+	}
+
+	public void setRegistrationCode(final String registrationCode) {
+
+		this.registrationCode = registrationCode;
+	}
+
+	public String getRegistrationCode() {
+
+		return registrationCode;
 	}
 }
