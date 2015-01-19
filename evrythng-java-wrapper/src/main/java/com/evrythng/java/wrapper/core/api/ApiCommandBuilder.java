@@ -4,19 +4,19 @@
  */
 package com.evrythng.java.wrapper.core.api;
 
+import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
+import com.evrythng.java.wrapper.core.http.Status;
+import com.evrythng.java.wrapper.exception.EvrythngException;
+import com.evrythng.thng.commons.config.ApiConfiguration;
+import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.http.HttpResponse;
+
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.apache.http.HttpResponse;
-import com.evrythng.java.wrapper.core.http.HttpMethodBuilder.MethodBuilder;
-import com.evrythng.java.wrapper.core.http.Status;
-import com.evrythng.java.wrapper.exception.EvrythngException;
-import com.evrythng.thng.commons.config.ApiConfiguration;
-import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * Generic API command builder.
@@ -54,6 +54,17 @@ public class ApiCommandBuilder<T, B extends ApiCommandBuilder> {
 			command.setQueryParam(name, value);
 		} else {
 			command.removeQueryParam(name);
+		}
+		return (B) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public B placeHolder(final Boolean placeHolder) {
+
+		if (placeHolder != null) {
+			command.setQueryParam("placeHolder", String.valueOf(placeHolder));
+		} else {
+			command.setQueryParam("placeHolder", "both");
 		}
 		return (B) this;
 	}
