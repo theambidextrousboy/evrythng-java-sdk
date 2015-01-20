@@ -1,16 +1,17 @@
 package com.evrythng.java.wrapper.service;
 
-import java.util.Collections;
-import java.util.List;
-
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
+import com.evrythng.thng.resource.model.store.AbstractProperty;
 import com.evrythng.thng.resource.model.store.Product;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.Redirector;
 import com.fasterxml.jackson.core.type.TypeReference;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Service wrapper for the {@code /products} endpoint of the EVRYTHNG Engine
@@ -135,11 +136,11 @@ public class ProductService extends EvrythngServiceBase {
 	 * @param productId product id
 	 * @param property  {@link Property} instance
 	 * @return a preconfigured {@link Builder}
-	 * @see #propertiesCreator(String, List)
+	 * @see #propertiesCreatorOld(String, List)
 	 */
 	public Builder<List<Property>> propertiesCreator(final String productId, final Property property) throws EvrythngClientException {
 
-		return propertiesCreator(productId, Collections.singletonList(property));
+		return propertiesCreatorOld(productId, Collections.singletonList(property));
 	}
 
 	/**
@@ -149,9 +150,24 @@ public class ProductService extends EvrythngServiceBase {
 	 * @param properties list of {@link Property}
 	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<List<Property>> propertiesCreator(final String productId, final List<Property> properties) throws EvrythngClientException {
+	// TODO _MS_ remove
+	public Builder<List<Property>> propertiesCreatorOld(final String productId, final List<Property> properties) throws EvrythngClientException {
 
 		return put(String.format(PATH_PRODUCT_PROPERTIES, productId), properties, new TypeReference<List<Property>>() {
+
+		});
+	}
+
+	/**
+	 * PUT {@value #PATH_PRODUCT_PROPERTIES}
+	 *
+	 * @param productId  product id
+	 * @param properties list of {@link AbstractProperty}
+	 * @return a pre-configured {@link Builder}
+	 */
+	public Builder<List<AbstractProperty<?>>> propertiesCreator(final String productId, final List<AbstractProperty<?>> properties) throws EvrythngClientException {
+
+		return put(String.format(PATH_PRODUCT_PROPERTIES, productId), properties, new TypeReference<List<AbstractProperty<?>>>() {
 
 		});
 	}
