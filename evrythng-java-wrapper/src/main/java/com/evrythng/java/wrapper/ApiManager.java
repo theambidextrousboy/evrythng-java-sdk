@@ -10,6 +10,7 @@ import com.evrythng.java.wrapper.service.AuthService;
 import com.evrythng.java.wrapper.service.CollectionService;
 import com.evrythng.java.wrapper.service.PlaceService;
 import com.evrythng.java.wrapper.service.ProductService;
+import com.evrythng.java.wrapper.service.ProjectService;
 import com.evrythng.java.wrapper.service.ScanService;
 import com.evrythng.java.wrapper.service.SearchService;
 import com.evrythng.java.wrapper.service.ThngService;
@@ -26,14 +27,15 @@ public class ApiManager {
 
 	private final ApiConfiguration config;
 
-	private ThngService thngService;
-	private CollectionService collectionService;
-	private ProductService productService;
-	private SearchService searchService;
-	private ApplicationService applicationService;
-	private AuthService authService;
-	private ScanService scanThngService;
-	private PlaceService placeService;
+	private final ThngService thngService;
+	private final CollectionService collectionService;
+	private final ProductService productService;
+	private final SearchService searchService;
+	private final ApplicationService applicationService;
+	private final AuthService authService;
+	private final ScanService scanThngService;
+	private final PlaceService placeService;
+	private final ProjectService projectService;
 
 	/**
 	 * Creates a new {@link ApiManager} instance using the provided
@@ -50,6 +52,7 @@ public class ApiManager {
 		this.authService = new AuthService(this);
 		this.scanThngService = new ScanService(this);
 		this.placeService = new PlaceService(this);
+		this.projectService = new ProjectService(this);
 	}
 
 	/**
@@ -158,6 +161,11 @@ public class ApiManager {
 	public PlaceService placeService() {
 
 		return placeService;
+	}
+
+	public ProjectService projectService() {
+
+		return projectService;
 	}
 
 }
