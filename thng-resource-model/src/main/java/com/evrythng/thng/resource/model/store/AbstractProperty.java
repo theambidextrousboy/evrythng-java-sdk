@@ -5,7 +5,8 @@
 package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.TemporalResourceModel;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Date;
 
 /**
  * Model representation for <em>properties</em>.
@@ -37,7 +38,6 @@ public abstract class AbstractProperty<V> extends TemporalResourceModel {
 	}
 
 	private static final long serialVersionUID = 4241830003414536087L;
-	private Type type;
 	private String key;
 	private V value;
 	public static final String FIELD_VALUE = "value";
@@ -54,7 +54,6 @@ public abstract class AbstractProperty<V> extends TemporalResourceModel {
 	 */
 	AbstractProperty(final String key, final V value) {
 
-		// TODO add reasoning about type
 		this.key = key;
 		this.value = value;
 	}
@@ -64,7 +63,6 @@ public abstract class AbstractProperty<V> extends TemporalResourceModel {
 	 */
 	AbstractProperty(final String key, final V value, final Long timestamp) {
 
-		// TODO add reasoning about type
 		super(timestamp);
 		this.key = key;
 		this.value = value;
@@ -90,19 +88,16 @@ public abstract class AbstractProperty<V> extends TemporalResourceModel {
 		this.value = value;
 	}
 
-	@JsonIgnore
-	public Type getType() {
-
-		return type;
-	}
-
 	@Override
 	public String toString() {
 
 		StringBuilder sb = new StringBuilder("{");
-		sb.append("").append(key).append(": ");
-		sb.append(value).append(", <");
-		sb.append(type).append(">");
+		sb.append("<").append(key).append(">: ");
+		sb.append(value);
+		if (getTimestamp() != null) {
+			sb.append(" - at ");
+			sb.append(new Date(getTimestamp()));
+		}
 		sb.append('}');
 		return sb.toString();
 	}
