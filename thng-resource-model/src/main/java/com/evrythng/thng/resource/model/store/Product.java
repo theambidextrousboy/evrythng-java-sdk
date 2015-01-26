@@ -138,6 +138,7 @@ public class Product extends DurableResourceModel implements ResourceWithPropert
 	}
 
 	@Override
+	// TODO _MS_ check whether we can or should generify this
 	public Map<String, String> getProperties() {
 
 		return properties;

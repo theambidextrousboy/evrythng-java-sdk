@@ -70,6 +70,7 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 	}
 
 	@Override
+	// TODO _MS_ check whether we can or should generify this
 	public Map<String, String> getProperties() {
 
 		return properties;
