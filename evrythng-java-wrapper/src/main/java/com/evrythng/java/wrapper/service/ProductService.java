@@ -233,9 +233,26 @@ public class ProductService extends EvrythngServiceBase {
 	 *
 	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<List<Property>> propertyReader(final String productId, final String key) throws EvrythngClientException {
+	// TODO _MS_ remove
+	public Builder<List<Property>> propertyReaderOld(final String productId, final String key) throws EvrythngClientException {
 
 		return get(String.format(PATH_PRODUCT_PROPERTY, productId, key), new TypeReference<List<Property>>() {
+
+		});
+	}
+
+	/**
+	 * GET {@value #PATH_PRODUCT_PROPERTY}
+	 *
+	 * @param productId product id
+	 * @param key       key
+	 *
+	 * @return a preconfigured {@link Builder}
+	 */
+	public Builder<List<AbstractProperty<?>>> propertyReader(final String productId, final String key)
+			throws EvrythngClientException {
+
+		return get(String.format(PATH_PRODUCT_PROPERTY, productId, key), new TypeReference<List<AbstractProperty<?>>>() {
 
 		});
 	}
