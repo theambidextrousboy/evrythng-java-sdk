@@ -9,8 +9,7 @@ import com.evrythng.thng.resource.model.store.action.CustomAction;
 
 /**
  * Action deserializer interface.
- * 
- * @author Michel Yerly (my)
+ *
  **/
 public interface ActionDeserializer {
 

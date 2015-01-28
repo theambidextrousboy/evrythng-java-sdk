@@ -18,8 +18,7 @@ import java.util.Map;
 
 /**
  * Base class for deserializers with a type map.
- * 
- * @author Michel Yerly (my)
+ *
  **/
 public abstract class TypeMapDeserializer<T> extends StdDeserializer<T> {
 
@@ -55,11 +54,7 @@ public abstract class TypeMapDeserializer<T> extends StdDeserializer<T> {
 
 		Class<? extends T> clazz = resolveClass(sType);
 
-		//if (codec instanceof ObjectMapper) {
-		//	return ((ObjectMapper) codec).reader(clazz).readValue(root);
-		//} else {
 		return codec.treeToValue(root, clazz);
-		//}
 	}
 
 	protected Class<? extends T> resolveClass(final String type) {

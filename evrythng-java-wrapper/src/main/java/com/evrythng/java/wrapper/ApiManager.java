@@ -24,8 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Manager for the EVRYTHNG API.
  *
- * @author Thomas Pham (tpham)
- * @author Pedro De Almeida (almeidap)
  */
 public class ApiManager {
 
