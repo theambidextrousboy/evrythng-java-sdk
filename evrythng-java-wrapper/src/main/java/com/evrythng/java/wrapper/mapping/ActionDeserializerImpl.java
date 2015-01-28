@@ -8,8 +8,7 @@ import com.evrythng.thng.resource.model.store.action.Action;
 
 /**
  * Action deserializer.
- * 
- * @author Michel Yerly (my)
+ *
  **/
 public class ActionDeserializerImpl extends TypeMapDeserializer<Action> implements ActionDeserializer {
 
