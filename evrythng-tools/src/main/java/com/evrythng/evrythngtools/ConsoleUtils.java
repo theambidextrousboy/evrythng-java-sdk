@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by michelyerly on 15.01.15.
+ * TODO
  */
 public class ConsoleUtils {
 
 	/**
 	 * @param table Must be rectangular.
 	 */
-	public static void printTable(PrintStream ps, List<List<String>> table) {
+	public static void printTable(final PrintStream ps, final List<List<String>> table) {
 
 		List<Integer> columnWidth = new ArrayList<>();
 

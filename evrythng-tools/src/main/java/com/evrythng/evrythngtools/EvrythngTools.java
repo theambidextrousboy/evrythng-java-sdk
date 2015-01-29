@@ -1,69 +1,69 @@
-package com.evrythng.evrythngtools;
-
-import com.evrythng.evrythngtools.commands.AppStatusCommand;
-import com.evrythng.evrythngtools.commands.HelpCommand;
-import com.evrythng.evrythngtools.commands.InstancesCommand;
-import com.evrythng.evrythngtools.commands.MongoPrimaryCommand;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-
-
 /*
  * (c) Copyright 2012 EVRYTHNG Ltd London / Zurich
  * www.evrythng.com
  */
+
+package com.evrythng.evrythngtools;
+
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.MissingCommandException;
+import com.evrythng.evrythngtools.commands.AbstractParentCommand;
+import com.evrythng.evrythngtools.commands.AppStatusCommand;
+import com.evrythng.evrythngtools.commands.HelpCommand;
+import com.evrythng.evrythngtools.commands.InstancesCommand;
+import com.evrythng.evrythngtools.commands.MongoPrimaryCommand;
 
 /**
  * TODO: comment this class
  */
 public class EvrythngTools {
 
-	private static final List<Command> commands = new ArrayList<>();
+	private static class Arguments {
 
-	public static void main(String[] args) throws IOException, InterruptedException {
+	}
 
-		commands.add(new HelpCommand());
-		commands.add(new MongoPrimaryCommand());
-		commands.add(new InstancesCommand());
-		commands.add(new AppStatusCommand());
+	private static JCommander jCommander;
 
-		if (args.length == 0) {
-			help();
-			System.exit(-1);
-		}
+	public static class MainCommand extends AbstractParentCommand {
 
-		String cmdName = args[0];
-		Optional<Command> cmd = findCommand(cmdName);
+		protected MainCommand() {
 
-		List<String> parameters = new LinkedList<>(Arrays.asList(args));
-		parameters.remove(0);
-
-		if (cmd.isPresent()) {
-			if (!cmd.get().execute(parameters)) {
-				System.exit(-1);
-			}
-		} else {
-			help();
-			System.exit(-1);
+			super("main");
+			addSubCommand(new HelpCommand());
+			addSubCommand(new MongoPrimaryCommand());
+			addSubCommand(new AppStatusCommand());
+			addSubCommand(new InstancesCommand());
 		}
 	}
 
-	private static Optional<Command> findCommand(String name) {
+	public static void main(final String[] args) {
 
-		return commands.stream().filter((c) -> c.getNames().contains(name)).findFirst();
+		Arguments arguments = new Arguments();
+
+		jCommander = new JCommander(arguments);
+
+		MainCommand mainCommand = new MainCommand();
+		mainCommand.configure(jCommander);
+
+		try {
+			jCommander.parse(args);
+		} catch (MissingCommandException e) {
+			jCommander.usage();
+			System.exit(-1);
+		}
+		if (jCommander.getParsedCommand() == null) {
+			jCommander.usage();
+			System.exit(-1);
+		}
+
+		JCommander cmdJCommander = jCommander.getCommands().get(jCommander.getParsedCommand());
+		Command cmd = (Command) cmdJCommander.getObjects().get(0);
+
+		cmd.execute();
 	}
 
 	public static void help() {
 
-		System.out.println("Available commands are:");
-
-		commands.stream().sorted((a, b) -> a.getNames().get(0).compareTo(b.getNames().get(0))).forEach((cmd) -> {
-			System.out.println(" - " + cmd.getNames());
-		});
+		jCommander.usage();
 	}
 }

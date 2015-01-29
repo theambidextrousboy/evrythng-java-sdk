@@ -32,25 +32,24 @@ public class MongoUtils {
 		public List<Member> members;
 	}
 
-	public static Optional<Instance> getMongoPrimary(List<Instance> mongoInstances, Optional<Instance> via) {
+	public static Optional<Instance> getMongoPrimary(final List<Instance> mongoInstances, final Optional<Instance> via) {
 
 		Instance instance = mongoInstances.get(0);
 
 		RsStatus status = getMongoRsStatus(instance, via);
 
-		Optional<RsStatus.Member> primary = status.members.stream().filter((m) -> m.state == 1).findFirst();
+		Optional<RsStatus.Member> primary = status.members.stream().filter(m -> m.state == 1).findFirst();
 		if (primary.isPresent()) {
 			String name = primary.get().name;
 			name = name.substring(0, name.indexOf(':'));
 			String fName = name;
-			Optional<Instance> primInst = mongoInstances.stream().filter((i) -> fName.equals(i.getPrivateDnsName())).findFirst();
-			return primInst;
+			return mongoInstances.stream().filter(i -> fName.equals(i.getPrivateDnsName())).findFirst();
 		} else {
 			return Optional.empty();
 		}
 	}
 
-	public static RsStatus getMongoRsStatus(Instance instance, Optional<Instance> via) {
+	public static RsStatus getMongoRsStatus(final Instance instance, final Optional<Instance> via) {
 
 		String statusJson;
 		try {
@@ -67,16 +66,17 @@ public class MongoUtils {
 
 			Process pr;
 			pr = pb.start();
-			InputStreamReader sr = new InputStreamReader(pr.getInputStream());
-			int x;
-			StringBuilder sb = new StringBuilder();
-			while ((x = sr.read()) >= 0) {
-				if (sb.length() > 0 || (char) x == '{') {
-					sb.append((char) x);
+			try (InputStreamReader sr = new InputStreamReader(pr.getInputStream())) {
+				int x;
+				StringBuilder sb = new StringBuilder();
+				while ((x = sr.read()) >= 0) {
+					if (sb.length() > 0 || (char) x == '{') {
+						sb.append((char) x);
+					}
 				}
+				statusJson = sb.toString();
+				pr.waitFor();
 			}
-			statusJson = sb.toString();
-			pr.waitFor();
 		} catch (IOException | InterruptedException e) {
 			throw new RuntimeException();
 		}
@@ -86,8 +86,7 @@ public class MongoUtils {
 
 		//System.out.println(statusJson);
 		Gson gson = new Gson();
-		RsStatus status = gson.fromJson(statusJson, RsStatus.class);
 
-		return status;
+		return gson.fromJson(statusJson, RsStatus.class);
 	}
 }

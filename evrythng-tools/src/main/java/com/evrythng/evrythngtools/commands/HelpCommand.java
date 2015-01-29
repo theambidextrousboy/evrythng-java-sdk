@@ -1,37 +1,25 @@
 /*
- * (c) Copyright 2012 EVRYTHNG Ltd London / Zurich
- * www.evrythng.com
- */
+* (c) Copyright 2012 EVRYTHNG Ltd London / Zurich
+* www.evrythng.com
+*/
 package com.evrythng.evrythngtools.commands;
 
-import com.evrythng.evrythngtools.Command;
 import com.evrythng.evrythngtools.EvrythngTools;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * TODO: comment this class
  */
-public class HelpCommand implements Command {
+public class HelpCommand extends AbstractCommand {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<String> getNames() {
+	public HelpCommand() {
 
-		return Arrays.asList("help", "-h", "h", "--help");
+		super("help", "-h", "--help");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public boolean execute(List<String> parameters) {
+	public boolean execute() {
 
 		EvrythngTools.help();
 		return true;
 	}
-
 }

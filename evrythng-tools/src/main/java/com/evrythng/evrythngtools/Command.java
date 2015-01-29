@@ -4,6 +4,8 @@
  */
 package com.evrythng.evrythngtools;
 
+import com.beust.jcommander.JCommander;
+
 import java.util.List;
 
 /**
@@ -13,5 +15,7 @@ public interface Command {
 
 	List<String> getNames();
 
-	boolean execute(List<String> parameters);
+	void configure(JCommander commander);
+
+	boolean execute();
 }

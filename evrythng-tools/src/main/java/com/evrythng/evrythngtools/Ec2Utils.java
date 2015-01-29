@@ -6,6 +6,7 @@ package com.evrythng.evrythngtools;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,7 @@ public class Ec2Utils {
 
 	}
 
-	public static List<Instance> getInstances(String stage, String role) {
+	public static List<Instance> getInstances(final String stage, final String role) {
 
 		List<Instance> ret = new ArrayList<Instance>();
 
@@ -44,11 +45,11 @@ public class Ec2Utils {
 
 		List<Filter> filters = new ArrayList<Filter>();
 		if (stage != null) {
-			Filter stageFilter = new Filter("tag:Stage", Arrays.asList(stage));
+			Filter stageFilter = new Filter("tag:Stage", Collections.singletonList(stage));
 			filters.add(stageFilter);
 		}
 		if (role != null) {
-			Filter roleFilter = new Filter("tag:Role", Arrays.asList(role));
+			Filter roleFilter = new Filter("tag:Role", Collections.singletonList(role));
 			filters.add(roleFilter);
 		}
 
@@ -63,24 +64,24 @@ public class Ec2Utils {
 		return ret;
 	}
 
-	private static Optional<String> getTagValue(List<Tag> tags, String key) {
+	private static Optional<String> getTagValue(final List<Tag> tags, final String key) {
 
-		Optional<Tag> tag = tags.stream().filter((t) -> t.getKey().equals(key)).findFirst();
+		Optional<Tag> tag = tags.stream().filter(t -> t.getKey().equals(key)).findFirst();
 
 		return tag.isPresent() ? Optional.of(tag.get().getValue()) : Optional.empty();
 	}
 
-	private static Optional<String> getTagValue(Instance instance, String key) {
+	private static Optional<String> getTagValue(final Instance instance, final String key) {
 
 		return getTagValue(instance.getTags(), key);
 	}
 
-	public static Optional<String> getRole(Instance instance) {
+	public static Optional<String> getRole(final Instance instance) {
 
 		return getTagValue(instance, "Role");
 	}
 
-	public static Optional<String> getStage(Instance instance) {
+	public static Optional<String> getStage(final Instance instance) {
 
 		return getTagValue(instance, "Stage");
 	}
