@@ -5,33 +5,43 @@
 package com.evrythng.java.wrapper;
 
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
+import com.evrythng.java.wrapper.mapping.EvrythngJacksonModule;
+import com.evrythng.java.wrapper.mapping.EvrythngJacksonModuleImpl;
+import com.evrythng.java.wrapper.service.ActionService;
 import com.evrythng.java.wrapper.service.ApplicationService;
 import com.evrythng.java.wrapper.service.AuthService;
 import com.evrythng.java.wrapper.service.CollectionService;
+import com.evrythng.java.wrapper.service.PlaceService;
 import com.evrythng.java.wrapper.service.ProductService;
+import com.evrythng.java.wrapper.service.ProjectService;
 import com.evrythng.java.wrapper.service.ScanService;
 import com.evrythng.java.wrapper.service.SearchService;
 import com.evrythng.java.wrapper.service.ThngService;
+import com.evrythng.java.wrapper.util.JSONUtils;
 import com.evrythng.thng.commons.config.ApiConfiguration;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * Manager for the EVRYTHNG API.
- * 
- * @author Thomas Pham (tpham)
- * @author Pedro De Almeida (almeidap)
+ *
  */
 public class ApiManager {
 
+	private static EvrythngJacksonModule evrythngJacksonModule = null;
+	private static volatile boolean classInit = false;
+
 	private final ApiConfiguration config;
 
-	private ThngService thngService;
-	private CollectionService collectionService;
-	private ProductService productService;
-	private SearchService searchService;
-	private ApplicationService applicationService;
-	private AuthService authService;
-	private ScanService scanThngService;
+	private final ThngService thngService;
+	private final CollectionService collectionService;
+	private final ProductService productService;
+	private final SearchService searchService;
+	private final ApplicationService applicationService;
+	private final AuthService authService;
+	private final ScanService scanThngService;
+	private PlaceService placeService;
+	private final ProjectService projectService;
+	private ActionService actionService;
 
 	/**
 	 * Creates a new {@link ApiManager} instance using the provided
@@ -39,6 +49,16 @@ public class ApiManager {
 	 */
 	public ApiManager(final ApiConfiguration config) {
 		checkConfiguration(config);
+
+		if (!classInit) {
+			synchronized (ApiManager.class) {
+				if (!classInit) {
+					createEvrythngJacksonModule();
+					JSONUtils.OBJECT_MAPPER.registerModule(getEvrythngJacksonModule().getModule());
+					classInit = true;
+				}
+			}
+		}
 		this.config = config;
 		this.thngService = new ThngService(this);
 		this.collectionService = new CollectionService(this);
@@ -47,13 +67,16 @@ public class ApiManager {
 		this.applicationService = new ApplicationService(this);
 		this.authService = new AuthService(this);
 		this.scanThngService = new ScanService(this);
+		this.projectService = new ProjectService(this);
+		createPlaceService();
+		createActionService();
 	}
 
 	/**
 	 * Creates a new {@link ApiManager} instance using the provided
 	 * {@code apiKey} for building an {@link ApiConfiguration} with default
 	 * values.
-	 * 
+	 *
 	 * @param apiKey
 	 *            the API key for authorization
 	 */
@@ -63,7 +86,7 @@ public class ApiManager {
 
 	/**
 	 * Checks that the provided {@link ApiConfiguration} is valid.
-	 * 
+	 *
 	 * @param apiConfiguration
 	 *            the {@link ApiConfiguration} to be verified
 	 */
@@ -80,7 +103,7 @@ public class ApiManager {
 	/**
 	 * Returns a preconfigured EVRYTHNG service for accessing the <a
 	 * href="https://dashboard.evrythng.com/developers/apidoc#thngs">Thngs</a> API.
-	 * 
+	 *
 	 * @see ThngService
 	 */
 	public ThngService thngService() {
@@ -91,7 +114,7 @@ public class ApiManager {
 	 * Returns a preconfigured EVRYTHNG service for accessing the <a
 	 * href="https://dashboard.evrythng.com/developers/apidoc#collections">Collections
 	 * </a> API.
-	 * 
+	 *
 	 * @see CollectionService
 	 */
 	public CollectionService collectionService() {
@@ -102,7 +125,7 @@ public class ApiManager {
 	 * Returns a preconfigured EVRYTHNG service for accessing the <a
 	 * href="https://dashboard.evrythng.com/developers/apidoc#products">Products</a>
 	 * API.
-	 * 
+	 *
 	 * @see ProductService
 	 */
 	public ProductService productService() {
@@ -113,7 +136,7 @@ public class ApiManager {
 	 * Returns a preconfigured EVRYTHNG service for accessing the <a
 	 * href="https://dashboard.evrythng.com/developers/apidoc#search">Search</a>
 	 * API.
-	 * 
+	 *
 	 * @see SearchService
 	 */
 	public SearchService searchService() {
@@ -125,7 +148,7 @@ public class ApiManager {
 	 * href="https://dashboard.evrythng.com/developers/apidoc#applications">
 	 * Applications</a>
 	 * API.
-	 * 
+	 *
 	 * @see ApplicationService
 	 */
 	public ApplicationService applicationService() {
@@ -139,10 +162,10 @@ public class ApiManager {
 	public ApiConfiguration getConfig() {
 		return config;
 	}
-	
+
 	/**
 	 * Returns a preconfigured EVRYTHNG service for accessing the ScanThng API.
-	 * 
+	 *
 	 * @see ScanService
 	 */
 	public ScanService scanThngService(){
@@ -150,5 +173,45 @@ public class ApiManager {
 	}
 
 	public void onBuilderCreated(final Builder<?> builder) {
+	}
+
+	protected void createPlaceService() {
+
+		placeService = new PlaceService(this);
+	}
+
+	public PlaceService placeService() {
+
+		return placeService;
+	}
+
+	public ProjectService projectService() {
+
+		return projectService;
+	}
+
+	protected void createActionService() {
+
+		actionService = new ActionService(this, getEvrythngJacksonModule());
+	}
+
+	public ActionService actionService() {
+
+		return this.actionService;
+	}
+
+	protected void createEvrythngJacksonModule() {
+
+		setEvrythngJacksonModule(new EvrythngJacksonModuleImpl());
+	}
+
+	protected void setEvrythngJacksonModule(final EvrythngJacksonModule evrythngJacksonModule) {
+
+		ApiManager.evrythngJacksonModule = evrythngJacksonModule;
+	}
+
+	protected EvrythngJacksonModule getEvrythngJacksonModule() {
+
+		return evrythngJacksonModule;
 	}
 }

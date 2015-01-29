@@ -5,7 +5,6 @@
  */
 package com.evrythng.java.wrapper.examples;
 
-import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.ExampleRunner;
@@ -14,6 +13,7 @@ import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.exception.ForbiddenException;
 import com.evrythng.java.wrapper.exception.NotFoundException;
 import com.evrythng.java.wrapper.service.ThngService;
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Thng;
 
 /**

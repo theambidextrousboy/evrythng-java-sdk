@@ -4,17 +4,6 @@
  */
 package com.evrythng.java.wrapper.core;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URLEncoder;
-
-import org.apache.commons.codec.binary.Base64InputStream;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.http.Status;
@@ -22,6 +11,17 @@ import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.java.wrapper.util.URIBuilder;
 import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.codec.binary.Base64InputStream;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
 
 /**
  * Base definition for EVRYTHNG API services.

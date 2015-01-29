@@ -4,8 +4,6 @@
  */
 package com.evrythng.java.wrapper.service;
 
-import java.util.Map;
-
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
@@ -13,6 +11,8 @@ import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.thng.resource.model.access.Credentials;
 import com.evrythng.thng.resource.model.store.User;
 import com.fasterxml.jackson.core.type.TypeReference;
+
+import java.util.Map;
 
 /**
  * Methods for the authentication API.
