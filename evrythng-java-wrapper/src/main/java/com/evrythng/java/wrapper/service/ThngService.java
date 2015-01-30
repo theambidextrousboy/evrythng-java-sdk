@@ -4,6 +4,7 @@ import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
+import com.evrythng.thng.resource.model.store.AbstractProperty;
 import com.evrythng.thng.resource.model.store.Location;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.Redirector;
@@ -41,7 +42,7 @@ public class ThngService extends EvrythngServiceBase {
 	 * POST {@value #PATH_THNGS}
 	 *
 	 * @param thng {@link Thng} instance
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Thng> thngCreator(final Thng thng) throws EvrythngClientException {
 
@@ -55,7 +56,7 @@ public class ThngService extends EvrythngServiceBase {
 	 * <p>
 	 * GET {@value #PATH_THNGS}
 	 *
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<List<Thng>> thngsReader() throws EvrythngClientException {
 
@@ -72,7 +73,7 @@ public class ThngService extends EvrythngServiceBase {
 	 * GET {@value #PATH_THNG}
 	 *
 	 * @param thngId thng id
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Thng> thngReader(final String thngId) throws EvrythngClientException {
 
@@ -88,7 +89,7 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @param thngId thng id
 	 * @param thng   {@link Thng} instance
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Thng> thngUpdater(final String thngId, final Thng thng) throws EvrythngClientException {
 
@@ -105,7 +106,7 @@ public class ThngService extends EvrythngServiceBase {
 	 * PUT {@value #PATH_THNGS}
 	 *
 	 * @param thng {@link Thng} instance
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Long> thngsUpdater(final Thng thng) throws EvrythngClientException {
 
@@ -118,7 +119,7 @@ public class ThngService extends EvrythngServiceBase {
 	 * DELETE {@value #PATH_THNG}
 	 *
 	 * @param thngId thng id
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Boolean> thngDeleter(final String thngId) throws EvrythngClientException {
 
@@ -131,7 +132,7 @@ public class ThngService extends EvrythngServiceBase {
 	 * <p>
 	 * DELETE {@value #PATH_THNGS}
 	 *
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Long> thngsDeleter() throws EvrythngClientException {
 
@@ -147,7 +148,7 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @param thngId   thng id
 	 * @param property {@link Property} instance
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 * @see #propertiesCreator(String, List)
 	 */
 	public Builder<List<Property>> propertiesCreator(final String thngId, final Property property) throws EvrythngClientException {
@@ -163,11 +164,30 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @param thngId     thng id
 	 * @param properties list of {@link Property} instances
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<List<Property>> propertiesCreator(final String thngId, final List<Property> properties) throws EvrythngClientException {
 
 		return put(String.format(PATH_THNG_PROPERTIES, thngId), properties, new TypeReference<List<Property>>() {
+
+		});
+	}
+
+	/**
+	 * Creates multiple {@link Property} resources on the referenced
+	 * {@link Thng}.
+	 * <p>
+	 * PUT {@value #PATH_THNG_PROPERTIES}
+	 *
+	 * @param thngId     thng id
+	 * @param properties list of {@link Property} instances
+	 * @return a pre-configured {@link Builder}
+	 */
+	public Builder<List<AbstractProperty<?>>> abstractPropertiesCreator(final String thngId,
+	                                                                    final List<AbstractProperty<?>> properties)
+			throws EvrythngClientException {
+
+		return put(String.format(PATH_THNG_PROPERTIES, thngId), properties, new TypeReference<List<AbstractProperty<?>>>() {
 
 		});
 	}
@@ -179,11 +199,29 @@ public class ThngService extends EvrythngServiceBase {
 	 * GET {@value #PATH_THNG_PROPERTIES}
 	 *
 	 * @param thngId thng id
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
+	 * @deprecated use {@link #abstractPropertiesReader(String)} instead
 	 */
+	@Deprecated
 	public Builder<List<Property>> propertiesReader(final String thngId) throws EvrythngClientException {
 
 		return get(String.format(PATH_THNG_PROPERTIES, thngId), new TypeReference<List<Property>>() {
+
+		});
+	}
+
+	/**
+	 * Retrieves the last updated {@link Property} resources from the referenced
+	 * {@link Thng}.
+	 * <p>
+	 * GET {@value #PATH_THNG_PROPERTIES}
+	 *
+	 * @param thngId thng id
+	 * @return a pre-configured {@link Builder}
+	 */
+	public Builder<List<AbstractProperty<?>>> abstractPropertiesReader(final String thngId) throws EvrythngClientException {
+
+		return get(String.format(PATH_THNG_PROPERTIES, thngId), new TypeReference<List<AbstractProperty<?>>>() {
 
 		});
 	}
@@ -194,7 +232,7 @@ public class ThngService extends EvrythngServiceBase {
 	 * DELETE {@value #PATH_THNG_PROPERTIES}
 	 *
 	 * @param thngId thng id
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Boolean> propertiesDeleter(final String thngId) throws EvrythngClientException {
 
@@ -211,11 +249,31 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @param thngId thng id
 	 * @param key    key
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
+	 * @deprecated use {@link #abstractPropertyReader(String, String)} instead
 	 */
+	@Deprecated
 	public Builder<List<Property>> propertyReader(final String thngId, final String key) throws EvrythngClientException {
 
 		return get(String.format(PATH_THNG_PROPERTY, thngId, key), new TypeReference<List<Property>>() {
+
+		});
+	}
+
+	/**
+	 * Retrieves the last values of the {@link Property} named {@code key} from
+	 * the referenced {@link Thng}.
+	 * <p>
+	 * GET {@value #PATH_THNG_PROPERTY}
+	 *
+	 * @param thngId thng id
+	 * @param key    key
+	 * @return a pre-configured {@link Builder}
+	 */
+	public Builder<List<AbstractProperty<?>>> abstractPropertyReader(final String thngId, final String key)
+			throws EvrythngClientException {
+
+		return get(String.format(PATH_THNG_PROPERTY, thngId, key), new TypeReference<List<AbstractProperty<?>>>() {
 
 		});
 	}
@@ -229,12 +287,34 @@ public class ThngService extends EvrythngServiceBase {
 	 * @param thngId thng id
 	 * @param key    key
 	 * @param value  value
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 * @see #propertiesCreator(String, Property)
+	 * @deprecated use {@link #abstractPropertyUpdater(String, String, String)} instead
 	 */
+	@Deprecated
 	public Builder<List<Property>> propertyUpdater(final String thngId, final String key, final String value) throws EvrythngClientException {
 
 		return propertyUpdater(thngId, key, new Property(null, value));
+	}
+
+	/**
+	 * Updates the {@link Property} named {@code key} of the referenced {@link Thng}.
+	 * <p>
+	 * PUT {@value #PATH_THNG_PROPERTY}
+	 *
+	 * @param thngId thng id
+	 * @param key    key
+	 * @param value  value
+	 *
+	 * @return a pre-configured {@link Builder}
+	 *
+	 * @see #propertiesCreator(String, Property)
+	 */
+	// TODO _MS_ generify
+	public Builder<List<AbstractProperty<?>>> abstractPropertyUpdater(final String thngId, final String key, final String value)
+			throws EvrythngClientException {
+
+		return abstractPropertyUpdater(thngId, key, new Property(null, value));
 	}
 
 	/**
@@ -247,12 +327,35 @@ public class ThngService extends EvrythngServiceBase {
 	 * @param key       key
 	 * @param value     value
 	 * @param timestamp timestamp
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 * @see #propertiesCreator(String, Property)
+	 * @deprecated use {@link #abstractPropertyUpdater(String, String, String, long)} instead
 	 */
+	@Deprecated
 	public Builder<List<Property>> propertyUpdater(final String thngId, final String key, final String value, final long timestamp) throws EvrythngClientException {
 
 		return propertyUpdater(thngId, key, new Property(null, value, timestamp));
+	}
+
+	/**
+	 * Updates the {@link Property} named {@code key} of the referenced {@link Thng}.
+	 * <p>
+	 * PUT {@value #PATH_THNG_PROPERTY}
+	 *
+	 * @param thngId    thng id
+	 * @param key       key
+	 * @param value     value
+	 * @param timestamp timestamp
+	 *
+	 * @return a pre-configured {@link Builder}
+	 *
+	 * @see #propertiesCreator(String, Property)
+	 */
+	// TODO _MS_ generify
+	public Builder<List<AbstractProperty<?>>> abstractPropertyUpdater(final String thngId, final String key, final String value,
+	                                                                  final long timestamp) throws EvrythngClientException {
+
+		return abstractPropertyUpdater(thngId, key, new Property(null, value, timestamp));
 	}
 
 	/**
@@ -264,11 +367,35 @@ public class ThngService extends EvrythngServiceBase {
 	 * @param thngId thng id
 	 * @param key    key
 	 * @param value  value
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
+	 * @deprecated use {@link #abstractPropertyUpdater(String, String, AbstractProperty)} instead
 	 */
+	@Deprecated
 	public Builder<List<Property>> propertyUpdater(final String thngId, final String key, final Property value) throws EvrythngClientException {
 
-		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Collections.singletonList(value), new TypeReference<List<Property>>() {
+		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Collections.singletonList(value),
+		           new TypeReference<List<Property>>() {
+
+		           });
+	}
+
+	/**
+	 * Updates the {@link Property} named {@code key} of the referenced {@link Thng}.
+	 * <p>
+	 * PUT {@value #PATH_THNG_PROPERTY}
+	 *
+	 * @param thngId thng id
+	 * @param key    key
+	 * @param update property update
+	 *
+	 * @return a pre-configured {@link Builder}
+	 */
+	// TODO _MS_ generify
+	public Builder<List<AbstractProperty<?>>> abstractPropertyUpdater(final String thngId, final String key,
+	                                                                  final AbstractProperty<?> update)
+			throws EvrythngClientException {
+
+		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Collections.singletonList(update), new TypeReference<List<AbstractProperty<?>>>() {
 
 		});
 	}
@@ -281,7 +408,7 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @param thngId thng id
 	 * @param key    key
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Boolean> propertyDeleter(final String thngId, final String key) throws EvrythngClientException {
 
@@ -297,7 +424,7 @@ public class ThngService extends EvrythngServiceBase {
 	 * GET {@value #PATH_THNG_LOCATION}
 	 *
 	 * @param thngId thng id
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<List<Location>> locationReader(final String thngId) throws EvrythngClientException {
 
@@ -313,7 +440,7 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @param thngId   thng id
 	 * @param location {@link Location} instance
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 * @see #locationUpdater(String, List)
 	 */
 	public Builder<List<Location>> locationUpdater(final String thngId, final Location location) throws EvrythngClientException {
@@ -329,7 +456,7 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @param thngId    thng id
 	 * @param locations list of {@link Location}
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<List<Location>> locationUpdater(final String thngId, final List<Location> locations) throws EvrythngClientException {
 
@@ -344,7 +471,7 @@ public class ThngService extends EvrythngServiceBase {
 	 * DELETE {@value #PATH_THNG_LOCATION}
 	 *
 	 * @param thngId thng id
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Boolean> locationDeleter(final String thngId) throws EvrythngClientException {
 
@@ -358,7 +485,7 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @param thngId      thng id
 	 * @param redirection {@link Redirector} instance
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Redirector> redirectorCreator(final String thngId, final Redirector redirection) throws EvrythngClientException {
 
@@ -371,7 +498,7 @@ public class ThngService extends EvrythngServiceBase {
 	 * Retrieves the redirector for the Thng.
 	 *
 	 * @param thngId thng id
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Redirector> redirectorReader(final String thngId) throws EvrythngClientException {
 
@@ -384,7 +511,7 @@ public class ThngService extends EvrythngServiceBase {
 	 * Deletes the redirector for the Thng.
 	 *
 	 * @param thngId thng id
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Boolean> redirectorDeleter(final String thngId) throws EvrythngClientException {
 
@@ -396,7 +523,7 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @param thngId      thng id
 	 * @param redirection {@link Redirector} instance
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Redirector> redirectorUpdater(final String thngId, final Redirector redirection) throws EvrythngClientException {
 
