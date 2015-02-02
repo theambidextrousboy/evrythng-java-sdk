@@ -7,9 +7,13 @@ import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
+import com.evrythng.java.wrapper.mapping.ActionDeserializer;
+import com.evrythng.java.wrapper.mapping.EvrythngJacksonModule;
 import com.evrythng.thng.resource.model.store.Product;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.Redirector;
+import com.evrythng.thng.resource.model.store.action.Action;
+import com.evrythng.thng.resource.model.store.action.CustomAction;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
@@ -26,10 +30,16 @@ public class ProductService extends EvrythngServiceBase {
 	public static final String PATH_PRODUCT_PROPERTY = PATH_PRODUCT_PROPERTIES + "/%s";
 	public static final String PATH_PRODUCT_REDIRECTOR = PATH_PRODUCT + "/redirector";
 	public static final String PATH_PRODUCT_REDIRECTOR_QR = PATH_PRODUCT_REDIRECTOR + "/qr";
+	public static final String PATH_PRODUCT_ACTIONS = PATH_PRODUCT + "/actions";
+	public static final String PATH_PRODUCT_TYPED_ACTIONS = PATH_PRODUCT_ACTIONS + "/%s";
+	public static final String PATH_PRODUCT_TYPED_ACTION = PATH_PRODUCT_TYPED_ACTIONS + "/%s";
 
-	public ProductService(final ApiManager apiManager) {
+	protected ActionDeserializer deserializer;
+
+	public ProductService(final ApiManager apiManager, final EvrythngJacksonModule evrythngJacksonModule) {
 
 		super(apiManager);
+		deserializer = evrythngJacksonModule.getActionDeserializer();
 	}
 
 	/* ***** /products ***** */
@@ -313,4 +323,56 @@ public class ProductService extends EvrythngServiceBase {
 
 		});
 	}
+
+	/**
+	 * Creates an action.
+	 */
+	public <T extends Action> Builder<T> actionCreator(final String productId, final T action)
+			throws EvrythngClientException {
+
+		return (Builder<T>) post(String.format(PATH_PRODUCT_TYPED_ACTIONS, productId, action.getType()), action,
+		                         new TypeReference<Action>() {
+
+		                         });
+	}
+
+	/**
+	 * Gets one action by actionId and type.
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends Action> Builder<T> actionReader(final String productId, final Class<T> actionClass, final String actionId) throws EvrythngClientException {
+
+		String type = getType(actionClass);
+		return (Builder<T>) get(String.format(PATH_PRODUCT_TYPED_ACTION, productId, type, actionId), new TypeReference<Action>() {
+
+		});
+	}
+
+	/**
+	 * Gets one action by actionId and type.
+	 */
+	public Builder<CustomAction> actionReader(final String productId, final String customType, final String actionId) throws EvrythngClientException {
+
+		checkCustomType(customType);
+		return get(String.format(PATH_PRODUCT_TYPED_ACTION, productId, customType, actionId), new TypeReference<CustomAction>() {
+
+		});
+	}
+
+	protected void checkCustomType(final String customType) {
+
+		if (!customType.startsWith("_")) {
+			throw new IllegalArgumentException("Custom types must start with '_' (underscore).");
+		}
+	}
+
+	public <T extends Action> String getType(final Class<T> actionClass) {
+
+		String type = deserializer.getActionType(actionClass);
+		if (type == null) {
+			throw new IllegalArgumentException("The action type is not recognized.");
+		}
+		return type;
+	}
+
 }
