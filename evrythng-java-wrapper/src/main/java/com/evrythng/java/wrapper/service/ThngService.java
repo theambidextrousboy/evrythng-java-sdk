@@ -42,7 +42,6 @@ public class ThngService extends EvrythngServiceBase {
 	 * POST {@value #PATH_THNGS}
 	 *
 	 * @param thng {@link Thng} instance
-	 *
 	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Thng> thngCreator(final Thng thng) throws EvrythngClientException {
@@ -74,7 +73,6 @@ public class ThngService extends EvrythngServiceBase {
 	 * GET {@value #PATH_THNG}
 	 *
 	 * @param thngId thng id
-	 *
 	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Thng> thngReader(final String thngId) throws EvrythngClientException {
@@ -91,7 +89,6 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @param thngId thng id
 	 * @param thng   {@link Thng} instance
-	 *
 	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Thng> thngUpdater(final String thngId, final Thng thng) throws EvrythngClientException {
@@ -107,7 +104,6 @@ public class ThngService extends EvrythngServiceBase {
 	 * PUT {@value #PATH_THNGS}
 	 *
 	 * @param thng {@link Thng} instance
-	 *
 	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Long> thngsUpdater(final Thng thng) throws EvrythngClientException {
@@ -121,7 +117,6 @@ public class ThngService extends EvrythngServiceBase {
 	 * DELETE {@value #PATH_THNG}
 	 *
 	 * @param thngId thng id
-	 *
 	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Boolean> thngDeleter(final String thngId) throws EvrythngClientException {
@@ -420,9 +415,7 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @param thngId   thng id
 	 * @param location {@link Location} instance
-	 *
-	 * @return a pre-configured {@link Builder}
-	 *
+	 * @return a preconfigured {@link Builder}
 	 * @see #locationUpdater(String, List)
 	 */
 	public Builder<List<Location>> locationUpdater(final String thngId, final Location location) throws EvrythngClientException {
