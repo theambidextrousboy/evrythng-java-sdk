@@ -96,10 +96,38 @@ public class ProjectService extends EvrythngServiceBase {
 	 * DELETE {@value #PATH_PROJECT}
 	 *
 	 * @param id project id
-	 * @return a preconfigured {@link Builder}
+	 * @return a pre-configured {@link Builder}
 	 */
 	public Builder<Boolean> projectDeleter(final String id) throws EvrythngClientException {
 
 		return delete(String.format(PATH_PROJECT, id));
+	}
+
+	/**
+	 * Deletes the referenced {@link Project}
+	 * <p>
+	 * DELETE {@value #PATH_PROJECT}
+	 *
+	 * @param ids project ids
+	 *
+	 * @return a pre-configured {@link Builder}
+	 */
+	public Builder<Long> projectsDeleter(final List<String> ids) throws EvrythngClientException {
+
+		return deleteMultiple(PATH_PROJECTS).ids(ids);
+	}
+
+	/**
+	 * Deletes the referenced {@link Project}
+	 * <p>
+	 * DELETE {@value #PATH_PROJECT}
+	 *
+	 * @param filter filter for projects to delete
+	 *
+	 * @return a pre-configured {@link Builder}
+	 */
+	public Builder<Long> projectsDeleter(final String filter) throws EvrythngClientException {
+
+		return deleteMultiple(PATH_PROJECTS).filter(filter);
 	}
 }
