@@ -23,7 +23,8 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 	 * Reference to {@link Product#id}.
 	 */
 	private String product;
-	private Map<String, String> properties;
+	private Map<String, Object> properties;
+	private Map<String, String> propertiesOld;
 	/**
 	 * An array of global identifiers for this thng
 	 */
@@ -69,21 +70,36 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 		this.product = product;
 	}
 
+	/**
+	 * @deprecated use {@link #getTypedProperties()} instead
+	 */
 	@Override
-	// TODO _MS_ check whether we can or should generify this
+	@Deprecated
 	public Map<String, String> getProperties() {
+
+		return propertiesOld;
+	}
+
+	/**
+	 * @deprecated use {@link #setTypedProperties(java.util.Map)} instead
+	 */
+	@Deprecated
+	public void setProperties(final Map<String, String> propertiesOld) {
+
+		this.propertiesOld = propertiesOld;
+	}
+
+	@Override
+	public Map<String, Object> getTypedProperties() {
 
 		return properties;
 	}
 
-	public void setProperties(final Map<String, String> properties) {
+	public void setTypedProperties(final Map<String, Object> properties) {
 
 		this.properties = properties;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 

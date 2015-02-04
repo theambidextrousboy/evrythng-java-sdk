@@ -13,6 +13,13 @@ public interface ResourceWithProperties {
 
 	/**
 	 * @return The properties.
+	 * @deprecated use {@link #getTypedProperties()} instead
 	 */
+	@Deprecated
 	Map<String, String> getProperties();
+
+	/**
+	 * @return The properties.
+	 */
+	Map<String, Object> getTypedProperties();
 }

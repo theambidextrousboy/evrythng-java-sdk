@@ -26,14 +26,14 @@ public abstract class AbstractProperty<V> extends TemporalResourceModel {
 			if (value instanceof Boolean) {
 				return BOOLEAN;
 			}
-			if (value instanceof Double) {
+			if (value instanceof Number) {
 				return NUMBER;
 			}
 			if (value instanceof String) {
 				return STRING;
 			}
 			// TODO consider ARRAY and OBJECT
-			throw new IllegalArgumentException("Unsupported type: " + value.getClass().getSimpleName());
+			throw new IllegalArgumentException("Unsupported property type: " + value.getClass().getSimpleName());
 		}
 	}
 
