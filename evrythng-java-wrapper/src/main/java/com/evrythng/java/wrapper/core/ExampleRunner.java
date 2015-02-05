@@ -4,18 +4,19 @@
  */
 package com.evrythng.java.wrapper.core;
 
-import com.evrythng.java.wrapper.exception.EvrythngException;
-import com.evrythng.java.wrapper.util.JSONUtils;
-import com.evrythng.thng.commons.config.ApiConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.evrythng.java.wrapper.exception.EvrythngException;
+import com.evrythng.java.wrapper.util.JSONUtils;
+import com.evrythng.thng.commons.config.ApiConfiguration;
+
 /**
  * Base definition for implementing examples on top of the EVRYTHNG API wrapper.
- * 
+ *
  * @author Pedro De Almeida (almeidap)
  **/
 public abstract class ExampleRunner {
@@ -26,7 +27,7 @@ public abstract class ExampleRunner {
 
 	/**
 	 * Creates a new instance of {@link ExampleRunner} using the provided {@link ApiConfiguration}.
-	 * 
+	 *
 	 * @param config {@link ApiConfiguration} instance
 	 */
 	protected ExampleRunner(final ApiConfiguration config) {
@@ -35,7 +36,7 @@ public abstract class ExampleRunner {
 
 	/**
 	 * Runs the current example.
-	 * 
+	 *
 	 * @throws EvrythngException
 	 */
 	public void run() throws EvrythngException {
@@ -51,14 +52,14 @@ public abstract class ExampleRunner {
 
 	/**
 	 * Concrete implementation.
-	 * 
+	 *
 	 * @throws EvrythngException
 	 */
 	protected abstract void doRun() throws EvrythngException;
 
 	/**
 	 * Extracts required parameters from program {@code args}.
-	 * 
+	 *
 	 * @param args    program arguments
 	 * @return {@link ApiConfiguration} instance
 	 */
@@ -85,7 +86,7 @@ public abstract class ExampleRunner {
 
 	/**
 	 * Logs the provided message.
-	 * 
+	 *
 	 * @param message message
 	 */
 	public static void echo(final String message) {
@@ -95,7 +96,7 @@ public abstract class ExampleRunner {
 	/**
 	 * Logs an INFO message according to the specified format and arguments. Arguments will be jsonified before string
 	 * replacement.
-	 * 
+	 *
 	 * @param format format
 	 * @param args arguments
 	 */

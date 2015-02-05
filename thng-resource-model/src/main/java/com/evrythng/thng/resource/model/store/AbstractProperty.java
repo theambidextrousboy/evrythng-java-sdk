@@ -43,14 +43,14 @@ public abstract class AbstractProperty<V> extends TemporalResourceModel {
 	public static final String FIELD_VALUE = "value";
 
 	/**
-	 * Creates a new empty instance of {@link com.evrythng.thng.resource.model.store.AbstractProperty}.
+	 * Creates a new empty instance of {@link AbstractProperty}.
 	 */
 	AbstractProperty() {
 		/* Required by jackson. */
 	}
 
 	/**
-	 * Creates a new instance of {@link com.evrythng.thng.resource.model.store.AbstractProperty}.
+	 * Creates a new instance of {@link AbstractProperty}.
 	 */
 	AbstractProperty(final String key, final V value) {
 
@@ -59,7 +59,7 @@ public abstract class AbstractProperty<V> extends TemporalResourceModel {
 	}
 
 	/**
-	 * Creates a new instance of {@link com.evrythng.thng.resource.model.store.AbstractProperty}.
+	 * Creates a new instance of {@link AbstractProperty}.
 	 */
 	AbstractProperty(final String key, final V value, final Long timestamp) {
 

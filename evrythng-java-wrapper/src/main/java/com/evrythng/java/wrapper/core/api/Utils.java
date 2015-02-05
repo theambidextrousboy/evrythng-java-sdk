@@ -4,6 +4,13 @@
  */
 package com.evrythng.java.wrapper.core.api;
 
+import java.io.InputStream;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.evrythng.java.wrapper.core.http.Status;
 import com.evrythng.java.wrapper.exception.BadRequestException;
 import com.evrythng.java.wrapper.exception.ConflictException;
@@ -18,13 +25,6 @@ import com.evrythng.java.wrapper.exception.UnauthorizedException;
 import com.evrythng.java.wrapper.util.JSONUtils;
 import com.evrythng.thng.resource.model.exception.ErrorMessage;
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.InputStream;
 
 /**
  * Class that contains static utility methods.

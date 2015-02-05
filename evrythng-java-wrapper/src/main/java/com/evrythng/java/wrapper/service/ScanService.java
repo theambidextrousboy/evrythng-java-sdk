@@ -4,6 +4,9 @@
  */
 package com.evrythng.java.wrapper.service;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
@@ -11,9 +14,6 @@ import com.evrythng.java.wrapper.core.http.Status;
 import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.thng.resource.model.li.UrlBinding;
 import com.fasterxml.jackson.core.type.TypeReference;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  *

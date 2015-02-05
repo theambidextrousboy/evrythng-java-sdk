@@ -4,6 +4,8 @@
  */
 package com.evrythng.java.wrapper.service;
 
+import java.util.Map;
+
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
@@ -12,22 +14,20 @@ import com.evrythng.thng.resource.model.access.Credentials;
 import com.evrythng.thng.resource.model.store.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.util.Map;
-
 /**
  * Methods for the authentication API.
  * End point /auth. Implemented by thng-access module.
- * 
+ *
  **/
 public class AuthService extends EvrythngServiceBase {
-	
+
 	// ==== configuration ================================================== //
 
 	public static final String PATH_AUTH = "/auth";
 	public static final String PATH_AUTH_EVRYTHNG = PATH_AUTH + "/evrythng";
 	public static final String PATH_AUTH_EVRYTHNG_USERS = PATH_AUTH_EVRYTHNG + "/users";
 	public static final String PATH_AUTH_EVRYTHNG_USER_VALIDATE = PATH_AUTH_EVRYTHNG_USERS + "/%s/validate";
-	
+
 	public static final String PATH_AUTH_ALL = PATH_AUTH + "/all";
 	public static final String PATH_AUTH_ALL_LOGOUT = PATH_AUTH_ALL + "/logout";
 
@@ -36,7 +36,7 @@ public class AuthService extends EvrythngServiceBase {
 	public AuthService(final ApiManager apiManager) {
 		super(apiManager);
 	}
-	
+
 	// === requests ======================================================== //
 
 	/**

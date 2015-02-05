@@ -5,21 +5,21 @@
 package com.evrythng.thng.resource.model.store;
 
 /**
- * Model representation for <em>properties</em>.
+ * Model representation for <em>boolean properties</em>.
  */
 public final class BooleanProperty extends AbstractProperty<Boolean> {
 
 	private static final long serialVersionUID = -806157898317946571L;
 
 	/**
-	 * Creates a new empty instance of {@link com.evrythng.thng.resource.model.store.BooleanProperty}.
+	 * Creates a new empty instance of {@link BooleanProperty}.
 	 */
 	public BooleanProperty() {
 		/* Required by jackson. */
 	}
 
 	/**
-	 * Creates a new instance of {@link com.evrythng.thng.resource.model.store.BooleanProperty}.
+	 * Creates a new instance of {@link BooleanProperty}.
 	 */
 	public BooleanProperty(final String key, final Boolean value) {
 
@@ -27,7 +27,7 @@ public final class BooleanProperty extends AbstractProperty<Boolean> {
 	}
 
 	/**
-	 * Creates a new instance of {@link com.evrythng.thng.resource.model.store.BooleanProperty}.
+	 * Creates a new instance of {@link BooleanProperty}.
 	 */
 	public BooleanProperty(final String key, final Boolean value, final Long timestamp) {
 

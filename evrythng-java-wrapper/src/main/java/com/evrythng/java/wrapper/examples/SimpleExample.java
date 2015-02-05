@@ -5,19 +5,19 @@
  */
 package com.evrythng.java.wrapper.examples;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.ExampleRunner;
 import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.service.CollectionService;
 import com.evrythng.java.wrapper.service.ThngService;
-import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Collection;
 import com.evrythng.thng.resource.model.store.Location;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.Thng;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Simple usage example of the EVRYTHNG API Java Wrapper. In this example, you will learn how to:
@@ -31,7 +31,7 @@ import java.util.List;
  * <li>Update an existing {@link Thng} with multiple {@link Property} elements.</li>
  * <li>Retrieve an existing {@link Thng}</li>
  * </ul>
- * 
+ *
  * @author Pedro De Almeida (almeidap)
  */
 public class SimpleExample extends ExampleRunner {

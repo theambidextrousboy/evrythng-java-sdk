@@ -4,8 +4,10 @@
  */
 package com.evrythng.java.wrapper.core.http;
 
-import com.evrythng.java.wrapper.exception.EvrythngClientException;
-import com.evrythng.java.wrapper.util.JSONUtils;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.HttpDelete;
@@ -19,13 +21,12 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
+import com.evrythng.java.wrapper.exception.EvrythngClientException;
+import com.evrythng.java.wrapper.util.JSONUtils;
 
 /**
  * Builder for {@link HttpRequest} methods.
- * 
+ *
  * @author Pedro De Almeida (almeidap)
  **/
 public final class HttpMethodBuilder {

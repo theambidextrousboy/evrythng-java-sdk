@@ -5,6 +5,7 @@
  */
 package com.evrythng.java.wrapper.examples;
 
+import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.ExampleRunner;
@@ -13,24 +14,23 @@ import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.exception.ForbiddenException;
 import com.evrythng.java.wrapper.exception.NotFoundException;
 import com.evrythng.java.wrapper.service.ThngService;
-import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Thng;
 
 /**
  * <p>
  * Example of API exception handling using the EVRYTHNG Java Wrapper.
  * </p>
- * 
+ *
  * <p>
  * In this example, you will learn how to:
  * </p>
- * 
+ *
  * <ul>
  * <li>Initialize the {@link ApiManager}</li>
  * <li>Retrieve the {@link ThngService} through the {@link ApiManager}</li>
  * <li>Handle exceptions when performing incorrect operations</li>
  * </ul>
- * 
+ *
  * @author Pedro De Almeida (almeidap)
  */
 public class ExceptionHandlingExample extends ExampleRunner {

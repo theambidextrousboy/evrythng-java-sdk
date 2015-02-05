@@ -5,9 +5,6 @@
  */
 package com.evrythng.java.wrapper.util;
 
-import com.evrythng.java.wrapper.exception.EvrythngClientException;
-import org.apache.commons.collections.map.MultiValueMap;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,9 +14,13 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.collections.map.MultiValueMap;
+
+import com.evrythng.java.wrapper.exception.EvrythngClientException;
+
 /**
  * TODO Comment this class
- * 
+ *
  * @author Thomas Pham (tpham)
  **/
 public final class URIBuilder {
@@ -57,7 +58,7 @@ public final class URIBuilder {
 
 	/**
 	 * Builds the URI
-	 * 
+	 *
 	 * @throws EvrythngClientException
 	 */
 	@SuppressWarnings("unchecked")
