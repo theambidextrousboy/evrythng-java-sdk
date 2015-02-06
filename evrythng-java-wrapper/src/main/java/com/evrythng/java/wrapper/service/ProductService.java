@@ -31,6 +31,8 @@ public class ProductService extends EvrythngServiceBase {
 	public static final String PATH_PRODUCT_REDIRECTOR = PATH_PRODUCT + "/redirector";
 	public static final String PATH_PRODUCT_REDIRECTOR_QR = PATH_PRODUCT_REDIRECTOR + "/qr";
 	public static final String PATH_PRODUCT_ACTIONS = PATH_PRODUCT + "/actions";
+	public static final String PATH_PRODUCT_ALL_ACTIONS = PATH_PRODUCT_ACTIONS + "/all";
+	public static final String PATH_PRODUCT_ALL_ACTION = PATH_PRODUCT_ALL_ACTIONS + "/%s";
 	public static final String PATH_PRODUCT_TYPED_ACTIONS = PATH_PRODUCT_ACTIONS + "/%s";
 	public static final String PATH_PRODUCT_TYPED_ACTION = PATH_PRODUCT_TYPED_ACTIONS + "/%s";
 
@@ -355,6 +357,39 @@ public class ProductService extends EvrythngServiceBase {
 
 		checkCustomType(customType);
 		return get(String.format(PATH_PRODUCT_TYPED_ACTION, productId, customType, actionId), new TypeReference<CustomAction>() {
+
+		});
+	}
+
+	/**
+	 * Gets all the actions.
+	 */
+	public Builder<List<Action>> actionsReader(final String productId) throws EvrythngClientException {
+
+		return get(String.format(PATH_PRODUCT_ALL_ACTIONS, productId), new TypeReference<List<Action>>() {
+
+		});
+	}
+
+	/**
+	 * Gets all the action of a type.
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends Action> Builder<List<T>> actionsReader(final String productId, final Class<T> actionClass) throws EvrythngClientException {
+
+		String type = getType(actionClass);
+		return (Builder<List<T>>) (Builder<?>) get(String.format(PATH_PRODUCT_TYPED_ACTIONS, productId, type), new TypeReference<List<Action>>() {
+
+		});
+	}
+
+	/**
+	 * Gets all the action of a type.
+	 */
+	public Builder<List<CustomAction>> actionsReader(final String productId, final String customType) throws EvrythngClientException {
+
+		checkCustomType(customType);
+		return get(String.format(PATH_PRODUCT_TYPED_ACTIONS, productId, customType), new TypeReference<List<CustomAction>>() {
 
 		});
 	}

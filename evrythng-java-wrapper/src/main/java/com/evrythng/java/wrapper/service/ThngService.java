@@ -32,6 +32,8 @@ public class ThngService extends EvrythngServiceBase {
 	public static final String PATH_THNG_REDIRECTOR = PATH_THNG + "/redirector";
 	public static final String PATH_THNG_REDIRECTOR_QR = PATH_THNG_REDIRECTOR + "/qr";
 	public static final String PATH_THNG_ACTIONS = PATH_THNG + "/actions";
+	public static final String PATH_THNG_ALL_ACTIONS = PATH_THNG_ACTIONS + "/all";
+	public static final String PATH_THNG_ALL_ACTION = PATH_THNG_ALL_ACTIONS + "/%s";
 	public static final String PATH_THNG_TYPED_ACTIONS = PATH_THNG_ACTIONS + "/%s";
 	public static final String PATH_THNG_TYPED_ACTION = PATH_THNG_TYPED_ACTIONS + "/%s";
 
@@ -445,6 +447,39 @@ public class ThngService extends EvrythngServiceBase {
 
 		checkCustomType(customType);
 		return get(String.format(PATH_THNG_TYPED_ACTION, thngId, customType, actionId), new TypeReference<CustomAction>() {
+
+		});
+	}
+
+	/**
+	 * Gets all the actions.
+	 */
+	public Builder<List<Action>> actionsReader(final String thngId) throws EvrythngClientException {
+
+		return get(String.format(PATH_THNG_ALL_ACTIONS, thngId), new TypeReference<List<Action>>() {
+
+		});
+	}
+
+	/**
+	 * Gets all the action of a type.
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends Action> Builder<List<T>> actionsReader(final String thngId, final Class<T> actionClass) throws EvrythngClientException {
+
+		String type = getType(actionClass);
+		return (Builder<List<T>>) (Builder<?>) get(String.format(PATH_THNG_TYPED_ACTIONS, thngId, type), new TypeReference<List<Action>>() {
+
+		});
+	}
+
+	/**
+	 * Gets all the action of a type.
+	 */
+	public Builder<List<CustomAction>> actionsReader(final String thngId, final String customType) throws EvrythngClientException {
+
+		checkCustomType(customType);
+		return get(String.format(PATH_THNG_TYPED_ACTIONS, thngId, customType), new TypeReference<List<CustomAction>>() {
 
 		});
 	}
