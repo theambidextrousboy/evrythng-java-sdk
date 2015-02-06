@@ -22,7 +22,7 @@ public class EmbeddedLocation implements Locatable, Serializable {
 	private Double latitude;
 	private Double longitude;
 	private GeoJsonPoint position;
-	private Map<String, String> customFields;
+	private Map<String, Object> customFields;
 
 	public EmbeddedLocation() {
 
@@ -107,15 +107,15 @@ public class EmbeddedLocation implements Locatable, Serializable {
 	}
 
 	@Override
-	public Map<String, String> getCustomFields() {
+	public Map<String, Object> getCustomFields() {
 
 		return customFields;
 	}
 
 	@Override
-	public void setCustomFields(final Map<String, String> customFields) {
+	public void setCustomFields(final Map<String, ? extends Object> customFields) {
 
-		this.customFields = customFields;
+		this.customFields = (Map<String, Object>) customFields;
 	}
 
 	public static EmbeddedLocation copyFrom(final Locatable source) {
