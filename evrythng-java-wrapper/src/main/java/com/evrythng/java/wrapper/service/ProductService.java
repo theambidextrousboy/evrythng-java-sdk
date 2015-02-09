@@ -339,6 +339,18 @@ public class ProductService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Creates an action using /products/../actions/all endpoint.
+	 */
+	public Builder<Action> actionAllCreator(final String productId, final Action action)
+			throws EvrythngClientException {
+
+		return post(String.format(PATH_PRODUCT_ALL_ACTIONS, productId), action,
+		                         new TypeReference<Action>() {
+
+		                         });
+	}
+
+	/**
 	 * Gets one action by actionId and type.
 	 */
 	@SuppressWarnings("unchecked")
@@ -357,6 +369,16 @@ public class ProductService extends EvrythngServiceBase {
 
 		checkCustomType(customType);
 		return get(String.format(PATH_PRODUCT_TYPED_ACTION, productId, customType, actionId), new TypeReference<CustomAction>() {
+
+		});
+	}
+
+	/**
+	 * Gets one action by actionId.
+	 */
+	public Builder<Action> actionReader(final String productId, final String actionId) throws EvrythngClientException {
+
+		return get(String.format(PATH_PRODUCT_ALL_ACTION, productId, actionId), new TypeReference<Action>() {
 
 		});
 	}
