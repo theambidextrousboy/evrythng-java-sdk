@@ -429,6 +429,18 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
+	 * Creates an action using /thngs/../actions/all endpoint.
+	 */
+	public Builder<Action> actionAllCreator(final String thngId, final Action action)
+			throws EvrythngClientException {
+
+		return post(String.format(PATH_THNG_ALL_ACTIONS, thngId), action,
+		            new TypeReference<Action>() {
+
+		            });
+	}
+
+	/**
 	 * Gets one action by actionId and type.
 	 */
 	@SuppressWarnings("unchecked")
@@ -447,6 +459,16 @@ public class ThngService extends EvrythngServiceBase {
 
 		checkCustomType(customType);
 		return get(String.format(PATH_THNG_TYPED_ACTION, thngId, customType, actionId), new TypeReference<CustomAction>() {
+
+		});
+	}
+
+	/**
+	 * Gets one action by actionId.
+	 */
+	public Builder<Action> actionReader(final String thngId, final String actionId) throws EvrythngClientException {
+
+		return get(String.format(PATH_THNG_ALL_ACTION, thngId, actionId), new TypeReference<Action>() {
 
 		});
 	}
