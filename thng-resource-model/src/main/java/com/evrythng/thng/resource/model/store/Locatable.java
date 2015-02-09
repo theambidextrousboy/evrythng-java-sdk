@@ -17,5 +17,5 @@ public interface Locatable extends Positionable {
 
 	Map<String, Object> getCustomFields();
 
-	void setCustomFields(Map<String, ? extends Object> customFields);
+	void setCustomFields(Map<String, Object> customFields);
 }

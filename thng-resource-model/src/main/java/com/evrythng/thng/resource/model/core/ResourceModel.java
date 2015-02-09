@@ -5,9 +5,11 @@
 package com.evrythng.thng.resource.model.core;
 
 import com.evrythng.commons.annotations.csv.CsvTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,17 +54,18 @@ public abstract class ResourceModel implements Serializable, WithScopeResource {
 	@CsvTransient
 	public Map<String, Object> getCustomFields() {
 		
-		return customFields;
+		return customFields != null ? Collections.unmodifiableMap(customFields) : null;
 	}
 	
+	@JsonIgnore
 	public <T> T getCustomField(final String key){
 
 		return customFields != null ? (T) customFields.get(key) : null;
 	}
 
-	public void setCustomFields(final Map<String, ? extends Object> customFields) {
+	public void setCustomFields(final Map<String, Object> customFields) {
 
-		this.customFields = customFields != null ? new WrapperMap(customFields) : null;
+		this.customFields = customFields != null ? new HashMap<>(customFields) : null;
 	}
 
 	public void addCustomFields(final String key, final Object value) {

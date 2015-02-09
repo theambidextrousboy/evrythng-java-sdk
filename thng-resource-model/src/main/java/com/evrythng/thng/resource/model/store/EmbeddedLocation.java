@@ -113,9 +113,9 @@ public class EmbeddedLocation implements Locatable, Serializable {
 	}
 
 	@Override
-	public void setCustomFields(final Map<String, ? extends Object> customFields) {
+	public void setCustomFields(final Map<String, Object> customFields) {
 
-		this.customFields = (Map<String, Object>) customFields;
+		this.customFields = customFields;
 	}
 
 	public static EmbeddedLocation copyFrom(final Locatable source) {
