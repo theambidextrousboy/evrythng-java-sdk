@@ -26,9 +26,7 @@ import com.evrythng.java.wrapper.util.JSONUtils;
 
 /**
  * Builder for {@link HttpRequest} methods.
- *
- * @author Pedro De Almeida (almeidap)
- **/
+ */
 public final class HttpMethodBuilder {
 
 	public interface MethodBuilder<T extends HttpRequestBase> {

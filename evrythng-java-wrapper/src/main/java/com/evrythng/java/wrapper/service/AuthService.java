@@ -17,8 +17,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 /**
  * Methods for the authentication API.
  * End point /auth. Implemented by thng-access module.
- *
- **/
+ */
 public class AuthService extends EvrythngServiceBase {
 
 	// ==== configuration ================================================== //

@@ -30,8 +30,6 @@ import com.evrythng.thng.resource.model.store.Thng;
  * <li>Retrieve the {@link ThngService} through the {@link ApiManager}</li>
  * <li>Handle exceptions when performing incorrect operations</li>
  * </ul>
- *
- * @author Pedro De Almeida (almeidap)
  */
 public class ExceptionHandlingExample extends ExampleRunner {
 

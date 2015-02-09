@@ -16,9 +16,7 @@ import com.evrythng.thng.commons.config.ApiConfiguration;
 
 /**
  * Base definition for implementing examples on top of the EVRYTHNG API wrapper.
- *
- * @author Pedro De Almeida (almeidap)
- **/
+ */
 public abstract class ExampleRunner {
 
 	private static final Logger logger = LoggerFactory.getLogger(ExampleRunner.class);

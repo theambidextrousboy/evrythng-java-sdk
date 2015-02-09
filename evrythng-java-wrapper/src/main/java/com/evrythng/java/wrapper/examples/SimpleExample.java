@@ -31,8 +31,6 @@ import com.evrythng.thng.resource.model.store.Thng;
  * <li>Update an existing {@link Thng} with multiple {@link Property} elements.</li>
  * <li>Retrieve an existing {@link Thng}</li>
  * </ul>
- *
- * @author Pedro De Almeida (almeidap)
  */
 public class SimpleExample extends ExampleRunner {
 
