@@ -4,10 +4,14 @@ import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
+import com.evrythng.java.wrapper.mapping.ActionDeserializer;
+import com.evrythng.java.wrapper.mapping.EvrythngJacksonModule;
 import com.evrythng.thng.resource.model.store.Location;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.Redirector;
 import com.evrythng.thng.resource.model.store.Thng;
+import com.evrythng.thng.resource.model.store.action.Action;
+import com.evrythng.thng.resource.model.store.action.CustomAction;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.Collections;
@@ -27,10 +31,18 @@ public class ThngService extends EvrythngServiceBase {
 	public static final String PATH_THNG_LOCATION = PATH_THNG + "/location";
 	public static final String PATH_THNG_REDIRECTOR = PATH_THNG + "/redirector";
 	public static final String PATH_THNG_REDIRECTOR_QR = PATH_THNG_REDIRECTOR + "/qr";
+	public static final String PATH_THNG_ACTIONS = PATH_THNG + "/actions";
+	public static final String PATH_THNG_ALL_ACTIONS = PATH_THNG_ACTIONS + "/all";
+	public static final String PATH_THNG_ALL_ACTION = PATH_THNG_ALL_ACTIONS + "/%s";
+	public static final String PATH_THNG_TYPED_ACTIONS = PATH_THNG_ACTIONS + "/%s";
+	public static final String PATH_THNG_TYPED_ACTION = PATH_THNG_TYPED_ACTIONS + "/%s";
 
-	public ThngService(final ApiManager apiManager) {
+	protected ActionDeserializer deserializer;
+
+	public ThngService(final ApiManager apiManager, final EvrythngJacksonModule evrythngJacksonModule) {
 
 		super(apiManager);
+		deserializer = evrythngJacksonModule.getActionDeserializer();
 	}
 
 	/* ***** Thng ***** */
@@ -404,4 +416,88 @@ public class ThngService extends EvrythngServiceBase {
 
 		});
 	}
+
+	/**
+	 * Creates an action.
+	 */
+	public <T extends Action> Builder<T> actionCreator(final String thngId, final T action) throws EvrythngClientException {
+
+		return (Builder<T>) post(String.format(PATH_THNG_TYPED_ACTIONS, thngId, action.getType()), action,
+		                         new TypeReference<Action>() {
+
+		                         });
+	}
+
+	/**
+	 * Gets one action by actionId and type.
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends Action> Builder<T> actionReader(final String thngId, final Class<T> actionClass, final String actionId) throws EvrythngClientException {
+
+		String type = getType(actionClass);
+		return (Builder<T>) get(String.format(PATH_THNG_TYPED_ACTION, thngId, type, actionId), new TypeReference<Action>() {
+
+		});
+	}
+
+	/**
+	 * Gets one action by actionId and type.
+	 */
+	public Builder<CustomAction> actionReader(final String thngId, final String customType, final String actionId) throws EvrythngClientException {
+
+		checkCustomType(customType);
+		return get(String.format(PATH_THNG_TYPED_ACTION, thngId, customType, actionId), new TypeReference<CustomAction>() {
+
+		});
+	}
+
+	/**
+	 * Gets all the actions.
+	 */
+	public Builder<List<Action>> actionsReader(final String thngId) throws EvrythngClientException {
+
+		return get(String.format(PATH_THNG_ALL_ACTIONS, thngId), new TypeReference<List<Action>>() {
+
+		});
+	}
+
+	/**
+	 * Gets all the action of a type.
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends Action> Builder<List<T>> actionsReader(final String thngId, final Class<T> actionClass) throws EvrythngClientException {
+
+		String type = getType(actionClass);
+		return (Builder<List<T>>) (Builder<?>) get(String.format(PATH_THNG_TYPED_ACTIONS, thngId, type), new TypeReference<List<Action>>() {
+
+		});
+	}
+
+	/**
+	 * Gets all the action of a type.
+	 */
+	public Builder<List<CustomAction>> actionsReader(final String thngId, final String customType) throws EvrythngClientException {
+
+		checkCustomType(customType);
+		return get(String.format(PATH_THNG_TYPED_ACTIONS, thngId, customType), new TypeReference<List<CustomAction>>() {
+
+		});
+	}
+
+	protected void checkCustomType(final String customType) {
+
+		if (!customType.startsWith("_")) {
+			throw new IllegalArgumentException("Custom types must start with '_' (underscore).");
+		}
+	}
+
+	public <T extends Action> String getType(final Class<T> actionClass) {
+
+		String type = deserializer.getActionType(actionClass);
+		if (type == null) {
+			throw new IllegalArgumentException("The action type is not recognized.");
+		}
+		return type;
+	}
+
 }
