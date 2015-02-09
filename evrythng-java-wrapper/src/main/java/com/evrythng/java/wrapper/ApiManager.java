@@ -32,9 +32,9 @@ public class ApiManager {
 
 	private final ApiConfiguration config;
 
-	private final ThngService thngService;
+	private ThngService thngService;
 	private final CollectionService collectionService;
-	private final ProductService productService;
+	private ProductService productService;
 	private final SearchService searchService;
 	private final ApplicationService applicationService;
 	private final AuthService authService;
@@ -60,14 +60,14 @@ public class ApiManager {
 			}
 		}
 		this.config = config;
-		this.thngService = new ThngService(this);
 		this.collectionService = new CollectionService(this);
-		this.productService = new ProductService(this);
 		this.searchService = new SearchService(this);
 		this.applicationService = new ApplicationService(this);
 		this.authService = new AuthService(this);
 		this.scanThngService = new ScanService(this);
 		this.projectService = new ProjectService(this);
+		createThngService();
+		createProductService();
 		createPlaceService();
 		createActionService();
 	}
@@ -100,6 +100,11 @@ public class ApiManager {
 		}
 	}
 
+	protected void createThngService() {
+
+		thngService = new ThngService(this, getEvrythngJacksonModule());
+	}
+
 	/**
 	 * Returns a preconfigured EVRYTHNG service for accessing the <a
 	 * href="https://dashboard.evrythng.com/developers/apidoc#thngs">Thngs</a> API.
@@ -119,6 +124,11 @@ public class ApiManager {
 	 */
 	public CollectionService collectionService() {
 		return this.collectionService;
+	}
+
+	protected void createProductService() {
+
+		productService = new ProductService(this, getEvrythngJacksonModule());
 	}
 
 	/**
