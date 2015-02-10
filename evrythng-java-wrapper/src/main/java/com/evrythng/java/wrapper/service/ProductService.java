@@ -4,9 +4,11 @@ import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
-import com.evrythng.thng.resource.model.store.AbstractProperty;
 import com.evrythng.java.wrapper.mapping.ActionDeserializer;
 import com.evrythng.java.wrapper.mapping.EvrythngJacksonModule;
+import com.evrythng.thng.resource.model.store.AbstractProperty;
+import com.evrythng.thng.resource.model.store.BooleanProperty;
+import com.evrythng.thng.resource.model.store.NumberProperty;
 import com.evrythng.thng.resource.model.store.Product;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.Redirector;
@@ -144,50 +146,13 @@ public class ProductService extends EvrythngServiceBase {
 	/**
 	 * PUT {@value #PATH_PRODUCT_PROPERTIES}
 	 *
-	 * @param productId product id
-	 * @param property  {@link Property} instance
-	 *
-	 * @return a pre-configured {@link Builder}
-	 *
-	 * @see #propertiesCreator(String, List)
-	 * @deprecated use {@link #abstractPropertiesCreator(String, java.util.List)} instead
-	 */
-	@Deprecated
-	public Builder<List<Property>> propertiesCreator(final String productId, final Property property)
-			throws EvrythngClientException {
-
-		return propertiesCreator(productId, Collections.singletonList(property));
-	}
-
-	/**
-	 * PUT {@value #PATH_PRODUCT_PROPERTIES}
-	 *
-	 * @param productId  product id
-	 * @param properties list of {@link Property}
-	 *
-	 * @return a pre-configured {@link Builder}
-	 *
-	 * @deprecated use {@link #abstractPropertiesCreator(String, java.util.List)} instead
-	 */
-	@Deprecated
-	public Builder<List<Property>> propertiesCreator(final String productId, final List<Property> properties)
-			throws EvrythngClientException {
-
-		return put(String.format(PATH_PRODUCT_PROPERTIES, productId), properties, new TypeReference<List<Property>>() {
-
-		});
-	}
-
-	/**
-	 * PUT {@value #PATH_PRODUCT_PROPERTIES}
-	 *
 	 * @param productId  product id
 	 * @param properties list of {@link AbstractProperty}
 	 *
 	 * @return a pre-configured {@link Builder}
 	 */
-	public Builder<List<AbstractProperty<?>>> abstractPropertiesCreator(final String productId,
-	                                                                    final List<AbstractProperty<?>> properties)
+	public Builder<List<AbstractProperty<?>>> propertiesCreator(final String productId,
+	                                                            final List<AbstractProperty<?>> properties)
 			throws EvrythngClientException {
 
 		return put(String.format(PATH_PRODUCT_PROPERTIES, productId), properties, new TypeReference<List<AbstractProperty<?>>>
@@ -202,25 +167,8 @@ public class ProductService extends EvrythngServiceBase {
 	 * @param productId product id
 	 *
 	 * @return a pre-configured {@link Builder}
-	 *
-	 * @deprecated use {@link #abstractPropertiesReader(String)} instead
 	 */
-	@Deprecated
-	public Builder<List<Property>> propertiesReader(final String productId) throws EvrythngClientException {
-
-		return get(String.format(PATH_PRODUCT_PROPERTIES, productId), new TypeReference<List<Property>>() {
-
-		});
-	}
-
-	/**
-	 * GET {@value #PATH_PRODUCT_PROPERTIES}
-	 *
-	 * @param productId product id
-	 *
-	 * @return a pre-configured {@link Builder}
-	 */
-	public Builder<List<AbstractProperty<?>>> abstractPropertiesReader(final String productId) throws EvrythngClientException {
+	public Builder<List<AbstractProperty<?>>> propertiesReader(final String productId) throws EvrythngClientException {
 
 		return get(String.format(PATH_PRODUCT_PROPERTIES, productId), new TypeReference<List<AbstractProperty<?>>>() {
 
@@ -239,26 +187,6 @@ public class ProductService extends EvrythngServiceBase {
 		return delete(String.format(PATH_PRODUCT_PROPERTIES, productId));
 	}
 
-	/* ***** /products/{id}/properties/{key} ***** */
-
-	/**
-	 * GET {@value #PATH_PRODUCT_PROPERTY}
-	 *
-	 * @param productId product id
-	 * @param key       key
-	 *
-	 * @return a pre-configured {@link Builder}
-	 *
-	 * @deprecated use {@link #abstractPropertyReader(String, String)} instead
-	 */
-	@Deprecated
-	public Builder<List<Property>> propertyReader(final String productId, final String key) throws EvrythngClientException {
-
-		return get(String.format(PATH_PRODUCT_PROPERTY, productId, key), new TypeReference<List<Property>>() {
-
-		});
-	}
-
 	/**
 	 * GET {@value #PATH_PRODUCT_PROPERTY}
 	 *
@@ -267,7 +195,7 @@ public class ProductService extends EvrythngServiceBase {
 	 *
 	 * @return a pre-configured {@link Builder}
 	 */
-	public Builder<List<AbstractProperty<?>>> abstractPropertyReader(final String productId, final String key)
+	public Builder<List<AbstractProperty<?>>> propertyReader(final String productId, final String key)
 			throws EvrythngClientException {
 
 		return get(String.format(PATH_PRODUCT_PROPERTY, productId, key), new TypeReference<List<AbstractProperty<?>>>() {
@@ -280,78 +208,64 @@ public class ProductService extends EvrythngServiceBase {
 	 *
 	 * @param productId product id
 	 * @param key       key
-	 * @param value     value
-	 *
-	 * @return a pre-configured {@link Builder}
-	 *
-	 * @see #propertiesCreator(String, Property)
-	 * @deprecated use {@link #abstractPropertyUpdater(String, String, AbstractProperty)}  instead
-	 */
-	@Deprecated
-	public Builder<List<Property>> propertyUpdater(final String productId, final String key, final String value)
-			throws EvrythngClientException {
-
-		return propertyUpdater(productId, key, new Property(null, value));
-	}
-
-	/**
-	 * PUT {@value #PATH_PRODUCT_PROPERTY}
-	 *
-	 * @param productId product id
-	 * @param key       key
-	 * @param value     value
-	 * @param timestamp timestamp
-	 *
-	 * @return a pre-configured {@link Builder}
-	 *
-	 * @see #propertiesCreator(String, Property)
-	 * @deprecated use {@link #abstractPropertyUpdater(String, String, AbstractProperty)}  instead
-	 */
-	@Deprecated
-	public Builder<List<Property>> propertyUpdater(final String productId, final String key, final String value,
-	                                               final long timestamp) throws EvrythngClientException {
-
-		return propertyUpdater(productId, key, new Property(null, value, timestamp));
-	}
-
-	/**
-	 * PUT {@value #PATH_PRODUCT_PROPERTY}
-	 *
-	 * @param productId product id
-	 * @param key       key
-	 * @param value     value
-	 *
-	 * @return a pre-configured {@link Builder}
-	 *
-	 * @deprecated use {@link #abstractPropertyUpdater(String, String, AbstractProperty)}  instead
-	 */
-	@Deprecated
-	public Builder<List<Property>> propertyUpdater(final String productId, final String key, final Property value)
-			throws EvrythngClientException {
-
-		return put(String.format(PATH_PRODUCT_PROPERTY, productId, key), Collections.singletonList(value),
-		           new TypeReference<List<Property>>() {
-
-		           });
-	}
-
-	/**
-	 * PUT {@value #PATH_PRODUCT_PROPERTY}
-	 *
-	 * @param productId product id
-	 * @param key       key
 	 * @param update    property update
 	 *
 	 * @return a pre-configured {@link Builder}
 	 */
-	public Builder<List<AbstractProperty<?>>> abstractPropertyUpdater(final String productId, final String key,
-	                                                                  final AbstractProperty<?> update)
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String productId, final String key,
+	                                                          final AbstractProperty<?> update)
 			throws EvrythngClientException {
 
 		return put(String.format(PATH_PRODUCT_PROPERTY, productId, key), Collections.singletonList(update),
 		           new TypeReference<List<AbstractProperty<?>>>() {
 
 		           });
+	}
+
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String productId, final String key, final String value, final Long timestamp)
+			throws EvrythngClientException {
+
+		return put(String.format(PATH_PRODUCT_PROPERTY, productId, key), Collections.singletonList(new Property(null, value, timestamp)),
+		           new TypeReference<List<AbstractProperty<?>>>() {
+
+		           });
+	}
+
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String productId, final String key, final Number value, final Long timestamp)
+			throws EvrythngClientException {
+
+		return put(String.format(PATH_PRODUCT_PROPERTY, productId, key),
+		           Collections.singletonList(new NumberProperty(null, value.doubleValue(), timestamp)),
+		           new TypeReference<List<AbstractProperty<?>>>() {
+
+		           });
+	}
+
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String productId, final String key, final Boolean value, final Long timestamp)
+			throws EvrythngClientException {
+
+		return put(String.format(PATH_PRODUCT_PROPERTY, productId, key), Collections.singletonList(new BooleanProperty(null, value, timestamp)),
+		           new TypeReference<List<AbstractProperty<?>>>() {
+
+		           });
+	}
+
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final String value)
+			throws EvrythngClientException {
+
+		return propertyUpdater(thngId, key, value, null);
+	}
+
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final Number value)
+			throws EvrythngClientException {
+
+		return propertyUpdater(thngId, key, value, null);
+	}
+
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final Boolean value)
+			throws EvrythngClientException {
+
+		return propertyUpdater(thngId, key, value, null);
 	}
 
 	/**

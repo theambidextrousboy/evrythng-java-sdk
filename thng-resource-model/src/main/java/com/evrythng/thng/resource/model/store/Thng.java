@@ -6,6 +6,7 @@ package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,6 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 	 */
 	private String product;
 	private Map<String, Object> properties;
-	private Map<String, String> propertiesOld;
 	/**
 	 * An array of global identifiers for this thng
 	 */
@@ -70,34 +70,16 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 		this.product = product;
 	}
 
-	/**
-	 * @deprecated use {@link #getTypedProperties()} instead
-	 */
 	@Override
-	@Deprecated
-	public Map<String, String> getProperties() {
+	public Map<String, Object> getProperties() {
 
-		return propertiesOld;
-	}
-
-	/**
-	 * @deprecated use {@link #setTypedProperties(java.util.Map)} instead
-	 */
-	@Deprecated
-	public void setProperties(final Map<String, String> propertiesOld) {
-
-		this.propertiesOld = propertiesOld;
+		return properties != null ? Collections.unmodifiableMap(properties) : null;
 	}
 
 	@Override
-	public Map<String, Object> getTypedProperties() {
+	public void setProperties(final Map<String, Object> properties) {
 
-		return properties;
-	}
-
-	public void setTypedProperties(final Map<String, Object> properties) {
-
-		this.properties = properties;
+		this.properties = properties != null ? new HashMap<>(properties) : null;
 	}
 
 	@Override

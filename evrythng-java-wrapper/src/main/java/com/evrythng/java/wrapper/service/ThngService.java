@@ -4,10 +4,12 @@ import com.evrythng.java.wrapper.ApiManager;
 import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
-import com.evrythng.thng.resource.model.store.AbstractProperty;
 import com.evrythng.java.wrapper.mapping.ActionDeserializer;
 import com.evrythng.java.wrapper.mapping.EvrythngJacksonModule;
+import com.evrythng.thng.resource.model.store.AbstractProperty;
+import com.evrythng.thng.resource.model.store.BooleanProperty;
 import com.evrythng.thng.resource.model.store.Location;
+import com.evrythng.thng.resource.model.store.NumberProperty;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.Redirector;
 import com.evrythng.thng.resource.model.store.Thng;
@@ -20,8 +22,6 @@ import java.util.List;
 
 /**
  * Service wrapper for the {@code /thngs} endpoint of the EVRYTHNG Engine API.
- *
- * @author Pedro De Almeida (almeidap)
  */
 public class ThngService extends EvrythngServiceBase {
 
@@ -151,46 +151,6 @@ public class ThngService extends EvrythngServiceBase {
 	/* ***** /thngs/{id}/properties ***** */
 
 	/**
-	 * Creates a new {@link Property} on the referenced {@link Thng}.
-	 * <p>
-	 * PUT {@value #PATH_THNG_PROPERTIES}
-	 *
-	 * @param thngId   thng id
-	 * @param property {@link Property} instance
-	 *
-	 * @return a pre-configured {@link Builder}
-	 *
-	 * @deprecated use {@link #abstractPropertiesCreator(String, java.util.List)} instead
-	 */
-	@Deprecated
-	public Builder<List<Property>> propertiesCreator(final String thngId, final Property property)
-			throws EvrythngClientException {
-
-		return propertiesCreator(thngId, Collections.singletonList(property));
-	}
-
-	/**
-	 * Creates multiple {@link Property} resources on the referenced {@link Thng}.
-	 * <p>
-	 * PUT {@value #PATH_THNG_PROPERTIES}
-	 *
-	 * @param thngId     thng id
-	 * @param properties list of {@link Property} instances
-	 *
-	 * @return a pre-configured {@link Builder}
-	 *
-	 * @deprecated use {@link #abstractPropertiesCreator(String, java.util.List)}} instead
-	 */
-	@Deprecated
-	public Builder<List<Property>> propertiesCreator(final String thngId, final List<Property> properties)
-			throws EvrythngClientException {
-
-		return put(String.format(PATH_THNG_PROPERTIES, thngId), properties, new TypeReference<List<Property>>() {
-
-		});
-	}
-
-	/**
 	 * Creates multiple {@link Property} resources on the referenced {@link Thng}.
 	 * <p>
 	 * PUT {@value #PATH_THNG_PROPERTIES}
@@ -200,8 +160,7 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @return a pre-configured {@link Builder}
 	 */
-	public Builder<List<AbstractProperty<?>>> abstractPropertiesCreator(final String thngId,
-	                                                                    final List<AbstractProperty<?>> properties)
+	public Builder<List<AbstractProperty<?>>> propertiesCreator(final String thngId, final List<AbstractProperty<?>> properties)
 			throws EvrythngClientException {
 
 		return put(String.format(PATH_THNG_PROPERTIES, thngId), properties, new TypeReference<List<AbstractProperty<?>>>() {
@@ -217,27 +176,8 @@ public class ThngService extends EvrythngServiceBase {
 	 * @param thngId thng id
 	 *
 	 * @return a pre-configured {@link Builder}
-	 *
-	 * @deprecated use {@link #abstractPropertiesReader(String)} instead
 	 */
-	@Deprecated
-	public Builder<List<Property>> propertiesReader(final String thngId) throws EvrythngClientException {
-
-		return get(String.format(PATH_THNG_PROPERTIES, thngId), new TypeReference<List<Property>>() {
-
-		});
-	}
-
-	/**
-	 * Retrieves the last updated {@link Property} resources from the referenced {@link Thng}.
-	 * <p>
-	 * GET {@value #PATH_THNG_PROPERTIES}
-	 *
-	 * @param thngId thng id
-	 *
-	 * @return a pre-configured {@link Builder}
-	 */
-	public Builder<List<AbstractProperty<?>>> abstractPropertiesReader(final String thngId) throws EvrythngClientException {
+	public Builder<List<AbstractProperty<?>>> propertiesReader(final String thngId) throws EvrythngClientException {
 
 		return get(String.format(PATH_THNG_PROPERTIES, thngId), new TypeReference<List<AbstractProperty<?>>>() {
 
@@ -258,28 +198,6 @@ public class ThngService extends EvrythngServiceBase {
 		return delete(String.format(PATH_THNG_PROPERTIES, thngId));
 	}
 
-	/* ***** /thngs/{id}/properties/{key} ***** */
-
-	/**
-	 * Retrieves the last values of the {@link Property} named {@code key} from the referenced {@link Thng}.
-	 * <p>
-	 * GET {@value #PATH_THNG_PROPERTY}
-	 *
-	 * @param thngId thng id
-	 * @param key    key
-	 *
-	 * @return a pre-configured {@link Builder}
-	 *
-	 * @deprecated use {@link #abstractPropertyReader(String, String)} instead
-	 */
-	@Deprecated
-	public Builder<List<Property>> propertyReader(final String thngId, final String key) throws EvrythngClientException {
-
-		return get(String.format(PATH_THNG_PROPERTY, thngId, key), new TypeReference<List<Property>>() {
-
-		});
-	}
-
 	/**
 	 * Retrieves the last values of the {@link Property} named {@code key} from the referenced {@link Thng}.
 	 * <p>
@@ -290,7 +208,7 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @return a pre-configured {@link Builder}
 	 */
-	public Builder<List<AbstractProperty<?>>> abstractPropertyReader(final String thngId, final String key)
+	public Builder<List<AbstractProperty<?>>> propertyReader(final String thngId, final String key)
 			throws EvrythngClientException {
 
 		return get(String.format(PATH_THNG_PROPERTY, thngId, key), new TypeReference<List<AbstractProperty<?>>>() {
@@ -305,86 +223,64 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @param thngId thng id
 	 * @param key    key
-	 * @param value  value
-	 *
-	 * @return a pre-configured {@link Builder}
-	 *
-	 * @see #propertiesCreator(String, Property)
-	 * @deprecated use {@link #abstractPropertyUpdater(String, String, com.evrythng.thng.resource.model.store.AbstractProperty)}
-	 * instead
-	 */
-	@Deprecated
-	public Builder<List<Property>> propertyUpdater(final String thngId, final String key, final String value)
-			throws EvrythngClientException {
-
-		return propertyUpdater(thngId, key, new Property(null, value));
-	}
-
-	/**
-	 * Updates the {@link Property} named {@code key} of the referenced {@link Thng}.
-	 * <p>
-	 * PUT {@value #PATH_THNG_PROPERTY}
-	 *
-	 * @param thngId    thng id
-	 * @param key       key
-	 * @param value     value
-	 * @param timestamp timestamp
-	 *
-	 * @return a pre-configured {@link Builder}
-	 *
-	 * @see #propertiesCreator(String, Property)
-	 * @deprecated use {@link #abstractPropertyUpdater(String, String, com.evrythng.thng.resource.model.store.AbstractProperty)}
-	 * instead
-	 */
-	@Deprecated
-	public Builder<List<Property>> propertyUpdater(final String thngId, final String key, final String value,
-	                                               final long timestamp) throws EvrythngClientException {
-
-		return propertyUpdater(thngId, key, new Property(null, value, timestamp));
-	}
-
-	/**
-	 * Updates the {@link Property} named {@code key} of the referenced {@link Thng}.
-	 * <p>
-	 * PUT {@value #PATH_THNG_PROPERTY}
-	 *
-	 * @param thngId thng id
-	 * @param key    key
-	 * @param value  value
-	 *
-	 * @return a pre-configured {@link Builder}
-	 *
-	 * @deprecated use {@link #abstractPropertyUpdater(String, String, AbstractProperty)} instead
-	 */
-	@Deprecated
-	public Builder<List<Property>> propertyUpdater(final String thngId, final String key, final Property value)
-			throws EvrythngClientException {
-
-		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Collections.singletonList(value),
-		           new TypeReference<List<Property>>() {
-
-		           });
-	}
-
-	/**
-	 * Updates the {@link Property} named {@code key} of the referenced {@link Thng}.
-	 * <p>
-	 * PUT {@value #PATH_THNG_PROPERTY}
-	 *
-	 * @param thngId thng id
-	 * @param key    key
 	 * @param update property update
 	 *
 	 * @return a pre-configured {@link Builder}
 	 */
-	public Builder<List<AbstractProperty<?>>> abstractPropertyUpdater(final String thngId, final String key,
-	                                                                  final AbstractProperty<?> update)
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key,
+	                                                          final AbstractProperty<?> update)
 			throws EvrythngClientException {
 
 		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Collections.singletonList(update),
 		           new TypeReference<List<AbstractProperty<?>>>() {
 
 		           });
+	}
+
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final String value, final Long timestamp)
+			throws EvrythngClientException {
+
+		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Collections.singletonList(new Property(null, value, timestamp)),
+		           new TypeReference<List<AbstractProperty<?>>>() {
+
+		           });
+	}
+
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final Number value, final Long timestamp)
+			throws EvrythngClientException {
+
+		return put(String.format(PATH_THNG_PROPERTY, thngId, key),
+		           Collections.singletonList(new NumberProperty(null, value.doubleValue(), timestamp)),
+		           new TypeReference<List<AbstractProperty<?>>>() {
+
+		           });
+	}
+
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final Boolean value, final Long timestamp)
+			throws EvrythngClientException {
+
+		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Collections.singletonList(new BooleanProperty(null, value, timestamp)),
+		           new TypeReference<List<AbstractProperty<?>>>() {
+
+		           });
+	}
+
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final String value)
+			throws EvrythngClientException {
+
+		return propertyUpdater(thngId, key, value, null);
+	}
+
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final Number value)
+			throws EvrythngClientException {
+
+		return propertyUpdater(thngId, key, value, null);
+	}
+
+	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final Boolean value)
+			throws EvrythngClientException {
+
+		return propertyUpdater(thngId, key, value, null);
 	}
 
 	/**
