@@ -7,7 +7,7 @@ package com.evrythng.thng.resource.model.store;
 /**
  * Model representation for <em>number properties</em>.
  */
-public final class NumberProperty extends AbstractProperty<Double> {
+public final class NumberProperty extends Property<Double> {
 
 	private static final long serialVersionUID = -806157898317946571L;
 

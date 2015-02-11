@@ -118,9 +118,7 @@ public final class JSONUtils {
 
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
-
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
 		mapper.setDateFormat(new ISO8601DateFormat());
 
 		return mapper;

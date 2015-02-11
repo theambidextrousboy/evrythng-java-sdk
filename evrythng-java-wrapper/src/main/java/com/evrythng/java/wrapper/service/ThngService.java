@@ -6,12 +6,12 @@ import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.java.wrapper.mapping.ActionDeserializer;
 import com.evrythng.java.wrapper.mapping.EvrythngJacksonModule;
-import com.evrythng.thng.resource.model.store.AbstractProperty;
 import com.evrythng.thng.resource.model.store.BooleanProperty;
 import com.evrythng.thng.resource.model.store.Location;
 import com.evrythng.thng.resource.model.store.NumberProperty;
 import com.evrythng.thng.resource.model.store.Property;
 import com.evrythng.thng.resource.model.store.Redirector;
+import com.evrythng.thng.resource.model.store.StringProperty;
 import com.evrythng.thng.resource.model.store.Thng;
 import com.evrythng.thng.resource.model.store.action.Action;
 import com.evrythng.thng.resource.model.store.action.CustomAction;
@@ -151,25 +151,25 @@ public class ThngService extends EvrythngServiceBase {
 	/* ***** /thngs/{id}/properties ***** */
 
 	/**
-	 * Creates multiple {@link Property} resources on the referenced {@link Thng}.
+	 * Creates multiple {@link com.evrythng.thng.resource.model.store.StringProperty} resources on the referenced {@link Thng}.
 	 * <p>
 	 * PUT {@value #PATH_THNG_PROPERTIES}
 	 *
 	 * @param thngId     thng id
-	 * @param properties list of {@link Property} instances
+	 * @param properties list of {@link com.evrythng.thng.resource.model.store.StringProperty} instances
 	 *
 	 * @return a pre-configured {@link Builder}
 	 */
-	public Builder<List<AbstractProperty<?>>> propertiesCreator(final String thngId, final List<AbstractProperty<?>> properties)
+	public Builder<List<Property<?>>> propertiesCreator(final String thngId, final List<Property<?>> properties)
 			throws EvrythngClientException {
 
-		return put(String.format(PATH_THNG_PROPERTIES, thngId), properties, new TypeReference<List<AbstractProperty<?>>>() {
+		return put(String.format(PATH_THNG_PROPERTIES, thngId), properties, new TypeReference<List<Property<?>>>() {
 
 		});
 	}
 
 	/**
-	 * Retrieves the last updated {@link Property} resources from the referenced {@link Thng}.
+	 * Retrieves the last updated {@link com.evrythng.thng.resource.model.store.StringProperty} resources from the referenced {@link Thng}.
 	 * <p>
 	 * GET {@value #PATH_THNG_PROPERTIES}
 	 *
@@ -177,15 +177,15 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @return a pre-configured {@link Builder}
 	 */
-	public Builder<List<AbstractProperty<?>>> propertiesReader(final String thngId) throws EvrythngClientException {
+	public Builder<List<Property<?>>> propertiesReader(final String thngId) throws EvrythngClientException {
 
-		return get(String.format(PATH_THNG_PROPERTIES, thngId), new TypeReference<List<AbstractProperty<?>>>() {
+		return get(String.format(PATH_THNG_PROPERTIES, thngId), new TypeReference<List<Property<?>>>() {
 
 		});
 	}
 
 	/**
-	 * Deletes all {@link Property} resources from the referenced {@link Thng}.
+	 * Deletes all {@link com.evrythng.thng.resource.model.store.StringProperty} resources from the referenced {@link Thng}.
 	 * <p>
 	 * DELETE {@value #PATH_THNG_PROPERTIES}
 	 *
@@ -199,7 +199,7 @@ public class ThngService extends EvrythngServiceBase {
 	}
 
 	/**
-	 * Retrieves the last values of the {@link Property} named {@code key} from the referenced {@link Thng}.
+	 * Retrieves the last values of the {@link com.evrythng.thng.resource.model.store.StringProperty} named {@code key} from the referenced {@link Thng}.
 	 * <p>
 	 * GET {@value #PATH_THNG_PROPERTY}
 	 *
@@ -208,16 +208,16 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @return a pre-configured {@link Builder}
 	 */
-	public Builder<List<AbstractProperty<?>>> propertyReader(final String thngId, final String key)
+	public Builder<List<Property<?>>> propertyReader(final String thngId, final String key)
 			throws EvrythngClientException {
 
-		return get(String.format(PATH_THNG_PROPERTY, thngId, key), new TypeReference<List<AbstractProperty<?>>>() {
+		return get(String.format(PATH_THNG_PROPERTY, thngId, key), new TypeReference<List<Property<?>>>() {
 
 		});
 	}
 
 	/**
-	 * Updates the {@link Property} named {@code key} of the referenced {@link Thng}.
+	 * Updates the {@link com.evrythng.thng.resource.model.store.StringProperty} named {@code key} of the referenced {@link Thng}.
 	 * <p>
 	 * PUT {@value #PATH_THNG_PROPERTY}
 	 *
@@ -227,64 +227,64 @@ public class ThngService extends EvrythngServiceBase {
 	 *
 	 * @return a pre-configured {@link Builder}
 	 */
-	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key,
-	                                                          final AbstractProperty<?> update)
+	public Builder<List<Property<?>>> propertyUpdater(final String thngId, final String key,
+	                                                          final Property<?> update)
 			throws EvrythngClientException {
 
 		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Collections.singletonList(update),
-		           new TypeReference<List<AbstractProperty<?>>>() {
+		           new TypeReference<List<Property<?>>>() {
 
 		           });
 	}
 
-	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final String value, final Long timestamp)
+	public Builder<List<Property<?>>> propertyUpdater(final String thngId, final String key, final String value, final Long timestamp)
 			throws EvrythngClientException {
 
-		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Collections.singletonList(new Property(null, value, timestamp)),
-		           new TypeReference<List<AbstractProperty<?>>>() {
+		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Collections.singletonList(new StringProperty(null, value, timestamp)),
+		           new TypeReference<List<Property<?>>>() {
 
 		           });
 	}
 
-	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final Number value, final Long timestamp)
+	public Builder<List<Property<?>>> propertyUpdater(final String thngId, final String key, final Number value, final Long timestamp)
 			throws EvrythngClientException {
 
 		return put(String.format(PATH_THNG_PROPERTY, thngId, key),
 		           Collections.singletonList(new NumberProperty(null, value.doubleValue(), timestamp)),
-		           new TypeReference<List<AbstractProperty<?>>>() {
+		           new TypeReference<List<Property<?>>>() {
 
 		           });
 	}
 
-	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final Boolean value, final Long timestamp)
+	public Builder<List<Property<?>>> propertyUpdater(final String thngId, final String key, final Boolean value, final Long timestamp)
 			throws EvrythngClientException {
 
 		return put(String.format(PATH_THNG_PROPERTY, thngId, key), Collections.singletonList(new BooleanProperty(null, value, timestamp)),
-		           new TypeReference<List<AbstractProperty<?>>>() {
+		           new TypeReference<List<Property<?>>>() {
 
 		           });
 	}
 
-	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final String value)
+	public Builder<List<Property<?>>> propertyUpdater(final String thngId, final String key, final String value)
 			throws EvrythngClientException {
 
 		return propertyUpdater(thngId, key, value, null);
 	}
 
-	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final Number value)
+	public Builder<List<Property<?>>> propertyUpdater(final String thngId, final String key, final Number value)
 			throws EvrythngClientException {
 
 		return propertyUpdater(thngId, key, value, null);
 	}
 
-	public Builder<List<AbstractProperty<?>>> propertyUpdater(final String thngId, final String key, final Boolean value)
+	public Builder<List<Property<?>>> propertyUpdater(final String thngId, final String key, final Boolean value)
 			throws EvrythngClientException {
 
 		return propertyUpdater(thngId, key, value, null);
 	}
 
 	/**
-	 * Deletes the {@link Property} named {@code key} from the referenced {@link Thng}.
+	 * Deletes the {@link com.evrythng.thng.resource.model.store.StringProperty} named {@code key} from the referenced {@link Thng}.
 	 * <p>
 	 * DELETE {@value #PATH_THNG_PROPERTY}
 	 *

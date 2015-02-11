@@ -7,7 +7,7 @@ package com.evrythng.thng.resource.model.store;
 /**
  * Model representation for <em>boolean properties</em>.
  */
-public final class BooleanProperty extends AbstractProperty<Boolean> {
+public final class BooleanProperty extends Property<Boolean> {
 
 	private static final long serialVersionUID = -806157898317946571L;
 
