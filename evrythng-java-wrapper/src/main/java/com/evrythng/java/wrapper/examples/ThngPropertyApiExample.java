@@ -12,6 +12,7 @@ import com.evrythng.java.wrapper.exception.EvrythngException;
 import com.evrythng.java.wrapper.service.ThngService;
 import com.evrythng.thng.commons.config.ApiConfiguration;
 import com.evrythng.thng.resource.model.store.Property;
+import com.evrythng.thng.resource.model.store.StringProperty;
 import com.evrythng.thng.resource.model.store.Thng;
 
 import java.util.ArrayList;
@@ -90,31 +91,31 @@ public class ThngPropertyApiExample extends ExampleRunner {
 		echo("Thng created: [output={}]", thng);
 
 		// Build some sample data for creating new Property resources:
-		List<Property> properties = new ArrayList<>();
-		properties.add(new Property("temperature", String.valueOf(Math.random())));
-		properties.add(new Property("altitude", String.valueOf(Math.random())));
+		List<Property<?>> properties = new ArrayList<>();
+		properties.add(new StringProperty("temperature", String.valueOf(Math.random())));
+		properties.add(new StringProperty("altitude", String.valueOf(Math.random())));
 
 		// Now, we can create these Property resources on a specific Thng
 		// using a propertiesCreator builder:
 		echo("Creating new Property resources: [thngId={}, input={}]", thng.getId(), properties);
-		List<Property> results = thngService.propertiesCreator(thng.getId(), properties).execute();
+		List<Property<?>> results = thngService.propertiesCreator(thng.getId(), properties).execute();
 		echo("Property resources created: [output={}]", results);
 
 		// Retrieve created Property resources using a propertiesReader builder:
 		echo("Retrieving Property resources from Thng: [thngId={}]", thng.getId());
-		Builder<List<Property>> thngPropertiesReader = thngService.propertiesReader(thng.getId());
+		Builder<List<Property<?>>> thngPropertiesReader = thngService.propertiesReader(thng.getId());
 		results = thngPropertiesReader.execute();
 		echo("Thng Property resources retrieved: [output={}]", results);
 
 		// Retrieve last values of a specific Property using a propertyReader builder:
 		echo("Retrieving last values of the {} Property: [thngId={}]", "temperature", thng.getId());
-		Builder<List<Property>> temperatureReader = thngService.propertyReader(thng.getId(), "temperature");
-		List<Property> values = temperatureReader.execute();
+		Builder<List<Property<?>>> temperatureReader = thngService.propertyReader(thng.getId(), "temperature");
+		List<Property<?>> values = temperatureReader.execute();
 		echo("List of Property retrieved: [size={}, output={}]", values.size(), values);
 
 		// Update value of a specific Property:
 		echo("Updating value of the {} Property: [thngId={}]", "temperature", thng.getId());
-		Builder<List<Property>> temperatureUpdater = thngService.propertyUpdater(thng.getId(), "temperature", String.valueOf(Math.random()));
+		Builder<List<Property<?>>> temperatureUpdater = thngService.propertyUpdater(thng.getId(), "temperature", String.valueOf(Math.random()));
 		values = temperatureUpdater.execute();
 		echo("Thng Property value updated: [output={}]", values);
 
@@ -130,11 +131,11 @@ public class ThngPropertyApiExample extends ExampleRunner {
 
 		// Update the speed Property in order to perform some temporal queries
 		// using a propertyReader:
-		thngService.propertyUpdater(thng.getId(), "speed", "10", 1000).execute();
-		thngService.propertyUpdater(thng.getId(), "speed", "20", 2000).execute();
-		thngService.propertyUpdater(thng.getId(), "speed", "30", 3000).execute();
-		thngService.propertyUpdater(thng.getId(), "speed", "40", 4000).execute();
-		Builder<List<Property>> speedReader = thngService.propertyReader(thng.getId(), "speed");
+		thngService.propertyUpdater(thng.getId(), "speed", "10", 1000L).execute();
+		thngService.propertyUpdater(thng.getId(), "speed", "20", 2000L).execute();
+		thngService.propertyUpdater(thng.getId(), "speed", "30", 3000L).execute();
+		thngService.propertyUpdater(thng.getId(), "speed", "40", 4000L).execute();
+		Builder<List<Property<?>>> speedReader = thngService.propertyReader(thng.getId(), "speed");
 
 		echo("Retrieving temporal values of {} Property: [thngId={}, from={}]", "speed", thng.getId(), 2000);
 		values = speedReader.from(2000).execute();

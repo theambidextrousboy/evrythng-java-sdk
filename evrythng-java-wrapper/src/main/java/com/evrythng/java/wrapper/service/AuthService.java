@@ -17,17 +17,16 @@ import com.fasterxml.jackson.core.type.TypeReference;
 /**
  * Methods for the authentication API.
  * End point /auth. Implemented by thng-access module.
- * 
- **/
+ */
 public class AuthService extends EvrythngServiceBase {
-	
+
 	// ==== configuration ================================================== //
 
 	public static final String PATH_AUTH = "/auth";
 	public static final String PATH_AUTH_EVRYTHNG = PATH_AUTH + "/evrythng";
 	public static final String PATH_AUTH_EVRYTHNG_USERS = PATH_AUTH_EVRYTHNG + "/users";
 	public static final String PATH_AUTH_EVRYTHNG_USER_VALIDATE = PATH_AUTH_EVRYTHNG_USERS + "/%s/validate";
-	
+
 	public static final String PATH_AUTH_ALL = PATH_AUTH + "/all";
 	public static final String PATH_AUTH_ALL_LOGOUT = PATH_AUTH_ALL + "/logout";
 
@@ -36,7 +35,7 @@ public class AuthService extends EvrythngServiceBase {
 	public AuthService(final ApiManager apiManager) {
 		super(apiManager);
 	}
-	
+
 	// === requests ======================================================== //
 
 	/**

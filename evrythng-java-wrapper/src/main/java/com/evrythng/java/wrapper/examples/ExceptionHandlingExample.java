@@ -20,18 +20,16 @@ import com.evrythng.thng.resource.model.store.Thng;
  * <p>
  * Example of API exception handling using the EVRYTHNG Java Wrapper.
  * </p>
- * 
+ *
  * <p>
  * In this example, you will learn how to:
  * </p>
- * 
+ *
  * <ul>
  * <li>Initialize the {@link ApiManager}</li>
  * <li>Retrieve the {@link ThngService} through the {@link ApiManager}</li>
  * <li>Handle exceptions when performing incorrect operations</li>
  * </ul>
- * 
- * @author Pedro De Almeida (almeidap)
  */
 public class ExceptionHandlingExample extends ExampleRunner {
 

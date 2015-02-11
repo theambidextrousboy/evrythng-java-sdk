@@ -6,6 +6,7 @@ package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class Product extends DurableResourceModel implements ResourceWithPropert
 	private static final long serialVersionUID = -6201425043153000867L;
 	private String brand;
 	private List<String> categories;
-	private Map<String, String> properties;
+	private Map<String, Object> properties;
 	private String description;
 	/**
 	 * Product name or title
@@ -138,13 +139,14 @@ public class Product extends DurableResourceModel implements ResourceWithPropert
 	}
 
 	@Override
-	public Map<String, String> getProperties() {
+	public Map<String, Object> getProperties() {
 
-		return properties;
+		return properties != null ? Collections.unmodifiableMap(properties) : null;
 	}
 
-	public void setProperties(final Map<String, String> properties) {
+	@Override
+	public void setProperties(final Map<String, Object> properties) {
 
-		this.properties = properties;
+		this.properties = properties != null ? new HashMap<>(properties) : null;
 	}
 }

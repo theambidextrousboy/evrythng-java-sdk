@@ -18,11 +18,6 @@ import org.apache.commons.collections.map.MultiValueMap;
 
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 
-/**
- * TODO Comment this class
- * 
- * @author Thomas Pham (tpham)
- **/
 public final class URIBuilder {
 
 	private final String baseUri;
@@ -58,7 +53,7 @@ public final class URIBuilder {
 
 	/**
 	 * Builds the URI
-	 * 
+	 *
 	 * @throws EvrythngClientException
 	 */
 	@SuppressWarnings("unchecked")
