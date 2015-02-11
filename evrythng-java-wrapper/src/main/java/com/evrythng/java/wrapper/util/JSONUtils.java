@@ -110,7 +110,7 @@ public final class JSONUtils {
 	}
 
 	/**
-	 * Creates a preconfigured {@link ObjectMapper}.
+	 * Creates a pre-configured {@link ObjectMapper}.
 	 */
 	private static ObjectMapper createObjectMapper() {
 

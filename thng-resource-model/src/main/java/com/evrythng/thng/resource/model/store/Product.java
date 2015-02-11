@@ -43,7 +43,7 @@ public class Product extends DurableResourceModel implements ResourceWithPropert
 
 	}
 
-	public Product(final String brand, final List<String> categories, final String description, final String fn, final List<String> photos, final String url, final Map<String, String> identifiers, final Map<String, String> customFields) {
+	public Product(final String brand, final List<String> categories, final String description, final String fn, final List<String> photos, final String url, final Map<String, String> identifiers, final Map<String, Object> customFields) {
 
 		this.brand = brand;
 		this.categories = categories;

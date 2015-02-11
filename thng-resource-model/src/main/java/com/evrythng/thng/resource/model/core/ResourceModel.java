@@ -4,10 +4,12 @@
  */
 package com.evrythng.thng.resource.model.core;
 
+import com.evrythng.commons.LowerCaseKeyMap;
 import com.evrythng.commons.annotations.csv.CsvTransient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +22,7 @@ public abstract class ResourceModel implements Serializable, WithScopeResource {
 	public static final String FIELD_ID = "id";
 	private String id;
 	private Long createdAt;
-	private Map<String, String> customFields;
+	private Map<String, Object> customFields;
 	private List<String> tags;
 	private ScopeResource scopes;
 
@@ -45,20 +47,32 @@ public abstract class ResourceModel implements Serializable, WithScopeResource {
 	}
 
 	@CsvTransient
-	public Map<String, String> getCustomFields() {
+	public Map<String, Object> getCustomFields() {
+		
+		return customFields != null ? Collections.unmodifiableMap(customFields) : null;
+	}
+	
+	@JsonIgnore
+	public <T> T getCustomField(final String key){
 
-		return customFields;
+		return customFields != null ? (T) customFields.get(key) : null;
 	}
 
-	public void setCustomFields(final Map<String, String> customFields) {
+	public void setCustomFields(final Map<String, Object> customFields) {
 
-		this.customFields = customFields;
+		if (customFields == null){
+			this.customFields = null;
+		}
+		else {
+			this.customFields = new LowerCaseKeyMap<>();
+			this.customFields.putAll(customFields);
+		}
 	}
 
-	public void addCustomFields(final String key, final String value) {
+	public void addCustomFields(final String key, final Object value) {
 
 		if (customFields == null) {
-			customFields = new HashMap<>();
+			customFields = new LowerCaseKeyMap<>();
 		}
 		customFields.put(key, value);
 	}
