@@ -31,7 +31,7 @@ public class PaginatedList<E> {
 	}
 
 	/**
-	 * Creates a list with the items specified. <code>items</code> represent the
+	 * Creates a list with the items specified. {@code items} represent the
 	 * entire list.
 	 */
 	public PaginatedList(List<E> items) {
