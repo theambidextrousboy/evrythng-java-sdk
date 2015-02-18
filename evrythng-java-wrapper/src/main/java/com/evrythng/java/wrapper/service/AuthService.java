@@ -11,6 +11,7 @@ import com.evrythng.java.wrapper.core.EvrythngApiBuilder.Builder;
 import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.thng.resource.model.access.Credentials;
+import com.evrythng.thng.resource.model.access.ThngCredentials;
 import com.evrythng.thng.resource.model.store.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -29,6 +30,8 @@ public class AuthService extends EvrythngServiceBase {
 
 	public static final String PATH_AUTH_ALL = PATH_AUTH + "/all";
 	public static final String PATH_AUTH_ALL_LOGOUT = PATH_AUTH_ALL + "/logout";
+
+	public static final String PATH_AUTH_EVRYTHNG_THNGS = PATH_AUTH_EVRYTHNG + "/thngs";
 
 	// ==== structor ======================================================= //
 
@@ -103,4 +106,22 @@ public class AuthService extends EvrythngServiceBase {
 
 		});
 	}
+
+	/**
+	 * Create credentials for a thng. Engine provides the ApiKey of an registered thng.
+	 * <p>
+	 * POST {@value #PATH_AUTH_EVRYTHNG_THNGS}
+	 *
+	 * @param thngId thng id to provide credentials to
+	 * @return a preconfigured {@link Builder}
+	 */
+	public Builder<ThngCredentials> evrythngThngRegistrator(final String thngId) throws EvrythngClientException {
+
+		ThngCredentials thngCredentials = new ThngCredentials();
+		thngCredentials.setThngId(thngId);
+		return post(PATH_AUTH_EVRYTHNG_THNGS, thngCredentials, new TypeReference<ThngCredentials>() {
+
+		});
+	}
+
 }
