@@ -279,6 +279,30 @@ public abstract class Action extends TemporalResourceModel {
 		public String getOperatingSystemVersion() {
 			return operatingSystemVersion;
 		}
+
+		@Override
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder("Context{");
+			sb.append("city='").append(city).append('\'');
+			sb.append(", ipAddress='").append(ipAddress).append('\'');
+			sb.append(", region='").append(region).append('\'');
+			sb.append(", countryCode='").append(countryCode).append('\'');
+			sb.append(", userAgent='").append(userAgent).append('\'');
+			sb.append(", referer='").append(referer).append('\'');
+			sb.append(", language='").append(language).append('\'');
+			sb.append(", userAgentName='").append(userAgentName).append('\'');
+			sb.append(", userAgentVersion='").append(userAgentVersion).append('\'');
+			sb.append(", userAgentType='").append(userAgentType).append('\'');
+			sb.append(", deviceType='").append(deviceType).append('\'');
+			sb.append(", device='").append(device).append('\'');
+			sb.append(", operatingSystemName='").append(operatingSystemName).append('\'');
+			sb.append(", operatingSystemFamily='").append(operatingSystemFamily).append('\'');
+			sb.append(", operatingSystemProducer='").append(operatingSystemProducer).append('\'');
+			sb.append(", operatingSystemVersion='").append(operatingSystemVersion).append('\'');
+			sb.append('}');
+			return sb.toString();
+		}
 	}
 
 	private String type;
