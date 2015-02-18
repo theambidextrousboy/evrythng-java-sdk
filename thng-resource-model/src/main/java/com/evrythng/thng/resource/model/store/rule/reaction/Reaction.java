@@ -45,4 +45,14 @@ public abstract class Reaction implements Serializable {
 		}
 		customFields.put(key, value);
 	}
+
+	@Override
+	public String toString() {
+
+		StringBuilder sb = new StringBuilder("Reaction{");
+		sb.append("customFields=").append(customFields);
+		sb.append(", type='").append(type).append('\'');
+		sb.append('}');
+		return sb.toString();
+	}
 }
