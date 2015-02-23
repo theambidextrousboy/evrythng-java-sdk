@@ -115,7 +115,7 @@ public class AuthService extends EvrythngServiceBase {
 	 * @param thngId thng id to provide credentials to
 	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<ThngCredentials> evrythngThngRegistrator(final String thngId) throws EvrythngClientException {
+	public Builder<ThngCredentials> thngRegistrator(final String thngId) throws EvrythngClientException {
 
 		ThngCredentials thngCredentials = new ThngCredentials();
 		thngCredentials.setThngId(thngId);
