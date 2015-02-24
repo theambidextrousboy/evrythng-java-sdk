@@ -158,18 +158,4 @@ public class UrlBinding extends AbstractUrlBinding {
 		}
 		return sb.toString();
 	}
-
-	@Override
-	public String toString() {
-
-		// TODO _MS_ remove
-		return "{" +
-				"data='" + data + '\'' +
-				", shortId='" + shortId + '\'' +
-				", evrythngId='" + evrythngId + '\'' +
-				", hits=" + hits +
-				", image='" + image + '\'' +
-				", format='" + format + '\'' +
-				super.toString();
-	}
 }
