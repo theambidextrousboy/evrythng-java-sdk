@@ -96,4 +96,14 @@ public abstract class AbstractUrlBinding extends DurableResourceModel {
 	public void setEvrythngUrl(final String evrythngUrl) {
 		this.evrythngUrl = evrythngUrl;
 	}
+
+	@Override
+	public String toString() {
+		// TODO _MS_ remove
+		return 	"defaultRedirectUrl='" + defaultRedirectUrl + '\'' +
+				", shortDomain='" + shortDomain + '\'' +
+				", redirectUrl='" + redirectUrl + '\'' +
+				", type=" + type +
+				", evrythngUrl='" + evrythngUrl + '\'';
+	}
 }
