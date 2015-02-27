@@ -128,7 +128,7 @@ public class AuthService extends EvrythngServiceBase {
 	/**
 	 * Deletes credentials of a thng. Engine revokes access of an registered thng.
 	 * <p>
-	 * POST {@value #PATH_AUTH_EVRYTHNG_THNG}
+	 * DELETE {@value #PATH_AUTH_EVRYTHNG_THNG}
 	 *
 	 * @param thngId thng id to revoke credentials
 	 * @return a preconfigured {@link Builder}
