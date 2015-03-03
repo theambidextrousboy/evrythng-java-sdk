@@ -64,6 +64,7 @@ public abstract class ResourceModel implements Serializable, WithScopeResource {
 			this.customFields = null;
 		}
 		else {
+			// TODO use domain model for we cannot validate here and null key will break
 			this.customFields = new LowerCaseKeyMap<>();
 			this.customFields.putAll(customFields);
 		}
