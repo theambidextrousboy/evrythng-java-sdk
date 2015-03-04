@@ -7,6 +7,8 @@ package com.evrythng.thng.resource.model.store;
 import com.evrythng.thng.resource.model.core.TemporalResourceModel;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Model representation for <em>properties</em>.
@@ -15,8 +17,7 @@ public abstract class Property<V> extends TemporalResourceModel {
 
 	public enum Type {
 
-		// TODO consider ARRAY and OBJECT
-		BOOLEAN, STRING, NUMBER;
+		BOOLEAN, STRING, NUMBER, ARRAY, OBJECT;
 
 		public static Type forPropertyValue(final Object value) {
 
@@ -32,7 +33,12 @@ public abstract class Property<V> extends TemporalResourceModel {
 			if (value instanceof String) {
 				return STRING;
 			}
-			// TODO consider ARRAY and OBJECT
+			if (value instanceof List<?>) {
+				return ARRAY;
+			}
+			if (value instanceof Map<?, ?>) {
+				return OBJECT;
+			}
 			throw new IllegalArgumentException("Unsupported property type: " + value.getClass().getSimpleName());
 		}
 	}
