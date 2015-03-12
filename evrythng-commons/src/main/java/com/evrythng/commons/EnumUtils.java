@@ -26,9 +26,9 @@ public class EnumUtils {
 	 * </pre>
 	 * 
 	 * @return The enum value corresponding to the name. If the name is
-	 *         <code>null</code>, returns <code>null</code>.
-	 * @throw {@link IllegalArgumentException} if the name is not
-	 *        <code>null</code> and does not match any enum value.
+	 *         {@code null}, returns {@code null}.
+	 * @throws IllegalArgumentException if the name is not
+	 *        {@code null} and does not match any enum value.
 	 */
 	public static <E> E fromString(Map<String, E> names, String name) {
 		if (name == null) {
@@ -55,7 +55,7 @@ public class EnumUtils {
 	 * </pre>
 	 * 
 	 * @param values
-	 *            The enum values, as provided by <code>values()</code>.
+	 *            The enum values, as provided by {@code values()}.
 	 */
 	public static <E> Map<String, E> createNames(E[] values) {
 		Map<String, E> names = new HashMap<String, E>();

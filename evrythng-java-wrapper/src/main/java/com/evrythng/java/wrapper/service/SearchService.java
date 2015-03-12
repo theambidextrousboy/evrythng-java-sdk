@@ -80,7 +80,7 @@ public class SearchService extends EvrythngServiceBase {
 	 * @param type       The entity type to search for.
 	 * @param searchText The search criterion.
 	 * @return The search results.
-	 * @see {@link #search(EnumSet, String)}
+	 * @see #search(EnumSet, String)
 	 */
 	public Builder<GlobalSearchResult> search(final EvrythngType type, final String searchText) throws EvrythngClientException {
 
@@ -90,7 +90,7 @@ public class SearchService extends EvrythngServiceBase {
 	/**
 	 * @param type The entity type to search for.
 	 * @return The search results.
-	 * @see {@link #search(EnumSet, String)}
+	 * @see #search(EnumSet, String)
 	 */
 	public Builder<GlobalSearchResult> search(final EvrythngType type) throws EvrythngClientException {
 
@@ -116,7 +116,7 @@ public class SearchService extends EvrythngServiceBase {
 
 	/**
 	 * @param type The entity type to search for.
-	 * @see {@link #fieldSearch(EnumSet)}
+	 * @see #fieldSearch(EnumSet)
 	 */
 	public Builder<GlobalSearchResult> fieldSearch(final EvrythngType type) throws EvrythngClientException {
 
@@ -143,7 +143,7 @@ public class SearchService extends EvrythngServiceBase {
 	 * @param longitude   The longitude in degrees.
 	 * @param maxDistance The maximal distance in kilometers to search.
 	 * @return The search results.
-	 * @see {@link #geoSearch(EnumSet, double, double, double)}
+	 * @see #geoSearch(EnumSet, double, double, double)
 	 */
 	public Builder<GlobalSearchResult> geoSearch(final EvrythngType type, final double latitude, final double longitude, final double maxDistance) throws EvrythngClientException {
 
