@@ -112,12 +112,13 @@ public final class JSONUtils {
 	/**
 	 * Creates a pre-configured {@link ObjectMapper}.
 	 */
-	private static ObjectMapper createObjectMapper() {
+	public static ObjectMapper createObjectMapper() {
 
 		ObjectMapper mapper = new ObjectMapper();
 
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+		mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		mapper.setDateFormat(new ISO8601DateFormat());
 
