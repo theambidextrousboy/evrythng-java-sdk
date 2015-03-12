@@ -491,11 +491,11 @@ public final class EvrythngApiBuilder {
 		 * Executes the current command by requesting JSONP in the
 		 * {@link HttpResponse} entity.
 		 * <p>
-		 * TODO: check usefulness & validity of this!
 		 *
 		 * @param callback the name of the callback function
 		 * @return the {@link HttpResponse} entity in the form of JSONP content
 		 */
+		// TODO: check usefulness & validity of this!
 		public String jsonp(final String callback) throws EvrythngException {
 			// Add JSONP callback to query parameters list:
 			queryParam(CallbackQueryParamValue.callback(callback));

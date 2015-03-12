@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * <p>
  * Usage example of the EVRYTHNG Java Wrapper for accessing the <a
- * href="https://dashboard.evrythng.com/developers/apidoc#properties">Thngs >
+ * href="https://dashboard.evrythng.com/developers/apidoc#properties">Thngs &gt;
  * Properties</a> API.
  * </p>
  * <p>
