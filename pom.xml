@@ -59,6 +59,7 @@
 	</developers>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- Versions -->
 		<version.httpclient>4.2.1</version.httpclient>
 		<version.jackson-core>2.2.1</version.jackson-core>
