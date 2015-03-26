@@ -190,13 +190,13 @@
 		<repository>
 			<id>evrythng-public-releases</id>
 			<name>Public Releases</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<url>https://internal.evrythng.net/nexus/content/repositories/evrythng-public-releases</url>
 			<uniqueVersion>false</uniqueVersion>
 		</repository>
 		<snapshotRepository>
 			<id>evrythng-public-snapshots</id>
 			<name>Public Snapshots</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<url>https://internal.evrythng.net/nexus/content/repositories/evrythng-public-snapshots</url>
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
 	</distributionManagement>
