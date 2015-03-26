@@ -124,11 +124,36 @@
 		</plugins>
 	</build>
 
+	<repositories>
+		<repository>
+			<id>evrythng-public-snapshots</id>
+			<name>Public Snapshots</name>
+			<url>https://internal.evrythng.net/nexus/content/repositories/evrythng-public-snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>evrythng-public-releases</id>
+			<name>Public Releases</name>
+			<url>https://internal.evrythng.net/nexus/content/repositories/evrythng-public-releases</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<scm>
 		<connection>scm:git:git://github.com/evrythng/evrythng-java-sdk.git</connection>
 		<developerConnection>scm:git:git@github.com:evrythng/evrythng-java-sdk.git</developerConnection>
 		<url>https://github.com/evrythng/evrythng-java-sdk</url>
-  </scm>
+    </scm>
 
 	<issueManagement>
 		<url>https://github.com/evrythng/evrythng-java-sdk/issues</url>
