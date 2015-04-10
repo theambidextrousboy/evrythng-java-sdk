@@ -17,6 +17,7 @@ import com.evrythng.java.wrapper.service.ProjectService;
 import com.evrythng.java.wrapper.service.ScanService;
 import com.evrythng.java.wrapper.service.SearchService;
 import com.evrythng.java.wrapper.service.ThngService;
+import com.evrythng.java.wrapper.service.TimeService;
 import com.evrythng.java.wrapper.util.JSONUtils;
 import com.evrythng.thng.commons.config.ApiConfiguration;
 import org.apache.commons.lang3.StringUtils;
@@ -42,6 +43,7 @@ public class ApiManager {
 	private PlaceService placeService;
 	private final ProjectService projectService;
 	private ActionService actionService;
+	private final TimeService timeService;
 
 	/**
 	 * Creates a new {@link ApiManager} instance using the provided
@@ -66,6 +68,7 @@ public class ApiManager {
 		this.authService = new AuthService(this);
 		this.scanThngService = new ScanService(this);
 		this.projectService = new ProjectService(this);
+		this.timeService = new TimeService(this);
 		createThngService();
 		createProductService();
 		createPlaceService();
@@ -168,6 +171,8 @@ public class ApiManager {
 	public AuthService authService() {
 		return authService;
 	}
+
+	public TimeService timeService() { return timeService; }
 
 	public ApiConfiguration getConfig() {
 		return config;
