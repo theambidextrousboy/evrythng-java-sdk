@@ -16,6 +16,7 @@ public class Collection extends DurableResourceModel {
 	private static final long serialVersionUID = -2064399431964890923L;
 	private String name;
 	private String description;
+	private String type;
 	/**
 	 * Collection of {@link Thng#id} references.
 	 */
@@ -41,6 +42,16 @@ public class Collection extends DurableResourceModel {
 		this.description = description;
 	}
 
+	public String getType() {
+
+		return type;
+	}
+
+	public void setType(final String type) {
+
+		this.type = type;
+	}
+
 	public LinkedHashSet<String> getThngs() {
 
 		return thngs;
@@ -54,6 +65,6 @@ public class Collection extends DurableResourceModel {
 	@Override
 	public String toString() {
 
-		return "Collection{" + "name='" + name + "\'" + ", description='" + description + "\'" + ", thngs=" + thngs + "}";
+		return "Collection{" + "name='" + name + "\'" + ", description='" + description + "\'" + ", type=" + type + "} + , thngs=" + thngs + "}";
 	}
 }
