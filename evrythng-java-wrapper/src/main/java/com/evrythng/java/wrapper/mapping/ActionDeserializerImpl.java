@@ -5,40 +5,58 @@
 package com.evrythng.java.wrapper.mapping;
 
 import com.evrythng.thng.resource.model.store.action.Action;
+import com.evrythng.thng.resource.model.store.action.ActionType;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.io.IOException;
 
 /**
  * Action deserializer.
  *
  **/
-public class ActionDeserializerImpl extends TypeMapDeserializer<Action> implements ActionDeserializer {
+public final class ActionDeserializerImpl extends TypeMapDeserializer<Action> implements ActionDeserializer {
 
 	private static final long serialVersionUID = 1L;
 
 	private Class<? extends Action> customClass;
 
 	public ActionDeserializerImpl(Class<? extends Action> customClass) {
+
 		super(Action.class, Action.FIELD_TYPE);
 		this.customClass = customClass;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected Class<? extends Action> resolveClass(String type) {
+	public Action deserialize(final JsonParser jp, final DeserializationContext ctxt) throws IOException {
 
-		if (type.startsWith("_")) {
-			return customClass;
-		} else {
-			return super.resolveClass(type);
+		ObjectCodec codec = jp.getCodec();
+		ObjectMapper mapper = (ObjectMapper) codec;
+		ObjectNode root = mapper.readTree(jp);
+		JsonNode type = root.get(getTypeFieldName());
+		if (type == null) {
+			throw new IllegalArgumentException(this.getValueClass().getSimpleName() + " type cannot be empty.");
 		}
+		String sType = type.textValue();
+		if (sType == null || sType.isEmpty()) {
+			throw new IllegalArgumentException(this.getValueClass().getSimpleName() + " type cannot be empty.");
+		}
+
+		return codec.treeToValue(root, resolveClass(sType));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public <T extends Action> String getActionType(Class<T> actionClass) {
+	protected Class<? extends Action> resolveClass(final String type) {
+
+		return ActionType.Value.isCustom(type) ? customClass : super.resolveClass(type);
+	}
+
+	@Override
+	public <T extends Action> String getActionType(final Class<T> actionClass) {
 		return getObjectType(actionClass);
 	}
 }
