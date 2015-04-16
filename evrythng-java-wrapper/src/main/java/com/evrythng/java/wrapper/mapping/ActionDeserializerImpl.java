@@ -5,7 +5,9 @@
 package com.evrythng.java.wrapper.mapping;
 
 import com.evrythng.thng.resource.model.store.action.Action;
+import com.evrythng.thng.resource.model.store.action.ActionOnCollection;
 import com.evrythng.thng.resource.model.store.action.ActionType;
+import com.evrythng.thng.resource.model.store.action.CustomActionOnCollection;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -44,6 +46,11 @@ public final class ActionDeserializerImpl extends TypeMapDeserializer<Action> im
 		String sType = type.textValue();
 		if (sType == null || sType.isEmpty()) {
 			throw new IllegalArgumentException(this.getValueClass().getSimpleName() + " type cannot be empty.");
+		}
+
+		JsonNode collectionNode = root.get(ActionOnCollection.FIELD_COLLECTION);
+		if (collectionNode != null) {
+			return codec.treeToValue(root, CustomActionOnCollection.class);
 		}
 
 		return codec.treeToValue(root, resolveClass(sType));
