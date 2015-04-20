@@ -133,7 +133,7 @@ public class CollectionService extends EvrythngServiceBase {
 	 * @return a preconfigured {@link Builder}
 	 * @see #thngsAdder(String, List)
 	 */
-	public Builder<List<String>> thngAdder(final String collectionId, final String thngId) throws EvrythngClientException {
+	public Builder<Collection> thngAdder(final String collectionId, final String thngId) throws EvrythngClientException {
 
 		return thngsAdder(collectionId, Collections.singletonList(thngId));
 	}
@@ -148,9 +148,9 @@ public class CollectionService extends EvrythngServiceBase {
 	 * @param thngs        list of thng ids
 	 * @return a preconfigured {@link Builder}
 	 */
-	public Builder<List<String>> thngsAdder(final String collectionId, final List<String> thngs) throws EvrythngClientException {
+	public Builder<Collection> thngsAdder(final String collectionId, final List<String> thngs) throws EvrythngClientException {
 
-		return put(String.format(PATH_COLLECTION_THNGS, collectionId), thngs, new TypeReference<List<String>>() {
+		return put(String.format(PATH_COLLECTION_THNGS, collectionId), thngs, new TypeReference<Collection>() {
 
 		});
 	}

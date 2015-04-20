@@ -120,11 +120,11 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 
 	public Set<String> getCollections() {
 
-		return collections != null ? new TreeSet<>(collections) : null;
+		return collections;
 	}
 
 	public void setCollections(final Set<String> collections) {
 
-		this.collections = collections != null ? new TreeSet<>(collections) : null;
+		this.collections = collections;
 	}
 }
