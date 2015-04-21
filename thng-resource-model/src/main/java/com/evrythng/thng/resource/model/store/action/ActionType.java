@@ -15,7 +15,7 @@ import java.util.Comparator;
 public class ActionType extends DurableResourceModel {
 
 	private static final long serialVersionUID = -2732500419749798891L;
-	private static final char CUSTOM_TYPE_PREFIX = '_';
+	public static final char CUSTOM_TYPE_PREFIX = '_';
 
 	public enum Value {
 
