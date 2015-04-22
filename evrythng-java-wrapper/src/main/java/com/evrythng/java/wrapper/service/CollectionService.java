@@ -24,7 +24,6 @@ public class CollectionService extends EvrythngServiceBase {
 	public static final String PATH_COLLECTION_THNG = PATH_COLLECTION_THNGS + "/%s";
 	public static final String PATH_COLLECTIONS_ACTIONS = PATH_COLLECTION + "/actions";
 	public static final String PATH_COLLECTIONS_ALL_ACTIONS = PATH_COLLECTIONS_ACTIONS + "/all";
-	public static final String PATH_COLLECTIONS_ALL_ACTION = PATH_COLLECTIONS_ALL_ACTIONS + "/%s";
 	public static final String PATH_COLLECTIONS_TYPED_ACTIONS = PATH_COLLECTIONS_ACTIONS + "/%s";
 	public static final String PATH_COLLECTIONS_TYPED_ACTION = PATH_COLLECTIONS_TYPED_ACTIONS + "/%s";
 
