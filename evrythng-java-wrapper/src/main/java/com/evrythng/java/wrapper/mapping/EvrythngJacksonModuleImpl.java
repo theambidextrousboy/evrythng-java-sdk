@@ -6,6 +6,7 @@
 package com.evrythng.java.wrapper.mapping;
 
 import com.evrythng.thng.resource.model.store.action.Action;
+import com.evrythng.thng.resource.model.store.action.Actions;
 import com.evrythng.thng.resource.model.store.action.CheckinAction;
 import com.evrythng.thng.resource.model.store.action.CustomAction;
 import com.evrythng.thng.resource.model.store.action.ImplicitScanAction;
@@ -34,6 +35,7 @@ public class EvrythngJacksonModuleImpl extends SimpleModule implements EvrythngJ
 		super(name, version);
 		actionDeserializer = createActionDeserializer();
 		addDeserializer(Action.class, actionDeserializer);
+		addDeserializer(Actions.class, new ActionsDeserializer(actionDeserializer));
 	}
 
 	public static ActionDeserializerImpl createActionDeserializer() {
