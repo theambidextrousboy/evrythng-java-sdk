@@ -94,8 +94,7 @@ public class SimpleExample extends ExampleRunner {
 
 		// Add created Thng to our Collection:
 		echo("Adding created Thng to Collection: [thngId={}, collectionId={}]", thng.getId(), collection.getId());
-		List<String> thngReferences = collectionService.thngAdder(collection.getId(), thng.getId()).execute();
-		echo("Collection updated: [output={}]", thngReferences);
+		collectionService.thngAdder(collection.getId(), thng.getId()).execute();
 
 		// Now update Thng location:
 		Location locationData = new Location();

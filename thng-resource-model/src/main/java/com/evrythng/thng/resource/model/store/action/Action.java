@@ -330,6 +330,7 @@ public abstract class Action extends TemporalResourceModel {
 	private String createdByApp;
 
 	public Action() {
+
 	}
 
 	public Action(String type, String user, EmbeddedLocation location, Context context) {

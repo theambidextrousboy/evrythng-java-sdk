@@ -126,8 +126,7 @@ public class CollectionApiExample extends ExampleRunner {
 		// to a specific Collection using a thngsAdder builder:
 		List<String> thngReferences = createThngReferences(apiManager, 3);
 		echo("Adding Thng resources to Collection: [id={}, input={}]", retrieved.getId(), thngReferences);
-		List<String> references = collectionService.thngsAdder(retrieved.getId(), thngReferences).execute();
-		echo("Thng resources added to collection: [output={}]", references);
+		collectionService.thngsAdder(retrieved.getId(), thngReferences).execute();
 
 		// Delete a specific Collection using a collectionDeleter builder:
 		echo("Deleting Collection: [id={}]", retrieved.getId());

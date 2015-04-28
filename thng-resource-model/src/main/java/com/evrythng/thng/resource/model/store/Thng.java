@@ -9,6 +9,8 @@ import com.evrythng.thng.resource.model.core.DurableResourceModel;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Model representation for <em>thngs</em>.
@@ -29,6 +31,11 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 	 * An array of global identifiers for this thng
 	 */
 	private Map<String, String> identifiers;
+
+	/**
+	 * An array of collection ids this thng is part of.
+	 */
+	private Set<String> collections;
 
 	public String getName() {
 
@@ -109,5 +116,15 @@ public class Thng extends DurableResourceModel implements ResourceWithProperties
 	public String firstIdentifier() {
 
 		return identifiers.values().iterator().next();
+	}
+
+	public Set<String> getCollections() {
+
+		return collections;
+	}
+
+	public void setCollections(final Set<String> collections) {
+
+		this.collections = collections;
 	}
 }
