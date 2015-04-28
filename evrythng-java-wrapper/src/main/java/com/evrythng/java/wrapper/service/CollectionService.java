@@ -6,6 +6,8 @@ import com.evrythng.java.wrapper.core.EvrythngServiceBase;
 import com.evrythng.java.wrapper.exception.EvrythngClientException;
 import com.evrythng.thng.resource.model.store.Collection;
 import com.evrythng.thng.resource.model.store.Thng;
+import com.evrythng.thng.resource.model.store.action.Action;
+import com.evrythng.thng.resource.model.store.action.CustomAction;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.Collections;
@@ -13,8 +15,6 @@ import java.util.List;
 
 /**
  * Service wrapper for the {@code /collections} endpoint of the EVRYTHNG API.
- *
- * @author Pedro De Almeida (almeidap)
  */
 public class CollectionService extends EvrythngServiceBase {
 
@@ -22,6 +22,9 @@ public class CollectionService extends EvrythngServiceBase {
 	public static final String PATH_COLLECTION = PATH_COLLECTIONS + "/%s";
 	public static final String PATH_COLLECTION_THNGS = PATH_COLLECTION + "/thngs";
 	public static final String PATH_COLLECTION_THNG = PATH_COLLECTION_THNGS + "/%s";
+	public static final String PATH_COLLECTIONS_ACTIONS = PATH_COLLECTION + "/actions";
+	public static final String PATH_COLLECTIONS_TYPED_ACTIONS = PATH_COLLECTIONS_ACTIONS + "/%s";
+	public static final String PATH_COLLECTIONS_TYPED_ACTION = PATH_COLLECTIONS_TYPED_ACTIONS + "/%s";
 
 	public CollectionService(final ApiManager apiManager) {
 
@@ -182,5 +185,37 @@ public class CollectionService extends EvrythngServiceBase {
 	public Builder<Boolean> thngsRemover(final String collectionId) throws EvrythngClientException {
 
 		return delete(String.format(PATH_COLLECTION_THNGS, collectionId));
+	}
+
+	protected void checkCustomType(final String customType) {
+
+		if (!customType.startsWith("_")) {
+			throw new IllegalArgumentException("Custom types must start with '_' (underscore).");
+		}
+	}
+
+	public <T extends Action> Builder<T> actionCreator(final String collectionId, final T actionToCreate)
+			throws EvrythngClientException {
+
+		return (Builder<T>) post(String.format(PATH_COLLECTIONS_TYPED_ACTIONS, collectionId, actionToCreate.getType()),
+		                         actionToCreate, new TypeReference<Action>() {
+
+				});
+	}
+
+	public Builder<CustomAction> actionReader(final String collectionId, final String customType, final String actionId) throws EvrythngClientException {
+
+		checkCustomType(customType);
+		return get(String.format(PATH_COLLECTIONS_TYPED_ACTION, collectionId, customType, actionId), new TypeReference<CustomAction>() {
+
+		});
+	}
+
+	public Builder<List<CustomAction>> actionsReader(final String collectionId, final String customType) throws EvrythngClientException {
+
+		checkCustomType(customType);
+		return get(String.format(PATH_COLLECTIONS_TYPED_ACTIONS, collectionId, customType), new TypeReference<List<CustomAction>>() {
+
+		});
 	}
 }
