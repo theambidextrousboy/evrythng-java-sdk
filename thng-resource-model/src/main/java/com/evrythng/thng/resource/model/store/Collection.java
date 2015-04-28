@@ -6,6 +6,8 @@ package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.DurableResourceModel;
 
+import java.util.LinkedHashSet;
+
 /**
  * Model representation for <em>collections</em>.
  */
@@ -14,6 +16,10 @@ public class Collection extends DurableResourceModel {
 	private static final long serialVersionUID = -2064399431964890923L;
 	private String name;
 	private String description;
+	/**
+	 * Collection of {@link Thng#id} references.
+	 */
+	private LinkedHashSet<String> thngs;
 
 	public String getName() {
 
@@ -35,9 +41,24 @@ public class Collection extends DurableResourceModel {
 		this.description = description;
 	}
 
+	public LinkedHashSet<String> getThngs() {
+
+		return thngs;
+	}
+
+	public void setThngs(final LinkedHashSet<String> thngs) {
+
+		this.thngs = thngs;
+	}
+
 	@Override
 	public String toString() {
 
-		return "Collection{" + "name='" + name + "\'" + ", description='" + description + "\'" + "}";
+		StringBuilder sb = new StringBuilder("Collection{");
+		sb.append("name='").append(name).append('\'');
+		sb.append(", description='").append(description).append('\'');
+		sb.append(", thngs=").append(thngs);
+		sb.append('}');
+		return sb.toString();
 	}
 }
