@@ -13,6 +13,7 @@ import com.evrythng.java.wrapper.mapping.ActionDeserializer;
 import com.evrythng.java.wrapper.mapping.EvrythngJacksonModule;
 import com.evrythng.thng.resource.model.store.action.Action;
 import com.evrythng.thng.resource.model.store.action.ActionType;
+import com.evrythng.thng.resource.model.store.action.Actions;
 import com.evrythng.thng.resource.model.store.action.CustomAction;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -70,10 +71,19 @@ public class ActionService extends EvrythngServiceBase {
 	/**
 	 * Creates an action.
 	 */
-	@SuppressWarnings("unchecked")
 	public <T extends Action> Builder<T> actionCreator(final T action) throws EvrythngClientException {
 
 		return (Builder<T>) post(String.format(PATH_TYPED_ACTIONS, action.getType()), action, new TypeReference<Action>() {
+
+		});
+	}
+
+	/**
+	 * Creates an action.
+	 */
+	public Builder<Actions> actionsCreator(final Actions actions) throws EvrythngClientException {
+
+		return post(PATH_ALL_ACTIONS, actions, new TypeReference<Actions>() {
 
 		});
 	}
