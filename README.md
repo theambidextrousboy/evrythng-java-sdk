@@ -41,6 +41,7 @@ Then you should look at the [examples](https://github.com/evrythng/evrythng-java
     import com.evrythng.java.wrapper.exception.EvrythngClientException;
     import com.evrythng.java.wrapper.exception.EvrythngException;
     import com.evrythng.java.wrapper.service.ThngService;
+    import com.evrythng.thng.resource.model.store.Property;
     import com.evrythng.thng.resource.model.store.Thng;
     import java.util.ArrayList;
     import java.util.List;
