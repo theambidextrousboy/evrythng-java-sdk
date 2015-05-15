@@ -328,6 +328,7 @@ public abstract class Action extends TemporalResourceModel {
 	private List<Reaction> reactions;
 	private String createdByProject;
 	private String createdByApp;
+	private String createdByThng;
 
 	public Action() {
 
@@ -436,6 +437,14 @@ public abstract class Action extends TemporalResourceModel {
 
 	public void setCreatedByApp(String createdByApp) {
 		this.createdByApp = createdByApp;
+	}
+
+	public String getCreatedByThng() {
+		return createdByThng;
+	}
+
+	public void setCreatedByThng(String createdByThng) {
+		this.createdByThng = createdByThng;
 	}
 
 	@JsonIgnore
