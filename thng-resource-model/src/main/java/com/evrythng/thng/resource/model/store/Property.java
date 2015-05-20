@@ -6,7 +6,9 @@ package com.evrythng.thng.resource.model.store;
 
 import com.evrythng.thng.resource.model.core.TemporalResourceModel;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +43,24 @@ public abstract class Property<V> extends TemporalResourceModel {
 			}
 			throw new IllegalArgumentException("Unsupported property type: " + value.getClass().getSimpleName());
 		}
+	}
+
+	public static List<Property<?>> normalize(final List<Property<?>> denormalized){
+
+		List<Property<?>> normalized = new ArrayList<>();
+		Map<String, Integer> indexes = new HashMap<>();
+		int index = 0;
+		for (Property<?> property : denormalized) {
+			String key = property.getKey() + "-" + (property.getTimestamp() != null ? property.getTimestamp() : "");
+			if (indexes.get(key) == null) {
+				indexes.put(key, index);
+				normalized.add(index, property);
+				index++;
+			} else {
+				normalized.set(indexes.get(key), property);
+			}
+		}
+		return normalized;
 	}
 
 	private static final long serialVersionUID = 4241830003414536087L;
